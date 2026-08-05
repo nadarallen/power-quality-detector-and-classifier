@@ -1,0 +1,73 @@
+/* ==========================================================================
+   PURE WHITE & BLACK MINIMALISM UI — PQD TELEMETRY DASHBOARD STYLES
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-space: #ffffff;
+  --bg-card: #fafafa;
+  --bg-card-hover: #f4f4f5;
+  --border-subtle: #e4e4e7;
+  --border-glow: #09090b;
+  
+  --text-main: #09090b;
+  --text-muted: #71717a;
+  --text-dim: #a1a1aa;
+
+  --accent-black: #09090b;
+
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 6px;
+
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg-space);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--border-glow);
+}

@@ -1,0 +1,7 @@
+model,accuracy,macro_f1,interruption_recall,latency_us,size_kb,train_time_s,safety_check
+Compact_MLP_Sklearn,0.9685,0.9592,0.8659,207.26,103.95,12.43,WARNING (<90% Recall)
+ExtraTrees,0.9665,0.9595,0.8232,10587.44,34124.75,0.8,WARNING (<90% Recall)
+RandomForest,0.965,0.9575,0.8232,8185.33,9731.12,1.65,WARNING (<90% Recall)
+Compact_Keras_MLP (Deployed Candidate),0.959,0.9468,0.9634,103638.24,64.8,0.0,PASS
+SVM_RBF,0.891,0.8296,0.7195,703.78,335.36,0.93,WARNING (<90% Recall)
+kNN,0.871,0.7942,0.7073,1819.36,706.01,0.02,WARNING (<90% Recall)

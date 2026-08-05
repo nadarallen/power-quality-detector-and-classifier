@@ -1,0 +1,9 @@
+class,precision,recall,f1_score
+Flicker,0.9,0.9474,0.9231
+Harmonics,1.0,0.9583,0.9787
+Interruption,0.8889,1.0,0.9412
+Normal,0.9825,0.9492,0.9655
+Notch,0.6,1.0,0.75
+Sag,1.0,0.973,0.9863
+Swell,1.0,0.9677,0.9836
+Transient,1.0,1.0,1.0
