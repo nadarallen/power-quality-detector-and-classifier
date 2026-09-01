@@ -1,73 +1,558 @@
 /* ==========================================================================
-   PURE WHITE & BLACK MINIMALISM UI — PQD TELEMETRY DASHBOARD STYLES
+   POWER QUALITY ANALYZER — RETRO LABORATORY INSTRUMENT DESIGN SYSTEM
+   Influences: 1970s Industrial Instrumentation, 1980s CRT Vector Displays, 
+               1990s SCADA Technical Monitoring Panels
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Share+Tech+Mono&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-space: #ffffff;
-  --bg-card: #fafafa;
-  --bg-card-hover: #f4f4f5;
-  --border-subtle: #e4e4e7;
-  --border-glow: #09090b;
-  
-  --text-main: #09090b;
-  --text-muted: #71717a;
-  --text-dim: #a1a1aa;
+  /* Vintage Base Palette */
+  --bg-case: #121416;
+  --bg-panel: #181b1e;
+  --bg-card: #1e2226;
+  --bg-card-hover: #24292e;
+  --bg-crt: #031008;
 
-  --accent-black: #09090b;
+  /* Metallic & Border Styling */
+  --border-dark: #0a0b0d;
+  --border-bezel: #2c3238;
+  --border-glow: #00ff66;
+  --border-amber: #ff9900;
+  --border-rust: #ff3333;
 
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-sm: 6px;
+  /* Phosphor & Signal Glow Palette */
+  --crt-green: #00ff66;
+  --crt-green-dim: rgba(0, 255, 102, 0.15);
+  --crt-amber: #ffaa00;
+  --crt-amber-dim: rgba(255, 170, 0, 0.18);
+  --crt-rust: #ff4444;
+  --crt-cyan: #00e5ff;
+  --crt-violet: #b55fe6;
+  --crt-white: #e1e7ec;
 
-  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Typography */
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Shadows & Textures */
+  --shadow-bezel: inset 1px 1px 2px rgba(255, 255, 255, 0.08), inset -2px -2px 4px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-crt-glow: 0 0 20px rgba(0, 255, 102, 0.25);
+  --shadow-amber-glow: 0 0 20px rgba(255, 170, 0, 0.3);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-main);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background-color: var(--bg-space);
-  color: var(--text-main);
+  background-color: var(--bg-case);
+  color: var(--crt-white);
   min-height: 100vh;
+  padding: 1rem;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle at 50% 50%, #1a1d21 0%, #0d0f10 100%);
 }
 
-.app-container {
-  max-width: 1400px;
+/* Base Layout Container */
+.instrument-frame {
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 2rem;
+  background: var(--bg-panel);
+  border: 3px solid var(--border-bezel);
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), var(--shadow-bezel);
+  padding: 1.25rem;
+  position: relative;
 }
 
-.navbar {
+/* Header & Metadata Bar */
+.instrument-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  background: linear-gradient(180deg, #24292e 0%, #16191c 100%);
+  border: 2px solid var(--border-bezel);
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .brand-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
 }
 
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
+.brand-name {
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--crt-green);
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+  text-transform: uppercase;
+}
+
+.brand-sub {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #8a96a3;
+  letter-spacing: 0.12em;
+  margin-top: 0.2rem;
+}
+
+/* Status Lamp Array */
+.lamp-matrix {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.lamp-unit {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #111315;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #2a3036;
+}
+
+.lamp-led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #333;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.lamp-led.green {
+  background: var(--crt-green);
+  box-shadow: 0 0 10px var(--crt-green), inset 0 0 2px #fff;
+}
+
+.lamp-led.amber {
+  background: var(--crt-amber);
+  box-shadow: 0 0 10px var(--crt-amber), inset 0 0 2px #fff;
+}
+
+.lamp-led.cyan {
+  background: var(--crt-cyan);
+  box-shadow: 0 0 10px var(--crt-cyan), inset 0 0 2px #fff;
+}
+
+.lamp-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #b0bac5;
+  letter-spacing: 0.05em;
+}
+
+/* 3-Column Main Console Layout */
+.console-grid {
+  display: grid;
+  grid-template-columns: 310px 1fr 340px;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 1280px) {
+  .console-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Instrument Panel Box */
+.panel-box {
+  background: linear-gradient(180deg, #1e2226 0%, #15181b 100%);
+  border: 2px solid var(--border-bezel);
+  border-radius: 8px;
+  padding: 1.1rem;
+  box-shadow: var(--shadow-bezel);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8a98a6;
+  border-bottom: 1px solid #2d343b;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Mode Selector Switcher */
+.mode-selector {
+  display: flex;
+  background: #0f1113;
+  border: 1px solid #2b3137;
+  border-radius: 6px;
+  padding: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.mode-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #7b8896;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.45rem 0.3rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mode-btn.active {
+  background: #283038;
+  color: var(--crt-green);
+  border: 1px solid #3c4650;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Disturbance Button Grid */
+.disturbance-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.dist-btn {
+  background: linear-gradient(180deg, #252b31 0%, #1a1e22 100%);
+  border: 1.5px solid #363e46;
+  border-radius: 6px;
+  color: #c5d1de;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.65rem 0.4rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dist-btn:hover {
+  border-color: var(--crt-amber);
+  color: #fff;
+  background: #2f3740;
+}
+
+.dist-btn.active {
+  background: linear-gradient(180deg, #ffaa00 0%, #cc8800 100%);
+  border-color: #ffc44d;
+  color: #000;
+  box-shadow: 0 0 12px rgba(255, 170, 0, 0.5);
+  font-weight: 800;
+}
+
+/* Action Control Buttons */
+.action-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #00ff66 0%, #00b347 100%);
+  border: 1px solid #66ff99;
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+  transition: all 0.15s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 18px rgba(0, 255, 102, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #22272c;
+  border: 1px solid #3c454e;
+  color: #aebccb;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: #2c333a;
+  color: #fff;
+}
+
+/* Oscilloscope CRT Viewport */
+.crt-wrapper {
+  position: relative;
+  background: var(--bg-crt);
+  border: 3px solid #1a2024;
+  border-radius: 8px;
+  height: 380px;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9), var(--shadow-crt-glow);
+}
+
+.crt-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* CRT Overlay Scanlines */
+.crt-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Scope Controls Toolbar */
+.scope-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111315;
+  border: 1px solid #282f35;
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  margin-top: 0.75rem;
+}
+
+.scope-select {
+  background: #1a1e22;
+  border: 1px solid #38424b;
+  color: var(--crt-green);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Validation Status Cards (Right Panel) */
+.validation-card {
+  background: #121517;
+  border: 2px solid #2c343b;
+  border-radius: 6px;
+  padding: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.val-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #72808e;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.val-value-badge {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  display: inline-block;
+  letter-spacing: 0.04em;
+}
+
+.badge-injected {
+  background: rgba(255, 170, 0, 0.15);
+  color: var(--crt-amber);
+  border: 1px solid var(--crt-amber);
+}
+
+.badge-predicted {
+  background: rgba(0, 255, 102, 0.15);
+  color: var(--crt-green);
+  border: 1px solid var(--crt-green);
+}
+
+/* Validation Match/Mismatch Banner */
+.result-banner {
+  border-radius: 6px;
+  padding: 0.85rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.85rem;
   transition: all 0.2s ease;
 }
 
-.card:hover {
-  border-color: var(--border-glow);
+.result-banner.match {
+  background: rgba(0, 255, 102, 0.12);
+  border: 2px solid var(--crt-green);
+  color: var(--crt-green);
+  box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
 }
+
+.result-banner.mismatch {
+  background: rgba(255, 68, 68, 0.15);
+  border: 2px solid var(--crt-rust);
+  color: var(--crt-rust);
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+}
+
+/* Probabilities Progress Bars */
+.prob-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.prob-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.prob-name {
+  width: 90px;
+  color: #8c9ba9;
+}
+
+.prob-bar-track {
+  flex: 1;
+  height: 8px;
+  background: #111315;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #282f36;
+}
+
+.prob-bar-fill {
+  height: 100%;
+  background: var(--crt-green);
+  width: 0%;
+  transition: width 0.2s ease;
+}
+
+.prob-val {
+  width: 45px;
+  text-align: right;
+  color: var(--crt-white);
+  font-weight: 600;
+}
+
+/* Extracted Features Matrix (Bottom Panel) */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.feature-card {
+  background: linear-gradient(180deg, #181c1f 0%, #121517 100%);
+  border: 1.5px solid var(--border-bezel);
+  border-radius: 6px;
+  padding: 0.85rem;
+  box-shadow: var(--shadow-bezel);
+}
+
+.feature-num {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--crt-white);
+  letter-spacing: -0.02em;
+}
+
+.feature-unit {
+  font-size: 0.72rem;
+  color: #708090;
+  margin-left: 0.2rem;
+}
+
+/* Terminal Log Console */
+.terminal-card {
+  background: #090a0b;
+  border: 2px solid #272d33;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: var(--font-mono);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #22272c;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.terminal-title {
+  color: var(--crt-green);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.terminal-log-stream {
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.terminal-line {
+  display: flex;
+  gap: 0.75rem;
+  color: #aebccb;
+  line-height: 1.3;
+}
+
+.terminal-time { color: #5a6875; }
+.terminal-mode { color: var(--crt-cyan); }
+.terminal-inj { color: var(--crt-amber); }
+.terminal-pred { color: var(--crt-green); }
+.terminal-pass { color: var(--crt-green); font-weight: 700; }
+.terminal-fail { color: var(--crt-rust); font-weight: 700; }

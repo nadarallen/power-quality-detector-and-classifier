@@ -3,234 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PQD Telemetry & Disturbance Classifier — Minimalist UI</title>
+  <title>Power Quality Analyzer — Retro Laboratory ML Validation Bench</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Chart.js for minimalist real-time waveform visualization -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-  <div class="app-container">
+  <div class="instrument-frame">
 
-    <!-- Header Navbar -->
-    <header class="navbar">
-      <div class="brand">
-        <div class="brand-icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-          </svg>
-        </div>
-        <div class="brand-title">PQD Classifier <span style="font-weight: 300; font-size: 0.85em; opacity: 0.7;">| Firebase DB</span></div>
+    <!-- Header & System Metadata Bar -->
+    <header class="instrument-header">
+      <div class="brand-title">
+        <span class="brand-name">⚡ PQD ANALYZER & INJECTION BENCH</span>
+        <span class="brand-sub">REAL-TIME WAVEFORM MONITORING & INDEPENDENT ML CLASSIFICATION VALIDATION</span>
       </div>
 
-      <div class="nav-controls">
-        <div class="status-pill">
-          <div class="pulse-dot"></div>
-          <span id="system-status-text">ESP32 Online & Monitoring</span>
+      <div class="lamp-matrix">
+        <div class="lamp-unit">
+          <div class="lamp-led green" id="lamp-sys"></div>
+          <span class="lamp-text">SYS: ONLINE</span>
         </div>
-
-        <!-- Mode Switcher: Web Dashboard vs Mobile App -->
-        <button class="toggle-btn active" id="view-web-btn" onclick="switchView('web')">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z"/></svg>
-          Web View
-        </button>
-        <button class="toggle-btn" id="view-mobile-btn" onclick="switchView('mobile')">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-          Mobile App View
-        </button>
+        <div class="lamp-unit">
+          <div class="lamp-led cyan" id="lamp-adc"></div>
+          <span class="lamp-text">ADC: 5 kHz ISR</span>
+        </div>
+        <div class="lamp-unit">
+          <div class="lamp-led green" id="lamp-model"></div>
+          <span class="lamp-text">ML: MLP INT8 (8.4 KB)</span>
+        </div>
+        <div class="lamp-unit">
+          <div class="lamp-led amber" id="lamp-mode"></div>
+          <span class="lamp-text" id="status-mode-text">MODE: SIMULATION</span>
+        </div>
       </div>
     </header>
 
-    <!-- WEB DASHBOARD VIEW -->
-    <main id="web-dashboard" class="dashboard-content">
-      
-      <!-- Top Metrics Cards Grid -->
-      <section class="metrics-grid">
-        <div class="card">
-          <div class="card-label">Current State</div>
-          <div class="card-value-group">
-            <span class="card-value" id="val-current-state" style="color: var(--status-normal);">Normal</span>
-            <span class="card-badge" style="background: rgba(16,185,129,0.15); color: var(--status-normal);">96.3% Conf</span>
-          </div>
+    <!-- Main 3-Column Console Grid -->
+    <main class="console-grid">
+
+      <!-- LEFT COLUMN: DISTURBANCE INJECTION CONSOLE -->
+      <section class="panel-box">
+        <div class="panel-title">
+          <span>1. INJECTION CONSOLE</span>
+          <span style="font-size: 0.68rem; color: var(--crt-amber);">[CONTROL UNIT]</span>
         </div>
 
-        <div class="card">
-          <div class="card-label">RMS Voltage</div>
-          <div class="card-value-group">
-            <div>
-              <span class="card-value" id="val-rms">0.998</span>
-              <span class="card-unit">pu</span>
-            </div>
-            <span class="card-badge" style="background: rgba(255,255,255,0.05); color: var(--text-muted);">12.0V Nominal</span>
-          </div>
+        <!-- Mode Selector Switcher -->
+        <div class="mode-selector">
+          <button class="mode-btn active" id="mode-sim-btn" onclick="setInjectionMode('simulation')">A. Simulation</button>
+          <button class="mode-btn" id="mode-dataset-btn" onclick="setInjectionMode('dataset')">B. BARC Data</button>
+          <button class="mode-btn" id="mode-hw-btn" onclick="setInjectionMode('hardware')">C. ESP32 HW</button>
         </div>
 
-        <div class="card">
-          <div class="card-label">Harmonic THD</div>
-          <div class="card-value-group">
-            <div>
-              <span class="card-value" id="val-thd">0.82</span>
-              <span class="card-unit">%</span>
-            </div>
-            <span class="card-badge" style="background: rgba(16,185,129,0.15); color: var(--status-normal);">IEEE 519 Pass</span>
-          </div>
+        <!-- Supported Model Disturbance Classes Grid -->
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #788796; margin-bottom: 0.4rem; font-weight: 700;">
+          SELECT DISTURBANCE TO INJECT:
+        </div>
+        <div class="disturbance-grid">
+          <button class="dist-btn active" id="btn-Normal" onclick="selectDisturbance('Normal')">Normal</button>
+          <button class="dist-btn" id="btn-Sag" onclick="selectDisturbance('Sag')">Voltage Sag</button>
+          <button class="dist-btn" id="btn-Swell" onclick="selectDisturbance('Swell')">Voltage Swell</button>
+          <button class="dist-btn" id="btn-Harmonics" onclick="selectDisturbance('Harmonics')">Harmonics</button>
+          <button class="dist-btn" id="btn-Interruption" onclick="selectDisturbance('Interruption')">Interruption</button>
+          <button class="dist-btn" id="btn-Transient" onclick="selectDisturbance('Transient')">Transient</button>
+          <button class="dist-btn" id="btn-Flicker" onclick="selectDisturbance('Flicker')">Flicker</button>
+          <button class="dist-btn" id="btn-Notch" onclick="selectDisturbance('Notch')">Notch</button>
         </div>
 
-        <div class="card">
-          <div class="card-label">Deployed Model</div>
-          <div class="card-value-group">
-            <div>
-              <span class="card-value" style="font-size: 1.5rem;">Compact MLP</span>
-              <span class="card-unit">TFLite</span>
-            </div>
-            <span class="card-badge" style="background: rgba(0,242,254,0.15); color: var(--accent-cyan);">8.4 KB</span>
+        <!-- Modifiers & Injection Controls -->
+        <div style="background: #111315; border: 1px solid #282f35; border-radius: 6px; padding: 0.75rem; margin-bottom: 0.85rem;">
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.68rem; color: #8c9cae; margin-bottom: 0.3rem;">
+            <span>AMPLITUDE MODIFIER</span>
+            <span id="lbl-amp-val">1.00x</span>
+          </div>
+          <input type="range" id="slider-amp" min="0.1" max="2.0" step="0.05" value="1.0" oninput="onModifierChange()" style="width: 100%; accent-color: var(--crt-amber); margin-bottom: 0.6rem;">
+
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.68rem; color: #8c9cae; margin-bottom: 0.3rem;">
+            <span>MEASUREMENT NOISE</span>
+            <span id="lbl-noise-val">1.5%</span>
+          </div>
+          <input type="range" id="slider-noise" min="0.0" max="10.0" step="0.5" value="1.5" oninput="onModifierChange()" style="width: 100%; accent-color: var(--crt-cyan);">
+        </div>
+
+        <!-- Action Control Buttons -->
+        <div class="action-btn-group">
+          <button class="btn-primary" onclick="triggerDisturbanceInjection()">⚡ INJECT & RUN ML PIPELINE</button>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-secondary" style="flex: 1;" onclick="selectDisturbance('Normal')">RESET NORMAL</button>
+            <button class="btn-secondary" style="flex: 1;" id="btn-autodemo" onclick="toggleAutoDemoCycle()">AUTO DEMO: OFF</button>
           </div>
         </div>
       </section>
 
-      <!-- Dashboard Main Section: Waveform & Event Stream -->
-      <section class="dashboard-grid">
-        
-        <!-- Real-time AC Waveform Canvas -->
-        <div class="card chart-container">
-          <div class="chart-header">
-            <div class="chart-title">Real-Time AC Voltage Waveform (5 kHz Sampling)</div>
-            <div style="font-size: 0.8rem; color: var(--text-dim);" id="sampling-rate-text">5000 Samples / sec</div>
+      <!-- CENTER COLUMN: CRT OSCILLOSCOPE & SPECTRUM ANALYZER -->
+      <section class="panel-box" style="flex: 1;">
+        <div class="panel-title">
+          <span>2. LABORATORY OSCILLOSCOPE (50 Hz AC SIGNAL)</span>
+          <span style="font-size: 0.68rem; color: var(--crt-green);" id="scope-mode-label">TIME DOMAIN (TIMEBASE: 10 ms/div)</span>
+        </div>
+
+        <!-- CRT Oscilloscope Viewport Canvas -->
+        <div class="crt-wrapper">
+          <canvas id="crtCanvas" class="crt-canvas"></canvas>
+          <div class="crt-scanlines" id="crtScanlineOverlay"></div>
+        </div>
+
+        <!-- Scope Controls Toolbar -->
+        <div class="scope-toolbar">
+          <div style="display: flex; gap: 0.6rem; align-items: center;">
+            <select class="scope-select" id="select-display-mode" onchange="switchScopeDisplayMode(this.value)">
+              <option value="time">Oscilloscope (Time Domain)</option>
+              <option value="fft">FFT Spectrum (Frequency Domain)</option>
+            </select>
+            <select class="scope-select" id="select-timebase" onchange="onScopeSettingChange()">
+              <option value="5">5 ms/div</option>
+              <option value="10" selected>10 ms/div</option>
+              <option value="20">20 ms/div</option>
+            </select>
+            <select class="scope-select" id="select-volts" onchange="onScopeSettingChange()">
+              <option value="0.5">0.5 V/div</option>
+              <option value="1.0" selected>1.0 V/div</option>
+              <option value="2.0">2.0 V/div</option>
+            </select>
           </div>
-          <canvas id="waveformChart" class="waveform-canvas"></canvas>
-        </div>
 
-        <!-- Deployed Model vs Baselines Table -->
-        <div class="card events-section">
-          <div class="chart-title">Offline Model Benchmark Evidence</div>
-          <table class="event-table">
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Acc</th>
-                <th>Recall</th>
-                <th>Size</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background: rgba(0,242,254,0.08); font-weight: 600;">
-                <td style="color: var(--accent-cyan);">Compact MLP (TFLite)</td>
-                <td>95.9%</td>
-                <td style="color: var(--status-normal);">96.3%</td>
-                <td>8.4 KB</td>
-              </tr>
-              <tr>
-                <td>RandomForest</td>
-                <td>96.5%</td>
-                <td style="color: var(--status-sag);">82.3%</td>
-                <td>9.7 MB</td>
-              </tr>
-              <tr>
-                <td>ExtraTrees</td>
-                <td>96.6%</td>
-                <td style="color: var(--status-sag);">82.3%</td>
-                <td>34.1 MB</td>
-              </tr>
-              <tr>
-                <td>SVM (RBF)</td>
-                <td>89.1%</td>
-                <td style="color: var(--status-interruption);">71.9%</td>
-                <td>335 KB</td>
-              </tr>
-              <tr>
-                <td>kNN</td>
-                <td>87.1%</td>
-                <td style="color: var(--status-interruption);">70.7%</td>
-                <td>706 KB</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.7rem;" onclick="toggleFreezeTrace()" id="btn-freeze">FREEZE</button>
+            <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.7rem;" onclick="toggleScanlines()" id="btn-scanlines">CRT GRID: ON</button>
+          </div>
         </div>
-
       </section>
 
-      <!-- Live Firebase Disturbance Event Stream -->
-      <section class="card events-section">
-        <div class="chart-header">
-          <div class="chart-title">Live Disturbance Event Stream (Firebase DB Sync)</div>
-          <button class="toggle-btn" onclick="triggerSimulatedDisturbance()" style="padding: 0.3rem 0.75rem;">Simulate Disturbance Event</button>
+      <!-- RIGHT COLUMN: ML CLASSIFICATION & VALIDATION UNIT -->
+      <section class="panel-box">
+        <div class="panel-title">
+          <span>3. ML VALIDATION UNIT</span>
+          <span style="font-size: 0.68rem; color: var(--crt-green);">[COMPACT MLP]</span>
         </div>
 
-        <table class="event-table">
-          <thead>
-            <tr>
-              <th>Timestamp</th>
-              <th>True State</th>
-              <th>Predicted Class</th>
-              <th>Confidence</th>
-              <th>RMS (pu)</th>
-              <th>THD (%)</th>
-              <th>Duration</th>
-            </tr>
-          </thead>
-          <tbody id="event-stream-tbody">
-            <!-- Event rows populated by JavaScript -->
-          </tbody>
-        </table>
+        <!-- Injected Condition Card -->
+        <div class="validation-card">
+          <div class="val-label">1. INJECTED CONDITION</div>
+          <div class="val-value-badge badge-injected" id="val-injected-name">NORMAL</div>
+        </div>
+
+        <!-- Independent ML Prediction Card -->
+        <div class="validation-card">
+          <div class="val-label">2. INDEPENDENT ML PREDICTION</div>
+          <div class="val-value-badge badge-predicted" id="val-predicted-name">NORMAL</div>
+        </div>
+
+        <!-- Match / Mismatch Result Banner -->
+        <div class="result-banner match" id="val-result-banner">
+          ✓ CORRECT CLASSIFICATION
+        </div>
+
+        <!-- Confidence Gauge & Footprint -->
+        <div style="background: #111315; border: 1px solid #282f36; border-radius: 6px; padding: 0.75rem; margin-bottom: 0.85rem;">
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; color: #8898a8; margin-bottom: 0.35rem;">
+            <span>MODEL CONFIDENCE</span>
+            <span style="color: var(--crt-green); font-weight: 700;" id="lbl-confidence">96.3%</span>
+          </div>
+          <div style="height: 10px; background: #000; border-radius: 5px; overflow: hidden; border: 1px solid #333;">
+            <div id="bar-confidence-fill" style="width: 96.3%; height: 100%; background: var(--crt-green); transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Real-Time Class Probabilities Bar Chart -->
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #768696; margin-bottom: 0.3rem; font-weight: 700;">
+          NEURAL NETWORK CLASS PROBABILITIES:
+        </div>
+        <div class="prob-list" id="prob-bar-container">
+          <!-- Populated by JS -->
+        </div>
+
       </section>
 
     </main>
 
-    <!-- MOBILE APP SIMULATION VIEW -->
-    <div id="mobile-simulator" class="mobile-simulator-wrapper">
-      <div class="mobile-frame">
-        <div class="mobile-notch"></div>
-        <div class="mobile-screen">
-          
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">PQD Mobile</div>
-            <div class="pulse-dot"></div>
-          </div>
+    <!-- BOTTOM SECTION 1: EXTRACTED ELECTRICAL FEATURES MATRIX -->
+    <section style="margin-bottom: 1.25rem;">
+      <div style="font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: #8c9caa; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.08em;">
+        4. EXTRACTED ELECTRICAL FEATURE VECTOR (DSP MATRIX)
+      </div>
 
-          <!-- Mobile Hero Card -->
-          <div class="mobile-hero-card">
-            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Grid Status</div>
-            <div id="mobile-hero-status" style="font-size: 1.8rem; font-weight: 700; color: var(--status-normal); margin: 0.25rem 0;">Normal</div>
-            <div style="font-size: 0.85rem; color: var(--text-dim);">Confidence: <span id="mobile-hero-conf">96.3%</span></div>
-          </div>
-
-          <!-- Mobile Quick Metrics -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-            <div class="card" style="padding: 1rem;">
-              <div class="card-label" style="font-size: 0.75rem;">RMS Voltage</div>
-              <div class="card-value" id="mobile-rms" style="font-size: 1.4rem;">0.998 pu</div>
-            </div>
-            <div class="card" style="padding: 1rem;">
-              <div class="card-label" style="font-size: 0.75rem;">THD %</div>
-              <div class="card-value" id="mobile-thd" style="font-size: 1.4rem;">0.82 %</div>
-            </div>
-          </div>
-
-          <!-- Mobile Recent Disturbance Feed -->
-          <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-main); margin-top: 0.5rem;">Recent Events</div>
-          <div id="mobile-event-list" style="display: flex; flex-direction: column; gap: 0.6rem; overflow-y: auto; flex: 1;">
-            <!-- Mobile event cards populated by JS -->
-          </div>
-
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="val-label">1. RMS VOLTAGE</div>
+          <div><span class="feature-num" id="feat-rms">0.998</span><span class="feature-unit">pu</span></div>
         </div>
 
-        <!-- Mobile Navigation Bar -->
-        <div class="mobile-nav-bar">
-          <div class="mobile-nav-item active">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            Live
-          </div>
-          <div class="mobile-nav-item">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            Logs
-          </div>
-          <div class="mobile-nav-item">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-            Settings
-          </div>
+        <div class="feature-card">
+          <div class="val-label">2. PEAK VOLTAGE</div>
+          <div><span class="feature-num" id="feat-peak">1.412</span><span class="feature-unit">pu</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">3. CREST FACTOR</div>
+          <div><span class="feature-num" id="feat-crest">1.415</span><span class="feature-unit">ratio</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">4. TOTAL HARMONIC THD</div>
+          <div><span class="feature-num" id="feat-thd">0.82</span><span class="feature-unit">%</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">5. EVENT DURATION</div>
+          <div><span class="feature-num" id="feat-duration">0.0</span><span class="feature-unit">ms</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">6. DOMINANT FREQ</div>
+          <div><span class="feature-num" id="feat-domfreq">50.0</span><span class="feature-unit">Hz</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">7. SYSTEM FREQUENCY</div>
+          <div><span class="feature-num" id="feat-sysfreq">50.00</span><span class="feature-unit">Hz</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">8. SIGNAL NOISE SNR</div>
+          <div><span class="feature-num" id="feat-snr">44.8</span><span class="feature-unit">dB</span></div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- BOTTOM SECTION 2: CHRONOLOGICAL EXPERIMENT TERMINAL LOG -->
+    <section class="terminal-card">
+      <div class="terminal-header">
+        <span class="terminal-title">> EXPERIMENT & VALIDATION LOG STREAM (CHRONOLOGICAL)</span>
+        <button class="btn-secondary" style="padding: 0.25rem 0.65rem; font-size: 0.7rem;" onclick="exportLogCSV()">EXPORT LOG (CSV)</button>
+      </div>
+
+      <div class="terminal-log-stream" id="terminal-log-container">
+        <!-- Log rows populated dynamically -->
+      </div>
+    </section>
 
   </div>
 
