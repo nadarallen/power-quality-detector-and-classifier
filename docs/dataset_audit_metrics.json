@@ -1,0 +1,182 @@
+{
+  "total_samples": 10000,
+  "null_count": 0,
+  "duplicate_rows": 0,
+  "exact_feature_duplicates": 0,
+  "train_test_overlap_duplicates": 0,
+  "class_distribution": {
+    "Normal": 2985,
+    "Sag": 1835,
+    "Swell": 1221,
+    "Harmonics": 1177,
+    "Transient": 985,
+    "Interruption": 821,
+    "Flicker": 595,
+    "Notch": 381
+  },
+  "imbalance_ratio": 7.83,
+  "feature_statistics": {
+    "rms_voltage": {
+      "min": 0.2237,
+      "max": 1.1657,
+      "mean": 0.68487942,
+      "std": 0.1156182020502314,
+      "median": 0.7081,
+      "skewness": -0.5140510871960912,
+      "kurtosis": 3.4726488816896,
+      "iqr_outliers": 2759
+    },
+    "peak_voltage": {
+      "min": 0.9269,
+      "max": 2.8369,
+      "mean": 1.12717321,
+      "std": 0.2615524943716406,
+      "median": 1.0173,
+      "skewness": 2.791957599433342,
+      "kurtosis": 8.362212528707868,
+      "iqr_outliers": 1889
+    },
+    "crest_factor": {
+      "min": 1.304,
+      "max": 4.483,
+      "mean": 1.6817464,
+      "std": 0.43515687428508326,
+      "median": 1.496,
+      "skewness": 2.711369036252308,
+      "kurtosis": 8.499003049504692,
+      "iqr_outliers": 1058
+    },
+    "thd": {
+      "min": 0.018,
+      "max": 66.828,
+      "mean": 2.4742577,
+      "std": 3.749530349107018,
+      "median": 0.737,
+      "skewness": 3.016210028329077,
+      "kurtosis": 19.128325112568422,
+      "iqr_outliers": 746
+    },
+    "duration": {
+      "min": 0.0,
+      "max": 179.4,
+      "mean": 36.15345,
+      "std": 51.66243758131419,
+      "median": 0.0,
+      "skewness": 1.1390357653922978,
+      "kurtosis": -0.17300635371857753,
+      "iqr_outliers": 21
+    },
+    "dominant_freq": {
+      "min": 50.0,
+      "max": 50.0,
+      "mean": 50.0,
+      "std": 0.0,
+      "median": 50.0,
+      "skewness": NaN,
+      "kurtosis": NaN,
+      "iqr_outliers": 0
+    },
+    "system_freq": {
+      "min": 49.927,
+      "max": 50.083,
+      "mean": 49.999876799999996,
+      "std": 0.019851922618305044,
+      "median": 50.0,
+      "skewness": 0.02651956080601625,
+      "kurtosis": -0.009262011535156045,
+      "iqr_outliers": 61
+    },
+    "snr": {
+      "min": 35.0,
+      "max": 55.0,
+      "mean": 45.035053000000005,
+      "std": 5.810010922526995,
+      "median": 45.07,
+      "skewness": -0.011250067038165933,
+      "kurtosis": -1.2142501070465614,
+      "iqr_outliers": 0
+    }
+  },
+  "correlation_matrix": {
+    "rms_voltage": {
+      "rms_voltage": 1.0,
+      "peak_voltage": 0.43796751591104316,
+      "crest_factor": -0.4893134282157741,
+      "thd": -0.4644595435837357,
+      "duration": -0.3585483142221451,
+      "dominant_freq": NaN,
+      "system_freq": 0.028454027897547318,
+      "snr": -0.02265260345480175
+    },
+    "peak_voltage": {
+      "rms_voltage": 0.43796751591104316,
+      "peak_voltage": 1.0,
+      "crest_factor": 0.5288800369259417,
+      "thd": -0.11748728179356571,
+      "duration": 0.06165135556790601,
+      "dominant_freq": NaN,
+      "system_freq": 0.005802632173484861,
+      "snr": -0.021673148999166534
+    },
+    "crest_factor": {
+      "rms_voltage": -0.4893134282157741,
+      "peak_voltage": 0.5288800369259417,
+      "crest_factor": 1.0,
+      "thd": 0.35883329923874496,
+      "duration": 0.46411492239780383,
+      "dominant_freq": NaN,
+      "system_freq": -0.02259918191707369,
+      "snr": -0.0003967390254706059
+    },
+    "thd": {
+      "rms_voltage": -0.4644595435837357,
+      "peak_voltage": -0.11748728179356571,
+      "crest_factor": 0.35883329923874496,
+      "thd": 1.0,
+      "duration": 0.26831332216304393,
+      "dominant_freq": NaN,
+      "system_freq": -0.011879420792976771,
+      "snr": -0.011679287614034922
+    },
+    "duration": {
+      "rms_voltage": -0.3585483142221451,
+      "peak_voltage": 0.06165135556790601,
+      "crest_factor": 0.46411492239780383,
+      "thd": 0.26831332216304393,
+      "duration": 1.0,
+      "dominant_freq": NaN,
+      "system_freq": -0.026307485283169802,
+      "snr": 0.004245523085305452
+    },
+    "dominant_freq": {
+      "rms_voltage": NaN,
+      "peak_voltage": NaN,
+      "crest_factor": NaN,
+      "thd": NaN,
+      "duration": NaN,
+      "dominant_freq": NaN,
+      "system_freq": NaN,
+      "snr": NaN
+    },
+    "system_freq": {
+      "rms_voltage": 0.028454027897547318,
+      "peak_voltage": 0.005802632173484861,
+      "crest_factor": -0.02259918191707369,
+      "thd": -0.011879420792976771,
+      "duration": -0.026307485283169802,
+      "dominant_freq": NaN,
+      "system_freq": 1.0,
+      "snr": 0.0002456770499116736
+    },
+    "snr": {
+      "rms_voltage": -0.02265260345480175,
+      "peak_voltage": -0.021673148999166534,
+      "crest_factor": -0.0003967390254706059,
+      "thd": -0.011679287614034922,
+      "duration": 0.004245523085305452,
+      "dominant_freq": NaN,
+      "system_freq": 0.0002456770499116736,
+      "snr": 1.0
+    }
+  }
+}
