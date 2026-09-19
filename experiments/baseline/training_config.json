@@ -1,0 +1,13 @@
+{
+  "seed": 42,
+  "split_ratio": {
+    "train": 0.8,
+    "test": 0.2
+  },
+  "stratified": true,
+  "preprocessing": "StandardScaler",
+  "optimizer": "Adam",
+  "epochs": 40,
+  "batch_size": 32,
+  "loss": "sparse_categorical_crossentropy"
+}

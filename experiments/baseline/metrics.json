@@ -1,0 +1,95 @@
+{
+  "model_name": "Compact_Keras_MLP",
+  "architecture": "Dense(64, relu) -> Dense(32, relu) -> Dense(8, softmax)",
+  "parameter_count": 2920,
+  "input_features": [
+    "rms_voltage",
+    "peak_voltage",
+    "crest_factor",
+    "thd",
+    "duration",
+    "dominant_freq",
+    "system_freq",
+    "snr"
+  ],
+  "num_classes": 8,
+  "classes": [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
+    "Normal",
+    "Notch",
+    "Sag",
+    "Swell",
+    "Transient"
+  ],
+  "test_set_size": 2000,
+  "accuracy": 0.959,
+  "macro_precision": 0.9451,
+  "macro_recall": 0.9538,
+  "macro_f1": 0.9468,
+  "weighted_precision": 0.9641,
+  "weighted_recall": 0.959,
+  "weighted_f1": 0.9597,
+  "interruption_recall": 0.9634,
+  "safety_gate_passed": true,
+  "single_inference_latency_us": {
+    "mean": 169.1,
+    "std": 43.61
+  },
+  "file_sizes_kb": {
+    "keras_h5": 64.8,
+    "quantized_tflite": 8.4,
+    "weights_json": 60.77
+  },
+  "per_class": {
+    "Flicker": {
+      "precision": 1.0,
+      "recall": 0.8908,
+      "f1_score": 0.9422,
+      "support": 119
+    },
+    "Harmonics": {
+      "precision": 0.9867,
+      "recall": 0.9407,
+      "f1_score": 0.9631,
+      "support": 236
+    },
+    "Interruption": {
+      "precision": 0.7745,
+      "recall": 0.9634,
+      "f1_score": 0.8587,
+      "support": 164
+    },
+    "Normal": {
+      "precision": 0.9787,
+      "recall": 1.0,
+      "f1_score": 0.9892,
+      "support": 597
+    },
+    "Notch": {
+      "precision": 0.8391,
+      "recall": 0.9605,
+      "f1_score": 0.8957,
+      "support": 76
+    },
+    "Sag": {
+      "precision": 0.9817,
+      "recall": 0.8747,
+      "f1_score": 0.9251,
+      "support": 367
+    },
+    "Swell": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 244
+    },
+    "Transient": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 197
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "os": "Linux-7.2.6-arch2-1-x86_64-with-glibc2.44",
+  "python_version": "3.12.14",
+  "numpy_version": "2.5.3",
+  "pandas_version": "3.0.6",
+  "scikit_learn_version": "3.0.6"
+}
