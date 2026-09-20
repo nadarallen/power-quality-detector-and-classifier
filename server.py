@@ -141,7 +141,10 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 'model': 'Compact MLP 8.4KB Int8',
                 'three_phase_engine': 'active',
                 'acquisition_source': getattr(ACTIVE_ADAPTER, 'source_type', 'simulation'),
+                'hardware_state': getattr(ACTIVE_ADAPTER, 'state', 'CONNECTED'),
+                'sampling_rate': getattr(ACTIVE_ADAPTER, 'sampling_rate_hz', 5000.0),
                 'device_id': getattr(ACTIVE_ADAPTER, 'device_id', 'DEV_LOCAL'),
+                'events_persisted': SHARED_EVENT_STORE.count_events(),
                 'timestamp': time.time()
             })
         elif parsed.path == '/api/events':

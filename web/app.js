@@ -20,6 +20,7 @@ let timebaseMs = 10;
 let voltsPerDiv = 1.0;
 let ampModifier = 1.0;
 let noiseLevelPercent = 1.5;
+let latestTelemetrySpectrum = null;
 
 // Machine Learning Metadata & Scaler Tokens
 const CLASSES = ['Flicker', 'Harmonics', 'Interruption', 'Normal', 'Notch', 'Sag', 'Swell', 'Transient'];
@@ -790,25 +791,41 @@ function drawScopeScreen() {
       ctx.fillText('● PHASE C (L3 +120°)', 14, 20);
     }
   } else {
-    // --- FFT HARMONIC SPECTRUM BAR GRAPH ---
+    // --- GENUINE FFT HARMONIC SPECTRUM BAR GRAPH ---
     ctx.shadowBlur = 8;
     ctx.shadowColor = 'var(--crt-cyan)';
     ctx.fillStyle = '#00e5ff';
 
-    const harmonics = [50, 150, 250, 350, 450, 550, 650, 750];
-    const barW = w / (harmonics.length * 2);
+    // Prioritize backend DSP spectral telemetry; fallback to true Goertzel calculation on active waveform
+    let freqs = [];
+    let mags = [];
 
-    harmonics.forEach((freq, idx) => {
-      let mag = 0;
-      if (freq === 50) mag = 1.0;
-      else if (currentInjectedDisturbance === 'Harmonics') {
-        if (freq === 150) mag = 0.28;
-        if (freq === 250) mag = 0.16;
-        if (freq === 350) mag = 0.08;
-      }
-      mag += (Math.random() - 0.5) * 0.03;
+    if (latestTelemetrySpectrum && latestTelemetrySpectrum.freqs && latestTelemetrySpectrum.freqs.length > 0) {
+      freqs = latestTelemetrySpectrum.freqs;
+      mags = latestTelemetrySpectrum.magnitudes;
+    } else {
+      // Calculate true Goertzel magnitude across harmonic orders H1-H11 directly on currentWaveform
+      freqs = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550];
+      const N = currentWaveform.length;
+      mags = freqs.map(f => {
+        let k = Math.round(N * f / SAMPLE_RATE);
+        let omega = (2.0 * Math.PI * k) / N;
+        let coeff = 2.0 * Math.cos(omega);
+        let q0 = 0, q1 = 0, q2 = 0;
+        for (let i = 0; i < N; i++) {
+          q0 = coeff * q1 - q2 + currentWaveform[i];
+          q2 = q1;
+          q1 = q0;
+        }
+        return (Math.sqrt(q1 * q1 + q2 * q2 - q1 * q2 * coeff) * 2.0) / N;
+      });
+    }
 
-      const barH = mag * (h * 0.7);
+    const barW = w / (freqs.length * 2);
+
+    freqs.forEach((freq, idx) => {
+      const mag = mags[idx] || 0.0;
+      const barH = Math.min(h * 0.75, mag * (h * 0.7));
       const x = (idx * 2 + 0.5) * barW;
       const y = h - barH - 20;
 
@@ -817,7 +834,7 @@ function drawScopeScreen() {
       // Freq label
       ctx.fillStyle = '#88a0b0';
       ctx.font = '10px JetBrains Mono';
-      ctx.fillText(`${freq}Hz`, x, h - 5);
+      ctx.fillText(`${Math.round(freq)}Hz`, x, h - 5);
       ctx.fillStyle = '#00e5ff';
     });
     ctx.shadowBlur = 0;
@@ -860,6 +877,19 @@ function handleTelemetryData(telem) {
   if (telem.total_events !== undefined) {
     const countEl = document.getElementById('bus-total-events');
     if (countEl) countEl.textContent = telem.total_events;
+  }
+  if (telem.spectrum && telem.spectrum.freqs) {
+    latestTelemetrySpectrum = telem.spectrum;
+  }
+  if (telem.source_type) {
+    const modeEl = document.getElementById('status-mode-text');
+    if (modeEl) modeEl.textContent = `MODE: ${telem.source_type.toUpperCase()}`;
+  }
+  if (telem.hardware_state) {
+    const lampEl = document.getElementById('lamp-mode');
+    if (lampEl) {
+      lampEl.className = (telem.hardware_state === 'ACQUIRING' || telem.hardware_state === 'CONNECTED') ? 'lamp-led green' : 'lamp-led amber';
+    }
   }
   if (telem.phases) {
     ['L1', 'L2', 'L3'].forEach(phaseKey => {

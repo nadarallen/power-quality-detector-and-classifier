@@ -27,6 +27,7 @@ from dsp.acquisition_adapter import (
     PQMeterAdapter,
     MockHardwareAdapter,
     SimulationAdapter,
+    AcquisitionState,
 )
 from pipeline.realtime_pipeline import RealtimePQPipeline
 from storage.event_store import EventStore
@@ -310,3 +311,71 @@ def test_hardware_adapter_interfaces():
     assert pq_meter.connect()
     with pytest.raises(NotImplementedError):
         pq_meter.acquire_frame()
+
+
+def test_acquisition_state_transitions():
+    """Verify hardware adapter transitions: DISCONNECTED -> CONNECTED -> ACQUIRING -> SYNC_ERROR."""
+    adapter = MockHardwareAdapter(device_id="STATE_TEST_01")
+    assert adapter.state == AcquisitionState.DISCONNECTED
+
+    adapter.connect()
+    assert adapter.state == AcquisitionState.CONNECTED
+
+    frame = adapter.acquire_frame()
+    assert frame is not None
+    assert adapter.state == AcquisitionState.ACQUIRING
+
+    # Test synchronization mismatch leading to SYNC_ERROR
+    bad_channels = {
+        "L1": np.zeros(1000, dtype=np.int16),
+        "L2": np.zeros(900, dtype=np.int16),  # mismatched sample count!
+        "L3": np.zeros(1000, dtype=np.int16)
+    }
+    bad_frame = adapter.convert_and_validate_chunk(bad_channels)
+    assert not bad_frame.is_valid
+    assert adapter.state == AcquisitionState.SYNC_ERROR
+
+    adapter.disconnect()
+    assert adapter.state == AcquisitionState.DISCONNECTED
+
+
+def test_pipeline_telemetry_spectrum_and_hardware_state():
+    """Verify rich spectral harmonics and hardware state in real-time telemetry."""
+    adapter = MockHardwareAdapter(device_id="TELEM_TEST_01")
+    adapter.connect()
+
+    tmp_db = tempfile.NamedTemporaryFile(suffix=".db", delete=False).name
+    store = EventStore(tmp_db)
+    pipeline = RealtimePQPipeline(adapter=adapter, event_store=store)
+
+    frame = adapter.acquire_frame()
+    pipeline.process_frame(frame)
+
+    telem = pipeline.get_latest_telemetry()
+    assert telem["hardware_state"] in [AcquisitionState.ACQUIRING, AcquisitionState.CONNECTED]
+    assert telem["source_type"] == "mock_hardware"
+    assert "phases" in telem
+    assert "L1" in telem["phases"]
+    assert "L2" in telem["phases"]
+    assert "L3" in telem["phases"]
+
+    # Verify genuine Goertzel spectral harmonics
+    assert "spectrum" in telem
+    assert "freqs" in telem["spectrum"]
+    assert "magnitudes" in telem["spectrum"]
+    assert len(telem["spectrum"]["freqs"]) == 11
+    assert len(telem["spectrum"]["magnitudes"]) == 11
+    assert telem["spectrum"]["freqs"][0] == 50.0  # H1 fundamental
+    assert telem["spectrum"]["freqs"][2] == 150.0  # H3
+    assert telem["spectrum"]["magnitudes"][0] > 0.0  # fundamental magnitude > 0
+
+    adapter.disconnect()
+    os.remove(tmp_db)
+
+
+def test_live_hardware_test_mode_and_skipping(monkeypatch):
+    """Verify that physical hardware integration tests skip cleanly when hardware is absent."""
+    live_hw_flag = os.environ.get("LIVE_HARDWARE_TESTS", "0")
+    if live_hw_flag != "1":
+        pytest.skip("Physical DAQ hardware not connected. Set LIVE_HARDWARE_TESTS=1 to run.")
+

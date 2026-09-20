@@ -143,6 +143,7 @@ class ThreePhaseEventEngine:
             "L3": None
         }
         self.completed_events: List[PQEvent] = []
+        self.last_detected_states: Dict[str, Tuple[str, float, PhaseMeasurement]] = {}
 
     def _classify_phase(
         self, signal: np.ndarray, sample_rate: float
@@ -228,6 +229,8 @@ class ThreePhaseEventEngine:
             pred_class, conf = self._classify_phase(sig, frame.sampling_rate_hz)
             pm = self._build_phase_measurement(phase, sig, frame.sampling_rate_hz, pred_class, conf)
             detected_states[phase] = (pred_class, conf, pm)
+
+        self.last_detected_states = detected_states
 
         # 2. State Machine & Event Lifecycle
         # Find which phases currently experience a non-Normal disturbance

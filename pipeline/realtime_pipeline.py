@@ -82,12 +82,42 @@ class RealtimePQPipeline:
                     logger.error(f"Error in on_event_callback: {e}")
 
         # Update telemetry summary
+        phases_telem = {}
+        for p, (_, _, pm) in getattr(self.engine, "last_detected_states", {}).items():
+            phases_telem[p] = {
+                "rms_voltage": pm.rms_voltage,
+                "thd": pm.thd_2_11,
+                "frequency": pm.fundamental_frequency,
+                "classification": pm.classification,
+                "confidence": pm.confidence,
+                "harmonics": pm.harmonics,
+            }
+
+        # Extract true harmonic spectrum from primary phase (or first available)
+        primary_phase = "L1" if "L1" in phases_telem else next(iter(phases_telem.keys()), None)
+        spectrum_dict = {}
+        if primary_phase and primary_phase in phases_telem:
+            h_dict = phases_telem[primary_phase].get("harmonics", {})
+            spectrum_dict = {
+                "freqs": [h * 50.0 for h in range(1, 12)],
+                "magnitudes": [float(h_dict.get(f"h{h}", 0.0)) for h in range(1, 12)]
+            }
+
+        hw_state = getattr(self.adapter, "state", "ACQUIRING" if self.is_running else "CONNECTED")
+
         self.last_frame_telemetry = {
             "timestamp": frame.timestamp_utc,
+            "sampling_rate": frame.sampling_rate_hz,
+            "device_id": frame.device_id,
+            "source_type": frame.source_type,
+            "hardware_state": hw_state,
             "frames_processed": self.frames_processed,
             "events_detected": self.total_events_detected,
+            "total_events": self.store.count_events(),
             "active_events": [e.event_id for e in self.engine.get_active_events()],
             "status": "ANOMALY" if self.engine.get_active_events() else "NORMAL",
+            "phases": phases_telem,
+            "spectrum": spectrum_dict,
         }
 
         if self.on_frame_callback:

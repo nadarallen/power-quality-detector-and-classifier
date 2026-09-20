@@ -20,6 +20,16 @@ from dsp.waveform_generator import generate_pqd_waveform
 from dsp.calibration import ThreePhaseCalibration, ChannelCalibration
 
 
+class AcquisitionState:
+    """Standard operational states for hardware and simulated acquisition adapters."""
+    DISCONNECTED = "DISCONNECTED"
+    CONNECTED = "CONNECTED"
+    ACQUIRING = "ACQUIRING"
+    ERROR = "ERROR"
+    SYNC_ERROR = "SYNC_ERROR"
+    INVALID_SIGNAL = "INVALID_SIGNAL"
+
+
 class AcquisitionAdapter(ABC):
     """Abstract base class for all power quality waveform acquisition sources."""
 
@@ -30,6 +40,7 @@ class AcquisitionAdapter(ABC):
         self.source_type = source_type
         self.sequence_number = 0
         self.is_connected = False
+        self.state = AcquisitionState.DISCONNECTED
 
     @abstractmethod
     def connect(self) -> bool:
@@ -76,10 +87,12 @@ class SimulationAdapter(AcquisitionAdapter):
 
     def connect(self) -> bool:
         self.is_connected = True
+        self.state = AcquisitionState.CONNECTED
         return True
 
     def disconnect(self) -> None:
         self.is_connected = False
+        self.state = AcquisitionState.DISCONNECTED
 
     def set_phase_disturbance(self, phase: str, disturbance_class: str) -> None:
         """Configures disturbance state for a specific phase (e.g. set L2 to 'Sag') or 'ALL'."""
@@ -93,8 +106,10 @@ class SimulationAdapter(AcquisitionAdapter):
 
     def acquire_frame(self) -> Optional[WaveformFrame]:
         if not self.is_connected:
+            self.state = AcquisitionState.DISCONNECTED
             return None
 
+        self.state = AcquisitionState.ACQUIRING
         self.sequence_number += 1
         t_now = time.time()
 
@@ -367,7 +382,23 @@ class HardwareAdapter(AcquisitionAdapter):
             calibration_id=self.calibration.calibrated_by
         )
         frame.validate()
+        if not frame.is_valid:
+            if any("synchronization mismatch" in e for e in frame.validation_errors):
+                self.state = AcquisitionState.SYNC_ERROR
+            else:
+                self.state = AcquisitionState.INVALID_SIGNAL
+        else:
+            self.state = AcquisitionState.ACQUIRING
         return frame
+
+    def connect(self) -> bool:
+        self.is_connected = True
+        self.state = AcquisitionState.CONNECTED
+        return True
+
+    def disconnect(self) -> None:
+        self.is_connected = False
+        self.state = AcquisitionState.DISCONNECTED
 
 
 class DAQAdapter(HardwareAdapter):
@@ -483,10 +514,12 @@ class MockHardwareAdapter(HardwareAdapter):
 
     def connect(self) -> bool:
         self.is_connected = True
+        self.state = AcquisitionState.CONNECTED
         return True
 
     def disconnect(self) -> None:
         self.is_connected = False
+        self.state = AcquisitionState.DISCONNECTED
 
     def set_phase_disturbance(self, phase: str, disturbance_class: str) -> None:
         """Configures disturbance condition for mock hardware channel."""
@@ -500,6 +533,7 @@ class MockHardwareAdapter(HardwareAdapter):
 
     def acquire_frame(self) -> Optional[WaveformFrame]:
         if not self.is_connected:
+            self.state = AcquisitionState.DISCONNECTED
             return None
 
         # Simulate packet drops if configured
