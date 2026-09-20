@@ -3,6 +3,7 @@
  */
 
 #include "inference.h"
+#include "model_weights_32.h"
 
 // Class labels matching model training encoding (8 classes)
 static const char* LABELS[] = {
@@ -25,13 +26,17 @@ static bool g_engine_initialized = false;
 
 bool initInferenceEngine() {
     if (g_model_len == 0) {
+#ifdef ARDUINO
         Serial.println("[TFLite Micro] Error: g_model is empty! Run ml/convert_tflite.py first.");
+#endif
         return false;
     }
 
+#ifdef ARDUINO
     Serial.print("[TFLite Micro] Initializing model, array size: ");
     Serial.print(g_model_len);
     Serial.println(" bytes.");
+#endif
 
     g_engine_initialized = true;
     return true;
@@ -109,6 +114,29 @@ InferenceResult runInference(const PQDFeatures& features) {
         res.class_id = 3; // Normal
         res.class_name = "Normal (Fallback)";
         res.confidence = 0.50f;
+    }
+
+    return res;
+}
+
+InferenceResult runInference32(const PQDFeatures32& features) {
+    // 1. Flatten features into 32-element array matching PQD32 model ordering
+    float feat_array[PQD32::NUM_FEATURES];
+    features.toArray(feat_array);
+
+    // 2. Execute verified single-precision embedded forward pass
+    PQD32::InferenceOutput model_out = PQD32::forwardPass(feat_array);
+
+    // 3. Assemble inference result structure
+    InferenceResult res;
+    res.class_id = model_out.class_id;
+    res.class_name = model_out.class_name;
+    res.confidence = model_out.confidence;
+    
+    // Safety flag: if model confidence falls below 60%, flag as uncertain
+    res.is_uncertain = (model_out.confidence < 0.60f);
+    if (res.is_uncertain) {
+        res.class_name = "UNCERTAIN";
     }
 
     return res;

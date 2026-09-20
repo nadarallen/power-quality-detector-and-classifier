@@ -15,5 +15,6 @@
 void initDisplay();
 void updateDisplay(const char* state_name, const InferenceResult& result, float rms, float thd);
 void sendSerialTelemetry(uint32_t timestamp, const char* true_state, const InferenceResult& result, const PQDFeatures& features);
+void sendSerialTelemetry(uint32_t timestamp, const char* true_state, const InferenceResult& result, const PQDFeatures32& features);
 
 #endif // DISPLAY_H_

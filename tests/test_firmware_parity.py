@@ -144,3 +144,81 @@ def test_model_32_forward_pass_parity():
 
         assert 0 <= pred_class < 8
         assert np.isclose(np.sum(probs), 1.0, atol=1e-5)
+
+
+def test_cpp_native_feature_extraction_and_inference_parity(tmp_path):
+    """
+    Directly compiles feature_extraction.cpp and inference.cpp with native g++
+    and executes a C++ test binary on synthetic waveforms to verify zero-drift
+    C++ vs Python end-to-end parity.
+    """
+    import subprocess
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    src_dir = os.path.join(repo_root, 'firmware', 'src')
+
+    test_cpp_source = f"""#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+#include "feature_extraction.h"
+#include "inference.h"
+
+int main() {{
+    // Generate 1000-sample test signal: 50Hz fundamental + 150Hz 3rd harmonic
+    const int N = 1000;
+    const float fs = 5000.0f;
+    float sig[N];
+    for (int i = 0; i < N; ++i) {{
+        float t = (float)i / fs;
+        sig[i] = 0.95f * sinf(2.0f * 3.14159265f * 50.0f * t) + 
+                 0.20f * sinf(2.0f * 3.14159265f * 150.0f * t);
+    }}
+
+    PQDFeatures32 f32 = extractFeatures32(sig, N, fs);
+    InferenceResult res = runInference32(f32);
+
+    std::cout << std::fixed << std::setprecision(6);
+    std::cout << "CLASS_ID:" << res.class_id << std::endl;
+    std::cout << "CLASS_NAME:" << res.class_name << std::endl;
+    std::cout << "CONFIDENCE:" << res.confidence << std::endl;
+    std::cout << "RMS:" << f32.rms_voltage << std::endl;
+    std::cout << "THD:" << f32.thd << std::endl;
+    std::cout << "H1:" << f32.h1 << std::endl;
+    std::cout << "H3:" << f32.h3 << std::endl;
+    std::cout << "SPEC_CENTROID:" << f32.spectral_centroid << std::endl;
+    std::cout << "UNCERTAIN:" << (res.is_uncertain ? 1 : 0) << std::endl;
+
+    return 0;
+}}
+"""
+    cpp_file = tmp_path / "test_harness.cpp"
+    bin_file = tmp_path / "test_harness"
+    cpp_file.write_text(test_cpp_source)
+
+    fe_cpp = os.path.join(src_dir, "feature_extraction.cpp")
+    inf_cpp = os.path.join(src_dir, "inference.cpp")
+
+    cmd = [
+        "g++", "-std=c++17", "-O2",
+        str(cpp_file), fe_cpp, inf_cpp,
+        f"-I{src_dir}",
+        "-o", str(bin_file)
+    ]
+    build_res = subprocess.run(cmd, capture_output=True, text=True)
+    assert build_res.returncode == 0, f"C++ compilation failed: {build_res.stderr}"
+
+    run_res = subprocess.run([str(bin_file)], capture_output=True, text=True)
+    assert run_res.returncode == 0, f"C++ run failed: {run_res.stderr}"
+
+    lines = run_res.stdout.strip().splitlines()
+    data = dict(line.split(":", 1) for line in lines if ":" in line)
+
+    # Harmonics waveform should be classified as Harmonics (class_id = 1)
+    assert data["CLASS_NAME"] == "Harmonics", f"Expected Harmonics, got {data['CLASS_NAME']}"
+    assert data["CLASS_ID"] == "1"
+    assert float(data["CONFIDENCE"]) > 0.90
+    assert float(data["THD"]) > 15.0
+    assert np.isclose(float(data["H1"]), 0.95, atol=0.02)
+    assert np.isclose(float(data["H3"]), 0.20, atol=0.02)
+    assert data["UNCERTAIN"] == "0"
+

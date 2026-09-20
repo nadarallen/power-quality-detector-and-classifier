@@ -39,3 +39,24 @@ void sendSerialTelemetry(uint32_t timestamp, const char* true_state, const Infer
     Serial.print(",");
     Serial.println(features.snr, 2);
 }
+
+void sendSerialTelemetry(uint32_t timestamp, const char* true_state, const InferenceResult& result, const PQDFeatures32& features) {
+    // Standardized telemetry CSV header:
+    // timestamp,true_state,predicted_class,confidence,rms,thd,duration,snr
+    Serial.print(timestamp);
+    Serial.print(",");
+    Serial.print(true_state);
+    Serial.print(",");
+    Serial.print(result.class_name);
+    Serial.print(",");
+    Serial.print(result.confidence, 4);
+    Serial.print(",");
+    Serial.print(features.rms_voltage, 4);
+    Serial.print(",");
+    Serial.print(features.thd, 2);
+    Serial.print(",");
+    Serial.print(features.duration, 1);
+    Serial.print(",");
+    Serial.println(features.snr, 2);
+}
+

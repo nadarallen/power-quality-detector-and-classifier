@@ -9,7 +9,9 @@
 #ifndef INFERENCE_H_
 #define INFERENCE_H_
 
+#ifdef ARDUINO
 #include <Arduino.h>
+#endif
 #include "feature_extraction.h"
 #include "model_data.h"
 
@@ -23,7 +25,10 @@ struct InferenceResult {
 // Initializes TFLite Micro interpreter and tensor arena
 bool initInferenceEngine();
 
-// Executes on-device neural network inference
+// Executes on-device neural network inference (legacy 8-feature baseline)
 InferenceResult runInference(const PQDFeatures& features);
+
+// Executes on-device neural network inference (validated 32-feature EXP-003 model)
+InferenceResult runInference32(const PQDFeatures32& features);
 
 #endif // INFERENCE_H_

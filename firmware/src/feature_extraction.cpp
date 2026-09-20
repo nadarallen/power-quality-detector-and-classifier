@@ -84,3 +84,116 @@ PQDFeatures extractFeatures(const float* signal, size_t length, float sample_rat
 
     return feats;
 }
+
+PQDFeatures32 extractFeatures32(const float* signal, size_t length, float sample_rate) {
+    PQDFeatures32 f32;
+    if (length == 0) return f32;
+
+    // 1. Extract baseline features
+    PQDFeatures base = extractFeatures(signal, length, sample_rate);
+    f32.rms_voltage = base.rms_voltage;
+    f32.peak_voltage = base.peak_voltage;
+    f32.crest_factor = base.crest_factor;
+    f32.thd = base.thd;
+    f32.duration = base.duration;
+    f32.dominant_freq = base.dominant_freq;
+    f32.system_freq = base.system_freq;
+    f32.snr = base.snr;
+
+    // 2. Harmonic Components H1 - H11 via Goertzel
+    f32.h1 = computeGoertzelMagnitude(signal, length, 50.0f, sample_rate);
+    f32.h2 = computeGoertzelMagnitude(signal, length, 100.0f, sample_rate);
+    f32.h3 = computeGoertzelMagnitude(signal, length, 150.0f, sample_rate);
+    f32.h4 = computeGoertzelMagnitude(signal, length, 200.0f, sample_rate);
+    f32.h5 = computeGoertzelMagnitude(signal, length, 250.0f, sample_rate);
+    f32.h6 = computeGoertzelMagnitude(signal, length, 300.0f, sample_rate);
+    f32.h7 = computeGoertzelMagnitude(signal, length, 350.0f, sample_rate);
+    f32.h8 = computeGoertzelMagnitude(signal, length, 400.0f, sample_rate);
+    f32.h9 = computeGoertzelMagnitude(signal, length, 450.0f, sample_rate);
+    f32.h10 = computeGoertzelMagnitude(signal, length, 500.0f, sample_rate);
+    f32.h11 = computeGoertzelMagnitude(signal, length, 550.0f, sample_rate);
+
+    float h1_denom = (f32.h1 > 1e-5f) ? f32.h1 : 1.0f;
+    f32.h2_ratio = f32.h2 / h1_denom;
+    f32.h3_ratio = f32.h3 / h1_denom;
+    f32.h4_ratio = f32.h4 / h1_denom;
+    f32.h5_ratio = f32.h5 / h1_denom;
+    f32.h7_ratio = f32.h7 / h1_denom;
+    f32.h9_ratio = f32.h9 / h1_denom;
+    f32.h11_ratio = f32.h11 / h1_denom;
+
+    float harm_mags[10] = {f32.h2, f32.h3, f32.h4, f32.h5, f32.h6, f32.h7, f32.h8, f32.h9, f32.h10, f32.h11};
+    float energy_sum = 0.0f;
+    for (int i = 0; i < 10; ++i) {
+        energy_sum += harm_mags[i] * harm_mags[i];
+    }
+    f32.harmonic_energy = energy_sum;
+
+    // 3. Spectral Moments via Goertzel Bank across 0 to 1000 Hz in 25 Hz steps (41 bins)
+    constexpr int NUM_SPEC_BINS = 41;
+    float bin_power[NUM_SPEC_BINS];
+    float bin_freqs[NUM_SPEC_BINS];
+    float total_power = 0.0f;
+
+    float max_bin_p = -1.0f;
+    float peak_freq = 50.0f;
+
+    for (int b = 0; b < NUM_SPEC_BINS; ++b) {
+        float freq = b * 25.0f;
+        bin_freqs[b] = freq;
+        float mag = computeGoertzelMagnitude(signal, length, freq, sample_rate);
+        float p = mag * mag;
+        bin_power[b] = p;
+        total_power += p;
+        if (p > max_bin_p) {
+            max_bin_p = p;
+            peak_freq = freq;
+        }
+    }
+
+    f32.true_dominant_freq = peak_freq;
+
+    if (total_power < 1e-12f) {
+        f32.spectral_centroid = 50.0f;
+        f32.spectral_bandwidth = 0.0f;
+        f32.spectral_entropy = 0.0f;
+        f32.spectral_flatness = 0.0f;
+    } else {
+        // Centroid
+        float num_centroid = 0.0f;
+        for (int b = 0; b < NUM_SPEC_BINS; ++b) {
+            num_centroid += bin_freqs[b] * bin_power[b];
+        }
+        float centroid = num_centroid / total_power;
+        f32.spectral_centroid = centroid;
+
+        // Bandwidth
+        float num_bw = 0.0f;
+        for (int b = 0; b < NUM_SPEC_BINS; ++b) {
+            float diff = bin_freqs[b] - centroid;
+            num_bw += (diff * diff) * bin_power[b];
+        }
+        f32.spectral_bandwidth = sqrtf(num_bw / total_power);
+
+        // Entropy
+        float entropy_sum = 0.0f;
+        for (int b = 0; b < NUM_SPEC_BINS; ++b) {
+            float norm_p = bin_power[b] / total_power;
+            if (norm_p > 1e-12f) {
+                entropy_sum -= norm_p * (logf(norm_p) / logf(2.0f));
+            }
+        }
+        f32.spectral_entropy = entropy_sum / (logf((float)NUM_SPEC_BINS) / logf(2.0f));
+
+        // Flatness
+        float sum_log_p = 0.0f;
+        for (int b = 0; b < NUM_SPEC_BINS; ++b) {
+            sum_log_p += logf(bin_power[b] + 1e-12f);
+        }
+        float geom_mean = expf(sum_log_p / NUM_SPEC_BINS);
+        float arith_mean = (total_power / NUM_SPEC_BINS) + 1e-12f;
+        f32.spectral_flatness = (arith_mean > 0.0f) ? (geom_mean / arith_mean) : 0.0f;
+    }
+
+    return f32;
+}

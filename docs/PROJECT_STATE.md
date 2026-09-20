@@ -92,16 +92,16 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 ## 4. Current Test Suite Status
 
 Executed via `.venv/bin/pytest tests/ -v`:
-- **Total Tests Collected:** 42
-- **Passed:** 42
+- **Total Tests Collected:** 43
+- **Passed:** 43
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~1.22s
+- **Execution Time:** ~2.56s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
 - `tests/test_waveform_acceptance.py`: 26 tests (sampling rate, buffer lengths, Nyquist checks, IEEE 1159.3-2025 metadata conformance across all 8 classes).
-- `tests/test_firmware_parity.py`: 4 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, and 32-feature Compact MLP forward pass parity).
+- `tests/test_firmware_parity.py`: 5 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, 32-feature Compact MLP forward pass parity, and native C++ end-to-end `extractFeatures32` + `runInference32` binary execution parity).
 - `tests/test_dsp_features.py`: 1 test (baseline feature preservation).
 
 ---

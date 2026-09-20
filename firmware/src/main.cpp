@@ -55,11 +55,11 @@ void loop() {
         // Read 1000 normalized samples (200 ms signal window)
         getSampleBuffer(g_sample_float_buffer, SAMPLE_BUFFER_SIZE);
 
-        // Extract 8 features (RMS, Peak, Crest Factor, Goertzel THD, Duration, Freq, SNR)
-        PQDFeatures features = extractFeatures(g_sample_float_buffer, SAMPLE_BUFFER_SIZE);
+        // Extract 32 features (EXP-003: RMS, Peak, Crest, THD, Harmonics H1-H11, Spectral Moments)
+        PQDFeatures32 features = extractFeatures32(g_sample_float_buffer, SAMPLE_BUFFER_SIZE);
 
-        // Run On-Device Neural Network Inference
-        InferenceResult result = runInference(features);
+        // Run On-Device Neural Network Inference (EXP-003 Compact MLP)
+        InferenceResult result = runInference32(features);
 
         // Update Display & Output Serial Telemetry Stream
         const char* true_state_name = getDisturbanceStateName(getCurrentDisturbanceState());
