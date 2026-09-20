@@ -1,7 +1,8 @@
 # Power Quality Disturbance (PQD) Detection and Classification System
 
-> **Research-Grade Edge-to-Cloud Disturbance Classifier (ESP32 TinyML & Cloud Telemetry)**  
-> Compliant with **IEEE Std 1159-2019**, **IEEE Std 519-2022**, and **IEC 61000-4-30 Class A**.
+> **Real-Time Three-Phase Monitoring & AI Classification System**  
+> Compliant with **IEEE Std 1159-2019**, **IEEE Std 519-2022**, and **IEC 61000-4-30 Class A**.  
+> ![Tests](https://img.shields.io/badge/tests-58%20passing-brightgreen) ![Python](https://img.shields.io/badge/python-3.12-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ---
 
@@ -11,39 +12,54 @@ This repository implements an end-to-end, scientifically validated system for de
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                              DISCRETE SAMPLING & SENSING                               │
+│              REAL THREE-PHASE ACQUISITION (L1 / L2 / L3 synchronized)                  │
 │                                                                                        │
-│   12V AC Test Rig / Line Sensor ──► Hardware Timer ISR (5 kHz ADC, 200 µs interval)    │
-│                                     1000 Samples (10 fundamental cycles = 200 ms)      │
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                                            ▼
+│  Safety Front-End ──► 3-Channel DAQ / ESP32 ──► dsp/acquisition_adapter.py            │
+│  SimulationAdapter (3-phase synthesis) or CSVReplayAdapter or POST /api/ingest         │
+│  WaveformFrame: timestamp_utc, fs=5 kHz, 120°-spaced L1/L2/L3, validation guards       │
+└──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                           │
+                                           ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                             DSP & FEATURE EXTRACTION                                   │
+│               DSP & FEATURE EXTRACTION (per-phase, synchronized)                       │
 │                                                                                        │
-│   • Track A (Baseline 8 Features): RMS, Peak, Crest Factor, Goertzel THD, Freq, SNR    │
-│   • Track B (Validated 32 Features): Goertzel Bank H1–H11, Spectral Moments & Energy   │
-│   • Half-Cycle Sliding RMS (10 ms window) for IEEE 1159 Interruption vs Sag detection  │
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                                            ▼
+│   • Track A (8 Features): RMS, Peak, Crest Factor, Goertzel THD, Freq, SNR             │
+│   • Track B (32 Features): Goertzel Bank H1–H11 + Spectral Moments, Entropy           │
+│   • Half-Cycle Sliding RMS (10 ms window) — IEEE 1159 Interruption vs Sag             │
+└──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                           │
+                                           ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        ON-DEVICE EMBEDDED INFERENCE ENGINE                             │
+│                    THREE-PHASE EVENT ENGINE (dsp/event_engine.py)                      │
 │                                                                                        │
-│   • Zero-Dependency C++ Forward Pass (firmware/src/model_weights_32.h)                 │
-│   • 32-Feature Compact MLP (32 -> 64 -> 32 -> 8, FP32 footprint: 17.28 KB)             │
-│   • Inference Latency: 325.7 µs | Safety Gate: Flag UNCERTAIN if confidence < 60%      │
-└───────────────────────────────────────────┬────────────────────────────────────────────┘
-                                            │
-                    ┌───────────────────────┴───────────────────────┐
-                    ▼                                               ▼
-┌───────────────────────────────────────┐       ┌───────────────────────────────────────┐
-│         LOCAL FIRMWARE OUTPUT         │       │          REMOTE TELEMETRY & UI        │
-│                                       │       │                                       │
-│ • OLED Display (SSD1306)              │       │ • Python Streamlit Dashboard (:8501)  │
-│ • 115200 Baud Serial Telemetry CSV    │       │ • Interactive Web CRT Oscilloscope    │
-│ • Hardware Relay Test Rig Control     │       │ • Firebase Firestore Event Logging    │
-└───────────────────────────────────────┘       └───────────────────────────────────────┘
+│   • Per-phase ThreePhaseEventEngine — state machine tracks L1/L2/L3 lifecycle          │
+│   • Cross-phase correlation — merges simultaneous multi-phase disturbances              │
+│   • PQEvent emitted on state transition (Normal→Disturbance→Normal)                    │
+│   • UNCERTAIN gate: confidence < 60% → escalated review flag                           │
+└──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                           │
+                 ┌─────────────────────────┴──────────────────────────┐
+                 ▼                                                     ▼
+┌─────────────────────────────────┐              ┌────────────────────────────────────────┐
+│  PERSISTENCE (storage/event_    │              │   REST API (server.py :8500)           │
+│  store.py — SQLite embedded)    │              │                                        │
+│                                 │              │   GET  /api/health                     │
+│  • save_event(PQEvent)          │              │   GET  /api/events?event_class=Sag     │
+│  • query_events(class, phase)   │              │   GET  /api/events/<id>                │
+│  • get_event_stats()            │              │   GET  /api/events/stats               │
+│                                 │              │   GET  /api/telemetry                  │
+│                                 │              │   POST /api/ingest (WaveformFrame)     │
+│                                 │              │   POST /api/simulation/disturbance     │
+└─────────────────────────────────┘              └────────────────────────────────────────┘
+                                                                │
+                                                                ▼
+                                              ┌────────────────────────────────────────┐
+                                              │  LIVE DASHBOARD (web/index.html)       │
+                                              │  • 3-Phase Grid Bus Bar (L1/L2/L3)     │
+                                              │  • CRT Oscilloscope & FFT Spectrum     │
+                                              │  • Disturbance injection controls      │
+                                              │  • Real-time event log & stats         │
+                                              └────────────────────────────────────────┘
 ```
 
 ---
@@ -54,7 +70,7 @@ For in-depth architectural proofs, mathematical derivations, empirical validatio
 
 | Document | Primary Focus & Coverage |
 |---|---|
-| 📖 [**`docs/PROJECT_STATE.md`**](docs/PROJECT_STATE.md) | Verified commit status, full 43-test suite breakdown, architectural diagrams, model benchmarks, and hardware constraints. |
+| 📖 [**`docs/PROJECT_STATE.md`**](docs/PROJECT_STATE.md) | Verified commit status, full **58-test suite** breakdown, 3-phase pipeline architecture, model benchmarks, and hardware constraints. |
 | 🔬 [**`docs/DATASET_AUDIT.md`**](docs/DATASET_AUDIT.md) | Empirical audit of the 10,000-sample dataset: class imbalance ($7.83:1$), near-duplicate analysis, and synthetic artifact disclosures. |
 | 🔒 [**`docs/DATASET_SPECIFICATION.md`**](docs/DATASET_SPECIFICATION.md) | Frozen v1.0 dataset specification with SHA-256 integrity checksums, partition criteria, and frozen 70/15/15 train/val/test splits. |
 | ⚖️ [**`docs/IEEE_ALIGNMENT_AUDIT.md`**](docs/IEEE_ALIGNMENT_AUDIT.md) | Standards compliance audit mapping repository parameters against IEEE 1159-2019, IEEE 519-2022, and IEC 61000-4-30. |
@@ -138,7 +154,14 @@ power-quality-detector-and-classifier/
 │   ├── baseline_features.py            # Preserved 8-feature Goertzel extraction engine
 │   ├── enhanced_features.py            # 47-feature extended spectral, moment & entropy engine
 │   ├── standards_detector.py           # IEEE 1159 half-cycle sliding RMS & FFT detector
+│   ├── waveform_frame.py               # Canonical 3-phase WaveformFrame (L1/L2/L3, validation, JSON I/O)
+│   ├── acquisition_adapter.py          # AcquisitionAdapter, SimulationAdapter, CSVReplayAdapter
+│   ├── event_engine.py                 # ThreePhaseEventEngine, PhaseMeasurement, PQEvent state machine
 │   └── waveform_generator.py           # IEEE 1159.3 compliant 5 kHz synthetic waveform generator
+├── pipeline/
+│   └── realtime_pipeline.py            # Continuous streaming pipeline (adapter→engine→store→callbacks)
+├── storage/
+│   └── event_store.py                  # SQLite EventStore with phase/class querying and statistics
 ├── docs/                               # Comprehensive research audits & technical specifications
 │   ├── PROJECT_STATE.md                # System baseline, commit status & test logs
 │   ├── DATASET_AUDIT.md                # 10,000-sample dataset audit & artifact analysis
@@ -168,7 +191,13 @@ power-quality-detector-and-classifier/
 ├── tests/
 │   ├── test_classification_rules.py    # 11 tests: IEEE interruption, THD & boundaries
 │   ├── test_waveform_acceptance.py     # 26 tests: IEEE 1159.3 metadata, Nyquist & buffers
-│   ├── test_firmware_parity.py         # 5 tests: Python <-> C++ exact floating-point parity
+│   ├── test_firmware_parity.py         # 6 tests: Python <-> C++ exact floating-point parity
+│   ├── test_waveform_frame.py          # 3 tests: 3-phase frame validation & JSON roundtrip
+│   ├── test_acquisition_adapter.py     # 2 tests: Simulation adapter & CSV replay
+│   ├── test_event_engine.py            # 2 tests: 3-phase event lifecycle & cross-phase correlation
+│   ├── test_event_store.py             # 2 tests: SQLite persistence, querying & statistics
+│   ├── test_realtime_pipeline.py       # 2 tests: Streaming pipeline normal & disturbance
+│   ├── test_server_endpoints.py        # 3 tests: REST API health, events, /api/ingest
 │   └── test_dsp_features.py            # 1 test: Baseline feature preservation
 ├── app_frontend.py                     # Streamlit + Plotly interactive monitoring dashboard
 └── server.py                           # REST API & HTML5 CRT Oscilloscope frontend
@@ -191,19 +220,38 @@ pip install -r requirements.txt  # or install numpy scipy pandas scikit-learn to
 
 ### 2. Run Comprehensive Automated Test Suite
 
-Verify that all **43 physical, standards, firmware parity, and waveform acceptance tests** pass:
+Verify that all **58 tests** pass (physical, standards, 3-phase pipeline, firmware parity, REST API):
 ```bash
-pytest tests/ -v
+.venv/bin/pytest tests/ -v
 ```
-Expected output: `43 passed in ~2.5s`
+Expected output: `58 passed in ~3.9s`
 
-### 3. Launch Interactive Streamlit Dashboard
+### 3. Launch the REST API + CRT Oscilloscope Dashboard
 
-Inspect real-time waveforms, DSP spectral decomposition, and model decisions:
+```bash
+python server.py
+```
+Navigate to `http://localhost:8500` for the live HTML5 CRT Oscilloscope dashboard.
+
+**Available REST endpoints:**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | System health and engine status |
+| `GET` | `/api/events` | Query persisted PQ events (`?event_class=Sag&phase=L1&limit=50`) |
+| `GET` | `/api/events/<id>` | Retrieve single PQEvent by ID |
+| `GET` | `/api/events/stats` | Aggregate statistics by class and phase |
+| `GET` | `/api/telemetry` | Live pipeline telemetry (frames processed, active events) |
+| `POST` | `/api/ingest` | Ingest a canonical `WaveformFrame` JSON payload |
+| `POST` | `/api/simulation/disturbance` | Dynamically control per-phase disturbance injection (`{phase, disturbance}`) |
+| `POST` | `/api/predict` | Single-shot 8-feature MLP inference |
+
+### 4. Launch Interactive Streamlit Dashboard (Optional)
+
+For advanced analytics, DSP spectral decomposition, and model decision visualization:
 ```bash
 streamlit run app_frontend.py --server.port 8501
 ```
-Navigate to `http://localhost:8501` to view both the **Desktop Analytics View** and the **Mobile Simulator View**.
 
 ### 4. Native C++ Parity Test Compilation
 
