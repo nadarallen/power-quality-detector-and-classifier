@@ -1,6 +1,6 @@
 # Project State & Architectural Baseline
 
-**Current Git Commit:** `7b00e60`  
+**Current Git Commit:** `173d0ed`  
 **Branch:** `main`  
 **Working Tree:** Clean  
 **Date of State Inspection:** 2026-09-20  
