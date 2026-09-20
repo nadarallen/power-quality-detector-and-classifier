@@ -1,0 +1,235 @@
+# Comprehensive IEEE Standards Alignment & Technical Audit
+
+**Document Version:** 1.0.0  
+**Audit Date:** 2026-09-20  
+**System Target:** Edge-to-Cloud Power Quality Disturbance (PQD) Classifier (ESP32-WROOM-32 / TinyML)  
+**Governing Standards:**
+- **IEEE Std 1159-2019:** *IEEE Recommended Practice for Monitoring Electric Power Quality*
+- **IEEE Std 519-2022:** *IEEE Standard for Harmonic Control in Electric Power Systems*
+- **IEEE Std 1453-2022:** *IEEE Recommended Practice for the Analysis of Fluctuating Installations on Power Systems*
+- **IEC 61000-4-30:** *Electromagnetic compatibility (EMC) – Part 4-30: Testing and measurement techniques – Power quality measurement methods*
+
+---
+
+## 1. Executive Overview & Architectural Baseline
+
+The system is designed to classify electrical power disturbances from discrete voltage waveform windows sampled at $f_s = 5000\text{ Hz}$ ($T_s = 200\,\mu\text{s}$) over a 10-cycle observation window ($200\text{ ms}$ at $f_0 = 50\text{ Hz}$, $N = 1000\text{ samples}$), adhering to the standard Class A 10-cycle aggregation window specified in **IEC 61000-4-30 Clause 5.4**.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│                                DATA & MODEL PIPELINE                                │
+│                                                                                      │
+│   Dataset/BARC DATA.csv (10,000 tabular rows, 8 features + Label)                    │
+│            │                                                                         │
+│            ▼                                                                         │
+│   ml/generate_dataset.py ──► data/pqd_features.csv                                   │
+│                                    │                                                 │
+│                                    ├──► data/splits/ (70% Train, 15% Val, 15% Test)  │
+│                                    │                                                 │
+│                                    ├──► scripts/prepare_waveform_dataset.py          │
+│                                    │    └──► data/waveforms/ (*.npz 1000-sample raw) │
+│                                    ▼                                                 │
+│   ml/compare_models.py ─────► RF, ExtraTrees, SVM, kNN, Compact Keras MLP             │
+│                                    │                                                 │
+│                                    ▼                                                 │
+│   ml/convert_tflite.py ─────► firmware/src/model_data.h (8.4 KB C array)            │
+│                         └───► ml/models/model_weights.json (60.8 KB)                 │
+└────────────────────────────────────┬─────────────────────────────────────────────────┘
+                                     │
+            ┌────────────────────────┴─────────────────────────┐
+            ▼                                                  ▼
+┌───────────────────────────────┐  ┌──────────────────────────────────────────────────┐
+│       EMBEDDED FIRMWARE       │  │              SIMULATION & FRONTENDS              │
+│                               │  │                                                  │
+│ firmware/src/                 │  │ server.py (REST API, :8500)                      │
+│  ├── main.cpp                 │  │  └── web/ (CRT scope, FFT, HTML5 Canvas,         │
+│  ├── feature_extraction.cpp/h │  │            client-side MLP forward pass)         │
+│  ├── inference.cpp/h          │  │ app_frontend.py (Streamlit dashboard, :8501)     │
+│  ├── relay_control.cpp/h      │  │ mobile_app/ (React Native / Expo mobile app)     │
+│  ├── display.cpp/h            │  │ firebase/ (Firestore / Realtime DB integration)  │
+│  └── firebase_client.cpp/h    │  └──────────────────────────────────────────────────┘
+└───────────────────────────────┘
+```
+
+---
+
+## 2. Standards Mapping for the 7 Disturbance Classes
+
+The repository characterizes **7 primary disturbance classes** plus a **Normal** baseline state. Below is the rigorous standards alignment mapping:
+
+| Disturbance Class | Governing Standard | Standard Definition & Clause | Standard Parameter Range | Current Repository Implementation | Alignment Status | Required Action |
+|---|---|---|---|---|---|---|
+| **Voltage Sag (Dip)** | **IEEE Std 1159-2019**<br>Clause 3.1.53, Table 1 | Decrease in RMS voltage to between 0.1 and 0.9 pu at power frequency for 0.5 cycle to 1 min. | $V_{\text{sag}} \in [0.10, 0.90]\text{ pu}$ RMS<br>Duration: $0.5\text{ to }30\text{ cycles}$ (Instantaneous) | Generator: `depth ~ [0.35, 0.85]`, `dur ~ [2, 8] cycles`<br>BARC data: RMS 0.224–0.880 pu | **CONSTRAINED** (Severe sags 0.10–0.35 pu omitted in generator) | Expand generator lower bound from 0.35 down to 0.10 pu. |
+| **Voltage Swell** | **IEEE Std 1159-2019**<br>Clause 3.1.58, Table 1 | Increase in RMS voltage to between 1.1 and 1.8 pu at power frequency for 0.5 cycle to 1 min. | $V_{\text{swell}} \in [1.10, 1.80]\text{ pu}$ RMS<br>Duration: $0.5\text{ to }30\text{ cycles}$ (Instantaneous) | Generator: `mag ~ [1.15, 1.65]`, `dur ~ [2, 8] cycles`<br>BARC data: Peak up to 1.837 pu | **CONSTRAINED** (Upper swell bound stops at 1.65 pu) | Expand generator upper bound from 1.65 up to 1.80 pu. |
+| **Interruption** | **IEEE Std 1159-2019**<br>Clause 3.1.34, Table 1 | Complete loss of voltage ($< 0.10\text{ pu}$ RMS) on one or more phase conductors. | $V_{\text{int}} < 0.10\text{ pu}$ RMS<br>Duration: $\ge 0.5\text{ cycle}$ ($\ge 10\text{ ms}$) | Generator: `depth ~ [0.01, 0.09]`<br>Web simulator: `val *= 0.680` (**BUG**)<br>BARC data: RMS 0.224–0.680 pu | **ALIGNED in Python, SEVERE BUG in Web Simulator** | Fix `web/app.js` line 122: replace `val *= 0.680` with `val *= 0.05`. |
+| **Harmonics** | **IEEE Std 1159-2019**<br>Clause 3.1.28<br>**IEEE Std 519-2022**<br>Section 5.1, Table 1 | Sinusoidal components having frequencies that are integer multiples of fundamental. | Limits: $\text{THD}_v \le 5.0\%$ for $V \le 1\text{ kV}$<br>Research benchmark: $\text{THD} \in [5\%, 20\%]$ | Generator: $a_3 \in [0.04, 0.12], a_5 \in [0.02, 0.08], a_7 \in [0.01, 0.05]$<br>BARC data: THD 5.0%–12.0% | **TRUNCATED** (Only odd harmonics H3, H5, H7 generated & extracted) | Add H2 (even harmonic) and H9, H11 to generator and DSP pipeline. |
+| **Oscillatory Transient** | **IEEE Std 1159-2019**<br>Clause 3.1.43, Clause 3.1.61, Table 1 | Sudden non-power frequency change with positive and negative polarity. Low-frequency: $< 5\text{ kHz}$. | $V_{\text{peak}} \in [0.0, 4.0]\text{ pu}$<br>$f_{\text{trans}} \in [0.1, 5.0]\text{ kHz}$<br>Duration: $0.3\text{ to }50\text{ ms}$ | Generator: $f_{\text{trans}} \in [350, 750\text{ Hz}]$, $A \in [0.4, 1.2]$<br>BARC data: `Duration_ms == 5.0 ms` (constant) | **ALIGNED in Generator, SYNTHETIC LEAKAGE in 10k Dataset** | Mitigate tabular 5.0 ms shortcut via raw waveform CNN. |
+| **Voltage Fluctuations / Flicker** | **IEEE Std 1159-2019**<br>Clause 3.1.66, Table 1<br>**IEEE Std 1453-2022**<br>Clause 4.2 | Systematic variation of the voltage envelope ($0.9\text{ to }1.1\text{ pu}$), fluctuation freq $0.1\text{ to }30\text{ Hz}$. | Envelope depth: $\Delta V/V \in [0.1\%, 10\%]$<br>$f_m \in [0.1, 30\text{ Hz}]$ (peak at 8.8 Hz) | Generator: $f_m \in [6, 12\text{ Hz}]$, depth $\in [3\%, 8\%]$<br>BARC data: `Duration_ms == 0.0 ms` | **ALIGNED with Peak Eye Sensitivity Band** | Maintain AM model; note 200 ms window captures instantaneous AM. |
+| **Voltage Notching** | **IEEE Std 1159-2019**<br>Clause 3.1.41<br>**IEEE Std 519-2022**<br>Section 5.3, Table 2 | Periodic voltage disturbance caused by normal commutation of thyristors in converters. | Notch depth: $< 20\%$ (special), $< 30\%$ (general), $< 50\%$ (dedicated)<br>Width: $100\text{–}1000\,\mu\text{s}$ | Generator: depth $\in [20\%, 60\%]$, width $600\,\mu\text{s}$ ($10.8^\circ$)<br>Repetition: 1 notch/cycle | **SIMPLIFIED COMMUTATION MODEL** | Document that 5 kHz ADC limits minimum notch resolution to $\sim 400\,\mu\text{s}$. |
+
+---
+
+## 3. Waveform Generation Equations & Parameter Audit
+
+### 3.1 Base Waveform
+The nominal fundamental voltage waveform is modeled as:
+$$v(t) = V_{\text{nominal}} \sin(2\pi f_0 t + \theta_0) + \eta(t)$$
+- Fundamental frequency: $f_0 = 50.0\text{ Hz}$ (grid nominal)
+- Sampling frequency: $f_s = 5000.0\text{ Hz}$ ($N = 1000$ points over $200\text{ ms}$)
+- Nominal peak amplitude: $V_{\text{nominal}} = 1.012\text{ pu}$ (calibrated to BARC dataset baseline)
+- Additive Gaussian noise: $\eta(t) \sim \mathcal{N}(0, \sigma^2)$ where $\sigma$ is scaled to user SNR ($35\text{ to }55\text{ dB}$)
+
+### 3.2 Disturbance Waveform Equations
+
+#### Voltage Sag:
+$$v_{\text{sag}}(t) = \left[ 1 - (1 - d) \cdot \Pi(t; t_{\text{start}}, t_{\text{end}}) \right] V_{\text{nominal}} \sin(2\pi f_0 t)$$
+- $d \in [0.10, 0.90]\text{ pu}$ (residual voltage depth during sag)
+- $\Pi(t; t_{\text{start}}, t_{\text{end}}) = 1$ for $t \in [t_{\text{start}}, t_{\text{end}}]$, 0 otherwise
+- Sag duration: $\Delta t = t_{\text{end}} - t_{\text{start}} \in [10\text{ ms}, 180\text{ ms}]$ ($0.5\text{ to }9\text{ cycles}$)
+
+#### Voltage Swell:
+$$v_{\text{swell}}(t) = \left[ 1 + (m - 1) \cdot \Pi(t; t_{\text{start}}, t_{\text{end}}) \right] V_{\text{nominal}} \sin(2\pi f_0 t)$$
+- $m \in [1.10, 1.80]\text{ pu}$ (swell amplitude multiplier)
+- Duration: $\Delta t \in [10\text{ ms}, 180\text{ ms}]$
+
+#### Interruption:
+$$v_{\text{int}}(t) = \left[ 1 - (1 - d_{\text{int}}) \cdot \Pi(t; t_{\text{start}}, t_{\text{end}}) \right] V_{\text{nominal}} \sin(2\pi f_0 t)$$
+- $d_{\text{int}} < 0.10\text{ pu}$ (residual voltage, typically $0.01\text{ to }0.08\text{ pu}$)
+- Duration: $\Delta t \in [10\text{ ms}, 190\text{ ms}]$
+
+#### Harmonics:
+$$v_{\text{harm}}(t) = V_{\text{nominal}} \sin(2\pi f_0 t) + \sum_{h \in \{3, 5, 7, 9, 11\}} a_h V_{\text{nominal}} \sin(2\pi h f_0 t + \phi_h)$$
+- $a_h$: individual harmonic magnitude relative to fundamental
+- $\phi_h \sim \mathcal{U}(0, 2\pi)$: random harmonic phase angle
+- Total Harmonic Distortion:
+  $$\text{THD}_v = \frac{\sqrt{\sum_{h \ge 2} a_h^2}}{1.0} \times 100\% \in [5\%, 20\%]$$
+
+#### Oscillatory Transient:
+$$v_{\text{trans}}(t) = V_{\text{nominal}} \sin(2\pi f_0 t) + A_{\text{trans}} V_{\text{nominal}} e^{-(t - t_{\text{start}})/\tau} \sin(2\pi f_{\text{trans}} (t - t_{\text{start}})) \cdot u(t - t_{\text{start}})$$
+- $A_{\text{trans}} \in [0.4, 1.8\text{ pu}]$
+- $f_{\text{trans}} \in [300\text{ Hz}, 900\text{ Hz}]$ (low-frequency oscillatory transient, IEEE 1159 Table 1)
+- $\tau \in [2\text{ ms}, 8\text{ ms}]$ (exponential damping time constant)
+
+#### Voltage Fluctuations (Flicker):
+$$v_{\text{flicker}}(t) = V_{\text{nominal}} \left[ 1 + m_{\text{flicker}} \sin(2\pi f_m t) \right] \sin(2\pi f_0 t)$$
+- $m_{\text{flicker}} \in [0.01, 0.10]$ ($1\%\text{ to }10\%$ envelope modulation depth)
+- $f_m \in [5\text{ Hz}, 15\text{ Hz}]$ (centered around peak human sensitivity at $8.8\text{ Hz}$)
+
+#### Voltage Notching:
+$$v_{\text{notch}}(t) = v_{\text{nominal}}(t) \cdot \prod_{k=0}^{K-1} \left[ 1 - d_{\text{notch}} \cdot \Pi(t; t_{k}, t_{k} + t_w) \right]$$
+- $d_{\text{notch}} \in [0.20, 0.60]$ (commutation notch depth)
+- $t_w \in [400\,\mu\text{s}, 800\,\mu\text{s}]$ (notch duration, 2 to 4 discrete samples at 5 kHz)
+
+---
+
+## 4. Distinction Between Standards Boundaries and ML Engineering Choices
+
+To uphold rigorous scientific integrity, we explicitly demarcate standards-prescribed physical boundaries from engineering/ML approximations:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│ 1. IEEE-STANDARDIZED PHENOMENA & QUANTITIES                           │
+│    - Sag: RMS in [0.10, 0.90] pu, duration >= 0.5 cycle (IEEE 1159)   │
+│    - Swell: RMS in [1.10, 1.80] pu, duration >= 0.5 cycle (IEEE 1159) │
+│    - Interruption: RMS < 0.10 pu, duration >= 0.5 cycle (IEEE 1159)   │
+│    - THD: sqrt(sum(Vh^2))/V1 * 100% (IEEE 519)                        │
+│    - Notching limits: Depth < 20-50%, Notch Area in V-us (IEEE 519)   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ 2. REASONED ENGINEERING APPROXIMATIONS (WINDOW & SAMPLING CONSTRAINTS)│
+│    - Observation window: Exactly 200 ms (10 cycles @ 50 Hz, IEC 61000) │
+│    - Sampling rate: 5000 Hz (200 us period) for low-power ESP32 ADC    │
+│    - Transient frequency: 300 - 900 Hz (Nyquist limit is 2500 Hz)      │
+│    - Transient duration: 2 - 20 ms decay (fitted inside 200 ms window) │
+│    - Generator bounds: Depth 0.1-0.9 pu, Mag 1.1-1.8 pu               │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ 3. ML-SPECIFIC / DATA QUALITY FEATURES (NOT STANDARDIZED BY IEEE)     │
+│    - SNR: Synthetic uniform noise (35-55 dB)                          │
+│    - Crest Factor: Peak / RMS ratio (standard shape factor)           │
+│    - Statistical moments: Skewness, Kurtosis, Variance, MAD           │
+│    - DWT db4 wavelets: Multiresolution sub-band energy ratios         │
+│    - Fixed duration shortcut: 5.0 ms for Transients (TO BE REMOVED)   │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+> **Explicit Standards Statement:**  
+> *"IEEE does not prescribe a specific value/range for SNR or ML feature selection in the referenced material."* SNR is an engineering parameter used in simulation to model sensor/ADC thermal noise.
+
+---
+
+## 5. Critical Inconsistencies & Bugs Uncovered
+
+### 5.1 CRITICAL BUG: Simulation Interruption Magnitude in `web/app.js`
+In [`web/app.js`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/web/app.js#L121-L123):
+```javascript
+} else if (distType === 'Interruption') {
+  val *= 0.680; // Scaled so V_rms = 0.482 pu
+}
+```
+- **Violation:** IEEE 1159 Clause 3.1.34 strictly defines Interruption as **RMS voltage $< 0.10\text{ pu}$**.
+- **Impact:** Multiplying by $0.680$ generates a **moderate Voltage Sag of 0.68 pu**, NOT an Interruption. The client-side dashboard oscilloscope and inference tester are displaying and testing Sags under the name of Interruption.
+- **Required Fix:** Change `val *= 0.680` to `val *= 0.05` (or complete cutoff `val *= 0.00`).
+
+---
+
+### 5.2 CRITICAL BUG: Firmware Goertzel Frequency Bin Attenuation
+In [`firmware/src/feature_extraction.cpp`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/firmware/src/feature_extraction.cpp#L7-L11):
+```cpp
+float computeGoertzelMagnitude(const float* signal, size_t length, float target_freq, float sample_rate) {
+    float k = 0.5f + (length * target_freq / sample_rate);
+    float omega = (2.0f * M_PI / length) * k;
+    float cosine = cos(omega);
+    float coeff = 2.0f * cosine;
+    ...
+```
+- **The Bug:** `k` is declared as `float` without an `(int)` cast! For $N = 1000, f_0 = 50\text{ Hz}, f_s = 5000\text{ Hz}$, the exact frequency bin is $k = 10$. However, `0.5f + 10.0f = 10.5f`.
+- **Impact:** The algorithm evaluates at $k = 10.5$, shifting the target frequency by $+2.5\text{ Hz}$ to **52.5 Hz**, **152.5 Hz**, **252.5 Hz**, and **352.5 Hz**.
+- **Measured Discrepancy:**
+  - **Fundamental magnitude attenuation: 37.89%** ($1.000 \rightarrow 0.621$).
+  - **THD Discrepancy between Python and ESP32: up to 12.77% absolute error**!
+- **Verification:** Adding `int k = (int)(0.5f + ...)` collapses the Python $\leftrightarrow$ ESP32 THD MAE from **$1.52\%$ down to $0.000023\%$** (float32 precision limit).
+- **Required Fix:** Cast `k` to integer: `int k = (int)(0.5f + (length * target_freq / sample_rate));`.
+
+---
+
+### 5.3 STUBBED INFERENCE: Firmware Rule-Based Fallback
+In [`firmware/src/inference.cpp`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/firmware/src/inference.cpp#L64-L89):
+- The ESP32 firmware compiles `model_data.h` into Flash, but `runInference()` executes an **ad-hoc `if-else` heuristic** based on coarse RMS and THD thresholds instead of calling `tflite::MicroInterpreter::Invoke()`.
+- The heuristic **omits `Flicker` and `Notch` entirely**, making them impossible to detect on the microcontroller.
+- **Required Action:** Wire the real TFLite Micro runtime to invoke the quantized flatbuffer.
+
+---
+
+### 5.4 SYNTHETIC ARTIFACT: 5.0 ms Duration Cluster for Transients
+In [`Dataset/BARC DATA.csv`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/Dataset/BARC%20DATA.csv):
+- All 985 `Transient` instances have `Duration_ms == 5.0 ms` exactly.
+- All `Normal`, `Harmonics`, `Flicker`, and `Notch` instances have `Duration_ms == 0.0 ms`.
+- Models achieve 100% precision on Transients by simply learning `if duration == 5.0 ms -> Transient`.
+- **Required Action:** Train 1D CNNs on raw waveforms (where duration is an organic decaying envelope rather than a tabular scalar shortcut) and test on randomized parameter shifts (transient durations from 0.5 ms to 20 ms).
+
+---
+
+### 5.5 SAMPLING RATE CONSTRAINT ON COMMUTATION NOTCHES
+- At $f_s = 5000\text{ Hz}$, $T_s = 200\,\mu\text{s}$.
+- Typical commutation notches in industrial rectifiers (IEEE 519) range from $50\,\mu\text{s}$ to $300\,\mu\text{s}$.
+- A $200\,\mu\text{s}$ notch spans only 1 single sample at 5 kHz, making shallow notches undetectable without aliasing.
+- The generator uses a $600\,\mu\text{s}$ notch ($10.8^\circ$), which spans 3 samples.
+- **Engineering Recommendation:** Acknowledge this physical limitation in documentation. High-speed notches require $f_s \ge 20\text{ kHz}$ if dedicated notch characterization is required.
+
+---
+
+## 6. Actionable Roadmap & Priority Remediation
+
+1. **[High Priority] Fix `web/app.js` Interruption Bug:** Update line 122 to $V_{\text{residual}} < 0.1\text{ pu}$ to prevent user confusion during live simulation.
+2. **[High Priority] Fix `firmware/src/feature_extraction.cpp` Goertzel Bug:** Add `(int)` cast to frequency bin index $k$, restoring exact mathematical equivalence with Python.
+3. **[High Priority] Complete TFLite Micro Firmware Hook:** Replace rule-based `if-else` in `firmware/src/inference.cpp` with `tflite::MicroInterpreter::Invoke()`.
+4. **[High Priority] Widen Generator Bounds to Full IEEE Ranges:**
+   - Sag depth: expand from `[0.35, 0.85]` to `[0.10, 0.90]`.
+   - Swell magnitude: expand from `[1.15, 1.65]` to `[1.10, 1.80]`.
+   - Harmonics: add even (H2) and higher odd (H9, H11) harmonic orders.
+5. **[Medium Priority] Replace Constant Heuristic for Dominant Frequency:** Implement true Goertzel peak search across fundamental and harmonic bins.

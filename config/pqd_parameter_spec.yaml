@@ -1,0 +1,306 @@
+# ==============================================================================
+# Power Quality Disturbance (PQD) Parameter Specification
+# ==============================================================================
+# Traceability & Verification Mapping to IEEE Standards:
+# - IEEE Std 1159-2019: IEEE Recommended Practice for Monitoring Electric Power Quality
+# - IEEE Std 519-2022:  IEEE Standard for Harmonic Control in Electric Power Systems
+# - IEEE Std 1453-2022: IEEE Recommended Practice for the Analysis of Fluctuating Installations
+# - IEC 61000-4-30:     Electromagnetic compatibility (EMC) - Testing and measurement techniques
+# ==============================================================================
+
+version: "1.0.0"
+system_nominal:
+  frequency_hz: 50.0
+  frequency_tolerance_hz: 0.5   # +/- 1.0% (EN 50160 / IEEE 1159)
+  nominal_voltage_pu: 1.000
+  observation_window_ms: 200.0   # 10 cycles @ 50 Hz (IEC 61000-4-30 standard aggregation window)
+  sampling_rate_hz: 5000.0       # 200 us period, 1000 samples/window
+
+# ------------------------------------------------------------------------------
+# BASELINE PHENOMENON: Normal (Steady-State Operation)
+# ------------------------------------------------------------------------------
+normal:
+  phenomenon: "Steady-state fundamental grid voltage within permissible operating limits"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1 & Clause 4.2"
+    - standard: "ANSI C84.1"
+      table: "Table 1 (Range A)"
+  parameters:
+    rms_voltage_pu:
+      unit: "pu"
+      ieee_standard_range: [0.95, 1.05] # Range A service voltage
+      generator_current_range: [0.707, 0.720] # Note: unnormalized RMS in BARC is ~1/sqrt(2) = 0.708 pu
+      status: "CALIBRATED_TO_SYSTEM_RMS"
+      notes: "In BARC dataset, nominal peak is 1.012 pu, resulting in baseline RMS of ~0.708 pu."
+    thd_percent:
+      unit: "%"
+      ieee_standard_range: [0.0, 5.0] # IEEE 519 Table 1 for systems <= 1.0 kV
+      generator_current_range: [0.0, 1.0]
+      status: "ALIGNED"
+    snr_db:
+      unit: "dB"
+      ieee_standard_range: "IEEE does not prescribe a specific value/range for this parameter in the referenced material."
+      engineering_range: [35.0, 55.0]
+      status: "ENGINEERING_DERIVED"
+
+# ------------------------------------------------------------------------------
+# DISTURBANCE CLASS 1: Voltage Sag (Dip)
+# ------------------------------------------------------------------------------
+sag:
+  phenomenon: "Decrease in RMS voltage at the power frequency for durations from 0.5 cycle to 1 min"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1.53, Table 1"
+      table: "Table 1 - Categories and characteristics of power quality phenomena"
+    - standard: "IEC 61000-4-30"
+      clause: "Clause 5.4"
+  parameters:
+    magnitude_pu:
+      unit: "pu RMS"
+      ieee_standard_range: [0.10, 0.90] # IEEE 1159 Table 1
+      generator_current_range: [0.35, 0.85] # Current dsp/waveform_generator.py
+      dataset_barc_range: [0.224, 0.880]
+      status: "CONSTRAINED"
+      notes: "Current generator omits severe sags between 0.10 and 0.35 pu. Range should be widened to [0.10, 0.90]."
+    duration:
+      unit: "cycles / ms"
+      ieee_standard_range:
+        instantaneous: "0.5 to 30 cycles (10 ms to 600 ms @ 50 Hz)"
+        momentary: "30 cycles to 3 seconds"
+        temporary: "3 seconds to 1 minute"
+      window_constrained_range_ms: [10.0, 180.0] # Limited by 200 ms buffer
+      generator_current_range_ms: [40.0, 160.0]  # 2.0 to 8.0 cycles
+      dataset_barc_range_ms: [20.0, 179.4]
+      status: "ALIGNED_WITHIN_WINDOW"
+
+# ------------------------------------------------------------------------------
+# DISTURBANCE CLASS 2: Voltage Swell
+# ------------------------------------------------------------------------------
+swell:
+  phenomenon: "Increase in RMS voltage at the power frequency for durations from 0.5 cycle to 1 min"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1.58, Table 1"
+      table: "Table 1 - Categories and characteristics of power quality phenomena"
+  parameters:
+    magnitude_pu:
+      unit: "pu RMS"
+      ieee_standard_range: [1.10, 1.80] # IEEE 1159 Table 1 (Instantaneous: 1.1 - 1.8 pu)
+      generator_current_range: [1.15, 1.65]
+      dataset_barc_range: [1.100, 1.837] # Peak voltage reaches 1.837 pu
+      status: "CONSTRAINED"
+      notes: "Upper bound in generator (1.65) should be extended to 1.80 pu to match IEEE 1159 Table 1."
+    duration:
+      unit: "cycles / ms"
+      ieee_standard_range: "0.5 cycle to 1 minute (Instantaneous: 0.5 - 30 cycles)"
+      window_constrained_range_ms: [10.0, 180.0]
+      generator_current_range_ms: [40.0, 160.0]
+      dataset_barc_range_ms: [20.0, 179.4]
+      status: "ALIGNED_WITHIN_WINDOW"
+
+# ------------------------------------------------------------------------------
+# DISTURBANCE CLASS 3: Voltage Interruption
+# ------------------------------------------------------------------------------
+interruption:
+  phenomenon: "Complete loss of voltage (< 0.1 pu) on one or more phase conductors"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1.34, Table 1"
+      table: "Table 1 - Categories and characteristics of power quality phenomena"
+    - standard: "IEEE Std 1250 / IEEE Std 1366"
+      clause: "Reliability terminology"
+  parameters:
+    magnitude_pu:
+      unit: "pu RMS"
+      ieee_standard_range: [0.00, 0.10] # IEEE 1159: strictly < 0.1 pu
+      generator_current_range: [0.01, 0.09] # dsp/waveform_generator.py
+      simulator_web_app_value: 0.680         # CRITICAL BUG: web/app.js used 0.68 pu (Sag!)
+      dataset_barc_range: [0.224, 0.680]     # Measured overall 200ms RMS due to partial-window interruption
+      status: "STANDARDS_ALIGNED_IN_GENERATOR_BUT_BUGGY_IN_WEB_SIMULATOR"
+      notes: "Interruption residual voltage must be < 0.10 pu. The web/app.js simulator value of 0.680 must be corrected."
+    duration:
+      unit: "cycles / ms"
+      ieee_standard_range:
+        instantaneous: "0.5 to 30 cycles"
+        momentary: "30 cycles to 3 seconds"
+        temporary: "3 seconds to 1 minute"
+        sustained: "> 1 minute"
+      window_constrained_range_ms: [10.0, 190.0]
+      generator_current_range_ms: [60.0, 170.0] # 3.0 to 8.5 cycles
+      dataset_barc_range_ms: [20.0, 179.4]
+      status: "ALIGNED_WITHIN_WINDOW"
+
+# ------------------------------------------------------------------------------
+# DISTURBANCE CLASS 4: Harmonics
+# ------------------------------------------------------------------------------
+harmonics:
+  phenomenon: "Sinusoidal voltages or currents having frequencies that are integer multiples of fundamental frequency"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1.28, Table 1"
+    - standard: "IEEE Std 519-2022"
+      clause: "Section 3.1, Section 5.1, Table 1"
+      table: "Table 1 - Voltage distortion limits"
+  parameters:
+    thd_percent:
+      unit: "%"
+      ieee_limit_grid_compliance: [0.0, 5.0] # IEEE 519 limit for V <= 1.0 kV
+      synthetic_disturbance_range: [5.0, 20.0] # Disturbance classification research benchmark
+      generator_current_range: [5.0, 18.0]
+      dataset_barc_range: [5.0, 12.0]
+      status: "RESEARCH_DISTURBANCE_BENCHMARK"
+      notes: "IEEE 519 defines 5% as upper limit of acceptable distortion. Disturbance classification benchmarks test above 5% to classify abnormal harmonic contamination."
+    harmonic_orders:
+      unit: "integer order h"
+      ieee_standards_coverage: "Orders 2 through 50 (IEEE 519 Table 1)"
+      generator_current_orders: [3, 5, 7] # Odd harmonics only
+      firmware_goertzel_orders: [3, 5, 7]
+      status: "TRUNCATED"
+      notes: "Even harmonics (H2, H4) and higher odd harmonics (H9, H11) omitted. Should add H2, H9, H11."
+
+# ------------------------------------------------------------------------------
+# DISTURBANCE CLASS 5: Oscillatory Transient (Low-Frequency)
+# ------------------------------------------------------------------------------
+transient:
+  phenomenon: "Sudden, non-power frequency oscillatory change in voltage of positive and negative polarity"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1.43, Clause 3.1.61, Table 1"
+      table: "Table 1 - Low-frequency oscillatory transients (< 5 kHz)"
+  parameters:
+    transient_frequency_hz:
+      unit: "Hz"
+      ieee_standard_range: [100.0, 5000.0] # IEEE 1159 Table 1: < 5 kHz (typically 300 - 900 Hz for capacitor switching)
+      generator_current_range: [350.0, 750.0]
+      status: "ALIGNED"
+    magnitude_pu:
+      unit: "pu peak"
+      ieee_standard_range: [0.0, 4.0] # IEEE 1159 Table 1: typical 0 - 4 pu
+      generator_current_range: [1.40, 2.20] # 1.012 + (0.4 to 1.2 pu)
+      dataset_barc_range: [1.100, 2.837]
+      status: "ALIGNED"
+    duration_ms:
+      unit: "ms"
+      ieee_standard_range: [0.3, 50.0] # IEEE 1159 Table 1: 0.3 - 50 ms
+      generator_current_range_ms: [2.0, 20.0] # decay envelope
+      dataset_barc_value_ms: 5.0 # ARTIFACT: exactly 5.0 ms for all 985 BARC samples
+      status: "SYNTHETIC_CLUSTER_IN_DATASET_BUT_REALISTIC_IN_GENERATOR"
+      notes: "BARC dataset has a severe 5.0 ms artificial clustering artifact that acts as a synthetic shortcut."
+
+# ------------------------------------------------------------------------------
+# DISTURBANCE CLASS 6: Voltage Fluctuations / Flicker
+# ------------------------------------------------------------------------------
+flicker:
+  phenomenon: "Systematic variation of the voltage envelope or random voltage changes"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1.66, Table 1"
+    - standard: "IEEE Std 1453-2022"
+      clause: "Clause 3.1, Clause 4.2"
+    - standard: "IEC 61000-4-15"
+      clause: "Flickermeter specification"
+  parameters:
+    modulation_frequency_hz:
+      unit: "Hz"
+      ieee_standard_range: [0.1, 30.0] # IEEE 1159 Table 1 / IEEE 1453
+      human_eye_peak_sensitivity_hz: 8.8
+      generator_current_range: [6.0, 12.0]
+      status: "ALIGNED_WITH_PEAK_SENSITIVITY_BAND"
+    modulation_depth_delta_v_over_v:
+      unit: "%"
+      ieee_standard_range: [0.1, 10.0] # IEEE 1159 Table 1: 0.1% to 7% (typically 0.9 - 1.1 pu)
+      generator_current_range: [3.0, 8.0]
+      dataset_barc_range: [1.0, 7.0]
+      status: "ALIGNED"
+    duration:
+      unit: "continuous"
+      ieee_standard_range: "Intermittent to continuous (evaluated over 10-min Pst)"
+      window_constrained_range_ms: 200.0 # Single 10-cycle window evaluates instantaneous AM envelope
+      status: "WINDOW_CONSTRAINED"
+
+# ------------------------------------------------------------------------------
+# DISTURBANCE CLASS 7: Voltage Notching
+# ------------------------------------------------------------------------------
+notch:
+  phenomenon: "Periodic voltage disturbance caused by commutation of power electronic converter thyristors"
+  standards:
+    - standard: "IEEE Std 1159-2019"
+      clause: "Clause 3.1.41, Table 1"
+    - standard: "IEEE Std 519-2022"
+      clause: "Section 3.1, Section 5.3, Table 2"
+      table: "Table 2 - Low-voltage system commutation notch limits"
+  parameters:
+    notch_depth_percent:
+      unit: "%"
+      ieee_limit_special_systems: 20.0
+      ieee_limit_general_systems: 30.0
+      ieee_limit_dedicated_systems: 50.0
+      generator_current_range: [20.0, 60.0]
+      dataset_barc_range: [20.0, 50.0]
+      status: "ALIGNED_WITH_SEVERE_COMMUTATION_REGIME"
+    notch_width_us:
+      unit: "microseconds"
+      ieee_typical_range: "IEEE does not prescribe a single width; typically 100 to 1000 us (1 to 10 electrical degrees)"
+      generator_current_width_us: 600.0 # 0.03 * 20 ms
+      status: "ENGINEERING_DERIVED_CONSTRAINED_BY_SAMPLE_RATE"
+      notes: "At 5 kHz sampling rate (200 us period), a 600 us notch is only 3 samples wide. Widths < 200 us cannot be resolved."
+    notch_area_volt_us:
+      unit: "V-us"
+      ieee_519_limit_general_systems: 16400.0 # For 480 V systems
+      status: "DERIVED_FROM_DEPTH_AND_WIDTH"
+    repetition_rate:
+      unit: "notches per cycle"
+      ieee_typical_3phase: 6 # 6-pulse converter produces 6 notches per 50 Hz cycle
+      generator_current_rate: 1 # Current generator only injects 1 notch per cycle at phase 0.25
+      status: "SIMPLIFIED_HEURISTIC"
+      notes: "Generator simplifies 3-phase 6-pulse commutation to 1 notch per cycle."
+
+# ==============================================================================
+# FEATURE VECTOR TAXONOMY & CLASSIFICATION
+# ==============================================================================
+features:
+  standards_electrical_quantities:
+    - name: "rms_voltage"
+      unit: "pu"
+      standard: "IEC 61000-4-30 / IEEE 1159"
+      description: "True root-mean-square voltage over 10-cycle observation window"
+    - name: "peak_voltage"
+      unit: "pu"
+      standard: "IEEE 1159"
+      description: "Maximum instantaneous absolute voltage sample"
+    - name: "thd"
+      unit: "%"
+      standard: "IEEE 519 / IEEE 1159"
+      description: "Total harmonic distortion relative to fundamental (Goertzel or FFT)"
+    - name: "duration"
+      unit: "ms"
+      standard: "IEEE 1159 Table 1"
+      description: "Duration of disturbance departure outside standard boundary [0.9, 1.1 pu]"
+    - name: "system_freq"
+      unit: "Hz"
+      standard: "IEEE 1159"
+      description: "Fundamental grid frequency measured via zero-crossing rate"
+    - name: "dominant_freq"
+      unit: "Hz"
+      standard: "IEEE 1159"
+      description: "Dominant spectral peak frequency"
+
+  derived_engineering_features:
+    - name: "crest_factor"
+      unit: "ratio"
+      description: "Ratio of peak voltage to RMS voltage (ideal sinusoid = sqrt(2) ~ 1.414)"
+    - name: "harmonic_ratios"
+      unit: "ratio"
+      description: "Ratios of individual harmonic components to fundamental (H3/H1, H5/H1, etc.)"
+    - name: "statistical_moments"
+      unit: "various"
+      description: "Skewness, kurtosis, variance, MAD, shape and clearance factors"
+    - name: "wavelet_features"
+      unit: "energy/entropy"
+      description: "Discrete Wavelet Transform (DWT db4) multiresolution decomposition"
+
+  ml_data_quality_features:
+    - name: "snr"
+      unit: "dB"
+      description: "Signal-to-noise ratio estimating Gaussian noise deviation from fitted fundamental"
