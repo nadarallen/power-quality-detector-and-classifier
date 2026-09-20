@@ -20,7 +20,7 @@
       <div class="lamp-matrix">
         <div class="lamp-unit">
           <div class="lamp-led green" id="lamp-sys"></div>
-          <span class="lamp-text">SYS: ONLINE</span>
+          <span class="lamp-text">SYS: 3-PHASE ON</span>
         </div>
         <div class="lamp-unit">
           <div class="lamp-led cyan" id="lamp-adc"></div>
@@ -28,7 +28,7 @@
         </div>
         <div class="lamp-unit">
           <div class="lamp-led green" id="lamp-model"></div>
-          <span class="lamp-text">ML: MLP INT8 (8.4 KB)</span>
+          <span class="lamp-text">ML: 3-PHASE ENGINE</span>
         </div>
         <div class="lamp-unit">
           <div class="lamp-led amber" id="lamp-mode"></div>
@@ -36,6 +36,20 @@
         </div>
       </div>
     </header>
+
+    <!-- 3-Phase Real-Time Grid Bus Bar -->
+    <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 0.5rem 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.75rem;">
+      <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <span style="color: #8b949e; font-weight: 700;">GRID BUS METRICS:</span>
+        <span style="color: #f1e05a;">● L1 (0°): <strong id="bus-l1-rms" style="color:#fff;">1.00 pu</strong> | <span id="bus-l1-thd" style="color:#8b949e;">0.8% THD</span></span>
+        <span style="color: #58a6ff;">● L2 (-120°): <strong id="bus-l2-rms" style="color:#fff;">1.00 pu</strong> | <span id="bus-l2-thd" style="color:#8b949e;">0.8% THD</span></span>
+        <span style="color: #ff7b72;">● L3 (+120°): <strong id="bus-l3-rms" style="color:#fff;">1.00 pu</strong> | <span id="bus-l3-thd" style="color:#8b949e;">0.8% THD</span></span>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <span style="color: #8b949e;">EVENTS PERSISTED: <strong id="bus-total-events" style="color: var(--crt-cyan);">0</strong></span>
+        <span class="val-value-badge" id="bus-system-status" style="background: #1f6feb; color: #fff; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.68rem;">SYSTEM NORMAL</span>
+      </div>
+    </div>
 
     <!-- Main 3-Column Console Grid -->
     <main class="console-grid">

@@ -678,3 +678,31 @@ function toggleScanlines() {
   overlay.style.display = isVis ? 'none' : 'block';
   document.getElementById('btn-scanlines').textContent = isVis ? 'CRT GRID: OFF' : 'CRT GRID: ON';
 }
+
+// 3-Phase Server Telemetry Poller
+async function pollThreePhaseTelemetry() {
+  try {
+    const res = await fetch('/api/events/stats');
+    if (res.ok) {
+      const stats = await res.json();
+      const countEl = document.getElementById('bus-total-events');
+      if (countEl) countEl.textContent = stats.total_events || 0;
+    }
+
+    const telemRes = await fetch('/api/telemetry');
+    if (telemRes.ok) {
+      const telem = await telemRes.json();
+      const statusBadge = document.getElementById('bus-system-status');
+      if (statusBadge && telem.status) {
+        statusBadge.textContent = telem.status === 'ANOMALY' ? '⚠ DISTURBANCE DETECTED' : 'SYSTEM NORMAL';
+        statusBadge.style.background = telem.status === 'ANOMALY' ? '#d73a49' : '#1f6feb';
+      }
+    }
+  } catch (err) {
+    // Graceful offline fallback
+  }
+}
+
+// Poll telemetry every 2 seconds
+setInterval(pollThreePhaseTelemetry, 2000);
+pollThreePhaseTelemetry();

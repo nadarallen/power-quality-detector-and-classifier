@@ -223,3 +223,13 @@ class ThreePhaseEventEngine:
 
         self.completed_events.extend(newly_closed_events)
         return newly_closed_events
+
+    def get_active_events(self) -> List[PQEvent]:
+        """Returns unique currently active unclosed PQEvents across all phases."""
+        seen_ids = set()
+        active = []
+        for ev in self.active_events_by_phase.values():
+            if ev is not None and ev.is_active and ev.event_id not in seen_ids:
+                seen_ids.add(ev.event_id)
+                active.append(ev)
+        return active

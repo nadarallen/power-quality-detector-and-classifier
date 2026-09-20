@@ -91,16 +91,53 @@ def run_python_ml_inference(feature_vector):
         'is_uncertain': bool(confidence < 0.60)
     }
 
+# Shared storage and pipeline components
+from storage.event_store import EventStore
+from dsp.waveform_frame import WaveformFrame
+from dsp.acquisition_adapter import SimulationAdapter
+from pipeline.realtime_pipeline import RealtimePQPipeline
+
+SHARED_EVENT_STORE = EventStore(os.path.join(BASE_DIR, 'data', 'pq_events.db'))
+SIM_ADAPTER = SimulationAdapter(device_id="SIM_GRID_NODE_1", sampling_rate_hz=5000.0, nominal_frequency_hz=50.0)
+SHARED_PIPELINE = RealtimePQPipeline(adapter=SIM_ADAPTER, event_store=SHARED_EVENT_STORE, device_id="GRID_NODE_1")
+
+
 class PQDServerRequestHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=os.path.join(BASE_DIR, 'web'), **kwargs)
 
     def do_GET(self):
         parsed = urlparse(self.path)
+        query = parse_qs(parsed.query)
+
         if parsed.path == '/api/classes':
             self._send_json({'classes': CLASSES, 'status': 'success'})
         elif parsed.path == '/api/health':
-            self._send_json({'status': 'online', 'model': 'Compact MLP 8.4KB Int8', 'timestamp': time.time()})
+            self._send_json({
+                'status': 'online',
+                'model': 'Compact MLP 8.4KB Int8',
+                'three_phase_engine': 'active',
+                'timestamp': time.time()
+            })
+        elif parsed.path == '/api/events':
+            event_class = query.get('event_class', [None])[0]
+            phase = query.get('phase', [None])[0]
+            limit = int(query.get('limit', [50])[0])
+            events = SHARED_EVENT_STORE.query_events(event_class=event_class, phase=phase, limit=limit)
+            self._send_json({'events': events, 'count': len(events)})
+        elif parsed.path == '/api/events/stats':
+            stats = SHARED_EVENT_STORE.get_event_stats()
+            self._send_json(stats)
+        elif parsed.path == '/api/telemetry':
+            telem = SHARED_PIPELINE.get_latest_telemetry()
+            self._send_json(telem)
+        elif parsed.path.startswith('/api/events/'):
+            event_id = parsed.path.split('/')[-1]
+            evt = SHARED_EVENT_STORE.get_event(event_id)
+            if evt:
+                self._send_json(evt)
+            else:
+                self._send_json({'error': 'Event not found'}, status=404)
         elif parsed.path.endswith('model_weights.json') or parsed.path == '/api/weights':
             if os.path.exists(WEIGHTS_JSON_PATH):
                 with open(WEIGHTS_JSON_PATH, 'rb') as f:
@@ -132,6 +169,28 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 self._send_json(res)
             else:
                 self._send_json({'error': 'Invalid feature vector length (expected 8)'}, status=400)
+        elif parsed.path == '/api/ingest':
+            # Accepts a WaveformFrame JSON payload from remote edge/acquisition adapters
+            try:
+                frame = WaveformFrame.from_dict(data)
+                events = SHARED_PIPELINE.process_frame(frame)
+                self._send_json({
+                    'status': 'success',
+                    'frame_sequence': frame.sequence_number,
+                    'events_detected': len(events),
+                    'event_ids': [e.event_id for e in events]
+                })
+            except Exception as e:
+                self._send_json({'error': f'Failed to process waveform frame: {str(e)}'}, status=400)
+        elif parsed.path == '/api/simulation/disturbance':
+            # Control simulation disturbance dynamically from UI
+            phase = data.get('phase', 'L1')
+            dist = data.get('disturbance', 'Normal')
+            try:
+                SIM_ADAPTER.set_phase_disturbance(phase, dist)
+                self._send_json({'status': 'updated', 'phase': phase, 'disturbance': dist})
+            except Exception as e:
+                self._send_json({'error': str(e)}, status=400)
         else:
             self._send_json({'error': 'Endpoint not found'}, status=404)
 

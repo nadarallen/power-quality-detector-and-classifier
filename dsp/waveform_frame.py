@@ -10,6 +10,7 @@ from the downstream DSP and machine learning pipelines.
 """
 
 from dataclasses import dataclass, field
+import time
 from typing import Dict, Optional, Tuple, Any, List
 import numpy as np
 
@@ -127,3 +128,40 @@ class WaveformFrame:
         if phase not in self.phases:
             raise KeyError(f"Phase {phase} not available in frame. Available: {self.available_phases}")
         return self.phases[phase]
+
+    def to_dict(self, include_waveforms: bool = True) -> Dict[str, Any]:
+        """Serializes frame metadata and optionally waveform arrays to dictionary."""
+        d = {
+            "timestamp_utc": self.timestamp_utc,
+            "sampling_rate_hz": self.sampling_rate_hz,
+            "nominal_frequency_hz": self.nominal_frequency_hz,
+            "source_type": self.source_type,
+            "device_id": self.device_id,
+            "sequence_number": self.sequence_number,
+            "num_samples": self.num_samples,
+            "duration_seconds": self.duration_seconds,
+            "available_phases": self.available_phases,
+            "is_valid": self.is_valid,
+            "validation_errors": self.validation_errors,
+        }
+        if include_waveforms:
+            d["phases"] = {p: arr.tolist() for p, arr in self.phases.items()}
+        return d
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "WaveformFrame":
+        """Reconstructs WaveformFrame from dictionary."""
+        phases = {}
+        for p, arr in data.get("phases", {}).items():
+            phases[p] = np.asarray(arr, dtype=np.float32)
+            
+        frame = cls(
+            timestamp_utc=float(data.get("timestamp_utc", time.time())),
+            sampling_rate_hz=float(data.get("sampling_rate_hz", 5000.0)),
+            nominal_frequency_hz=float(data.get("nominal_frequency_hz", 50.0)),
+            source_type=data.get("source_type", "network"),
+            device_id=data.get("device_id", "DEV_REMOTE"),
+            sequence_number=int(data.get("sequence_number", 0)),
+            phases=phases,
+        )
+        return frame

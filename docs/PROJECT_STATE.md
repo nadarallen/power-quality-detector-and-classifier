@@ -66,12 +66,17 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 |---|---|---|
 | **Standards & Specs** | `config/pqd_parameter_spec.yaml` | Machine-readable single source of truth for all parameters categorized into IEEE-Standard, IEEE-Derived, Engineering-Derived, and ML-Only. |
 | **Waveform Generation** | `dsp/waveform_generator.py` | Synthesizes 1000-sample voltage waveforms at 5 kHz across 8 classes with IEEE 1159.3-2025 nested metadata tracking. |
+| **3-Phase Data Frame** | `dsp/waveform_frame.py` | Canonical multi-channel, time-synchronized `WaveformFrame` with per-channel calibration, NaN/Inf checks, and JSON serialization. |
+| **Acquisition Adapters** | `dsp/acquisition_adapter.py` | Abstract `AcquisitionAdapter`, `SimulationAdapter` (continuous 3-phase synthesis with independent phase disturbance control), and `CSVReplayAdapter`. |
+| **Event Engine** | `dsp/event_engine.py` | `ThreePhaseEventEngine` and `PQEvent` tracking state, multi-window deduplication, and cross-phase disturbance correlation. |
+| **Persistence Layer** | `storage/event_store.py` | SQLite embedded database with per-phase metric indexing, event retrieval, phase filtering, and aggregated class/phase statistics. |
+| **Streaming Pipeline** | `pipeline/realtime_pipeline.py` | Continuous streaming engine connecting acquisition adapter, signal validation, event engine, and persistence callbacks. |
 | **Standards Measurement** | `dsp/standards_detector.py` | Half-cycle sliding RMS ($U_{\mathrm{rms}(1/2)}$, 10 ms window), residual RMS $< 0.10\text{ pu}$ interruption detector, and FFT harmonic engine ($H_2$ through $H_{11}$). |
 | **Preserved DSP** | `dsp/baseline_features.py` | 8 baseline features matching legacy firmware and dataset (RMS, peak, crest factor, Goertzel THD, duration, dominant freq, system freq, SNR). |
 | **Enhanced DSP** | `dsp/enhanced_features.py` | 47 statistical, higher-order spectral ($H_1\text{–}H_{11}$), entropy, and shape features for Track B expansion. |
 | **Firmware Engine** | `firmware/src/feature_extraction.cpp`<br>`firmware/src/inference.cpp` | On-device C++ feature extraction engine and TFLite Micro inference fallback handler. |
 | **Raw Datasets** | `Dataset/BARC DATA.csv`<br>`data/splits/` | Ground truth dataset (10,000 samples) and frozen 70/15/15 stratified train, validation, and test splits. |
-| **Automated Tests** | `tests/` (41 test cases) | Rigorous physical, standards, firmware parity, and classification test suite (100% passing). |
+| **Automated Tests** | `tests/` (58 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, and REST API test suite (100% passing). |
 
 ---
 
@@ -92,11 +97,11 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 ## 4. Current Test Suite Status
 
 Executed via `.venv/bin/pytest`:
-- **Total Tests Collected:** 51
-- **Passed:** 51
+- **Total Tests Collected:** 58
+- **Passed:** 58
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~3.29s
+- **Execution Time:** ~3.37s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
@@ -105,6 +110,9 @@ Breakdown:
 - `tests/test_waveform_frame.py`: 3 tests (canonical 3-phase WaveformFrame creation, temporal duration, channel synchronization mismatch, and NaN/Inf validation).
 - `tests/test_acquisition_adapter.py`: 2 tests (SimulationAdapter multi-channel generation, per-phase disturbance injection, and CSVReplayAdapter streaming).
 - `tests/test_event_engine.py`: 2 tests (ThreePhaseEventEngine per-phase tracking, multi-window event merging, and cross-phase concurrent sag correlation).
+- `tests/test_event_store.py`: 2 tests (SQLite event persistence, parameter serialization, phase querying, and aggregate statistics).
+- `tests/test_realtime_pipeline.py`: 2 tests (Continuous streaming pipeline execution, multi-frame ingestion, disturbance lifecycle detection).
+- `tests/test_server_endpoints.py`: 3 tests (REST API health, `/api/events` querying/stats, and `/api/ingest` canonical WaveformFrame ingestion).
 - `tests/test_dsp_features.py`: 1 test (baseline feature preservation).
 
 ---
