@@ -144,26 +144,70 @@ class CSVReplayAdapter(AcquisitionAdapter):
         self.total_rows = 0
 
     def connect(self) -> bool:
-        try:
-            self.df = pd.read_csv(self.csv_path)
-            self.total_rows = len(self.df)
-            self.current_idx = 0
-            self.is_connected = True
-            return True
-        except Exception:
-            self.is_connected = False
-            return False
+        """
+        Opens the CSV file and validates its structure.
+
+        Raises
+        ------
+        FileNotFoundError  : if csv_path does not exist
+        ValueError         : if the CSV is missing required phase columns,
+                             has an invalid sampling rate, or is empty
+        """
+        if self.sampling_rate_hz <= 0:
+            raise ValueError(
+                f"CSVReplayAdapter: invalid sampling_rate_hz={self.sampling_rate_hz}. "
+                "Must be > 0."
+            )
+        df = pd.read_csv(self.csv_path)  # raises FileNotFoundError / ParserError on bad file
+        if len(df) == 0:
+            raise ValueError(
+                f"CSVReplayAdapter: CSV file '{self.csv_path}' is empty."
+            )
+
+        # Resolve column names — support 'L1'/'L2'/'L3' or 'V_L1'/'V_L2'/'V_L3'
+        resolved = {}
+        for phase in ["L1", "L2", "L3"]:
+            if phase in df.columns:
+                resolved[phase] = phase
+            elif f"V_{phase}" in df.columns:
+                resolved[phase] = f"V_{phase}"
+            else:
+                raise ValueError(
+                    f"CSVReplayAdapter: CSV '{self.csv_path}' is missing required phase "
+                    f"column '{phase}' (also checked 'V_{phase}'). "
+                    f"Found columns: {list(df.columns)}"
+                )
+        self._resolved_columns = resolved
+
+        self.df = df
+        self.total_rows = len(df)
+        self.current_idx = 0
+        self.is_connected = True
+        return True
 
     def disconnect(self) -> None:
         self.is_connected = False
         self.df = None
 
     def acquire_frame(self) -> Optional[WaveformFrame]:
+        """
+        Returns the next WaveformFrame window from the replay stream.
+
+        Returns None when the stream is exhausted (end-of-file).
+
+        Raises
+        ------
+        RuntimeError : if called before connect()
+        ValueError   : if the data slice contains NaN, Inf, or unequal channel lengths
+        """
         if not self.is_connected or self.df is None:
-            return None
+            raise RuntimeError(
+                "CSVReplayAdapter: acquire_frame() called before connect(). "
+                "Call connect() first."
+            )
 
         if self.current_idx + self.window_samples > self.total_rows:
-            # End of recorded stream
+            # End of recorded stream — normal termination condition
             return None
 
         slice_df = self.df.iloc[self.current_idx : self.current_idx + self.window_samples]
@@ -171,11 +215,26 @@ class CSVReplayAdapter(AcquisitionAdapter):
         self.sequence_number += 1
 
         phase_signals = {}
-        for phase in ["L1", "L2", "L3"]:
-            if phase in slice_df.columns:
-                phase_signals[phase] = slice_df[phase].values.astype(np.float32)
-            elif f"V_{phase}" in slice_df.columns:
-                phase_signals[phase] = slice_df[f"V_{phase}"].values.astype(np.float32)
+        for phase, col in self._resolved_columns.items():
+            arr = slice_df[col].values.astype(np.float32)
+            if np.isnan(arr).any():
+                raise ValueError(
+                    f"CSVReplayAdapter: NaN values in column '{col}' at rows "
+                    f"{self.current_idx - self.window_samples}–{self.current_idx}."
+                )
+            if np.isinf(arr).any():
+                raise ValueError(
+                    f"CSVReplayAdapter: Infinite values in column '{col}' at rows "
+                    f"{self.current_idx - self.window_samples}–{self.current_idx}."
+                )
+            phase_signals[phase] = arr
+
+        # Verify synchronization — all channels must have identical sample counts
+        lengths = {p: len(a) for p, a in phase_signals.items()}
+        if len(set(lengths.values())) > 1:
+            raise ValueError(
+                f"CSVReplayAdapter: channel length mismatch in slice: {lengths}"
+            )
 
         frame = WaveformFrame(
             timestamp_utc=time.time(),
@@ -184,7 +243,7 @@ class CSVReplayAdapter(AcquisitionAdapter):
             source_type="csv_replay",
             device_id=self.device_id,
             sequence_number=self.sequence_number,
-            phases=phase_signals
+            phases=phase_signals,
         )
         frame.validate()
         return frame
