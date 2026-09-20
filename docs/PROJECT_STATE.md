@@ -150,6 +150,25 @@ Directly evaluated whether end-to-end deep learning on raw 1,000-sample voltage 
 *Core Scientific Insight:*
 The 1D CNN operating on raw continuous time-series arrays achieved only **87.87% accuracy** and **75.61% Interruption recall**, underperforming both the 8-feature and 32-feature DSP classifiers. Structured domain-specific DSP transformations (Goertzel harmonic filtering, sliding RMS, and spectral moments) encode translation-invariant physical quantities that a compact neural network cannot infer purely from raw sample points at modest training sample counts (7,000 instances). Structured DSP feature compression is therefore scientifically superior and computationally more robust for edge microcontroller deployment.
 
+### 5.5 Out-of-Distribution (OOD) Mixed Compound Disturbances (EXP-008)
+Evaluated behavior on non-standardized multi-event waveforms without altering the fixed 8-class ground-truth taxonomy:
+
+| Compound Scenario | Synthesized Disturbance Mixture | Top Model Prediction | Mean Confidence | 2nd Prediction | 2nd Probability |
+|---|---|:---:|:---:|:---:|:---:|
+| **Sag + Harmonics** | $V_{\mathrm{rms}} = 0.50\text{ pu}$ with $10\%\,H_3 + 6\%\,H_5$ | **Harmonics** | 100.00% | Sag | 0.00% |
+| **Swell + Harmonics** | $V_{\mathrm{rms}} = 1.40\text{ pu}$ with $8\%\,H_3 + 5\%\,H_5$ | **Swell** | 99.65% | Harmonics | 0.35% |
+| **Transient during Sag** | Sag $0.60\text{ pu}$ with superimposed $500\text{ Hz}$ impulse | **Transient** | 100.00% | Sag | 0.00% |
+| **Notch + Harmonics** | Commutation notching with $8\%\,H_5$ distortion | **Notch** | 100.00% | Interruption | 0.00% |
+
+*Diagnostic Finding:* The single-label softmax classifier overconfidently picks the disturbance component with the highest spectral/energy signature rather than exhibiting prediction entropy. For safety-critical field deployments, a secondary energy thresholding gate or `UNKNOWN / ANOMALY` rejection mechanism is recommended.
+
+### 5.6 Model Confidence Calibration & Reliability (EXP-009)
+Evaluated probability calibration and Expected Calibration Error (ECE) across 10 confidence bins on the locked test set:
+- **Optimal Temperature ($T$):** $1.0824$ (fitted via negative log-likelihood on validation split).
+- **Test Set ECE (Uncalibrated):** **$0.119\%$** ($0.00119$).
+- **Test Set ECE (Temperature Calibrated):** **$0.188\%$**.
+- **Calibration Status:** Exceptionally well calibrated in-distribution. High predicted probabilities ($\ge 95\%$) accurately reflect true ground-truth empirical correctness.
+
 ---
 
 ## 6. Known Limitations & Technical Debt
