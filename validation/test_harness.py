@@ -125,8 +125,8 @@ def run_validation(telemetry_df: pd.DataFrame, out_dir: str, fb_service: Firebas
 def main():
     parser = argparse.ArgumentParser(description="Live ESP32 Serial & Firebase Validation Harness")
     parser.add_argument("--port", type=str, default=None, help="COM port for live ESP32 serial telemetry")
-    parser.add_argument("--baud", type=int, default=115200)
-    parser.add_argument("--outdir", type=str, default=r"D:\Major proj\validation\reports")
+    default_outdir = os.path.join(os.path.dirname(__file__), "reports")
+    parser.add_argument("--outdir", type=str, default=default_outdir)
     args = parser.parse_args()
 
     fb_service = FirebaseDBService()

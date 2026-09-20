@@ -135,11 +135,12 @@ def convert_pickle_mlp_to_header(pkl_path: str, header_out: str):
 
 
 def main():
-    h5_model = r"D:\Major proj\ml\models\mlp_deployed.h5"
-    pkl_model = r"D:\Major proj\ml\models\mlp_deployed.pkl"
-    features_csv = r"D:\Major proj\data\pqd_features.csv"
-    header_path = r"D:\Major proj\firmware\src\model_data.h"
-    tflite_path = r"D:\Major proj\ml\models\mlp_deployed.tflite"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    h5_model = os.path.join(base_dir, "ml", "models", "mlp_deployed.h5")
+    pkl_model = os.path.join(base_dir, "ml", "models", "mlp_deployed.pkl")
+    features_csv = os.path.join(base_dir, "data", "pqd_features.csv")
+    header_path = os.path.join(base_dir, "firmware", "src", "model_data.h")
+    tflite_path = os.path.join(base_dir, "ml", "models", "mlp_deployed.tflite")
 
     if HAS_TF and os.path.exists(h5_model):
         convert_keras_to_tflite(h5_model, features_csv, header_path, tflite_path)

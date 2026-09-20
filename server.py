@@ -101,6 +101,17 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             self._send_json({'classes': CLASSES, 'status': 'success'})
         elif parsed.path == '/api/health':
             self._send_json({'status': 'online', 'model': 'Compact MLP 8.4KB Int8', 'timestamp': time.time()})
+        elif parsed.path.endswith('model_weights.json') or parsed.path == '/api/weights':
+            if os.path.exists(WEIGHTS_JSON_PATH):
+                with open(WEIGHTS_JSON_PATH, 'rb') as f:
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(f.read())
+                return
+            else:
+                self._send_json({'error': 'Weights not found'}, status=404)
         else:
             super().do_GET()
 

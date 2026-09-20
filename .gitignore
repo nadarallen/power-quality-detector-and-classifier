@@ -35,5 +35,7 @@ ENV/
 .pio/
 .pioenvs/
 
-# Temp
+# Temp & generated large artifacts
 temp_*.pkl
+*.npz
+data/waveforms/

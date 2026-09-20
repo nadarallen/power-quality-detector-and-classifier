@@ -123,9 +123,13 @@ def build_compact_keras_mlp(input_dim: int, num_classes: int):
 
 
 def main():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    default_data = os.path.join(base_dir, "data", "pqd_features.csv")
+    default_outdir = os.path.join(base_dir, "ml", "models")
+
     parser = argparse.ArgumentParser(description="Multi-Model Comparison Bench for PQD")
-    parser.add_argument("--data", type=str, default=r"D:\Major proj\data\pqd_features.csv")
-    parser.add_argument("--outdir", type=str, default=r"D:\Major proj\ml\models")
+    parser.add_argument("--data", type=str, default=default_data)
+    parser.add_argument("--outdir", type=str, default=default_outdir)
     args = parser.parse_args()
 
     os.makedirs(args.outdir, exist_ok=True)

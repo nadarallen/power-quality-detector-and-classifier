@@ -73,10 +73,14 @@ def load_and_prepare_barc_dataset(csv_path: str) -> pd.DataFrame:
 
 
 def main():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    default_input = os.path.join(base_dir, "Dataset", "BARC DATA.csv")
+    default_output = os.path.join(base_dir, "data", "pqd_features.csv")
+
     parser = argparse.ArgumentParser(description="BARC PQD Dataset Loader")
-    parser.add_argument("--input", type=str, default=r"D:\Major proj\Dataset\BARC DATA.csv",
+    parser.add_argument("--input", type=str, default=default_input,
                         help="Path to input BARC DATA.csv dataset")
-    parser.add_argument("--output", type=str, default=r"D:\Major proj\data\pqd_features.csv",
+    parser.add_argument("--output", type=str, default=default_output,
                         help="Path to output standardized feature CSV")
     args = parser.parse_args()
 
