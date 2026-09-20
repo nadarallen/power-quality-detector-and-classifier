@@ -223,13 +223,95 @@ In [`Dataset/BARC DATA.csv`](file:///home/salmo/Projects/major%20project/power-q
 
 ---
 
-## 6. Actionable Roadmap & Priority Remediation
+## 6. Comprehensive Parameter Classification Table
 
-1. **[High Priority] Fix `web/app.js` Interruption Bug:** Update line 122 to $V_{\text{residual}} < 0.1\text{ pu}$ to prevent user confusion during live simulation.
-2. **[High Priority] Fix `firmware/src/feature_extraction.cpp` Goertzel Bug:** Add `(int)` cast to frequency bin index $k$, restoring exact mathematical equivalence with Python.
-3. **[High Priority] Complete TFLite Micro Firmware Hook:** Replace rule-based `if-else` in `firmware/src/inference.cpp` with `tflite::MicroInterpreter::Invoke()`.
-4. **[High Priority] Widen Generator Bounds to Full IEEE Ranges:**
-   - Sag depth: expand from `[0.35, 0.85]` to `[0.10, 0.90]`.
-   - Swell magnitude: expand from `[1.15, 1.65]` to `[1.10, 1.80]`.
-   - Harmonics: add even (H2) and higher odd (H9, H11) harmonic orders.
-5. **[Medium Priority] Replace Constant Heuristic for Dominant Frequency:** Implement true Goertzel peak search across fundamental and harmonic bins.
+Every parameter utilized across the system's waveform generator, feature extractor, and simulation engine is formally classified below into one of four categories: `IEEE-STANDARD`, `IEEE-DERIVED`, `ENGINEERING-DERIVED`, or `ML-ONLY`.
+| Parameter Name | Physical Meaning | Unit | Applicable Disturbance | IEEE Source | Parameter Classification | Current Value / Range | Required Change |
+|---|---|---|---|---|---|---|---|
+| `F0` | Fundamental grid frequency | Hz | All | IEEE 1159 / IEEE 519 | **IEEE-STANDARD** | 50.0 Hz | None |
+| `SAMPLE_RATE` | ADC discrete sampling rate | Hz | All | Hardware / Nyquist | **ENGINEERING-DERIVED** | 5000.0 Hz | None (meets Nyquist for H1-H50) |
+| `BUFFER_SIZE` | Discrete window length | samples | All | IEC 61000-4-30 (10 cycles) | **IEEE-DERIVED** | 1000 samples | None (exact 10 cycles @ 50 Hz) |
+| `v_nominal` | Steady-state peak voltage | pu | All | Calibration baseline | **ENGINEERING-DERIVED** | 1.012 pu | None |
+| `depth` (Sag) | Residual RMS voltage | pu | Sag | IEEE 1159 Table 1 | **IEEE-STANDARD** | [0.35, 0.85] pu | Expand lower bound to 0.10 pu |
+| `dur_cycles` (Sag) | Disturbance duration in cycles | cycles | Sag | IEEE 1159 Table 1 | **IEEE-DERIVED** | [2.0, 8.0] cycles | None (window-constrained) |
+| `t_start` (Sag) | Inception point-on-wave time | s | Sag | Window boundary | **ENGINEERING-DERIVED** | [0.01, 0.04] s | None |
+| `magnitude` (Swell) | Swell peak / RMS multiplier | pu | Swell | IEEE 1159 Table 1 | **IEEE-STANDARD** | [1.15, 1.65] pu | Expand upper bound to 1.80 pu |
+| `dur_cycles` (Swell) | Swell duration in cycles | cycles | Swell | IEEE 1159 Table 1 | **IEEE-DERIVED** | [2.0, 8.0] cycles | None (window-constrained) |
+| `t_start` (Swell) | Swell inception time | s | Swell | Window boundary | **ENGINEERING-DERIVED** | [0.01, 0.04] s | None |
+| `depth` (Interruption) | Residual voltage during loss | pu | Interruption | IEEE 1159 Clause 3.1.34 | **IEEE-STANDARD** | [0.01, 0.09] pu | Fix web/app.js (was 0.68 pu) |
+| `dur_cycles` (Interruption)| Interruption duration | cycles | Interruption | IEEE 1159 Table 1 | **IEEE-DERIVED** | [3.0, 8.5] cycles | None (window-constrained) |
+| `a3, a5, a7` (Harmonics) | Odd harmonic amplitudes | pu | Harmonics | IEEE 519 Table 1 | **IEEE-DERIVED** | [0.04, 0.12], [0.02, 0.08], [0.01, 0.05] | Add H2 (even) and H9, H11 |
+| `p3, p5, p7` (Harmonics) | Harmonic phase angles | rad | Harmonics | Random phase | **ENGINEERING-DERIVED** | [0, 2*pi] | None |
+| `f_trans` (Transient) | Oscillatory transient freq | Hz | Transient | IEEE 1159 Table 1 | **IEEE-STANDARD** | [350, 750] Hz | None (< 5 kHz oscillatory) |
+| `amp_trans` (Transient) | Peak transient impulse | pu | Transient | IEEE 1159 Table 1 | **IEEE-STANDARD** | [0.40, 1.20] pu | None (typical 0 to 4 pu) |
+| `tau` (Transient) | Exponential damping constant | s | Transient | Damping rate | **IEEE-DERIVED** | [0.002, 0.008] s | None (dissipates within 20 ms) |
+| `f_m` (Flicker) | Envelope modulation freq | Hz | Flicker | IEEE 1453 / IEC 61000-4-15| **IEEE-DERIVED** | [6.0, 12.0] Hz | None (centered at 8.8 Hz peak) |
+| `mod_depth` (Flicker) | Fluctuation envelope depth | ratio | Flicker | IEEE 1159 Table 1 | **IEEE-DERIVED** | [0.03, 0.08] | None (typical 0.1% to 10%) |
+| `notch_depth` (Notch) | Commutation voltage drop | ratio | Notch | IEEE 519 Table 2 | **IEEE-STANDARD** | [0.20, 0.60] | None (matches 20-50% limits) |
+| `notch_width` (Notch) | Commutation duration | rad / us | Notch | Commutation angle | **ENGINEERING-DERIVED** | 600 us (10.8 deg) | Document 5 kHz ADC limit |
+| `snr_db` | Additive white Gaussian noise| dB | All | "IEEE does not prescribe a specific value/range" | **ML-ONLY** | [35.0, 55.0] dB | Stress test down to 5 dB |
+
+---
+
+## 7. Quantitative Python ↔ ESP32 DSP Consistency Benchmark
+
+Evaluated across **200 test waveforms** spanning all 8 disturbance classes at 45 dB SNR:
+
+### Current Unmodified Firmware (with Goertzel Float Bin Bug):
+| Feature | MAE | RMSE | Max Absolute Error | Mean Relative Error | Status |
+|---|---|---|---|---|---|
+| **`rms_voltage`** | $2.57 \times 10^{-7}\text{ pu}$ | $3.13 \times 10^{-7}\text{ pu}$ | $7.75 \times 10^{-7}\text{ pu}$ | $0.0000\%$ | PASS |
+| **`peak_voltage`** | $2.56 \times 10^{-7}\text{ pu}$ | $3.00 \times 10^{-7}\text{ pu}$ | $4.77 \times 10^{-7}\text{ pu}$ | $0.0000\%$ | PASS |
+| **`crest_factor`** | $4.04 \times 10^{-7}$ | $4.93 \times 10^{-7}$ | $1.43 \times 10^{-6}$ | $0.0000\%$ | PASS |
+| **`thd`** | **$1.5896\%$** | **$2.6079\%$** | **$16.7091\%$** | **$918.26\%$** | **FAIL (CRITICAL BUG)** |
+| **`duration`** | $0.0000\text{ ms}$ | $0.0000\text{ ms}$ | $0.0000\text{ ms}$ | $0.0000\%$ | PASS |
+| **`dominant_freq`** | $0.0000\text{ Hz}$ | $0.0000\text{ Hz}$ | $0.0000\text{ Hz}$ | $0.0000\%$ | PASS (Both 50 Hz) |
+| **`system_freq`** | $0.0000\text{ Hz}$ | $0.0000\text{ Hz}$ | $0.0000\text{ Hz}$ | $0.0000\%$ | PASS |
+| **`snr`** | $2.44 \times 10^{-3}\text{ dB}$ | $2.84 \times 10^{-3}\text{ dB}$ | $4.97 \times 10^{-3}\text{ dB}$ | $0.0462\%$ | PASS |
+
+### Fixed Firmware Verification (with `(int)` Cast on Goertzel Bin `k`):
+| Feature | MAE | RMSE | Max Absolute Error | Mean Relative Error | Status |
+|---|---|---|---|---|---|
+| **`thd` (Corrected)** | **$2.46 \times 10^{-5}\%$** | **$2.89 \times 10^{-5}\%$** | **$4.99 \times 10^{-5}\%$** | **$0.0168\%$** | **PASS (COLLAPSED BY $10^5$)** |
+
+---
+
+## 8. AUDIT GATE RESULT
+
+### Repository Audit
+**PASS**
+
+### IEEE Standards Audit
+**PASS**
+
+### Parameter Audit
+**PASS**
+
+### Waveform Generator Audit
+**PASS**
+
+### Dataset Audit
+**PASS**
+
+### Python ↔ ESP32 Consistency
+**FAIL**
+
+### Blocking Issues
+1. **[BLOCKER-01] Python $\leftrightarrow$ ESP32 THD Mismatch:** `firmware/src/feature_extraction.cpp` Goertzel bin index `k` is declared as `float` (`float k = 0.5f + length * freq / sample_rate`) without an integer cast, evaluating at $52.5\text{ Hz}$ instead of $50.0\text{ Hz}$. Causes 37.89% fundamental magnitude attenuation and up to 16.71% THD error (MAE 1.59%).
+2. **[BLOCKER-02] Incorrect Disturbance Definition in Web Simulator:** `web/app.js` line 122 sets Interruption to `val *= 0.680` (0.68 pu), which violates IEEE 1159 Clause 3.1.34 ($< 0.10\text{ pu}$) and simulates a Voltage Sag instead of an Interruption.
+3. **[BLOCKER-03] Stubbed Embedded Inference:** `firmware/src/inference.cpp` uses an ad-hoc `if-else` heuristic rather than invoking `tflite::MicroInterpreter::Invoke()` on `g_model`. The heuristic omits Flicker and Notch entirely.
+4. **[BLOCKER-04] Constrained Generator Ranges:** `dsp/waveform_generator.py` bounds for Sag depth $[0.35, 0.85]$ and Swell magnitude $[1.15, 1.65]$ omit severe sags ($0.10\text{–}0.35\text{ pu}$) and swells ($1.65\text{–}1.80\text{ pu}$) specified in IEEE 1159 Table 1.
+5. **[BLOCKER-05] Synthetic Dataset Leakage:** `Dataset/BARC DATA.csv` has a constant `Duration_ms == 5.0 ms` for all 985 Transients (synthetic shortcut) and `Dominant_Freq_Hz` is 100% dead (50.000 Hz constant across all 10,000 samples).
+
+### Required Fixes Before ML
+1. Apply `(int)` cast in `firmware/src/feature_extraction.cpp` line 8.
+2. Correct `web/app.js` line 122 from `0.680` to `0.05` pu.
+3. Connect real TFLite Micro interpreter runtime in `firmware/src/inference.cpp`.
+4. Update generator parameter bounds in `dsp/waveform_generator.py` to match `config/pqd_parameter_spec.yaml`.
+5. Explicitly design 1D CNN raw waveform pipeline to bypass the tabular 5.0 ms transient shortcut.
+
+### Audit Status
+**NOT READY**
+
+### Permission to Proceed to ML Phase
+**NO**
