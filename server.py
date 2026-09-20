@@ -12,7 +12,7 @@ import math
 import time
 import pickle
 import numpy as np
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import HTTPServer, ThreadingHTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import parse_qs, urlparse
 
 # Standard feature order
@@ -27,6 +27,7 @@ MODEL_DIR = os.path.join(BASE_DIR, 'ml', 'models')
 SCALER_PATH = os.path.join(MODEL_DIR, 'scaler.pkl')
 LABEL_ENCODER_PATH = os.path.join(MODEL_DIR, 'label_encoder.pkl')
 WEIGHTS_JSON_PATH = os.path.join(MODEL_DIR, 'model_weights.json')
+WEIGHTS_32_JSON_PATH = os.path.join(MODEL_DIR, 'model_weights_32.json')
 
 CLASSES = ['Flicker', 'Harmonics', 'Interruption', 'Normal', 'Notch', 'Sag', 'Swell', 'Transient']
 SCALER_MEAN = [0.6849054, 1.127878875, 1.681970125, 2.4761045, 36.0934625, 50.0, 49.999888, 45.00306375]
@@ -123,14 +124,59 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             event_class = query.get('event_class', [None])[0]
             phase = query.get('phase', [None])[0]
             limit = int(query.get('limit', [50])[0])
-            events = SHARED_EVENT_STORE.query_events(event_class=event_class, phase=phase, limit=limit)
-            self._send_json({'events': events, 'count': len(events)})
+            offset = int(query.get('offset', [0])[0])
+            start_time_after = float(query.get('start_time_after', [None])[0]) if query.get('start_time_after', [None])[0] is not None else None
+            end_time_before = float(query.get('end_time_before', [None])[0]) if query.get('end_time_before', [None])[0] is not None else None
+            mp_str = query.get('multi_phase_only', [None])[0]
+            multi_phase_only = True if mp_str == 'true' else (False if mp_str == 'false' else None)
+
+            events = SHARED_EVENT_STORE.query_events(
+                event_class=event_class,
+                phase=phase,
+                start_time_after=start_time_after,
+                end_time_before=end_time_before,
+                multi_phase_only=multi_phase_only,
+                limit=limit,
+                offset=offset
+            )
+            total = SHARED_EVENT_STORE.count_events(
+                event_class=event_class,
+                phase=phase,
+                start_time_after=start_time_after,
+                end_time_before=end_time_before,
+                multi_phase_only=multi_phase_only
+            )
+            self._send_json({
+                'events': events,
+                'count': len(events),
+                'total': total,
+                'limit': limit,
+                'offset': offset
+            })
         elif parsed.path == '/api/events/stats':
             stats = SHARED_EVENT_STORE.get_event_stats()
             self._send_json(stats)
         elif parsed.path == '/api/telemetry':
             telem = SHARED_PIPELINE.get_latest_telemetry()
             self._send_json(telem)
+        elif parsed.path == '/api/stream/telemetry':
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/event-stream')
+            self.send_header('Cache-Control', 'no-cache')
+            self.send_header('Connection', 'close' if 'iterations' in query else 'keep-alive')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            iterations = int(query.get('iterations', [1])[0])
+            for _ in range(iterations):
+                telem = SHARED_PIPELINE.get_latest_telemetry()
+                msg = f"data: {json.dumps(telem)}\n\n"
+                self.wfile.write(msg.encode('utf-8'))
+                self.wfile.flush()
+                if iterations > 1:
+                    time.sleep(0.05)
+            if 'iterations' in query:
+                self.close_connection = True
+            return
         elif parsed.path.startswith('/api/events/'):
             event_id = parsed.path.split('/')[-1]
             evt = SHARED_EVENT_STORE.get_event(event_id)
@@ -138,6 +184,17 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 self._send_json(evt)
             else:
                 self._send_json({'error': 'Event not found'}, status=404)
+        elif parsed.path == '/api/weights/32':
+            if os.path.exists(WEIGHTS_32_JSON_PATH):
+                with open(WEIGHTS_32_JSON_PATH, 'rb') as f:
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(f.read())
+                return
+            else:
+                self._send_json({'error': '32-feature weights not found'}, status=404)
         elif parsed.path.endswith('model_weights.json') or parsed.path == '/api/weights':
             if os.path.exists(WEIGHTS_JSON_PATH):
                 with open(WEIGHTS_JSON_PATH, 'rb') as f:
@@ -182,6 +239,31 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 })
             except Exception as e:
                 self._send_json({'error': f'Failed to process waveform frame: {str(e)}'}, status=400)
+        elif parsed.path == '/api/ingest/chunk':
+            # Streaming chunk ingestion: raw multi-channel samples
+            channels_raw = data.get('channels', {})
+            if not channels_raw:
+                self._send_json({'error': 'Missing required channels dict in payload'}, status=400)
+                return
+            try:
+                channels = {
+                    ch: np.asarray(arr, dtype=np.float32)
+                    for ch, arr in channels_raw.items()
+                }
+                ts = data.get('timestamp_utc', None)
+                if ts is not None:
+                    ts = float(ts)
+                events = SHARED_PIPELINE.ingest_samples(channels, timestamp_utc=ts)
+                first_ch_len = len(next(iter(channels.values())))
+                self._send_json({
+                    'status': 'success',
+                    'samples_ingested': first_ch_len,
+                    'events_detected': len(events),
+                    'event_ids': [e.event_id for e in events],
+                    'telemetry': SHARED_PIPELINE.get_latest_telemetry()
+                })
+            except Exception as e:
+                self._send_json({'error': f'Failed to ingest sample chunk: {str(e)}'}, status=400)
         elif parsed.path == '/api/simulation/disturbance':
             # Control simulation disturbance dynamically from UI
             phase = data.get('phase', 'L1')
@@ -203,7 +285,7 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
 
 def run_server(port=8500):
     server_address = ('', port)
-    httpd = HTTPServer(server_address, PQDServerRequestHandler)
+    httpd = ThreadingHTTPServer(server_address, PQDServerRequestHandler)
     print(f"\n========================================================")
     print(f"  PQD RETRO LABORATORY SERVER ONLINE AT: http://localhost:{port}")
     print(f"========================================================\n")

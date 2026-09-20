@@ -101,11 +101,11 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 ## 4. Current Test Suite Status
 
 Executed via `.venv/bin/pytest`:
-- **Total Tests Collected:** 89
-- **Passed:** 89
+- **Total Tests Collected:** 94
+- **Passed:** 94
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~5.36s
+- **Execution Time:** ~5.37s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
@@ -120,7 +120,7 @@ Breakdown:
 - `tests/test_event_engine.py`: 2 tests (ThreePhaseEventEngine per-phase tracking, multi-window event merging, and cross-phase concurrent sag correlation).
 - `tests/test_event_store.py`: 2 tests (SQLite event persistence, parameter serialization, phase querying, and aggregate statistics).
 - `tests/test_realtime_pipeline.py`: 2 tests (Continuous streaming pipeline execution, multi-frame ingestion, disturbance lifecycle detection).
-- `tests/test_server_endpoints.py`: 3 tests (REST API health, `/api/events` querying/stats, and `/api/ingest` canonical WaveformFrame ingestion).
+- `tests/test_server_endpoints.py`: 8 tests (REST API health, `/api/events` querying/stats, `/api/ingest` canonical WaveformFrame ingestion, `/api/ingest/chunk` streaming chunk ingestion, chunk validation failure modes, `/api/events` pagination/totals, `/api/weights/32` EXP-003 model serving, and `/api/stream/telemetry` SSE stream).
 - `tests/test_dsp_features.py`: 1 test (baseline feature preservation).
 
 ---

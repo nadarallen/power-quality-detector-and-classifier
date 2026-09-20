@@ -2,7 +2,7 @@
 import json
 import threading
 import time
-from http.server import HTTPServer
+from http.server import HTTPServer, ThreadingHTTPServer
 import urllib.request
 import urllib.error
 import pytest
@@ -16,7 +16,7 @@ import numpy as np
 @pytest.fixture(scope="module")
 def live_server():
     server_address = ('127.0.0.1', 8555)
-    httpd = HTTPServer(server_address, PQDServerRequestHandler)
+    httpd = ThreadingHTTPServer(server_address, PQDServerRequestHandler)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()
     time.sleep(0.2)
@@ -100,3 +100,91 @@ def test_server_ingest_endpoint(live_server):
         res = json.loads(resp.read().decode())
         assert res["status"] == "success"
         assert res["frame_sequence"] == 101
+
+
+def test_server_ingest_chunk_endpoint(live_server):
+    """Verify streaming raw multi-channel sample chunks via /api/ingest/chunk."""
+    chunk_len = 500
+    t = np.linspace(0, chunk_len / 5000.0, chunk_len, endpoint=False, dtype=np.float32)
+    l1 = np.sin(2 * np.pi * 50 * t).tolist()
+    l2 = np.sin(2 * np.pi * 50 * t - 2*np.pi/3).tolist()
+    l3 = np.sin(2 * np.pi * 50 * t + 2*np.pi/3).tolist()
+
+    payload = json.dumps({
+        "channels": {"L1": l1, "L2": l2, "L3": l3},
+        "timestamp_utc": time.time()
+    }).encode('utf-8')
+
+    req = urllib.request.Request(
+        f"{live_server}/api/ingest/chunk",
+        data=payload,
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        res = json.loads(resp.read().decode())
+        assert res["status"] == "success"
+        assert res["samples_ingested"] == chunk_len
+        assert "telemetry" in res
+
+
+def test_server_ingest_chunk_validation_failure(live_server):
+    """Verify 400 error on empty or invalid chunk payloads."""
+    # Missing channels
+    req_empty = urllib.request.Request(
+        f"{live_server}/api/ingest/chunk",
+        data=json.dumps({}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with pytest.raises(urllib.error.HTTPError) as exc_info:
+        urllib.request.urlopen(req_empty)
+    assert exc_info.value.code == 400
+
+    # Length mismatch between channels
+    req_mismatch = urllib.request.Request(
+        f"{live_server}/api/ingest/chunk",
+        data=json.dumps({"channels": {"L1": [1.0, 2.0], "L2": [1.0], "L3": [1.0]}}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with pytest.raises(urllib.error.HTTPError) as exc_info:
+        urllib.request.urlopen(req_mismatch)
+    assert exc_info.value.code == 400
+
+
+def test_server_events_pagination_and_total(live_server):
+    """Verify /api/events pagination metadata (limit, offset, total)."""
+    req = urllib.request.Request(f"{live_server}/api/events?limit=2&offset=0")
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode())
+        assert "events" in data
+        assert "total" in data
+        assert "limit" in data
+        assert "offset" in data
+        assert data["limit"] == 2
+        assert data["offset"] == 0
+        assert len(data["events"]) <= 2
+
+
+def test_server_weights_32_endpoint(live_server):
+    """Verify /api/weights/32 serves the EXP-003 32-feature weights model JSON."""
+    req = urllib.request.Request(f"{live_server}/api/weights/32")
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode())
+        assert "features" in data
+        assert len(data["features"]) == 32
+        assert "weights" in data
+        assert "classes" in data
+        assert len(data["classes"]) == 8
+
+
+def test_server_sse_telemetry_stream(live_server):
+    """Verify /api/stream/telemetry returns SSE text/event-stream format."""
+    req = urllib.request.Request(f"{live_server}/api/stream/telemetry?iterations=1")
+    with urllib.request.urlopen(req, timeout=3.0) as resp:
+        assert resp.status == 200
+        assert "text/event-stream" in resp.headers.get("Content-Type", "")
+        line = resp.readline().decode()
+        assert "data: " in line
+        assert "status" in line

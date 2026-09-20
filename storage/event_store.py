@@ -11,7 +11,7 @@ Lightweight SQLite-backed event repository storing:
 import sqlite3
 import json
 import os
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 
 from dsp.event_engine import PQEvent, PhaseMeasurement
 
@@ -103,29 +103,78 @@ class EventStore:
                 return None
             return self._row_to_dict(row)
 
+    def _build_filter_clause(
+        self,
+        event_class: Optional[str] = None,
+        phase: Optional[str] = None,
+        start_time_after: Optional[float] = None,
+        end_time_before: Optional[float] = None,
+        multi_phase_only: Optional[bool] = None,
+    ) -> Tuple[str, List[Any]]:
+        where = " WHERE 1=1"
+        params: List[Any] = []
+        if event_class:
+            where += " AND event_class = ?"
+            params.append(event_class)
+        if phase:
+            where += " AND affected_phases LIKE ?"
+            params.append(f'%"{phase}"%')
+        if start_time_after is not None:
+            where += " AND start_time_utc >= ?"
+            params.append(start_time_after)
+        if end_time_before is not None:
+            where += " AND end_time_utc <= ?"
+            params.append(end_time_before)
+        if multi_phase_only is True:
+            # Multi-phase event JSON has comma separating phases
+            where += " AND affected_phases LIKE '%,%'"
+        elif multi_phase_only is False:
+            where += " AND affected_phases NOT LIKE '%,%'"
+        return where, params
+
+    def count_events(
+        self,
+        event_class: Optional[str] = None,
+        phase: Optional[str] = None,
+        start_time_after: Optional[float] = None,
+        end_time_before: Optional[float] = None,
+        multi_phase_only: Optional[bool] = None,
+    ) -> int:
+        """Returns the total count of events matching filter criteria."""
+        where, params = self._build_filter_clause(
+            event_class=event_class,
+            phase=phase,
+            start_time_after=start_time_after,
+            end_time_before=end_time_before,
+            multi_phase_only=multi_phase_only,
+        )
+        query = f"SELECT COUNT(*) FROM pq_events{where}"
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, tuple(params))
+            row = cursor.fetchone()
+            return int(row[0]) if row else 0
+
     def query_events(
         self,
         event_class: Optional[str] = None,
         phase: Optional[str] = None,
         start_time_after: Optional[float] = None,
-        limit: int = 50
+        end_time_before: Optional[float] = None,
+        multi_phase_only: Optional[bool] = None,
+        limit: int = 50,
+        offset: int = 0,
     ) -> List[Dict[str, Any]]:
-        """Queries recorded events with optional filtering."""
-        query = "SELECT * FROM pq_events WHERE 1=1"
-        params = []
-
-        if event_class:
-            query += " AND event_class = ?"
-            params.append(event_class)
-        if phase:
-            query += " AND affected_phases LIKE ?"
-            params.append(f'%"{phase}"%')
-        if start_time_after:
-            query += " AND start_time_utc >= ?"
-            params.append(start_time_after)
-
-        query += " ORDER BY start_time_utc DESC LIMIT ?"
-        params.append(limit)
+        """Queries recorded events with filtering and pagination."""
+        where, params = self._build_filter_clause(
+            event_class=event_class,
+            phase=phase,
+            start_time_after=start_time_after,
+            end_time_before=end_time_before,
+            multi_phase_only=multi_phase_only,
+        )
+        query = f"SELECT * FROM pq_events{where} ORDER BY start_time_utc DESC LIMIT ? OFFSET ?"
+        params.extend([limit, offset])
 
         with self._get_connection() as conn:
             cursor = conn.cursor()
