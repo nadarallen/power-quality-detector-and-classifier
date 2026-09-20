@@ -5,9 +5,9 @@
 #include "feature_extraction.h"
 
 float computeGoertzelMagnitude(const float* signal, size_t length, float target_freq, float sample_rate) {
-    float k = 0.5f + (length * target_freq / sample_rate);
-    float omega = (2.0f * M_PI / length) * k;
-    float cosine = cos(omega);
+    int k = (int)(0.5f + (length * target_freq / sample_rate));
+    float omega = (2.0f * M_PI / length) * (float)k;
+    float cosine = cosf(omega);
     float coeff = 2.0f * cosine;
 
     float q0 = 0.0f;
