@@ -1,6 +1,6 @@
 # Project State & Architectural Baseline
 
-**Current Git Commit:** `1ba3612`  
+**Current Git Commit:** `f2a9e53`  
 **Branch:** `main`  
 **Working Tree:** Clean  
 **Date of State Inspection:** 2026-09-20  
@@ -180,4 +180,4 @@ Evaluated probability calibration and Expected Calibration Error (ECE) across 10
 2. **Sampling Rate Constraint on Notches:**
    - At $f_s = 5000\text{ Hz}$ ($T_s = 200\,\mu\text{s}$), notches narrower than $200\,\mu\text{s}$ cannot be resolved. The generator simulates $600\,\mu\text{s}$ notches ($10.8^\circ$), which span 3 discrete samples.
 3. **Firmware TFLite Micro Runtime Linking:**
-   - `firmware/src/inference.cpp` contains an explicit heuristic fallback covering all 8 classes; full static linking with `tflite::MicroInterpreter::Invoke()` remains to be wired when deploying to physical hardware.
+   - `firmware/src/inference.cpp` integrates both the legacy TFLite placeholder with heuristic fallback and the validated zero-dependency 32-feature forward pass (`runInference32` via `model_weights_32.h`, passing full end-to-end native execution parity tests). Static linking with Google `tflite::MicroInterpreter::Invoke()` remains available for optional comparison.
