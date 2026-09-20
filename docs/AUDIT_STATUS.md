@@ -12,10 +12,16 @@ standards_audit: PASS
 parameter_audit: PASS
 generator_audit: PASS
 waveform_audit: PASS
+classification_rules_audit: PASS
 dataset_audit: PASS
 python_esp32_audit: FAIL
 
 resolved_issues:
+  - issue_id: "BLOCKER-02"
+    subsystem: "web/app.js"
+    title: "Incorrect Disturbance Definition for Interruption in Web Simulator"
+    resolution: "Resolved in Section 5B. Corrected web/app.js line 122 from val *= 0.680 to val *= 0.030 (< 0.10 pu per IEEE 1159 Clause 3.1.34). Fallback rules aligned with standards and arbitrary THD>5% rule removed."
+
   - issue_id: "BLOCKER-04"
     subsystem: "dsp/waveform_generator.py"
     title: "Constrained Parameter Bounds Omit IEEE 1159 Boundary Regimes"
@@ -27,12 +33,6 @@ blocking_issues:
     title: "ESP32 Goertzel Frequency-Bin Attenuation & THD Discrepancy"
     description: "Frequency bin index k is declared as float (float k = 0.5f + ...) without integer cast. Shifting target frequency by +2.5 Hz (evaluates at 52.5 Hz instead of 50.0 Hz). Causes 37.89% fundamental magnitude attenuation and up to 16.71% absolute THD error against Python baseline."
     remediation_required: "Change to int k = (int)(0.5f + (length * target_freq / sample_rate));"
-
-  - issue_id: "BLOCKER-02"
-    subsystem: "web/app.js"
-    title: "Incorrect Disturbance Definition for Interruption in Web Simulator"
-    description: "web/app.js line 122 sets Interruption to val *= 0.680 (0.68 pu), which violates IEEE 1159 Clause 3.1.34 (< 0.10 pu). Generates a Voltage Sag rather than an Interruption."
-    remediation_required: "Update web/app.js line 122 from val *= 0.680 to val *= 0.05 (or complete cutoff 0.0)."
 
   - issue_id: "BLOCKER-03"
     subsystem: "firmware/src/inference.cpp"

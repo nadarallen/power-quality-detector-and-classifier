@@ -64,7 +64,10 @@ def generate_pqd_waveform(
     }
     harm_info = {
         'enabled': False,
+        'fundamental_hz': F0,
         'orders': [],
+        'magnitude_relative_to_h1': {},
+        'phase_deg': {},
         'magnitudes': [],
         'thd_percent': 0.0
     }
@@ -126,19 +129,38 @@ def generate_pqd_waveform(
         })
 
     elif disturbance_type == 'Harmonics':
-        # IEEE Std 519 / 1159: Odd harmonics (H3, H5, H7) with variable phases
+        # IEEE Std 519 / 1159: Harmonics (H2, H3, H5, H7, H9, H11) with variable phases
+        a2 = params.get('a2', 0.0)
         a3 = params.get('a3', np.random.uniform(0.04, 0.15))
         a5 = params.get('a5', np.random.uniform(0.02, 0.10))
         a7 = params.get('a7', np.random.uniform(0.01, 0.06))
+        a9 = params.get('a9', 0.0)
+        a11 = params.get('a11', 0.0)
+
+        p2 = params.get('p2', 0.0)
         p3 = params.get('p3', np.random.uniform(0, 2 * np.pi))
         p5 = params.get('p5', np.random.uniform(0, 2 * np.pi))
         p7 = params.get('p7', np.random.uniform(0, 2 * np.pi))
-        
-        val += (a3 * v_nominal * np.sin(2.0 * np.pi * 3 * F0 * t + p3) +
-                a5 * v_nominal * np.sin(2.0 * np.pi * 5 * F0 * t + p5) +
-                a7 * v_nominal * np.sin(2.0 * np.pi * 7 * F0 * t + p7))
-        thd_calc = float(100.0 * np.sqrt(a3**2 + a5**2 + a7**2))
-        metadata.update({'a3': a3, 'a5': a5, 'a7': a7})
+        p9 = params.get('p9', 0.0)
+        p11 = params.get('p11', 0.0)
+
+        harm_orders = [2, 3, 5, 7, 9, 11]
+        harm_amps = [a2, a3, a5, a7, a9, a11]
+        harm_phases = [p2, p3, p5, p7, p9, p11]
+
+        for n, an, pn in zip(harm_orders, harm_amps, harm_phases):
+            if an > 1e-6:
+                val += an * v_nominal * np.sin(2.0 * np.pi * n * F0 * t + pn)
+
+        thd_calc = float(100.0 * np.sqrt(sum(a**2 for a in harm_amps)))
+        active_orders = [n for n, a in zip(harm_orders, harm_amps) if a > 1e-6]
+        if not active_orders:
+            active_orders = [3, 5, 7]
+
+        mags_rel = {f'H{n}': round(float(a), 6) for n, a in zip(harm_orders, harm_amps)}
+        phases_dict = {f'H{n}': round(float(np.rad2deg(p)) % 360.0, 2) for n, p in zip(harm_orders, harm_phases)}
+
+        metadata.update({'a2': a2, 'a3': a3, 'a5': a5, 'a7': a7, 'a9': a9, 'a11': a11})
         dist_info.update({
             'magnitude': thd_calc,
             'magnitude_unit': '%',
@@ -148,8 +170,11 @@ def generate_pqd_waveform(
         })
         harm_info.update({
             'enabled': True,
-            'orders': [3, 5, 7],
-            'magnitudes': [float(a3), float(a5), float(a7)],
+            'fundamental_hz': F0,
+            'orders': active_orders,
+            'magnitude_relative_to_h1': mags_rel,
+            'phase_deg': phases_dict,
+            'magnitudes': [float(a3), float(a5), float(a7)],  # Backwards compatibility
             'thd_percent': thd_calc
         })
 

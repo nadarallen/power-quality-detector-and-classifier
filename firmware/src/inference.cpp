@@ -74,7 +74,8 @@ InferenceResult runInference(const PQDFeatures& features) {
         res.class_id = 6; // Swell
         res.class_name = "Swell";
         res.confidence = 0.93f;
-    } else if (features.thd > 5.0f) {
+    } else if (features.thd > 8.0f || (features.dominant_freq > 60.0f && features.dominant_freq < 400.0f)) {
+        // Interim heuristic fallback for multi-harmonic spectral distortion (not an IEEE definition)
         res.class_id = 1; // Harmonics
         res.class_name = "Harmonics";
         res.confidence = 0.91f;

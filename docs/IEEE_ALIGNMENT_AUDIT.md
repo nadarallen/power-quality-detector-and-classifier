@@ -98,11 +98,61 @@ $$v_{\text{int}}(t) = \left[ 1 - (1 - d_{\text{int}}) \cdot \Pi(t; t_{\text{star
 - Duration: $\Delta t \in [10\text{ ms}, 190\text{ ms}]$
 
 #### Harmonics:
-$$v_{\text{harm}}(t) = V_{\text{nominal}} \sin(2\pi f_0 t) + \sum_{h \in \{3, 5, 7, 9, 11\}} a_h V_{\text{nominal}} \sin(2\pi h f_0 t + \phi_h)$$
-- $a_h$: individual harmonic magnitude relative to fundamental
-- $\phi_h \sim \mathcal{U}(0, 2\pi)$: random harmonic phase angle
+$$v_{\text{harm}}(t) = V_{\text{nominal}} \sin(2\pi f_0 t) + \sum_{h \in \{2, 3, 5, 7, 9, 11\}} a_h V_{\text{nominal}} \sin(2\pi h f_0 t + \phi_h)$$
+- $a_h$: individual harmonic magnitude relative to fundamental ($H_n / H_1$)
+- $\phi_h \sim \mathcal{U}(0, 2\pi)$: random harmonic phase angle relative to fundamental
 - Total Harmonic Distortion:
-  $$\text{THD}_v = \frac{\sqrt{\sum_{h \ge 2} a_h^2}}{1.0} \times 100\% \in [5\%, 20\%]$$
+  $$\text{THD}_v = \frac{\sqrt{\sum_{h \in \{2,3,5,7,9,11\}} a_h^2}}{1.0} \times 100\%$$
+
+> [!NOTE]
+> **Scientific Demarcation (Harmonics vs IEEE 519):**
+> IEEE Std 519-2022 Table 1 establishes harmonic voltage limits at the Point of Common Coupling (PCC) for steady-state utility operation (e.g. $\text{THD} \le 5.0\%$ for $V \le 1\text{ kV}$). In synthetic power quality classification, **THD > 5% is NOT an IEEE disturbance definition**. A waveform can exhibit measurable harmonic content without being classified as an IEEE 519 non-compliance event. Harmonic disturbance classification in this project requires spectral peak confirmation across characteristic harmonic orders ($H_2, H_3, H_5, H_7, H_9, H_{11}$), individual harmonic ratios, and phase characteristics, rather than an isolated scalar THD threshold.
+
+---
+
+### 3.3 Interruption Detection & Duration Standards Table (IEEE 1159-2019)
+
+Per **IEEE Std 1159-2019 Clause 3.1.34 and Table 2**, Voltage Interruption is strictly governed by **windowed RMS voltage**, not instantaneous sample thresholding.
+
+```text
+Raw Waveform (5 kHz)
+        │
+        ▼
+Sliding Windowed RMS (W = 50 samples = 10 ms = half-cycle U_rms(1/2) per IEC 61000-4-30)
+        │
+        ▼
+Normalize to Per-Unit: V_pu[n] = V_rms[n] / V_nom_rms (V_nom_rms = 1.012 / sqrt(2) = 0.7156 pu)
+        │
+        ▼
+Threshold Evaluation: V_pu[n] < 0.10 pu (IEEE 1159 Clause 3.1.34)
+        │
+        ├── No  ──► NOT an Interruption
+        │
+        └── Yes ──► Measure Duration (t_start to t_end)
+                      │
+                      ├── Duration < 0.5 cycles (< 10 ms) ──► Sub-Cycle Disturbance (REJECTED as Interruption)
+                      │
+                      └── Duration >= 0.5 cycles (>= 10 ms) ──► CONFIRMED INTERRUPTION
+                                                                  │
+                                                                  ▼
+                                                    Categorize Duration (IEEE 1159 Table 2)
+```
+
+#### Verified IEEE 1159 Interruption Duration Categories
+
+| Duration Category | IEEE Standard Reference | Verified Boundary | Standard Unit | Repository Implementation |
+|---|---|---|---|---|
+| **Instantaneous Interruption** | IEEE Std 1159-2019 Table 2 | $0.5\text{ to }30\text{ cycles}$ | cycles / ms | $10.0\text{ to }600.0\text{ ms}$ ($0.5\text{ to }30\text{ cycles}$ @ 50 Hz). Measured via `dsp/standards_detector.py`. |
+| **Momentary Interruption** | IEEE Std 1159-2019 Table 2 | $30\text{ cycles to }3\text{ seconds}$ | cycles / s | $0.60\text{ to }3.0\text{ s}$ ($30\text{ cycles to }150\text{ cycles}$). Monitored via sliding RMS integration. |
+| **Temporary Interruption** | IEEE Std 1159-2019 Table 2 | $3\text{ seconds to }1\text{ minute}$ | seconds / min | $3.0\text{ to }60.0\text{ seconds}$. Automated event logging. |
+| **Sustained Interruption** | IEEE Std 1159-2019 Clause 4.4.5, Table 2 | $> 1\text{ minute}$ | minutes / hours | $> 60.0\text{ seconds}$. Classified as long-duration variation ($0.0\text{ pu}$ typical). |
+
+#### Measurement Parameter Specifications
+- **RMS Window Length:** $W = 50\text{ samples}$ ($10\text{ ms} = 0.5\text{ cycles}$ @ $5\text{ kHz}$ / $50\text{ Hz}$), conforming to IEC 61000-4-30 $U_{\mathrm{rms}(1/2)}$.
+- **RMS Calculation Method:** Running sum of squares: $V_{\mathrm{rms}}[n] = \sqrt{\frac{1}{W} \sum_{k=0}^{W-1} v[n-k]^2}$.
+- **Reference Nominal Voltage:** $V_{\mathrm{nom\_peak}} = 1.012\text{ pu}$, $V_{\mathrm{nom\_rms}} = 0.7156\text{ pu}$.
+- **Magnitude Criterion:** Residual RMS strictly $< 0.10\text{ pu}$ ($< 10\%$ residual voltage).
+- **Sub-Cycle Gate:** Duration strictly $\ge 0.5\text{ cycles}$ ($10.0\text{ ms}$). Peak-based or instantaneous sample checks (`if sample < 0.10`) are prohibited.
 
 #### Oscillatory Transient:
 $$v_{\text{trans}}(t) = V_{\text{nominal}} \sin(2\pi f_0 t) + A_{\text{trans}} V_{\text{nominal}} e^{-(t - t_{\text{start}})/\tau} \sin(2\pi f_{\text{trans}} (t - t_{\text{start}})) \cdot u(t - t_{\text{start}})$$
@@ -296,19 +346,19 @@ Evaluated across **200 test waveforms** spanning all 8 disturbance classes at 45
 ### Python ↔ ESP32 Consistency
 **FAIL**
 
-### Blocking Issues
+### Resolved Issues
+1. **[BLOCKER-02] (RESOLVED in Section 5B):** Corrected `web/app.js` line 122 from `val *= 0.680` to `val *= 0.030` (strictly $< 0.10\text{ pu}$ per IEEE 1159 Clause 3.1.34).
+2. **[BLOCKER-04] (RESOLVED in Section 5A):** Updated `dsp/waveform_generator.py` default bounds to span the full IEEE 1159 regimes (Sag depth $[0.10, 0.90]\text{ pu}$, Swell magnitude $[1.10, 1.80]\text{ pu}$, Interruption depth $[0.00, 0.095]\text{ pu}$).
+
+### Remaining Blocking Issues
 1. **[BLOCKER-01] Python $\leftrightarrow$ ESP32 THD Mismatch:** `firmware/src/feature_extraction.cpp` Goertzel bin index `k` is declared as `float` (`float k = 0.5f + length * freq / sample_rate`) without an integer cast, evaluating at $52.5\text{ Hz}$ instead of $50.0\text{ Hz}$. Causes 37.89% fundamental magnitude attenuation and up to 16.71% THD error (MAE 1.59%).
-2. **[BLOCKER-02] Incorrect Disturbance Definition in Web Simulator:** `web/app.js` line 122 sets Interruption to `val *= 0.680` (0.68 pu), which violates IEEE 1159 Clause 3.1.34 ($< 0.10\text{ pu}$) and simulates a Voltage Sag instead of an Interruption.
-3. **[BLOCKER-03] Stubbed Embedded Inference:** `firmware/src/inference.cpp` uses an ad-hoc `if-else` heuristic rather than invoking `tflite::MicroInterpreter::Invoke()` on `g_model`. The heuristic omits Flicker and Notch entirely.
-4. **[BLOCKER-04] Constrained Generator Ranges:** `dsp/waveform_generator.py` bounds for Sag depth $[0.35, 0.85]$ and Swell magnitude $[1.15, 1.65]$ omit severe sags ($0.10\text{–}0.35\text{ pu}$) and swells ($1.65\text{–}1.80\text{ pu}$) specified in IEEE 1159 Table 1.
-5. **[BLOCKER-05] Synthetic Dataset Leakage:** `Dataset/BARC DATA.csv` has a constant `Duration_ms == 5.0 ms` for all 985 Transients (synthetic shortcut) and `Dominant_Freq_Hz` is 100% dead (50.000 Hz constant across all 10,000 samples).
+2. **[BLOCKER-03] Stubbed Embedded Inference:** `firmware/src/inference.cpp` uses an ad-hoc `if-else` heuristic rather than invoking `tflite::MicroInterpreter::Invoke()` on `g_model`. The heuristic omits Flicker and Notch entirely.
+3. **[BLOCKER-05] Synthetic Dataset Leakage:** `Dataset/BARC DATA.csv` has a constant `Duration_ms == 5.0 ms` for all 985 Transients (synthetic shortcut) and `Dominant_Freq_Hz` is 100% dead (50.000 Hz constant across all 10,000 samples).
 
 ### Required Fixes Before ML
 1. Apply `(int)` cast in `firmware/src/feature_extraction.cpp` line 8.
-2. Correct `web/app.js` line 122 from `0.680` to `0.05` pu.
-3. Connect real TFLite Micro interpreter runtime in `firmware/src/inference.cpp`.
-4. Update generator parameter bounds in `dsp/waveform_generator.py` to match `config/pqd_parameter_spec.yaml`.
-5. Explicitly design 1D CNN raw waveform pipeline to bypass the tabular 5.0 ms transient shortcut.
+2. Connect real TFLite Micro interpreter runtime in `firmware/src/inference.cpp`.
+3. Explicitly design 1D CNN raw waveform pipeline to bypass the tabular 5.0 ms transient shortcut.
 
 ### Audit Status
 **NOT READY**

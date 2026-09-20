@@ -119,7 +119,7 @@ function generateWaveform(distType) {
     } else if (distType === 'Swell') {
       val *= 1.215; // Scaled so V_rms = 0.860 pu, V_peak = 1.457 pu
     } else if (distType === 'Interruption') {
-      val *= 0.680; // Scaled so V_rms = 0.482 pu
+      val *= 0.030; // IEEE Std 1159 Clause 3.1.34: Residual voltage strictly < 0.10 pu (V_rms ~ 0.021 pu)
     } else if (distType === 'Harmonics') {
       val += 0.08 * V_nom * Math.sin(2 * Math.PI * 3 * f0 * t) + 0.04 * V_nom * Math.sin(2 * Math.PI * 5 * f0 * t);
     } else if (distType === 'Transient') {
@@ -277,14 +277,18 @@ function runNeuralNetworkInference(features) {
     const sumExps = exps.reduce((a, b) => a + b, 0);
     probs = exps.map(e => e / sumExps);
   } else {
-    // Exact mathematical rule-based fallback aligning with trained decision boundary
-    if (features.rms_voltage < 0.50) {
+    // Standards-aligned heuristic fallback for simulation
+    if (features.rms_voltage < 0.10) {
+      // IEEE Std 1159: Residual RMS strictly < 0.10 pu
       probs[CLASSES.indexOf('Interruption')] = 0.98;
     } else if (features.rms_voltage < 0.65) {
+      // IEEE Std 1159: Voltage Sag residual RMS
       probs[CLASSES.indexOf('Sag')] = 0.96;
     } else if (features.rms_voltage > 0.80) {
+      // IEEE Std 1159: Voltage Swell
       probs[CLASSES.indexOf('Swell')] = 0.96;
-    } else if (features.thd > 5.0) {
+    } else if (features.thd > 8.0 || (features.dominant_freq > 60.0 && features.dominant_freq < 400.0)) {
+      // Disturbance with prominent harmonic distortion
       probs[CLASSES.indexOf('Harmonics')] = 0.94;
     } else if (features.peak_voltage > 1.4 && features.duration < 10.0) {
       probs[CLASSES.indexOf('Transient')] = 0.95;
