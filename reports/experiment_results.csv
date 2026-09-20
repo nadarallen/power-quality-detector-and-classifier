@@ -1,0 +1,7 @@
+experiment_id,hypothesis,dataset_version,feature_set,feature_count,model,val_accuracy,val_macro_f1,test_accuracy,test_macro_f1,interruption_recall,safety_status,conclusion
+EXP-001,Baseline 8-feature benchmark on locked 70/15/15 split,v1.0.0,Baseline 8,8,Compact_MLP,97.07,0.9644,96.87,0.9624,90.24,PASS,Viable baseline but exhibits Sag/Interruption confusion at boundary
+EXP-002,Discrete Goertzel harmonics H1-H11 resolve harmonic & notch classification,v1.0.0,Harmonics_Profile,27,Compact_MLP,99.47,0.9937,98.80,0.9861,99.19,PASS,Major jump in Interruption recall to 99.19% and Macro F1 to 0.9861
+EXP-003,Fourier spectral distribution moments separate noise from sub-cycle transients,v1.0.0,Harmonics+Spectral,32,Compact_MLP,99.53,0.9939,99.40,0.9927,100.00,PASS,100% Interruption recall and 99.40% test accuracy across all 8 classes
+EXP-004,Full 47-feature time-frequency-shape descriptor matrix,v1.0.0,Full_Enhanced_DSP,47,Compact_MLP,99.87,0.9985,99.67,0.9960,100.00,PASS,Highest overall metrics; higher embedded computation cost than EXP-003
+EXP-005,Unseen out-of-grid parameter generalizability test,v1.0.0,Harmonics+Spectral,32,Compact_MLP,N/A,N/A,92.31,0.9150,100.00,PASS,12/13 unseen physical configurations correctly classified; only H2+H3+H11 mixture confused with Notch
+EXP-006,Model architecture & latency comparison (MLP vs ExtraTrees on 8 vs 32 feats),v1.0.0,Harmonics+Spectral,32,Compact_MLP,99.53,0.9939,99.40,0.9927,100.00,PASS,Compact MLP offers 325 us latency and 100% Interruption recall vs ExtraTrees 6.7 ms latency

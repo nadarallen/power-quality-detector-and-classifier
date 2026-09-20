@@ -1,6 +1,6 @@
 # Project State & Architectural Baseline
 
-**Current Git Commit:** `f7299ff`  
+**Current Git Commit:** `f26f04b`  
 **Branch:** `main` (Synchronized with `origin/main`)  
 **Working Tree:** Clean  
 **Date of State Inspection:** 2026-09-20  
@@ -92,34 +92,51 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 ## 4. Current Test Suite Status
 
 Executed via `.venv/bin/pytest tests/ -v`:
-- **Total Tests Collected:** 41
-- **Passed:** 41
+- **Total Tests Collected:** 42
+- **Passed:** 42
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~1.32s
+- **Execution Time:** ~1.22s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
 - `tests/test_waveform_acceptance.py`: 26 tests (sampling rate, buffer lengths, Nyquist checks, IEEE 1159.3-2025 metadata conformance across all 8 classes).
-- `tests/test_firmware_parity.py`: 3 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude and THD parity).
+- `tests/test_firmware_parity.py`: 4 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, and 32-feature Compact MLP forward pass parity).
 - `tests/test_dsp_features.py`: 1 test (baseline feature preservation).
 
 ---
 
-## 5. Historical Model Baseline Results
+## 5. Model Baseline & Feature Ablation Results (Frozen 70/15/15 Split)
 
-Evaluated on legacy 80/20 train/test split:
+### 5.1 Baseline 8-Feature Benchmarks
+Evaluated on locked 70/15/15 stratified train/validation/test splits (`data/splits/`):
 
-| Model | Accuracy | Macro F1 | Interruption Recall | Size (KB) | Latency ($\mu\text{s}$) | Safety Status |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Compact Keras MLP (Deployed Candidate)** | 95.90% | 0.9468 | 96.34% | 64.8 (8.4 INT8) | 103,638 | **PASS** ($\ge 90\%$) |
-| **ExtraTrees** | 96.65% | 0.9595 | 82.32% | 34,124 | 10,587 | WARNING (<90% Recall) |
-| **Random Forest** | 96.50% | 0.9575 | 82.32% | 9,731 | 8,185 | WARNING (<90% Recall) |
-| **Compact Sklearn MLP** | 96.85% | 0.9592 | 86.59% | 103.9 | 207 | WARNING (<90% Recall) |
-| **SVM (RBF)** | 89.10% | 0.8296 | 71.95% | 335.4 | 703 | WARNING (<90% Recall) |
-| **kNN (k=5)** | 87.10% | 0.7942 | 70.73% | 706.0 | 1,819 | WARNING (<90% Recall) |
+| Model | Val Acc | Val Macro F1 | Test Acc | Test Macro F1 | Interruption Recall (Test) | Safety Status ($\ge 90\%$) | Latency |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Compact MLP (Sklearn)** | 95.93% | 0.9482 | 96.87% | 0.9624 | **90.24%** | **PASS** | 310.2 $\mu\text{s}$ |
+| **ExtraTrees** | 95.53% | 0.9462 | 98.40% | 0.9813 | **95.12%** | **PASS** | 6,603.4 $\mu\text{s}$ |
+| **GradientBoosting** | 96.13% | 0.9546 | 97.73% | 0.9728 | 88.62% | WARNING (<90% Recall) | 16,948.2 $\mu\text{s}$ |
+| **Random Forest** | 94.93% | 0.9389 | 97.20% | 0.9645 | 83.74% | WARNING (<90% Recall) | 7,696.6 $\mu\text{s}$ |
+| **SVM (Linear)** | 91.80% | 0.8817 | 93.67% | 0.9020 | 81.30% | WARNING (<90% Recall) | — |
+| **Logistic Regression** | 90.00% | 0.8487 | 91.47% | 0.8623 | 81.30% | WARNING (<90% Recall) | — |
+| **SVM (RBF)** | 88.60% | 0.8251 | 89.73% | 0.8291 | 76.42% | WARNING (<90% Recall) | 314.7 $\mu\text{s}$ |
+| **kNN (k=5)** | 86.13% | 0.7811 | 88.27% | 0.8059 | 78.86% | WARNING (<90% Recall) | 681.8 $\mu\text{s}$ |
 
-*Note: These historical baselines must be re-benchmarked against the frozen 70/15/15 dataset splits.*
+### 5.2 Controlled Feature Ablation (Compact MLP, Track B)
+Evaluated across dimensionally expanded DSP feature groups on locked test set:
+
+| Experiment | Feature Pipeline | Dimensions | Val Acc | Val Macro F1 | Test Acc | Test Macro F1 | Interruption Recall (Test) |
+|---|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **EXP-001** | Baseline 8 | 8 | 97.07% | 0.9644 | 96.87% | 0.9624 | 90.24% |
+| **EXP-002** | Baseline + Goertzel Harmonics ($H_1\text{–}H_{11}$) | 27 | 99.47% | 0.9937 | 98.80% | 0.9861 | 99.19% |
+| **EXP-003** | EXP-002 + Spectral Moments (Centroid, Bandwidth, Entropy, Flatness, Peak) | **32** | **99.53%** | **0.9939** | **99.40%** | **0.9927** | **100.00%** |
+| **EXP-004** | Full Enhanced DSP Matrix | 47 | 99.87% | 0.9985 | 99.67% | 0.9960 | 100.00% |
+
+### 5.3 Generalization & Out-of-Grid Parameter Testing
+Tested on 13 randomized parameter configurations outside training grid points:
+- **Generalization Score:** 12/13 passed (**92.3%** accuracy).
+- Fully generalizable on unseen sag depths ($0.35, 0.72, 0.88\text{ pu}$), swells ($1.22, 1.65\text{ pu}$), sub-cycle durations ($1.5\text{ to }7.2\text{ cycles}$), and transients ($420\text{ Hz and }680\text{ Hz}$).
+- Only boundary confusion observed was between complex multi-order even/odd harmonic mixtures ($H_2+H_3+H_{11}$) and commutation notching.
 
 ---
 

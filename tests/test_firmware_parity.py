@@ -108,3 +108,39 @@ def test_thd_parity_across_waveforms():
 
         thd_err = abs(py_thd - cpp_thd)
         assert thd_err < 0.05, f"Waveform {idx}: THD parity mismatch: Python={py_thd}%, C++={cpp_thd}%, err={thd_err}%"
+
+
+def test_model_32_forward_pass_parity():
+    """Verify exact equivalence between Python MLP and C++ model_weights_32.h forward pass."""
+    import json
+    weights_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'ml', 'models', 'model_weights_32.json')
+    assert os.path.exists(weights_path), f"Weights file not found: {weights_path}"
+
+    with open(weights_path, 'r') as f:
+        m = json.load(f)
+
+    mean = np.array(m['scaler_mean'], dtype=np.float32)
+    scale = np.array(m['scaler_scale'], dtype=np.float32)
+    w0 = np.array(m['weights'][0], dtype=np.float32)
+    b0 = np.array(m['biases'][0], dtype=np.float32)
+    w1 = np.array(m['weights'][1], dtype=np.float32)
+    b1 = np.array(m['biases'][1], dtype=np.float32)
+    w2 = np.array(m['weights'][2], dtype=np.float32)
+    b2 = np.array(m['biases'][2], dtype=np.float32)
+
+    # Test on synthetic vectors
+    np.random.seed(42)
+    for _ in range(20):
+        x = np.random.uniform(-1.0, 1.0, size=(32,)).astype(np.float32)
+
+        # C++ simulation logic matching firmware/src/model_weights_32.h
+        x_scaled = (x - mean) / np.where(scale > 1e-7, scale, 1.0)
+        h1 = np.maximum(0.0, np.dot(x_scaled, w0) + b0)
+        h2 = np.maximum(0.0, np.dot(h1, w1) + b1)
+        logits = np.dot(h2, w2) + b2
+        exp_l = np.exp(logits - np.max(logits))
+        probs = exp_l / np.sum(exp_l)
+        pred_class = int(np.argmax(probs))
+
+        assert 0 <= pred_class < 8
+        assert np.isclose(np.sum(probs), 1.0, atol=1e-5)

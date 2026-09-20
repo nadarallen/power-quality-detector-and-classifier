@@ -39,3 +39,4 @@ ENV/
 temp_*.pkl
 *.npz
 data/waveforms/
+data/enhanced_splits/

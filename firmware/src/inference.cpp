@@ -61,53 +61,54 @@ InferenceResult runInference(const PQDFeatures& features) {
         features.snr
     };
 
-    // Heuristic prediction mapping covering all 8 classes
-    if (features.rms_voltage < 0.10f) {
-        // IEEE Std 1159 Clause 3.1.34: Residual RMS strictly < 0.10 pu
-        res.class_id = 2; // Interruption
-        res.class_name = "Interruption";
-        res.confidence = 0.98f;
-    } else if (features.rms_voltage < 0.90f) {
-        // IEEE Std 1159 Clause 3.1.53: Voltage Sag (0.10 to 0.90 pu)
-        res.class_id = 5; // Sag
-        res.class_name = "Sag";
-        res.confidence = 0.94f;
-    } else if (features.rms_voltage > 1.10f) {
-        // IEEE Std 1159 Clause 3.1.58: Voltage Swell (1.10 to 1.80 pu)
-        res.class_id = 6; // Swell
-        res.class_name = "Swell";
-        res.confidence = 0.93f;
-    } else if (features.peak_voltage > 1.25f && features.duration < 15.0f) {
-        // IEEE Std 1159 Clause 3.1.43: Oscillatory Transient
-        res.class_id = 7; // Transient
-        res.class_name = "Transient";
-        res.confidence = 0.88f;
-    } else if (features.thd > 8.0f || (features.dominant_freq > 60.0f && features.dominant_freq < 400.0f)) {
-        // Significant multi-harmonic distortion
-        res.class_id = 1; // Harmonics
-        res.class_name = "Harmonics";
-        res.confidence = 0.91f;
-    } else if (features.thd > 3.0f && features.crest_factor < 1.35f) {
-        // Commutation Notch: localized deep notches depress crest factor and increase higher spectral components
-        res.class_id = 4; // Notch
-        res.class_name = "Notch";
-        res.confidence = 0.80f;
-    } else if (features.crest_factor > 1.48f || (features.rms_voltage >= 0.92f && features.rms_voltage <= 1.08f && features.peak_voltage > 1.08f)) {
-        // Voltage Fluctuations / Flicker: low-frequency AM modulation alters crest factor and instantaneous envelope
-        res.class_id = 0; // Flicker
-        res.class_name = "Flicker";
-        res.confidence = 0.82f;
-    } else {
-        // Steady-state Normal baseline condition
-        res.class_id = 3; // Normal
-        res.class_name = "Normal";
-        res.confidence = 0.96f;
-    }
+    // =========================================================================
+    // EMERGENCY SIMULATION FALLBACK (Heuristic Only)
+    // NOTE: This heuristic is strictly an uncalibrated fallback when TFLite Micro
+    // is linking or uninitialized. It does NOT define IEEE standards boundaries.
+    // All fallback decisions are explicitly flagged as uncertain.
+    // =========================================================================
+    res.is_uncertain = true; // Mark all heuristic fallback predictions as uncertain
 
-    // Confidence thresholding
-    if (res.confidence < 0.60f) {
-        res.is_uncertain = true;
-        res.class_name = "UNCERTAIN";
+    if (features.rms_voltage < 0.10f) {
+        // Fallback heuristic: Residual RMS < 0.10 pu
+        res.class_id = 2; // Interruption
+        res.class_name = "Interruption (Fallback)";
+        res.confidence = 0.50f;
+    } else if (features.rms_voltage < 0.90f) {
+        // Fallback heuristic: Voltage Sag
+        res.class_id = 5; // Sag
+        res.class_name = "Sag (Fallback)";
+        res.confidence = 0.50f;
+    } else if (features.rms_voltage > 1.10f) {
+        // Fallback heuristic: Voltage Swell
+        res.class_id = 6; // Swell
+        res.class_name = "Swell (Fallback)";
+        res.confidence = 0.50f;
+    } else if (features.peak_voltage > 1.25f && features.duration < 15.0f) {
+        // Fallback heuristic: Oscillatory Transient candidate
+        res.class_id = 7; // Transient
+        res.class_name = "Transient (Fallback)";
+        res.confidence = 0.50f;
+    } else if (features.thd > 8.0f || (features.dominant_freq > 60.0f && features.dominant_freq < 400.0f)) {
+        // Fallback heuristic: Harmonics
+        res.class_id = 1; // Harmonics
+        res.class_name = "Harmonics (Fallback)";
+        res.confidence = 0.50f;
+    } else if (features.thd > 3.0f && features.crest_factor < 1.35f) {
+        // Fallback heuristic: Commutation Notch candidate
+        res.class_id = 4; // Notch
+        res.class_name = "Notch (Fallback)";
+        res.confidence = 0.50f;
+    } else if (features.crest_factor > 1.48f || (features.rms_voltage >= 0.92f && features.rms_voltage <= 1.08f && features.peak_voltage > 1.08f)) {
+        // Fallback heuristic: Voltage Fluctuation candidate
+        res.class_id = 0; // Flicker
+        res.class_name = "Flicker (Fallback)";
+        res.confidence = 0.50f;
+    } else {
+        // Fallback heuristic: Steady-state Normal candidate
+        res.class_id = 3; // Normal
+        res.class_name = "Normal (Fallback)";
+        res.confidence = 0.50f;
     }
 
     return res;
