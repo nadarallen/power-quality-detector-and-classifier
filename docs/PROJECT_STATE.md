@@ -70,16 +70,17 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 | **Waveform Generation** | `dsp/waveform_generator.py` | Synthesizes 1000-sample voltage waveforms at 5 kHz across 8 classes with IEEE 1159.3-2025 nested metadata tracking. |
 | **3-Phase Data Frame** | `dsp/waveform_frame.py` | Canonical multi-channel, time-synchronized `WaveformFrame` with per-channel calibration, NaN/Inf checks, and JSON serialization. |
 | **Acquisition Adapters** | `dsp/acquisition_adapter.py` | Abstract `AcquisitionAdapter`, `SimulationAdapter` (continuous 3-phase synthesis), and `CSVReplayAdapter` (hardened fail-clearly validation). |
+| **Sliding Ring Buffer** | `dsp/ring_buffer.py` | Continuous `MultiChannelRingBuffer` slicing synchronized `WaveformFrame` windows with configurable duration, overlap/hop, and circular memory. |
 | **Per-Phase Processor** | `dsp/phase_processor.py` | Wires the trained Compact MLP (EXP-003, 32-features) to per-phase signals with zero-copy feedforward, uncertainty gating ($<0.60$), and `PhaseMeasurement` assembly. |
-| **Event Engine** | `dsp/event_engine.py` | `ThreePhaseEventEngine` and `PQEvent` tracking per-phase state, multi-window deduplication, trained MLP classification, and cross-phase disturbance correlation. |
+| **Event Engine** | `dsp/event_engine.py` | `ThreePhaseEventEngine` and `PQEvent` tracking per-phase state, multi-window deduplication, monotonic nadir/envelope tracking, trained MLP classification, and cross-phase disturbance correlation. |
 | **Persistence Layer** | `storage/event_store.py` | SQLite embedded database with per-phase metric indexing, event retrieval, phase filtering, and aggregated class/phase statistics. |
-| **Streaming Pipeline** | `pipeline/realtime_pipeline.py` | Continuous streaming engine connecting acquisition adapter, signal validation, event engine, and persistence callbacks. |
+| **Streaming Pipeline** | `pipeline/realtime_pipeline.py` | Continuous streaming engine connecting acquisition adapter, signal validation, ring buffer sliding windowing, event engine, and persistence callbacks. |
 | **Standards Measurement** | `dsp/standards_detector.py` | Half-cycle sliding RMS ($U_{\mathrm{rms}(1/2)}$, 10 ms window), residual RMS $< 0.10\text{ pu}$ interruption detector, and FFT harmonic engine ($H_2$ through $H_{11}$). |
 | **Preserved DSP** | `dsp/baseline_features.py` | 8 baseline features matching legacy firmware and dataset (RMS, peak, crest factor, Goertzel THD, duration, dominant freq, system freq, SNR). |
 | **Enhanced DSP** | `dsp/enhanced_features.py` | 47 statistical, higher-order spectral ($H_1\text{–}H_{11}$), entropy, and shape features for Track B expansion. |
 | **Firmware Engine** | `firmware/src/feature_extraction.cpp`<br>`firmware/src/inference.cpp` | On-device C++ feature extraction engine and TFLite Micro inference fallback handler. |
 | **Raw Datasets** | `Dataset/BARC DATA.csv`<br>`data/splits/` | Ground truth dataset (10,000 samples) and frozen 70/15/15 stratified train, validation, and test splits. |
-| **Automated Tests** | `tests/` (78 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, and REST API test suite (100% passing). |
+| **Automated Tests** | `tests/` (89 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, ring buffer, multi-window merging, and REST API test suite (100% passing). |
 
 ---
 
@@ -100,11 +101,11 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 ## 4. Current Test Suite Status
 
 Executed via `.venv/bin/pytest`:
-- **Total Tests Collected:** 78
-- **Passed:** 78
+- **Total Tests Collected:** 89
+- **Passed:** 89
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~4.78s
+- **Execution Time:** ~5.36s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
@@ -112,7 +113,9 @@ Breakdown:
 - `tests/test_firmware_parity.py`: 6 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, full $H_1\text{–}H_{11}$ and $\text{THD}_{2\_11}$ parity, 32-feature Compact MLP forward pass parity, and native C++ binary execution parity).
 - `tests/test_waveform_frame.py`: 3 tests (canonical 3-phase WaveformFrame creation, temporal duration, channel synchronization mismatch, and NaN/Inf validation).
 - `tests/test_acquisition_adapter.py`: 6 tests (SimulationAdapter multi-channel generation, per-phase disturbance injection, CSVReplayAdapter streaming, and 4 fail-clearly validation cases).
+- `tests/test_ring_buffer.py`: 6 tests (continuous chunk append, configurable window/hop extraction, 50% overlap, circular wrap-around, strict validation, clear).
 - `tests/test_phase_processor.py`: 10 tests (32-feature vector consistency, manifest ordering, MLP forward pass inference, uncertainty gating $<0.60$, per-phase measurement assembly, invalid frame rejection, harmonic dictionary population).
+- `tests/test_multi_window_merging.py`: 5 tests (3-window contiguous Sag deduplication, overlapping window deduplication, disturbance class transition splitting, dynamic multi-phase correlation, monotonic nadir/envelope aggregation).
 - `tests/test_end_to_end_pipeline.py`: 6 tests (full CSV → WaveformFrame → per-phase DSP → trained MLP → ThreePhaseEventEngine → multi-phase correlation).
 - `tests/test_event_engine.py`: 2 tests (ThreePhaseEventEngine per-phase tracking, multi-window event merging, and cross-phase concurrent sag correlation).
 - `tests/test_event_store.py`: 2 tests (SQLite event persistence, parameter serialization, phase querying, and aggregate statistics).

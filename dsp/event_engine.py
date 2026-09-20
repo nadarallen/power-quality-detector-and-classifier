@@ -77,6 +77,30 @@ class PQEvent:
         self.end_time_utc = current_time_utc
         self.duration_ms = max(0.0, (self.end_time_utc - self.start_time_utc) * 1000.0)
 
+    @property
+    def is_multi_phase(self) -> bool:
+        """True if disturbance concurrently affects more than one phase."""
+        return len(self.affected_phases) > 1
+
+    @property
+    def max_severity(self) -> float:
+        """
+        Computes maximum deviation from nominal 1.0 pu or highest THD across affected phases.
+        For Sag/Interruption/Swell: max |1.0 - Vrms|.
+        For Harmonics: max THD / 100.0.
+        """
+        if not self.phase_metrics:
+            return 0.0
+        max_dev = 0.0
+        for m in self.phase_metrics.values():
+            if self.event_class == "Harmonics":
+                dev = m.thd_2_11 / 100.0
+            else:
+                dev = max(abs(1.0 - m.min_rms), abs(m.max_rms - 1.0))
+            if dev > max_dev:
+                max_dev = dev
+        return round(max_dev, 4)
+
 
 class ThreePhaseEventEngine:
     """
@@ -221,7 +245,7 @@ class ThreePhaseEventEngine:
 
             for ev in events_to_close:
                 ev.is_active = False
-                ev.update_duration(frame_time)
+                ev.update_duration(max(ev.end_time_utc, frame_time))
                 newly_closed_events.append(ev)
         else:
             # Group concurrent disturbances into correlated multi-phase events
@@ -237,26 +261,41 @@ class ThreePhaseEventEngine:
                     break
 
             if existing_event is not None and existing_event.event_class == dominant_class:
-                # Merge / extend existing event
-                existing_event.update_duration(frame_time)
+                # Merge / extend existing event across contiguous or overlapping windows
+                new_end_time = max(existing_event.end_time_utc, frame_time + frame.duration_seconds)
+                existing_event.update_duration(new_end_time)
                 for p in active_disturbed_phases:
                     if p not in existing_event.affected_phases:
                         existing_event.affected_phases.append(p)
-                    # Update min/max RMS
+                    # Update min/max RMS and full envelope metrics
                     pm = detected_states[p][2]
                     if p in existing_event.phase_metrics:
-                        existing_event.phase_metrics[p].min_rms = min(existing_event.phase_metrics[p].min_rms, pm.min_rms)
-                        existing_event.phase_metrics[p].max_rms = max(existing_event.phase_metrics[p].max_rms, pm.max_rms)
+                        curr_pm = existing_event.phase_metrics[p]
+                        curr_pm.min_rms = min(curr_pm.min_rms, pm.min_rms)
+                        curr_pm.max_rms = max(curr_pm.max_rms, pm.max_rms)
+                        curr_pm.peak_voltage = max(curr_pm.peak_voltage, pm.peak_voltage)
+                        curr_pm.crest_factor = max(curr_pm.crest_factor, pm.crest_factor)
+                        curr_pm.thd_2_11 = max(curr_pm.thd_2_11, pm.thd_2_11)
+                        curr_pm.confidence = round((curr_pm.confidence + pm.confidence) / 2.0, 4)
                     else:
                         existing_event.phase_metrics[p] = pm
                     self.active_events_by_phase[p] = existing_event
+
+                # Update overall confidence
+                confs = [detected_states[p][1] for p in active_disturbed_phases]
+                existing_event.overall_confidence = round(
+                    (existing_event.overall_confidence + float(np.mean(confs))) / 2.0, 4
+                )
             else:
                 # Close mismatched prior event if any
+                seen_old_ids = set()
                 for p in active_disturbed_phases:
                     old_ev = self.active_events_by_phase.get(p)
-                    if old_ev is not None:
+                    if old_ev is not None and old_ev.event_id not in seen_old_ids:
+                        seen_old_ids.add(old_ev.event_id)
                         old_ev.is_active = False
-                        old_ev.update_duration(frame_time)
+                        if frame_time > old_ev.end_time_utc:
+                            old_ev.update_duration(frame_time)
                         newly_closed_events.append(old_ev)
 
                 # Open a new correlated multi-phase event

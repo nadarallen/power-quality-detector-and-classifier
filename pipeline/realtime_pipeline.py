@@ -18,6 +18,7 @@ import numpy as np
 from dsp.waveform_frame import WaveformFrame
 from dsp.acquisition_adapter import AcquisitionAdapter
 from dsp.event_engine import ThreePhaseEventEngine, PQEvent
+from dsp.ring_buffer import MultiChannelRingBuffer
 from storage.event_store import EventStore
 
 logger = logging.getLogger("RealtimePQPipeline")
@@ -30,13 +31,15 @@ class RealtimePQPipeline:
 
     def __init__(
         self,
-        adapter: AcquisitionAdapter,
+        adapter: Optional[AcquisitionAdapter] = None,
+        ring_buffer: Optional[MultiChannelRingBuffer] = None,
         event_store: Optional[EventStore] = None,
         on_event_callback: Optional[Callable[[PQEvent], None]] = None,
         on_frame_callback: Optional[Callable[[WaveformFrame, Dict[str, Any]], None]] = None,
         device_id: str = "PQ_ANALYZER_01",
     ):
         self.adapter = adapter
+        self.ring_buffer = ring_buffer
         self.store = event_store or EventStore()
         self.on_event_callback = on_event_callback
         self.on_frame_callback = on_frame_callback
@@ -95,8 +98,39 @@ class RealtimePQPipeline:
 
         return events
 
+    def ingest_samples(
+        self,
+        samples: Dict[str, np.ndarray],
+        timestamp_utc: Optional[float] = None
+    ) -> List[PQEvent]:
+        """
+        Ingests an arbitrary-length streaming chunk of samples into the ring buffer,
+        extracts ready WaveformFrame sliding windows, and executes pipeline analysis.
+        Returns all newly completed PQEvents.
+        """
+        if self.ring_buffer is None:
+            self.ring_buffer = MultiChannelRingBuffer(
+                channels=list(samples.keys()),
+                device_id=self.device_id,
+                source_type=getattr(self.adapter, "source_type", "stream") if self.adapter else "stream",
+            )
+
+        self.ring_buffer.append_samples(samples, timestamp_utc=timestamp_utc)
+
+        closed_events: List[PQEvent] = []
+        while self.ring_buffer.has_window():
+            frame = self.ring_buffer.get_next_window()
+            if frame is None:
+                break
+            evts = self.process_frame(frame)
+            closed_events.extend(evts)
+
+        return closed_events
+
     def run_iterations(self, count: int = 10) -> List[PQEvent]:
         """Runs the pipeline for a fixed number of frames (useful in batch/tests)."""
+        if self.adapter is None:
+            raise RuntimeError("run_iterations() requires an AcquisitionAdapter to be configured")
         if not self.adapter.is_connected:
             self.adapter.connect()
 
