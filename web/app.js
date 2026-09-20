@@ -36,6 +36,20 @@ let currentWaveform = new Float32Array(BUFFER_SIZE);
 let currentFeatures = null;
 let currentPrediction = null;
 
+// 3-Phase Multi-Channel System State
+let selectedPhase = 'L1'; // 'L1', 'L2', 'L3', 'ALL'
+let scopeChannel = 'ALL'; // 'ALL', 'L1', 'L2', 'L3'
+let waveformL1 = new Float32Array(BUFFER_SIZE);
+let waveformL2 = new Float32Array(BUFFER_SIZE);
+let waveformL3 = new Float32Array(BUFFER_SIZE);
+let sseTelemetrySource = null;
+
+const PHASE_COLORS = {
+  'L1': '#f1e05a', // Yellow / Gold (Phase A 0°)
+  'L2': '#58a6ff', // Blue (Phase B -120°)
+  'L3': '#ff7b72'  // Salmon / Red (Phase C +120°)
+};
+
 // Color Palette Mapping per Disturbance Class
 const DISTURBANCE_COLORS = {
   'Normal': '#00ff66',
@@ -68,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   runPipeline();
   initOscilloscopeCanvas();
   startAnimationLoop();
+  initTelemetryStream();
 });
 
 // Fetch neural network model weights from backend or local static file
@@ -103,44 +118,119 @@ function initProbabilityBars() {
   });
 }
 
-// --- 1. CALIBRATED WAVEFORM GENERATION ENGINE ---
+// Helper: Synthesize single sample for a given phase angle and disturbance condition
+function synthesizePhaseSample(phaseRad, distType, t, dt, V_nom, f0, noiseStd) {
+  let val = V_nom * Math.sin(2 * Math.PI * f0 * t + phaseRad);
+
+  if (distType === 'Sag') {
+    val *= 0.817; // Scaled so V_rms = 0.579 pu
+  } else if (distType === 'Swell') {
+    val *= 1.215; // Scaled so V_rms = 0.860 pu, V_peak = 1.457 pu
+  } else if (distType === 'Interruption') {
+    val *= 0.030; // IEEE Std 1159 Clause 3.1.34: Residual voltage strictly < 0.10 pu (V_rms ~ 0.021 pu)
+  } else if (distType === 'Harmonics') {
+    val += 0.08 * V_nom * Math.sin(2 * Math.PI * 3 * f0 * t + 3 * phaseRad) + 0.04 * V_nom * Math.sin(2 * Math.PI * 5 * f0 * t + 5 * phaseRad);
+  } else if (distType === 'Transient') {
+    if (t >= 0.04 && t <= 0.045) {
+      val += 0.56 * V_nom * Math.sin(2 * Math.PI * 500 * t);
+    }
+  } else if (distType === 'Flicker') {
+    val *= (1.0 + 0.04 * Math.sin(2 * Math.PI * 8.0 * t));
+  } else if (distType === 'Notch') {
+    let phase = (t * f0 + phaseRad / (2 * Math.PI)) % 1.0;
+    if (phase < 0) phase += 1.0;
+    if (phase > 0.45 && phase < 0.47) {
+      val *= 0.3;
+    }
+  }
+
+  // Add Gaussian measurement noise matching BARC SNR ~45 dB
+  val += (Math.random() - 0.5) * 2.0 * noiseStd;
+  return val;
+}
+
+// Compute quick RMS & THD for bus metrics display
+function computeQuickRmsThd(waveform) {
+  const N = waveform.length;
+  if (N === 0) return { rms: 0, thd: 0 };
+  let sumSq = 0;
+  for (let i = 0; i < N; i++) sumSq += waveform[i] * waveform[i];
+  const rms = Math.sqrt(sumSq / N);
+
+  function goertzelMag(targetFreq) {
+    let k = Math.floor(0.5 + (N * targetFreq) / SAMPLE_RATE);
+    let omega = (2 * Math.PI * k) / N;
+    let coeff = 2 * Math.cos(omega);
+    let q0 = 0, q1 = 0, q2 = 0;
+    for (let i = 0; i < N; i++) {
+      q0 = coeff * q1 - q2 + waveform[i];
+      q2 = q1;
+      q1 = q0;
+    }
+    return (Math.sqrt(q1 * q1 + q2 * q2 - q1 * q2 * coeff) * 2.0) / N;
+  }
+  const h1 = goertzelMag(50.0);
+  const h3 = goertzelMag(150.0);
+  const h5 = goertzelMag(250.0);
+  const thd = h1 > 1e-4 ? (Math.sqrt(h3 * h3 + h5 * h5) / h1) * 100.0 : 0.0;
+  return { rms, thd };
+}
+
+function updateBusBarMetrics() {
+  const m1 = computeQuickRmsThd(waveformL1);
+  const m2 = computeQuickRmsThd(waveformL2);
+  const m3 = computeQuickRmsThd(waveformL3);
+
+  const el1Rms = document.getElementById('bus-l1-rms');
+  const el1Thd = document.getElementById('bus-l1-thd');
+  const el2Rms = document.getElementById('bus-l2-rms');
+  const el2Thd = document.getElementById('bus-l2-thd');
+  const el3Rms = document.getElementById('bus-l3-rms');
+  const el3Thd = document.getElementById('bus-l3-thd');
+
+  if (el1Rms) el1Rms.textContent = `${m1.rms.toFixed(2)} pu`;
+  if (el1Thd) el1Thd.textContent = `${m1.thd.toFixed(1)}% THD`;
+  if (el2Rms) el2Rms.textContent = `${m2.rms.toFixed(2)} pu`;
+  if (el2Thd) el2Thd.textContent = `${m2.thd.toFixed(1)}% THD`;
+  if (el3Rms) el3Rms.textContent = `${m3.rms.toFixed(2)} pu`;
+  if (el3Thd) el3Thd.textContent = `${m3.thd.toFixed(1)}% THD`;
+}
+
+// --- 1. CALIBRATED 3-PHASE WAVEFORM GENERATION ENGINE ---
 function generateWaveform(distType) {
   const dt = 1.0 / SAMPLE_RATE;
   const f0 = 50.0;
   // Nominal per-unit peak is 1.012 pu, nominal RMS is 0.708 pu (1 / sqrt(2))
   const V_nom = 1.012 * ampModifier;
+  const noiseStd = (noiseLevelPercent / 100.0) * 0.005;
+
+  // Determine disturbance per phase based on selected injection target
+  const distL1 = (selectedPhase === 'ALL' || selectedPhase === 'L1') ? distType : 'Normal';
+  const distL2 = (selectedPhase === 'ALL' || selectedPhase === 'L2') ? distType : 'Normal';
+  const distL3 = (selectedPhase === 'ALL' || selectedPhase === 'L3') ? distType : 'Normal';
+
+  const radL1 = 0.0;
+  const radL2 = -2.0 * Math.PI / 3.0; // -120 deg
+  const radL3 = 2.0 * Math.PI / 3.0;  // +120 deg
 
   for (let i = 0; i < BUFFER_SIZE; i++) {
-    let t = i * dt;
-    let val = V_nom * Math.sin(2 * Math.PI * f0 * t);
-
-    if (distType === 'Sag') {
-      val *= 0.817; // Scaled so V_rms = 0.579 pu
-    } else if (distType === 'Swell') {
-      val *= 1.215; // Scaled so V_rms = 0.860 pu, V_peak = 1.457 pu
-    } else if (distType === 'Interruption') {
-      val *= 0.030; // IEEE Std 1159 Clause 3.1.34: Residual voltage strictly < 0.10 pu (V_rms ~ 0.021 pu)
-    } else if (distType === 'Harmonics') {
-      val += 0.08 * V_nom * Math.sin(2 * Math.PI * 3 * f0 * t) + 0.04 * V_nom * Math.sin(2 * Math.PI * 5 * f0 * t);
-    } else if (distType === 'Transient') {
-      if (t >= 0.04 && t <= 0.045) {
-        val += 0.56 * V_nom * Math.sin(2 * Math.PI * 500 * t);
-      }
-    } else if (distType === 'Flicker') {
-      val *= (1.0 + 0.04 * Math.sin(2 * Math.PI * 8.0 * t));
-    } else if (distType === 'Notch') {
-      let phase = (t * f0) % 1.0;
-      if (phase > 0.45 && phase < 0.47) {
-        val *= 0.3;
-      }
-    }
-
-    // Add Gaussian measurement noise matching BARC SNR ~45 dB
-    const noiseStd = (noiseLevelPercent / 100.0) * 0.005;
-    val += (Math.random() - 0.5) * 2.0 * noiseStd;
-
-    currentWaveform[i] = val;
+    const t = i * dt;
+    waveformL1[i] = synthesizePhaseSample(radL1, distL1, t, dt, V_nom, f0, noiseStd);
+    waveformL2[i] = synthesizePhaseSample(radL2, distL2, t, dt, V_nom, f0, noiseStd);
+    waveformL3[i] = synthesizePhaseSample(radL3, distL3, t, dt, V_nom, f0, noiseStd);
   }
+
+  // Active waveform for single-channel DSP / ML inference
+  if (selectedPhase === 'L2') {
+    currentWaveform.set(waveformL2);
+  } else if (selectedPhase === 'L3') {
+    currentWaveform.set(waveformL3);
+  } else {
+    currentWaveform.set(waveformL1);
+  }
+
+  // Update real-time 3-phase bus bar RMS & THD indicators
+  updateBusBarMetrics();
 }
 
 // --- 2. C++ DSP FEATURE EXTRACTION ENGINE (MATHEMATICAL COMPATIBILITY) ---
@@ -461,6 +551,37 @@ function exportLogCSV() {
 }
 
 // --- 5. INTERACTION & CONTROL HANDLERS ---
+function setSelectedPhase(phase) {
+  selectedPhase = phase;
+
+  // Update button active classes
+  ['L1', 'L2', 'L3', 'ALL'].forEach(p => {
+    const btn = document.getElementById(`phase-btn-${p}`);
+    if (btn) btn.classList.toggle('active', p === phase);
+  });
+
+  // Re-generate waveforms and notify server
+  generateWaveform(currentInjectedDisturbance);
+  runPipeline();
+  syncDisturbanceWithServer(selectedPhase, currentInjectedDisturbance);
+}
+
+function onScopeChannelChange(channel) {
+  scopeChannel = channel;
+}
+
+async function syncDisturbanceWithServer(phase, dist) {
+  try {
+    await fetch('/api/simulation/disturbance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phase: phase, disturbance: dist })
+    });
+  } catch (err) {
+    // Graceful offline fallback
+  }
+}
+
 function selectDisturbance(distName) {
   currentInjectedDisturbance = distName;
 
@@ -475,11 +596,13 @@ function selectDisturbance(distName) {
   // Re-generate signal & execute pipeline
   generateWaveform(distName);
   runPipeline();
+  syncDisturbanceWithServer(selectedPhase, distName);
 }
 
 function triggerDisturbanceInjection() {
   generateWaveform(currentInjectedDisturbance);
   runPipeline();
+  syncDisturbanceWithServer(selectedPhase, currentInjectedDisturbance);
 }
 
 function setInjectionMode(mode) {
@@ -598,28 +721,58 @@ function drawScopeScreen() {
 
   if (scopeDisplayMode === 'time') {
     // --- OSCILLOSCOPE TIME DOMAIN TRACE ---
-    ctx.shadowBlur = 12;
-    ctx.shadowColor = DISTURBANCE_COLORS[currentInjectedDisturbance] || '#00ff66';
-    ctx.strokeStyle = DISTURBANCE_COLORS[currentInjectedDisturbance] || '#00ff66';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-
     const points = 300;
     const centerY = h / 2;
     const scaleY = (h / 3) / voltsPerDiv;
 
-    for (let i = 0; i < points; i++) {
-      const sampleIdx = Math.floor((i / points) * (timebaseMs / 20.0) * BUFFER_SIZE + (phaseShift * 20)) % BUFFER_SIZE;
-      const val = currentWaveform[sampleIdx];
-      const x = (i / points) * w;
-      const y = centerY - val * scaleY;
-
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+    function drawTrace(waveform, strokeColor) {
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = strokeColor;
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let i = 0; i < points; i++) {
+        const sampleIdx = Math.floor((i / points) * (timebaseMs / 20.0) * BUFFER_SIZE + (phaseShift * 20)) % BUFFER_SIZE;
+        const val = waveform[sampleIdx];
+        const x = (i / points) * w;
+        const y = centerY - val * scaleY;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
     }
-    ctx.stroke();
-    ctx.shadowBlur = 0;
 
+    if (scopeChannel === 'ALL') {
+      // 3-Phase Multi-Trace Overlay
+      drawTrace(waveformL1, PHASE_COLORS['L1']);
+      drawTrace(waveformL2, PHASE_COLORS['L2']);
+      drawTrace(waveformL3, PHASE_COLORS['L3']);
+
+      // CRT Graticule Legend
+      ctx.font = '10px JetBrains Mono, monospace';
+      ctx.fillStyle = PHASE_COLORS['L1'];
+      ctx.fillText('● L1 (0°)', 14, 20);
+      ctx.fillStyle = PHASE_COLORS['L2'];
+      ctx.fillText('● L2 (-120°)', 80, 20);
+      ctx.fillStyle = PHASE_COLORS['L3'];
+      ctx.fillText('● L3 (+120°)', 160, 20);
+    } else if (scopeChannel === 'L1') {
+      drawTrace(waveformL1, PHASE_COLORS['L1']);
+      ctx.font = '10px JetBrains Mono, monospace';
+      ctx.fillStyle = PHASE_COLORS['L1'];
+      ctx.fillText('● PHASE A (L1 0°)', 14, 20);
+    } else if (scopeChannel === 'L2') {
+      drawTrace(waveformL2, PHASE_COLORS['L2']);
+      ctx.font = '10px JetBrains Mono, monospace';
+      ctx.fillStyle = PHASE_COLORS['L2'];
+      ctx.fillText('● PHASE B (L2 -120°)', 14, 20);
+    } else if (scopeChannel === 'L3') {
+      drawTrace(waveformL3, PHASE_COLORS['L3']);
+      ctx.font = '10px JetBrains Mono, monospace';
+      ctx.fillStyle = PHASE_COLORS['L3'];
+      ctx.fillText('● PHASE C (L3 +120°)', 14, 20);
+    }
   } else {
     // --- FFT HARMONIC SPECTRUM BAR GRAPH ---
     ctx.shadowBlur = 8;
@@ -679,7 +832,65 @@ function toggleScanlines() {
   document.getElementById('btn-scanlines').textContent = isVis ? 'CRT GRID: OFF' : 'CRT GRID: ON';
 }
 
-// 3-Phase Server Telemetry Poller
+// Update telemetry UI indicators
+function handleTelemetryData(telem) {
+  if (!telem) return;
+  const statusBadge = document.getElementById('bus-system-status');
+  if (statusBadge && telem.status) {
+    const isAnomaly = (telem.status === 'ANOMALY');
+    statusBadge.textContent = isAnomaly ? '⚠ DISTURBANCE DETECTED' : 'SYSTEM NORMAL';
+    statusBadge.style.background = isAnomaly ? '#d73a49' : '#1f6feb';
+  }
+  if (telem.total_events !== undefined) {
+    const countEl = document.getElementById('bus-total-events');
+    if (countEl) countEl.textContent = telem.total_events;
+  }
+  if (telem.phases) {
+    ['L1', 'L2', 'L3'].forEach(phaseKey => {
+      const pData = telem.phases[phaseKey];
+      if (pData) {
+        const rmsEl = document.getElementById(`bus-${phaseKey.toLowerCase()}-rms`);
+        const thdEl = document.getElementById(`bus-${phaseKey.toLowerCase()}-thd`);
+        if (rmsEl && pData.rms_voltage !== undefined) {
+          rmsEl.textContent = `${pData.rms_voltage.toFixed(2)} pu`;
+        }
+        if (thdEl && pData.thd !== undefined) {
+          thdEl.textContent = `${pData.thd.toFixed(1)}% THD`;
+        }
+      }
+    });
+  }
+}
+
+// Initialize real-time Server-Sent Events (SSE) telemetry stream
+function initTelemetryStream() {
+  if (window.EventSource) {
+    try {
+      if (sseTelemetrySource) {
+        sseTelemetrySource.close();
+      }
+      sseTelemetrySource = new EventSource('/api/stream/telemetry');
+      sseTelemetrySource.onmessage = function(event) {
+        try {
+          const telem = JSON.parse(event.data);
+          handleTelemetryData(telem);
+        } catch (e) {
+          // ignore malformed frame
+        }
+      };
+      sseTelemetrySource.onerror = function() {
+        if (sseTelemetrySource) {
+          sseTelemetrySource.close();
+          sseTelemetrySource = null;
+        }
+      };
+    } catch (e) {
+      // EventSource unsupported/error
+    }
+  }
+}
+
+// 3-Phase Server Telemetry Poller (HTTP Fallback)
 async function pollThreePhaseTelemetry() {
   try {
     const res = await fetch('/api/events/stats');
@@ -692,17 +903,13 @@ async function pollThreePhaseTelemetry() {
     const telemRes = await fetch('/api/telemetry');
     if (telemRes.ok) {
       const telem = await telemRes.json();
-      const statusBadge = document.getElementById('bus-system-status');
-      if (statusBadge && telem.status) {
-        statusBadge.textContent = telem.status === 'ANOMALY' ? '⚠ DISTURBANCE DETECTED' : 'SYSTEM NORMAL';
-        statusBadge.style.background = telem.status === 'ANOMALY' ? '#d73a49' : '#1f6feb';
-      }
+      handleTelemetryData(telem);
     }
   } catch (err) {
     // Graceful offline fallback
   }
 }
 
-// Poll telemetry every 2 seconds
+// Poll telemetry every 2 seconds as fallback
 setInterval(pollThreePhaseTelemetry, 2000);
 pollThreePhaseTelemetry();

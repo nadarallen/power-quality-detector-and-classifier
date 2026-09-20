@@ -10,6 +10,7 @@ import sys
 import json
 import math
 import time
+import socket
 import pickle
 import numpy as np
 from http.server import HTTPServer, ThreadingHTTPServer, SimpleHTTPRequestHandler
@@ -166,17 +167,28 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             self.send_header('Connection', 'close' if 'iterations' in query else 'keep-alive')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            iterations = int(query.get('iterations', [1])[0])
-            for _ in range(iterations):
-                telem = SHARED_PIPELINE.get_latest_telemetry()
-                msg = f"data: {json.dumps(telem)}\n\n"
-                self.wfile.write(msg.encode('utf-8'))
-                self.wfile.flush()
-                if iterations > 1:
-                    time.sleep(0.05)
             if 'iterations' in query:
+                iterations = int(query.get('iterations', [1])[0])
+                for _ in range(iterations):
+                    telem = SHARED_PIPELINE.get_latest_telemetry()
+                    msg = f"data: {json.dumps(telem)}\n\n"
+                    self.wfile.write(msg.encode('utf-8'))
+                    self.wfile.flush()
+                    if iterations > 1:
+                        time.sleep(0.05)
                 self.close_connection = True
-            return
+                return
+            else:
+                try:
+                    while True:
+                        telem = SHARED_PIPELINE.get_latest_telemetry()
+                        msg = f"data: {json.dumps(telem)}\n\n"
+                        self.wfile.write(msg.encode('utf-8'))
+                        self.wfile.flush()
+                        time.sleep(0.5)
+                except (BrokenPipeError, ConnectionResetError, socket.error):
+                    pass
+                return
         elif parsed.path.startswith('/api/events/'):
             event_id = parsed.path.split('/')[-1]
             evt = SHARED_EVENT_STORE.get_event(event_id)

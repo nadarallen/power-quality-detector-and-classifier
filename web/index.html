@@ -68,6 +68,17 @@
           <button class="mode-btn" id="mode-hw-btn" onclick="setInjectionMode('hardware')">C. ESP32 HW</button>
         </div>
 
+        <!-- Target Channel Selector -->
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #788796; margin-bottom: 0.4rem; font-weight: 700;">
+          TARGET GRID CHANNEL:
+        </div>
+        <div class="mode-selector" style="margin-bottom: 0.85rem;">
+          <button class="mode-btn active" id="phase-btn-L1" onclick="setSelectedPhase('L1')">Phase A (L1)</button>
+          <button class="mode-btn" id="phase-btn-L2" onclick="setSelectedPhase('L2')">Phase B (L2)</button>
+          <button class="mode-btn" id="phase-btn-L3" onclick="setSelectedPhase('L3')">Phase C (L3)</button>
+          <button class="mode-btn" id="phase-btn-ALL" onclick="setSelectedPhase('ALL')">All 3-Phase</button>
+        </div>
+
         <!-- Supported Model Disturbance Classes Grid -->
         <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #788796; margin-bottom: 0.4rem; font-weight: 700;">
           SELECT DISTURBANCE TO INJECT:
@@ -124,6 +135,12 @@
         <!-- Scope Controls Toolbar -->
         <div class="scope-toolbar">
           <div style="display: flex; gap: 0.6rem; align-items: center;">
+            <select class="scope-select" id="select-channel" onchange="onScopeChannelChange(this.value)">
+              <option value="ALL" selected>3-Phase Overlay (L1/L2/L3)</option>
+              <option value="L1">Phase A (L1 0°)</option>
+              <option value="L2">Phase B (L2 -120°)</option>
+              <option value="L3">Phase C (L3 +120°)</option>
+            </select>
             <select class="scope-select" id="select-display-mode" onchange="switchScopeDisplayMode(this.value)">
               <option value="time">Oscilloscope (Time Domain)</option>
               <option value="fft">FFT Spectrum (Frequency Domain)</option>

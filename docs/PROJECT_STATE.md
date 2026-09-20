@@ -80,7 +80,8 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 | **Enhanced DSP** | `dsp/enhanced_features.py` | 47 statistical, higher-order spectral ($H_1\text{–}H_{11}$), entropy, and shape features for Track B expansion. |
 | **Firmware Engine** | `firmware/src/feature_extraction.cpp`<br>`firmware/src/inference.cpp` | On-device C++ feature extraction engine and TFLite Micro inference fallback handler. |
 | **Raw Datasets** | `Dataset/BARC DATA.csv`<br>`data/splits/` | Ground truth dataset (10,000 samples) and frozen 70/15/15 stratified train, validation, and test splits. |
-| **Automated Tests** | `tests/` (89 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, ring buffer, multi-window merging, and REST API test suite (100% passing). |
+| **Web UI & Oscilloscope** | `web/index.html`<br>`web/app.js`<br>`web/styles.css` | Retro laboratory CRT oscilloscope UI, 3-phase multi-trace overlay rendering (`#f1e05a`, `#58a6ff`, `#ff7b72`), target channel disturbance injection console, live grid bus metrics bar, Server-Sent Events (SSE) telemetry streaming, and client-side neural network inference. |
+| **Automated Tests** | `tests/` (95 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, ring buffer, multi-window merging, and REST API test suite (100% passing). |
 
 ---
 

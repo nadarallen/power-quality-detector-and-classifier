@@ -188,3 +188,50 @@ def test_server_sse_telemetry_stream(live_server):
         line = resp.readline().decode()
         assert "data: " in line
         assert "status" in line
+
+
+def test_server_simulation_disturbance_control(live_server):
+    """Verify dynamic disturbance injection control via /api/simulation/disturbance."""
+    # 1. Update single phase L2 to Sag
+    req_single = urllib.request.Request(
+        f"{live_server}/api/simulation/disturbance",
+        data=json.dumps({"phase": "L2", "disturbance": "Sag"}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req_single) as resp:
+        assert resp.status == 200
+        res = json.loads(resp.read().decode())
+        assert res["status"] == "updated"
+        assert res["phase"] == "L2"
+        assert res["disturbance"] == "Sag"
+
+    # 2. Update ALL phases to Harmonics
+    req_all = urllib.request.Request(
+        f"{live_server}/api/simulation/disturbance",
+        data=json.dumps({"phase": "ALL", "disturbance": "Harmonics"}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req_all) as resp:
+        assert resp.status == 200
+        res = json.loads(resp.read().decode())
+        assert res["status"] == "updated"
+        assert res["phase"] == "ALL"
+
+    # Reset to Normal
+    req_reset = urllib.request.Request(
+        f"{live_server}/api/simulation/disturbance",
+        data=json.dumps({"phase": "ALL", "disturbance": "Normal"}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req_reset) as resp:
+        assert resp.status == 200
+
+    # 3. Invalid phase returns 400
+    req_invalid = urllib.request.Request(
+        f"{live_server}/api/simulation/disturbance",
+        data=json.dumps({"phase": "INVALID_PHASE", "disturbance": "Sag"}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with pytest.raises(urllib.error.HTTPError) as exc_info:
+        urllib.request.urlopen(req_invalid)
+    assert exc_info.value.code == 400

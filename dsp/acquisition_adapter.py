@@ -80,9 +80,13 @@ class SimulationAdapter(AcquisitionAdapter):
         self.is_connected = False
 
     def set_phase_disturbance(self, phase: str, disturbance_class: str) -> None:
-        """Configures disturbance state for a specific phase (e.g. set L2 to 'Sag')."""
+        """Configures disturbance state for a specific phase (e.g. set L2 to 'Sag') or 'ALL'."""
+        if phase == "ALL":
+            for p in self.phase_states:
+                self.phase_states[p] = disturbance_class
+            return
         if phase not in self.phase_states:
-            raise KeyError(f"Invalid phase: {phase}. Must be one of L1, L2, L3")
+            raise KeyError(f"Invalid phase: {phase}. Must be one of L1, L2, L3, or ALL")
         self.phase_states[phase] = disturbance_class
 
     def acquire_frame(self) -> Optional[WaveformFrame]:
