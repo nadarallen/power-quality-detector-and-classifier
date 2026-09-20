@@ -138,6 +138,18 @@ Tested on 13 randomized parameter configurations outside training grid points:
 - Fully generalizable on unseen sag depths ($0.35, 0.72, 0.88\text{ pu}$), swells ($1.22, 1.65\text{ pu}$), sub-cycle durations ($1.5\text{ to }7.2\text{ cycles}$), and transients ($420\text{ Hz and }680\text{ Hz}$).
 - Only boundary confusion observed was between complex multi-order even/odd harmonic mixtures ($H_2+H_3+H_{11}$) and commutation notching.
 
+### 5.4 Raw Waveform 1D CNN vs DSP Feature Compression (EXP-007)
+Directly evaluated whether end-to-end deep learning on raw 1,000-sample voltage waveforms eliminates the need for DSP feature extraction:
+
+| Architecture | Input Representation | Parameters | Memory (FP32) | Inference Latency | Test Accuracy | Macro F1 | Interruption Recall | Safety Gate ($\ge 90\%$) |
+|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Compact 1D CNN** | Raw Waveform ($1 \times 1000$) | 4,232 | 16.53 KB | 376.6 $\mu\text{s}$ | 87.87% | 0.8082 | 75.61% | WARNING (<90%) |
+| **Compact MLP (Baseline)** | Preserved 8 DSP Features | 2,888 | 11.28 KB | 310.2 $\mu\text{s}$ | 96.87% | 0.9624 | 90.24% | **PASS** |
+| **Compact MLP (Enhanced)** | **32 DSP Features (EXP-003)** | **4,424** | **17.28 KB** | **325.7 $\mu\text{s}$** | **99.40%** | **0.9927** | **100.00%** | **PASS** |
+
+*Core Scientific Insight:*
+The 1D CNN operating on raw continuous time-series arrays achieved only **87.87% accuracy** and **75.61% Interruption recall**, underperforming both the 8-feature and 32-feature DSP classifiers. Structured domain-specific DSP transformations (Goertzel harmonic filtering, sliding RMS, and spectral moments) encode translation-invariant physical quantities that a compact neural network cannot infer purely from raw sample points at modest training sample counts (7,000 instances). Structured DSP feature compression is therefore scientifically superior and computationally more robust for edge microcontroller deployment.
+
 ---
 
 ## 6. Known Limitations & Technical Debt
