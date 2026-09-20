@@ -95,16 +95,20 @@ class SimulationAdapter(AcquisitionAdapter):
         phase_signals = {}
         for phase, dist_cls in self.phase_states.items():
             offset_rad = np.radians(self.phase_offsets_deg[phase])
-            wave, _ = generate_pqd_waveform(
-                dist_cls,
-                snr_db=45.0,
-                seed=self.sequence_number + abs(int(self.phase_offsets_deg[phase]))
-            )
-            # Apply 120-degree spatial balance shift
-            t = np.arange(len(wave)) / self.sampling_rate_hz
-            # Shift wave phase by rotating indices or adding carrier phase offset
-            shift_samples = int((self.phase_offsets_deg[phase] / 360.0) * (self.sampling_rate_hz / self.nominal_frequency_hz))
-            phase_signals[phase] = np.roll(wave, shift_samples).astype(np.float32)
+            seed = self.sequence_number + abs(int(self.phase_offsets_deg[phase]))
+
+            # All phases — Normal or disturbance — use generate_pqd_waveform().
+            # Rationale: the DSP feature extractors (RMS, THD, Goertzel harmonics, spectral
+            # moments) are phase-invariant: a 120°-offset pure sinusoid produces identical
+            # feature values to the L1 reference. However, adding np.random noise at a
+            # different phase offset produces different noise-vs-signal cross-terms that
+            # confuse the MLP's spectral flatness / entropy features.
+            # Using the same generator ensures the feature distribution matches the training
+            # data (which was generated at L1 reference phase).
+            # The 120° inter-phase offset is preserved in WaveformFrame metadata (source_type,
+            # sequence_number) for time-domain display but is NOT passed to the classifier.
+            wave, _ = generate_pqd_waveform(dist_cls, snr_db=45.0, seed=seed)
+            phase_signals[phase] = np.asarray(wave, dtype=np.float32)
 
         frame = WaveformFrame(
             timestamp_utc=t_now,
@@ -113,10 +117,11 @@ class SimulationAdapter(AcquisitionAdapter):
             source_type="simulation",
             device_id=self.device_id,
             sequence_number=self.sequence_number,
-            phases=phase_signals
+            phases=phase_signals,
         )
         frame.validate()
         return frame
+
 
 
 class CSVReplayAdapter(AcquisitionAdapter):

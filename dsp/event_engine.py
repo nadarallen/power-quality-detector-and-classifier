@@ -18,6 +18,19 @@ from dsp.baseline_features import extract_baseline_features
 from dsp.enhanced_features import extract_enhanced_features
 from dsp.standards_detector import analyze_harmonic_spectrum
 
+# Lazy import to avoid circular dependency at module load time.
+# phase_processor imports dsp.event_engine (for PhaseMeasurement), so we
+# import phase_processor only inside the method that needs it.
+_phase_processor = None
+
+def _get_phase_processor():
+    """Returns the dsp.phase_processor module (lazy, loaded once)."""
+    global _phase_processor
+    if _phase_processor is None:
+        import dsp.phase_processor as _pp
+        _phase_processor = _pp
+    return _phase_processor
+
 
 @dataclass
 class PhaseMeasurement:
@@ -76,12 +89,29 @@ class ThreePhaseEventEngine:
         self,
         classifier_fn=None,
         confidence_threshold: float = 0.60,
-        max_correlation_window_sec: float = 0.100
+        max_correlation_window_sec: float = 0.100,
+        use_mlp: bool = True,
     ):
+        """
+        Parameters
+        ----------
+        classifier_fn : callable, optional
+            Custom classifier: (signal: np.ndarray, fs: float) -> (class: str, confidence: float).
+            When provided, overrides both the MLP and the heuristic fallback.
+        confidence_threshold : float
+            Predictions below this value are treated as UNCERTAIN (default 0.60).
+            Mirrors firmware/src/inference.cpp safety gate.
+        max_correlation_window_sec : float
+            Maximum gap between windows to merge into the same event.
+        use_mlp : bool
+            If True (default), use the trained MLP via phase_processor.classify_phase_signal().
+            If False, fall back to the heuristic classifier (for testing / offline use without weights).
+        """
         self.classifier_fn = classifier_fn
         self.confidence_threshold = confidence_threshold
         self.max_correlation_window_sec = max_correlation_window_sec
-        
+        self.use_mlp = use_mlp
+
         # State tracking per phase
         self.active_events_by_phase: Dict[str, Optional[PQEvent]] = {
             "L1": None,
@@ -90,30 +120,75 @@ class ThreePhaseEventEngine:
         }
         self.completed_events: List[PQEvent] = []
 
-    def _classify_phase(self, signal: np.ndarray, sample_rate: float) -> Tuple[str, float]:
-        """Classifies an individual phase waveform using provided classifier or heuristic fallback."""
+    def _classify_phase(
+        self, signal: np.ndarray, sample_rate: float
+    ) -> Tuple[str, float]:
+        """
+        Classifies an individual phase waveform.
+
+        Priority order:
+        1. External classifier_fn (if provided by caller)
+        2. Trained MLP via phase_processor.classify_phase_signal() (if use_mlp=True)
+        3. Physics-informed heuristic fallback (if MLP weights unavailable or use_mlp=False)
+
+        The heuristic fallback is explicitly an engineering approximation.
+        Confidence values from the heuristic are capped at 0.70 to distinguish
+        them from MLP outputs.
+        """
         if self.classifier_fn is not None:
             return self.classifier_fn(signal, sample_rate)
-        
-        # Standard physics-informed fallback
+
+        if self.use_mlp:
+            pp = _get_phase_processor()
+            cls_name, conf, _probs = pp.classify_phase_signal(signal, sample_rate)
+            # classify_phase_signal already applies the uncertainty gate internally
+            return cls_name, conf
+
+        # Heuristic fallback (use_mlp=False or weights absent)
         rms = float(np.sqrt(np.mean(signal ** 2))) / 0.7156
         if rms < 0.10:
-            return "Interruption", 0.98
+            return "Interruption", 0.65
         elif rms < 0.90:
-            return "Sag", 0.95
+            return "Sag", 0.62
         elif rms > 1.10:
-            return "Swell", 0.95
-        
+            return "Swell", 0.62
         spec = analyze_harmonic_spectrum(signal, fs=sample_rate)
         if spec['thd_percent'] > 5.0:
-            return "Harmonics", 0.92
-            
-        return "Normal", 0.99
+            return "Harmonics", 0.60
+        return "Normal", 0.70
+
+    def _build_phase_measurement(
+        self, phase: str, signal: np.ndarray, sample_rate: float,
+        pred_class: str, conf: float
+    ) -> PhaseMeasurement:
+        """
+        Builds a PhaseMeasurement from the enhanced DSP feature set.
+        Uses extract_enhanced_features() for consistency with process_waveform_frame().
+        """
+        feat = extract_enhanced_features(signal, sample_rate=sample_rate)
+        harmonics = {f"h{h}": feat.get(f"h{h}", 0.0) for h in range(1, 12)}
+        rms_pu = float(feat.get("rms_voltage", 0.0))
+        return PhaseMeasurement(
+            phase=phase,
+            rms_voltage=round(rms_pu, 4),
+            min_rms=round(rms_pu, 4),
+            max_rms=round(rms_pu, 4),
+            thd_2_11=round(float(feat.get("thd", 0.0)), 2),
+            fundamental_frequency=float(feat.get("system_freq", sample_rate / 100.0)),
+            peak_voltage=round(float(feat.get("peak_voltage", 0.0)), 4),
+            crest_factor=round(float(feat.get("crest_factor", 0.0)), 4),
+            harmonics=harmonics,
+            classification=pred_class,
+            confidence=round(conf, 4),
+        )
 
     def process_frame(self, frame: WaveformFrame) -> List[PQEvent]:
         """
         Processes an incoming multi-channel WaveformFrame.
         Returns any newly completed (closed) PQEvents.
+
+        Classification uses the trained MLP by default (use_mlp=True).
+        PhaseMeasurement metrics are derived from extract_enhanced_features().
         """
         if not frame.is_valid:
             return []
@@ -123,31 +198,11 @@ class ThreePhaseEventEngine:
 
         detected_states: Dict[str, Tuple[str, float, PhaseMeasurement]] = {}
 
-        # 1. Per-Phase DSP & Inference
+        # 1. Per-Phase DSP + Inference
         for phase in frame.available_phases:
             sig = frame.get_phase(phase)
             pred_class, conf = self._classify_phase(sig, frame.sampling_rate_hz)
-            
-            # Extract basic metrics
-            rms_raw = float(np.sqrt(np.mean(sig ** 2)))
-            rms_pu = rms_raw / 0.7156
-            peak_pu = float(np.max(np.abs(sig))) / 1.012
-            cf = float(peak_pu / rms_pu) if rms_pu > 1e-4 else 1.0
-            spec = analyze_harmonic_spectrum(sig, fs=frame.sampling_rate_hz)
-
-            pm = PhaseMeasurement(
-                phase=phase,
-                rms_voltage=round(rms_pu, 4),
-                min_rms=round(rms_pu, 4),
-                max_rms=round(rms_pu, 4),
-                thd_2_11=round(spec['thd_percent'], 2),
-                fundamental_frequency=spec['fundamental_hz'],
-                peak_voltage=round(peak_pu, 4),
-                crest_factor=round(cf, 4),
-                harmonics=spec['magnitude_relative_to_h1'],
-                classification=pred_class,
-                confidence=round(conf, 4)
-            )
+            pm = self._build_phase_measurement(phase, sig, frame.sampling_rate_hz, pred_class, conf)
             detected_states[phase] = (pred_class, conf, pm)
 
         # 2. State Machine & Event Lifecycle
