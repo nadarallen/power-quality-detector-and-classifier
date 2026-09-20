@@ -11,8 +11,15 @@ repository_audit: PASS
 standards_audit: PASS
 parameter_audit: PASS
 generator_audit: PASS
+waveform_audit: PASS
 dataset_audit: PASS
 python_esp32_audit: FAIL
+
+resolved_issues:
+  - issue_id: "BLOCKER-04"
+    subsystem: "dsp/waveform_generator.py"
+    title: "Constrained Parameter Bounds Omit IEEE 1159 Boundary Regimes"
+    resolution: "Resolved in Section 5A. Parameter bounds in dsp/waveform_generator.py expanded to full IEEE 1159 regimes (Sag [0.10, 0.90], Swell [1.10, 1.80], Interruption [0.00, 0.095]). Nested IEEE 1159.3-2025 metadata schema fully implemented and verified via automated acceptance test suite."
 
 blocking_issues:
   - issue_id: "BLOCKER-01"
@@ -32,12 +39,6 @@ blocking_issues:
     title: "Stubbed Out Embedded Neural Network Inference Engine"
     description: "runInference() runs a hardcoded if-else heuristic rule rather than invoking tflite::MicroInterpreter::Invoke() on g_model. Heuristic omits Flicker and Notch entirely."
     remediation_required: "Wire real TFLite Micro runtime to invoke model_data.h and evaluate probabilities."
-
-  - issue_id: "BLOCKER-04"
-    subsystem: "dsp/waveform_generator.py"
-    title: "Constrained Parameter Bounds Omit IEEE 1159 Boundary Regimes"
-    description: "Sag depth [0.35, 0.85] omits severe sags (0.10 - 0.35 pu). Swell magnitude [1.15, 1.65] omits severe swells (1.65 - 1.80 pu). Harmonics omits even orders (H2, H4) and higher odd orders (H9, H11)."
-    remediation_required: "Update bounds in dsp/waveform_generator.py to align with config/pqd_parameter_spec.yaml."
 
   - issue_id: "BLOCKER-05"
     subsystem: "Dataset/BARC DATA.csv"
