@@ -1,6 +1,6 @@
 # Project State & Architectural Baseline
 
-**Current Git Commit:** `5784cba`  
+**Current Git Commit:** `fa05a05`  
 **Branch:** `main`  
 **Working Tree:** Clean  
 **Date of State Inspection:** 2026-09-20  
@@ -30,9 +30,10 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 │                                 │             │                                 │
 │ dsp/baseline_features.py (8)    │             │ dsp/standards_detector.py       │
 │ dsp/enhanced_features.py (47)   │             │ - Windowed sliding RMS (10 ms)  │
-│ dsp/waveform_generator.py       │             │ - IEEE 1159 Interruption (<0.1) │
-│ - 5 kHz sampling, 1000 samples  │             │ - FFT orders H2-H11 & THD_2_11  │
-│ - IEEE 1159.3 metadata schema   │             │ - Sub-cycle transient bounds    │
+│ dsp/phase_processor.py (32)     │             │ - IEEE 1159 Interruption (<0.1) │
+│ dsp/waveform_generator.py       │             │ - FFT orders H2-H11 & THD_2_11  │
+│ - 5 kHz sampling, 1000 samples  │             │ - Sub-cycle transient bounds    │
+│ - IEEE 1159.3 metadata schema   │             │                                 │
 └────────────────┬────────────────┘             └─────────────────────────────────┘
                  │
                  ▼
@@ -41,7 +42,7 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 │                                                                                        │
 │   ml/compare_models.py (Benchmarking RF, ExtraTrees, SVM, kNN, Compact MLP)            │
 │   ml/convert_tflite.py ──► firmware/src/model_data.h (8.4 KB quantized byte array)     │
-│                        └──► ml/models/model_weights.json (Zero-dependency weights)     │
+│                        └──► ml/models/model_weights_32.json (Zero-dependency weights) │
 └────────────────────────────────────────┬───────────────────────────────────────────────┘
                                          │
                  ┌───────────────────────┴───────────────────────┐
@@ -50,11 +51,12 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 │       EMBEDDED FIRMWARE         │             │      SIMULATION & FRONTENDS     │
 │                                 │             │                                 │
 │ firmware/src/                   │             │ server.py (REST API :8500)      │
-│  ├── main.cpp                   │             │  └── web/ (HTML5 CRT scope,     │
-│  ├── feature_extraction.cpp     │             │            client forward pass) │
-│  ├── inference.cpp              │             │ app_frontend.py (Streamlit)     │
-│  ├── display.cpp & relay_ctrl   │             │ mobile_app/ (React Native Expo) │
-│  └── model_data.h               │             │ firebase/ (Cloud telemetry)     │
+│  ├── main.cpp                   │             │  ├── /api/ingest, /api/events   │
+│  ├── feature_extraction.cpp     │             │  └── web/ (HTML5 CRT scope,     │
+│  ├── inference.cpp              │             │            client forward pass) │
+│  ├── display.cpp & relay_ctrl   │             │ app_frontend.py (Streamlit)     │
+│  └── model_data.h               │             │ mobile_app/ (React Native Expo) │
+│                                 │             │ firebase/ (Cloud telemetry)     │
 └─────────────────────────────────┘             └─────────────────────────────────┘
 ```
 
@@ -67,8 +69,9 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 | **Standards & Specs** | `config/pqd_parameter_spec.yaml` | Machine-readable single source of truth for all parameters categorized into IEEE-Standard, IEEE-Derived, Engineering-Derived, and ML-Only. |
 | **Waveform Generation** | `dsp/waveform_generator.py` | Synthesizes 1000-sample voltage waveforms at 5 kHz across 8 classes with IEEE 1159.3-2025 nested metadata tracking. |
 | **3-Phase Data Frame** | `dsp/waveform_frame.py` | Canonical multi-channel, time-synchronized `WaveformFrame` with per-channel calibration, NaN/Inf checks, and JSON serialization. |
-| **Acquisition Adapters** | `dsp/acquisition_adapter.py` | Abstract `AcquisitionAdapter`, `SimulationAdapter` (continuous 3-phase synthesis with independent phase disturbance control), and `CSVReplayAdapter`. |
-| **Event Engine** | `dsp/event_engine.py` | `ThreePhaseEventEngine` and `PQEvent` tracking state, multi-window deduplication, and cross-phase disturbance correlation. |
+| **Acquisition Adapters** | `dsp/acquisition_adapter.py` | Abstract `AcquisitionAdapter`, `SimulationAdapter` (continuous 3-phase synthesis), and `CSVReplayAdapter` (hardened fail-clearly validation). |
+| **Per-Phase Processor** | `dsp/phase_processor.py` | Wires the trained Compact MLP (EXP-003, 32-features) to per-phase signals with zero-copy feedforward, uncertainty gating ($<0.60$), and `PhaseMeasurement` assembly. |
+| **Event Engine** | `dsp/event_engine.py` | `ThreePhaseEventEngine` and `PQEvent` tracking per-phase state, multi-window deduplication, trained MLP classification, and cross-phase disturbance correlation. |
 | **Persistence Layer** | `storage/event_store.py` | SQLite embedded database with per-phase metric indexing, event retrieval, phase filtering, and aggregated class/phase statistics. |
 | **Streaming Pipeline** | `pipeline/realtime_pipeline.py` | Continuous streaming engine connecting acquisition adapter, signal validation, event engine, and persistence callbacks. |
 | **Standards Measurement** | `dsp/standards_detector.py` | Half-cycle sliding RMS ($U_{\mathrm{rms}(1/2)}$, 10 ms window), residual RMS $< 0.10\text{ pu}$ interruption detector, and FFT harmonic engine ($H_2$ through $H_{11}$). |
@@ -76,7 +79,7 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 | **Enhanced DSP** | `dsp/enhanced_features.py` | 47 statistical, higher-order spectral ($H_1\text{–}H_{11}$), entropy, and shape features for Track B expansion. |
 | **Firmware Engine** | `firmware/src/feature_extraction.cpp`<br>`firmware/src/inference.cpp` | On-device C++ feature extraction engine and TFLite Micro inference fallback handler. |
 | **Raw Datasets** | `Dataset/BARC DATA.csv`<br>`data/splits/` | Ground truth dataset (10,000 samples) and frozen 70/15/15 stratified train, validation, and test splits. |
-| **Automated Tests** | `tests/` (58 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, and REST API test suite (100% passing). |
+| **Automated Tests** | `tests/` (78 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, and REST API test suite (100% passing). |
 
 ---
 
@@ -97,18 +100,20 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 ## 4. Current Test Suite Status
 
 Executed via `.venv/bin/pytest`:
-- **Total Tests Collected:** 58
-- **Passed:** 58
+- **Total Tests Collected:** 78
+- **Passed:** 78
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~3.37s
+- **Execution Time:** ~4.78s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
 - `tests/test_waveform_acceptance.py`: 26 tests (sampling rate, buffer lengths, Nyquist checks, IEEE 1159.3-2025 metadata conformance across all 8 classes).
 - `tests/test_firmware_parity.py`: 6 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, full $H_1\text{–}H_{11}$ and $\text{THD}_{2\_11}$ parity, 32-feature Compact MLP forward pass parity, and native C++ binary execution parity).
 - `tests/test_waveform_frame.py`: 3 tests (canonical 3-phase WaveformFrame creation, temporal duration, channel synchronization mismatch, and NaN/Inf validation).
-- `tests/test_acquisition_adapter.py`: 2 tests (SimulationAdapter multi-channel generation, per-phase disturbance injection, and CSVReplayAdapter streaming).
+- `tests/test_acquisition_adapter.py`: 6 tests (SimulationAdapter multi-channel generation, per-phase disturbance injection, CSVReplayAdapter streaming, and 4 fail-clearly validation cases).
+- `tests/test_phase_processor.py`: 10 tests (32-feature vector consistency, manifest ordering, MLP forward pass inference, uncertainty gating $<0.60$, per-phase measurement assembly, invalid frame rejection, harmonic dictionary population).
+- `tests/test_end_to_end_pipeline.py`: 6 tests (full CSV → WaveformFrame → per-phase DSP → trained MLP → ThreePhaseEventEngine → multi-phase correlation).
 - `tests/test_event_engine.py`: 2 tests (ThreePhaseEventEngine per-phase tracking, multi-window event merging, and cross-phase concurrent sag correlation).
 - `tests/test_event_store.py`: 2 tests (SQLite event persistence, parameter serialization, phase querying, and aggregate statistics).
 - `tests/test_realtime_pipeline.py`: 2 tests (Continuous streaming pipeline execution, multi-frame ingestion, disturbance lifecycle detection).
