@@ -611,7 +611,23 @@ function setInjectionMode(mode) {
   document.getElementById('mode-dataset-btn').classList.toggle('active', mode === 'dataset');
   document.getElementById('mode-hw-btn').classList.toggle('active', mode === 'hardware');
 
-  document.getElementById('status-mode-text').textContent = `MODE: ${mode.toUpperCase()}`;
+  const modeLabel = mode === 'hardware' ? 'MOCK / LIVE HARDWARE' : mode.toUpperCase();
+  document.getElementById('status-mode-text').textContent = `MODE: ${modeLabel}`;
+
+  // Sync acquisition source on backend server
+  if (mode === 'hardware') {
+    fetch('/api/adapter/source', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source: 'mock_hardware' })
+    }).catch(() => {});
+  } else if (mode === 'simulation') {
+    fetch('/api/adapter/source', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source: 'simulation' })
+    }).catch(() => {});
+  }
 
   generateWaveform(currentInjectedDisturbance);
   runPipeline();

@@ -68,8 +68,9 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 |---|---|---|
 | **Standards & Specs** | `config/pqd_parameter_spec.yaml` | Machine-readable single source of truth for all parameters categorized into IEEE-Standard, IEEE-Derived, Engineering-Derived, and ML-Only. |
 | **Waveform Generation** | `dsp/waveform_generator.py` | Synthesizes 1000-sample voltage waveforms at 5 kHz across 8 classes with IEEE 1159.3-2025 nested metadata tracking. |
-| **3-Phase Data Frame** | `dsp/waveform_frame.py` | Canonical multi-channel, time-synchronized `WaveformFrame` with per-channel calibration, NaN/Inf checks, and JSON serialization. |
-| **Acquisition Adapters** | `dsp/acquisition_adapter.py` | Abstract `AcquisitionAdapter`, `SimulationAdapter` (continuous 3-phase synthesis), and `CSVReplayAdapter` (hardened fail-clearly validation). |
+| **3-Phase Data Frame** | `dsp/waveform_frame.py` | Canonical multi-channel, time-synchronized `WaveformFrame` with per-channel calibration, NaN/Inf checks, dropped sample tracking, clipping saturation flags, and dual `.json`/`.npz` serialization. |
+| **Calibration & Scaling** | `dsp/calibration.py` | Full calibration chain: raw ADC integer counts → Volts engineering units → per-unit (pu) normalization, zero-offset cancellation, sensor PT/CT ratio, and digital rail clipping/saturation boundary checking. |
+| **Acquisition Adapters** | `dsp/acquisition_adapter.py` | Abstract `AcquisitionAdapter`, `HardwareAdapter`, `DAQAdapter`, `SerialAdapter`, `NetworkAdapter`, `PQMeterAdapter`, `MockHardwareAdapter`, `SimulationAdapter`, and `CSVReplayAdapter`. |
 | **Sliding Ring Buffer** | `dsp/ring_buffer.py` | Continuous `MultiChannelRingBuffer` slicing synchronized `WaveformFrame` windows with configurable duration, overlap/hop, and circular memory. |
 | **Per-Phase Processor** | `dsp/phase_processor.py` | Wires the trained Compact MLP (EXP-003, 32-features) to per-phase signals with zero-copy feedforward, uncertainty gating ($<0.60$), and `PhaseMeasurement` assembly. |
 | **Event Engine** | `dsp/event_engine.py` | `ThreePhaseEventEngine` and `PQEvent` tracking per-phase state, multi-window deduplication, monotonic nadir/envelope tracking, trained MLP classification, and cross-phase disturbance correlation. |
@@ -80,8 +81,8 @@ The system is an edge-to-cloud Power Quality Disturbance (PQD) classification pi
 | **Enhanced DSP** | `dsp/enhanced_features.py` | 47 statistical, higher-order spectral ($H_1\text{–}H_{11}$), entropy, and shape features for Track B expansion. |
 | **Firmware Engine** | `firmware/src/feature_extraction.cpp`<br>`firmware/src/inference.cpp` | On-device C++ feature extraction engine and TFLite Micro inference fallback handler. |
 | **Raw Datasets** | `Dataset/BARC DATA.csv`<br>`data/splits/` | Ground truth dataset (10,000 samples) and frozen 70/15/15 stratified train, validation, and test splits. |
-| **Web UI & Oscilloscope** | `web/index.html`<br>`web/app.js`<br>`web/styles.css` | Retro laboratory CRT oscilloscope UI, 3-phase multi-trace overlay rendering (`#f1e05a`, `#58a6ff`, `#ff7b72`), target channel disturbance injection console, live grid bus metrics bar, Server-Sent Events (SSE) telemetry streaming, and client-side neural network inference. |
-| **Automated Tests** | `tests/` (95 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, ring buffer, multi-window merging, and REST API test suite (100% passing). |
+| **Web UI & Oscilloscope** | `web/index.html`<br>`web/app.js`<br>`web/styles.css` | Retro laboratory CRT oscilloscope UI, 3-phase multi-trace overlay rendering (`#f1e05a`, `#58a6ff`, `#ff7b72`), target channel disturbance injection console, dynamic acquisition mode selector, live grid bus metrics bar, Server-Sent Events (SSE) telemetry streaming, and client-side neural network inference. |
+| **Automated Tests** | `tests/` (105 test cases) | Rigorous physical, standards, firmware parity, 3-phase real-time pipeline, ring buffer, multi-window merging, hardware acquisition/calibration/saturation, and REST API test suite (100% passing). |
 
 ---
 
@@ -102,11 +103,11 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 ## 4. Current Test Suite Status
 
 Executed via `.venv/bin/pytest`:
-- **Total Tests Collected:** 94
-- **Passed:** 94
+- **Total Tests Collected:** 105
+- **Passed:** 105
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~5.37s
+- **Execution Time:** ~6.50s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
@@ -114,6 +115,7 @@ Breakdown:
 - `tests/test_firmware_parity.py`: 6 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, full $H_1\text{–}H_{11}$ and $\text{THD}_{2\_11}$ parity, 32-feature Compact MLP forward pass parity, and native C++ binary execution parity).
 - `tests/test_waveform_frame.py`: 3 tests (canonical 3-phase WaveformFrame creation, temporal duration, channel synchronization mismatch, and NaN/Inf validation).
 - `tests/test_acquisition_adapter.py`: 6 tests (SimulationAdapter multi-channel generation, per-phase disturbance injection, CSVReplayAdapter streaming, and 4 fail-clearly validation cases).
+- `tests/test_hardware_acquisition.py`: 9 tests (Calibration counts-to-Volts-to-pu, saturation rail detection, ThreePhaseCalibration profile, MockHardwareAdapter emission, sequence gap dropped samples, clipping detection, canonical .json/.npz roundtrip, end-to-end mock hardware to MLP PQEvent, and adapter interface contracts).
 - `tests/test_ring_buffer.py`: 6 tests (continuous chunk append, configurable window/hop extraction, 50% overlap, circular wrap-around, strict validation, clear).
 - `tests/test_phase_processor.py`: 10 tests (32-feature vector consistency, manifest ordering, MLP forward pass inference, uncertainty gating $<0.60$, per-phase measurement assembly, invalid frame rejection, harmonic dictionary population).
 - `tests/test_multi_window_merging.py`: 5 tests (3-window contiguous Sag deduplication, overlapping window deduplication, disturbance class transition splitting, dynamic multi-phase correlation, monotonic nadir/envelope aggregation).
@@ -121,7 +123,7 @@ Breakdown:
 - `tests/test_event_engine.py`: 2 tests (ThreePhaseEventEngine per-phase tracking, multi-window event merging, and cross-phase concurrent sag correlation).
 - `tests/test_event_store.py`: 2 tests (SQLite event persistence, parameter serialization, phase querying, and aggregate statistics).
 - `tests/test_realtime_pipeline.py`: 2 tests (Continuous streaming pipeline execution, multi-frame ingestion, disturbance lifecycle detection).
-- `tests/test_server_endpoints.py`: 8 tests (REST API health, `/api/events` querying/stats, `/api/ingest` canonical WaveformFrame ingestion, `/api/ingest/chunk` streaming chunk ingestion, chunk validation failure modes, `/api/events` pagination/totals, `/api/weights/32` EXP-003 model serving, and `/api/stream/telemetry` SSE stream).
+- `tests/test_server_endpoints.py`: 9 tests (REST API health, `/api/events` querying/stats, `/api/ingest` canonical WaveformFrame ingestion, `/api/ingest/chunk` streaming chunk ingestion, chunk validation failure modes, `/api/events` pagination/totals, `/api/weights/32` EXP-003 model serving, `/api/stream/telemetry` SSE stream, and `/api/adapter/source` dynamic switching with raw ADC chunk ingestion).
 - `tests/test_dsp_features.py`: 1 test (baseline feature preservation).
 
 ---

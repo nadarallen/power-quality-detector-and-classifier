@@ -96,12 +96,33 @@ def run_python_ml_inference(feature_vector):
 # Shared storage and pipeline components
 from storage.event_store import EventStore
 from dsp.waveform_frame import WaveformFrame
-from dsp.acquisition_adapter import SimulationAdapter
+from dsp.acquisition_adapter import SimulationAdapter, MockHardwareAdapter, HardwareAdapter
 from pipeline.realtime_pipeline import RealtimePQPipeline
 
 SHARED_EVENT_STORE = EventStore(os.path.join(BASE_DIR, 'data', 'pq_events.db'))
-SIM_ADAPTER = SimulationAdapter(device_id="SIM_GRID_NODE_1", sampling_rate_hz=5000.0, nominal_frequency_hz=50.0)
-SHARED_PIPELINE = RealtimePQPipeline(adapter=SIM_ADAPTER, event_store=SHARED_EVENT_STORE, device_id="GRID_NODE_1")
+
+PQD_SOURCE = os.environ.get("PQD_ACQUISITION_SOURCE", os.environ.get("SOURCE", "simulation")).lower()
+if PQD_SOURCE in ("mock_hardware", "mock", "hardware"):
+    ACTIVE_ADAPTER = MockHardwareAdapter(device_id="MOCK_HW_GRID_NODE")
+else:
+    ACTIVE_ADAPTER = SimulationAdapter(device_id="SIM_GRID_NODE_1", sampling_rate_hz=5000.0, nominal_frequency_hz=50.0)
+ACTIVE_ADAPTER.connect()
+
+SHARED_PIPELINE = RealtimePQPipeline(adapter=ACTIVE_ADAPTER, event_store=SHARED_EVENT_STORE, device_id="GRID_NODE_1")
+
+
+def set_active_source(source_name: str) -> None:
+    """Switches the active acquisition adapter (simulation vs mock_hardware)."""
+    global ACTIVE_ADAPTER, SHARED_PIPELINE
+    src = source_name.lower()
+    if src in ("mock_hardware", "mock", "hardware"):
+        ACTIVE_ADAPTER = MockHardwareAdapter(device_id="MOCK_HW_GRID_NODE")
+    elif src in ("simulation", "sim"):
+        ACTIVE_ADAPTER = SimulationAdapter(device_id="SIM_GRID_NODE_1")
+    else:
+        raise ValueError(f"Unknown acquisition source: {source_name}. Must be 'simulation' or 'mock_hardware'")
+    ACTIVE_ADAPTER.connect()
+    SHARED_PIPELINE.adapter = ACTIVE_ADAPTER
 
 
 class PQDServerRequestHandler(SimpleHTTPRequestHandler):
@@ -119,6 +140,8 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 'status': 'online',
                 'model': 'Compact MLP 8.4KB Int8',
                 'three_phase_engine': 'active',
+                'acquisition_source': getattr(ACTIVE_ADAPTER, 'source_type', 'simulation'),
+                'device_id': getattr(ACTIVE_ADAPTER, 'device_id', 'DEV_LOCAL'),
                 'timestamp': time.time()
             })
         elif parsed.path == '/api/events':
@@ -252,16 +275,22 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             except Exception as e:
                 self._send_json({'error': f'Failed to process waveform frame: {str(e)}'}, status=400)
         elif parsed.path == '/api/ingest/chunk':
-            # Streaming chunk ingestion: raw multi-channel samples
+            # Streaming chunk ingestion: multi-channel samples (raw ADC integer counts or per-unit floats)
             channels_raw = data.get('channels', {})
             if not channels_raw:
                 self._send_json({'error': 'Missing required channels dict in payload'}, status=400)
                 return
             try:
-                channels = {
-                    ch: np.asarray(arr, dtype=np.float32)
-                    for ch, arr in channels_raw.items()
-                }
+                is_raw_adc = bool(data.get('is_raw_adc', False))
+                if is_raw_adc and isinstance(ACTIVE_ADAPTER, HardwareAdapter):
+                    channels = ACTIVE_ADAPTER.calibration.raw_to_pu_frame({
+                        ch: np.asarray(arr) for ch, arr in channels_raw.items()
+                    })
+                else:
+                    channels = {
+                        ch: np.asarray(arr, dtype=np.float32)
+                        for ch, arr in channels_raw.items()
+                    }
                 ts = data.get('timestamp_utc', None)
                 if ts is not None:
                     ts = float(ts)
@@ -270,6 +299,7 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 self._send_json({
                     'status': 'success',
                     'samples_ingested': first_ch_len,
+                    'is_raw_adc_calibrated': is_raw_adc,
                     'events_detected': len(events),
                     'event_ids': [e.event_id for e in events],
                     'telemetry': SHARED_PIPELINE.get_latest_telemetry()
@@ -277,12 +307,32 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             except Exception as e:
                 self._send_json({'error': f'Failed to ingest sample chunk: {str(e)}'}, status=400)
         elif parsed.path == '/api/simulation/disturbance':
-            # Control simulation disturbance dynamically from UI
+            # Control simulation / mock disturbance dynamically from UI
             phase = data.get('phase', 'L1')
             dist = data.get('disturbance', 'Normal')
             try:
-                SIM_ADAPTER.set_phase_disturbance(phase, dist)
-                self._send_json({'status': 'updated', 'phase': phase, 'disturbance': dist})
+                if hasattr(ACTIVE_ADAPTER, 'set_phase_disturbance'):
+                    ACTIVE_ADAPTER.set_phase_disturbance(phase, dist)
+                    self._send_json({
+                        'status': 'updated',
+                        'phase': phase,
+                        'disturbance': dist,
+                        'source': getattr(ACTIVE_ADAPTER, 'source_type', 'unknown')
+                    })
+                else:
+                    self._send_json({'error': 'Active adapter does not support dynamic disturbance injection'}, status=400)
+            except Exception as e:
+                self._send_json({'error': str(e)}, status=400)
+        elif parsed.path == '/api/adapter/source':
+            # Dynamically switch between acquisition sources (simulation, mock_hardware)
+            source = data.get('source', 'simulation')
+            try:
+                set_active_source(source)
+                self._send_json({
+                    'status': 'source_switched',
+                    'active_source': getattr(ACTIVE_ADAPTER, 'source_type', source),
+                    'device_id': getattr(ACTIVE_ADAPTER, 'device_id', 'DEV_LOCAL')
+                })
             except Exception as e:
                 self._send_json({'error': str(e)}, status=400)
         else:

@@ -11,6 +11,7 @@ from the downstream DSP and machine learning pipelines.
 
 from dataclasses import dataclass, field
 import time
+import json
 from typing import Dict, Optional, Tuple, Any, List
 import numpy as np
 
@@ -26,6 +27,21 @@ class ChannelMetadata:
     nominal_value: float = 1.0               # Nominal per-unit or RMS engineering value
     is_saturated: bool = False               # Hardware clipping flag
 
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "channel_id": self.channel_id,
+            "phase": self.phase,
+            "unit": self.unit,
+            "scale_factor": self.scale_factor,
+            "offset": self.offset,
+            "nominal_value": self.nominal_value,
+            "is_saturated": self.is_saturated,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ChannelMetadata":
+        return cls(**data)
+
 
 @dataclass
 class WaveformFrame:
@@ -36,7 +52,7 @@ class WaveformFrame:
     timestamp_utc: float                     # Unix epoch timestamp in seconds (microsecond precision)
     sampling_rate_hz: float                  # Sampling frequency fs in Hz (e.g. 5000.0)
     nominal_frequency_hz: float = 50.0       # Grid nominal frequency f0 (e.g. 50.0 or 60.0 Hz)
-    source_type: str = "simulation"          # "simulation", "csv_replay", "daq", "esp32", "pq_meter"
+    source_type: str = "simulation"          # "simulation", "csv_replay", "mock_hardware", "hardware", "daq", "esp32"
     device_id: str = "DEV_LOCAL"             # Unique identifier of physical / virtual capture node
     sequence_number: int = 0                 # Monotonically increasing frame sequence counter
     
@@ -45,6 +61,11 @@ class WaveformFrame:
     
     # Optional metadata per channel
     channels: Dict[str, ChannelMetadata] = field(default_factory=dict)
+    
+    # Quality, calibration & loss indicators
+    dropped_samples_count: int = 0           # Count of dropped samples detected prior to or within this frame
+    is_clipped: bool = False                 # Flagged if any channel experienced ADC saturation/clipping
+    calibration_id: str = "DEFAULT"          # Identifier of applied calibration profile
     
     # Frame validation & health indicators
     is_valid: bool = True
@@ -119,6 +140,12 @@ class WaveformFrame:
             if np.any(np.abs(arr) > 10.0):
                 errors.append(f"Unphysical per-unit amplitude (> 10 pu) on phase {phase}")
 
+        # Check clipping / hardware saturation indicators
+        for phase, ch_meta in self.channels.items():
+            if ch_meta.is_saturated:
+                self.is_clipped = True
+                errors.append(f"Hardware saturation/clipping flagged on channel {ch_meta.channel_id} (phase {phase})")
+
         self.is_valid = (len(errors) == 0)
         self.validation_errors = errors
         return self.is_valid, errors
@@ -141,6 +168,10 @@ class WaveformFrame:
             "num_samples": self.num_samples,
             "duration_seconds": self.duration_seconds,
             "available_phases": self.available_phases,
+            "dropped_samples_count": self.dropped_samples_count,
+            "is_clipped": self.is_clipped,
+            "calibration_id": self.calibration_id,
+            "channels": {p: m.to_dict() for p, m in self.channels.items()},
             "is_valid": self.is_valid,
             "validation_errors": self.validation_errors,
         }
@@ -155,6 +186,10 @@ class WaveformFrame:
         for p, arr in data.get("phases", {}).items():
             phases[p] = np.asarray(arr, dtype=np.float32)
             
+        channels = {}
+        for p, c_dict in data.get("channels", {}).items():
+            channels[p] = ChannelMetadata.from_dict(c_dict)
+
         frame = cls(
             timestamp_utc=float(data.get("timestamp_utc", time.time())),
             sampling_rate_hz=float(data.get("sampling_rate_hz", 5000.0)),
@@ -163,5 +198,37 @@ class WaveformFrame:
             device_id=data.get("device_id", "DEV_REMOTE"),
             sequence_number=int(data.get("sequence_number", 0)),
             phases=phases,
+            channels=channels,
+            dropped_samples_count=int(data.get("dropped_samples_count", 0)),
+            is_clipped=bool(data.get("is_clipped", False)),
+            calibration_id=str(data.get("calibration_id", "DEFAULT")),
         )
         return frame
+
+    def save(self, filepath: str) -> None:
+        """Saves canonical waveform frame to .npz or .json format."""
+        if filepath.endswith(".npz"):
+            arrays_to_save = {f"phase_{p}": arr for p, arr in self.phases.items()}
+            meta_json = json.dumps(self.to_dict(include_waveforms=False))
+            np.savez_compressed(filepath, metadata=meta_json, **arrays_to_save)
+        else:
+            with open(filepath, "w") as f:
+                json.dump(self.to_dict(include_waveforms=True), f, indent=2)
+
+    @classmethod
+    def load(cls, filepath: str) -> "WaveformFrame":
+        """Loads canonical waveform frame from .npz or .json format."""
+        if filepath.endswith(".npz"):
+            with np.load(filepath) as data:
+                meta = json.loads(str(data["metadata"]))
+                phases = {}
+                for key in data.files:
+                    if key.startswith("phase_"):
+                        phase_name = key[len("phase_"):]
+                        phases[phase_name] = data[key].astype(np.float32)
+                meta["phases"] = phases
+                return cls.from_dict(meta)
+        else:
+            with open(filepath, "r") as f:
+                data = json.load(f)
+            return cls.from_dict(data)

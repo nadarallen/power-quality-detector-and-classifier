@@ -235,3 +235,67 @@ def test_server_simulation_disturbance_control(live_server):
     with pytest.raises(urllib.error.HTTPError) as exc_info:
         urllib.request.urlopen(req_invalid)
     assert exc_info.value.code == 400
+
+
+def test_server_adapter_source_switching_and_raw_ingest(live_server):
+    """Verify switching active acquisition source to mock_hardware and streaming raw ADC chunks."""
+    # 1. Switch to mock_hardware
+    req_switch = urllib.request.Request(
+        f"{live_server}/api/adapter/source",
+        data=json.dumps({"source": "mock_hardware"}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req_switch) as resp:
+        assert resp.status == 200
+        res = json.loads(resp.read().decode())
+        assert res["status"] == "source_switched"
+        assert res["active_source"] == "mock_hardware"
+
+    # 2. Verify /api/health reflects mock_hardware
+    req_health = urllib.request.Request(f"{live_server}/api/health")
+    with urllib.request.urlopen(req_health) as resp:
+        assert resp.status == 200
+        health = json.loads(resp.read().decode())
+        assert health["acquisition_source"] == "mock_hardware"
+
+    # 3. Ingest raw ADC integer chunk with is_raw_adc=True
+    chunk_len = 500
+    raw_l1 = [int(15000 * np.sin(2 * np.pi * 50 * i / 5000)) for i in range(chunk_len)]
+    raw_l2 = [int(15000 * np.sin(2 * np.pi * 50 * i / 5000 - 2*np.pi/3)) for i in range(chunk_len)]
+    raw_l3 = [int(15000 * np.sin(2 * np.pi * 50 * i / 5000 + 2*np.pi/3)) for i in range(chunk_len)]
+
+    req_chunk = urllib.request.Request(
+        f"{live_server}/api/ingest/chunk",
+        data=json.dumps({
+            "channels": {"L1": raw_l1, "L2": raw_l2, "L3": raw_l3},
+            "is_raw_adc": True,
+            "timestamp_utc": time.time()
+        }).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req_chunk) as resp:
+        assert resp.status == 200
+        chunk_res = json.loads(resp.read().decode())
+        assert chunk_res["status"] == "success"
+        assert chunk_res["samples_ingested"] == chunk_len
+        assert chunk_res["is_raw_adc_calibrated"] is True
+
+    # 4. Switch back to simulation
+    req_reset = urllib.request.Request(
+        f"{live_server}/api/adapter/source",
+        data=json.dumps({"source": "simulation"}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req_reset) as resp:
+        assert resp.status == 200
+        assert json.loads(resp.read().decode())["active_source"] == "simulation"
+
+    # 5. Invalid source returns 400
+    req_bad = urllib.request.Request(
+        f"{live_server}/api/adapter/source",
+        data=json.dumps({"source": "non_existent_adapter"}).encode('utf-8'),
+        headers={"Content-Type": "application/json"}
+    )
+    with pytest.raises(urllib.error.HTTPError) as exc_info:
+        urllib.request.urlopen(req_bad)
+    assert exc_info.value.code == 400

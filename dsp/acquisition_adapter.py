@@ -17,15 +17,17 @@ import pandas as pd
 
 from dsp.waveform_frame import WaveformFrame, ChannelMetadata
 from dsp.waveform_generator import generate_pqd_waveform
+from dsp.calibration import ThreePhaseCalibration, ChannelCalibration
 
 
 class AcquisitionAdapter(ABC):
     """Abstract base class for all power quality waveform acquisition sources."""
 
-    def __init__(self, device_id: str = "DEV_LOCAL", sampling_rate_hz: float = 5000.0, nominal_frequency_hz: float = 50.0):
+    def __init__(self, device_id: str = "DEV_LOCAL", sampling_rate_hz: float = 5000.0, nominal_frequency_hz: float = 50.0, source_type: str = "base"):
         self.device_id = device_id
         self.sampling_rate_hz = sampling_rate_hz
         self.nominal_frequency_hz = nominal_frequency_hz
+        self.source_type = source_type
         self.sequence_number = 0
         self.is_connected = False
 
@@ -59,7 +61,7 @@ class SimulationAdapter(AcquisitionAdapter):
         nominal_frequency_hz: float = 50.0,
         window_samples: int = 1000
     ):
-        super().__init__(device_id, sampling_rate_hz, nominal_frequency_hz)
+        super().__init__(device_id, sampling_rate_hz, nominal_frequency_hz, source_type="simulation")
         self.window_samples = window_samples
         self.phase_states: Dict[str, str] = {
             "L1": "Normal",
@@ -114,6 +116,19 @@ class SimulationAdapter(AcquisitionAdapter):
             wave, _ = generate_pqd_waveform(dist_cls, snr_db=45.0, seed=seed)
             phase_signals[phase] = np.asarray(wave, dtype=np.float32)
 
+        channels = {
+            phase: ChannelMetadata(
+                channel_id=f"V_{phase}",
+                phase=phase,
+                unit="pu",
+                scale_factor=1.0,
+                offset=0.0,
+                nominal_value=1.0,
+                is_saturated=False
+            )
+            for phase in phase_signals
+        }
+
         frame = WaveformFrame(
             timestamp_utc=t_now,
             sampling_rate_hz=self.sampling_rate_hz,
@@ -122,6 +137,7 @@ class SimulationAdapter(AcquisitionAdapter):
             device_id=self.device_id,
             sequence_number=self.sequence_number,
             phases=phase_signals,
+            channels=channels,
         )
         frame.validate()
         return frame
@@ -144,7 +160,7 @@ class CSVReplayAdapter(AcquisitionAdapter):
         window_samples: int = 1000,
         replay_speed: float = 1.0
     ):
-        super().__init__(device_id, sampling_rate_hz, nominal_frequency_hz)
+        super().__init__(device_id, sampling_rate_hz, nominal_frequency_hz, source_type="csv_replay")
         self.csv_path = csv_path
         self.window_samples = window_samples
         self.replay_speed = max(0.1, replay_speed)
@@ -255,4 +271,273 @@ class CSVReplayAdapter(AcquisitionAdapter):
             phases=phase_signals,
         )
         frame.validate()
+        return frame
+
+
+class HardwareAdapter(AcquisitionAdapter):
+    """
+    Abstract base class for physical data acquisition devices.
+    Encapsulates calibration, raw ADC sample conversion, hardware saturation monitoring,
+    sequence continuity, and dropped-sample detection.
+    """
+
+    def __init__(
+        self,
+        device_id: str = "HW_ACQ_01",
+        sampling_rate_hz: float = 5000.0,
+        nominal_frequency_hz: float = 50.0,
+        window_samples: int = 1000,
+        calibration: Optional[ThreePhaseCalibration] = None,
+        source_type: str = "hardware"
+    ):
+        super().__init__(device_id, sampling_rate_hz, nominal_frequency_hz, source_type=source_type)
+        self.window_samples = window_samples
+        self.calibration = calibration or ThreePhaseCalibration(device_id=device_id)
+        self.last_timestamp_utc: float = 0.0
+        self.total_dropped_samples: int = 0
+        self.dropped_frames_count: int = 0
+        self.expected_frame_interval_sec: float = window_samples / max(1.0, sampling_rate_hz)
+
+    def convert_and_validate_chunk(
+        self,
+        raw_channels: Dict[str, np.ndarray],
+        timestamp_utc: Optional[float] = None,
+        sequence_num: Optional[int] = None,
+    ) -> WaveformFrame:
+        """
+        Converts raw integer ADC samples to a validated per-unit WaveformFrame
+        using the active calibration profile.
+        """
+        t_now = timestamp_utc if timestamp_utc is not None else time.time()
+        
+        # Sequence & continuity checks
+        if sequence_num is not None:
+            expected_seq = self.sequence_number + 1
+            if sequence_num > expected_seq:
+                gap = sequence_num - expected_seq
+                self.dropped_frames_count += gap
+                self.total_dropped_samples += gap * self.window_samples
+            self.sequence_number = sequence_num
+        else:
+            self.sequence_number += 1
+
+        # Check timestamp continuity
+        if self.last_timestamp_utc > 0:
+            dt = t_now - self.last_timestamp_utc
+            if dt > 1.8 * self.expected_frame_interval_sec:
+                # Potential packet loss or clock jitter
+                pass
+        self.last_timestamp_utc = t_now
+
+        # 1. Convert raw ADC to per-unit using calibration
+        pu_phases = self.calibration.raw_to_pu_frame(raw_channels)
+
+        # 2. Check saturation on raw counts
+        saturation_res = self.calibration.check_frame_saturation(raw_channels)
+
+        # 3. Assemble channel metadata
+        channels_meta = {}
+        is_any_saturated = False
+        for phase in pu_phases:
+            cal = self.calibration.get_channel(phase)
+            is_sat, util = saturation_res.get(phase, (False, 0.0))
+            if is_sat:
+                is_any_saturated = True
+            channels_meta[phase] = ChannelMetadata(
+                channel_id=cal.channel_id,
+                phase=phase,
+                unit="pu",
+                scale_factor=cal.scale_multiplier,
+                offset=cal.offset_volts,
+                nominal_value=cal.nominal_voltage_rms,
+                is_saturated=is_sat
+            )
+
+        frame = WaveformFrame(
+            timestamp_utc=t_now,
+            sampling_rate_hz=self.sampling_rate_hz,
+            nominal_frequency_hz=self.nominal_frequency_hz,
+            source_type="hardware",
+            device_id=self.device_id,
+            sequence_number=self.sequence_number,
+            phases=pu_phases,
+            channels=channels_meta,
+            dropped_samples_count=self.total_dropped_samples,
+            is_clipped=is_any_saturated,
+            calibration_id=self.calibration.calibrated_by
+        )
+        frame.validate()
+        return frame
+
+
+class DAQAdapter(HardwareAdapter):
+    """Interface for multi-channel USB/PCIe DAQ hardware (e.g. LabJack, NI DAQ)."""
+
+    def __init__(self, device_id: str = "DAQ_USB_01", sampling_rate_hz: float = 5000.0, **kwargs):
+        super().__init__(device_id=device_id, sampling_rate_hz=sampling_rate_hz, source_type="daq", **kwargs)
+        self.buffer_overrun_count = 0
+
+    def connect(self) -> bool:
+        self.is_connected = True
+        return True
+
+    def disconnect(self) -> None:
+        self.is_connected = False
+
+    def acquire_frame(self) -> Optional[WaveformFrame]:
+        raise NotImplementedError("Physical DAQ driver binding must be provided by device integration module.")
+
+
+class SerialAdapter(HardwareAdapter):
+    """Interface for Serial/UART streaming frontends (e.g. isolated MCU / optical USB link)."""
+
+    def __init__(self, port: str = "/dev/ttyUSB0", baud_rate: int = 921600, device_id: str = "SERIAL_ACQ_01", **kwargs):
+        super().__init__(device_id=device_id, source_type="serial", **kwargs)
+        self.port = port
+        self.baud_rate = baud_rate
+        self.framing_error_count = 0
+
+    def connect(self) -> bool:
+        self.is_connected = True
+        return True
+
+    def disconnect(self) -> None:
+        self.is_connected = False
+
+    def acquire_frame(self) -> Optional[WaveformFrame]:
+        raise NotImplementedError("Serial framing and binary packet parser must be configured with target hardware.")
+
+
+class NetworkAdapter(HardwareAdapter):
+    """Interface for Ethernet / TCP / UDP / Modbus TCP / MQTT streaming instrumentation."""
+
+    def __init__(self, host: str = "192.168.1.100", port: int = 502, protocol: str = "TCP", device_id: str = "NET_ACQ_01", **kwargs):
+        super().__init__(device_id=device_id, source_type="network", **kwargs)
+        self.host = host
+        self.port = port
+        self.protocol = protocol
+
+    def connect(self) -> bool:
+        self.is_connected = True
+        return True
+
+    def disconnect(self) -> None:
+        self.is_connected = False
+
+    def acquire_frame(self) -> Optional[WaveformFrame]:
+        raise NotImplementedError("Network socket receiver must be configured with target stream protocol.")
+
+
+class PQMeterAdapter(HardwareAdapter):
+    """Interface for industrial Power Quality Analyzers (IEC 61000-4-30 / IEEE 1159 Class A/S instruments)."""
+
+    def __init__(self, device_id: str = "PQ_METER_CLASS_A_01", meter_standard: str = "IEC_61000_4_30_CLASS_A", **kwargs):
+        super().__init__(device_id=device_id, source_type="pq_meter", **kwargs)
+        self.meter_standard = meter_standard
+
+    def connect(self) -> bool:
+        self.is_connected = True
+        return True
+
+    def disconnect(self) -> None:
+        self.is_connected = False
+
+    def acquire_frame(self) -> Optional[WaveformFrame]:
+        raise NotImplementedError("Industrial PQ meter driver requires instrument-specific client API.")
+
+
+class MockHardwareAdapter(HardwareAdapter):
+    """
+    Deterministic hardware mock simulating physical 3-phase acquisition hardware:
+    1. Generates physical signals using mathematical waveform models.
+    2. Simulates ADC quantization into integer raw ADC counts (16-bit bipolar).
+    3. Simulates front-end analog quantization and thermal noise.
+    4. Simulates dropped packets / frame sequence gaps.
+    5. Simulates ADC rail clipping / saturation when configured.
+    6. Passes raw counts back through the genuine Calibration layer to produce canonical WaveformFrames.
+    """
+
+    def __init__(
+        self,
+        device_id: str = "MOCK_HW_NODE_01",
+        sampling_rate_hz: float = 5000.0,
+        nominal_frequency_hz: float = 50.0,
+        window_samples: int = 1000,
+        calibration: Optional[ThreePhaseCalibration] = None,
+        dropped_packet_rate: float = 0.0,
+        simulate_saturation_on_phase: Optional[str] = None
+    ):
+        super().__init__(
+            device_id=device_id,
+            sampling_rate_hz=sampling_rate_hz,
+            nominal_frequency_hz=nominal_frequency_hz,
+            window_samples=window_samples,
+            calibration=calibration,
+            source_type="mock_hardware"
+        )
+        self.phase_states = {"L1": "Normal", "L2": "Normal", "L3": "Normal"}
+        self.phase_offsets_deg = {"L1": 0.0, "L2": -120.0, "L3": 120.0}
+        self.dropped_packet_rate = dropped_packet_rate
+        self.simulate_saturation_on_phase = simulate_saturation_on_phase
+        self.internal_clock_utc = time.time()
+
+    def connect(self) -> bool:
+        self.is_connected = True
+        return True
+
+    def disconnect(self) -> None:
+        self.is_connected = False
+
+    def set_phase_disturbance(self, phase: str, disturbance_class: str) -> None:
+        """Configures disturbance condition for mock hardware channel."""
+        if phase == "ALL":
+            for p in self.phase_states:
+                self.phase_states[p] = disturbance_class
+            return
+        if phase not in self.phase_states:
+            raise KeyError(f"Invalid phase: {phase}. Must be one of L1, L2, L3, or ALL")
+        self.phase_states[phase] = disturbance_class
+
+    def acquire_frame(self) -> Optional[WaveformFrame]:
+        if not self.is_connected:
+            return None
+
+        # Simulate packet drops if configured
+        if self.dropped_packet_rate > 0.0 and np.random.rand() < self.dropped_packet_rate:
+            # Skip sequence number and time interval
+            self.sequence_number += 1
+            self.internal_clock_utc += self.expected_frame_interval_sec
+            self.total_dropped_samples += self.window_samples
+            self.dropped_frames_count += 1
+
+        self.internal_clock_utc += self.expected_frame_interval_sec
+        t_frame = self.internal_clock_utc
+
+        # 1. Synthesize reference pu waveforms
+        pu_synth = {}
+        for phase, dist_cls in self.phase_states.items():
+            seed = self.sequence_number + abs(int(self.phase_offsets_deg[phase]))
+            wave, _ = generate_pqd_waveform(dist_cls, snr_db=45.0, seed=seed)
+            pu_synth[phase] = np.asarray(wave, dtype=np.float32)
+
+        # 2. Convert to raw ADC integer counts via calibration
+        raw_channels = {}
+        for phase, pu_arr in pu_synth.items():
+            cal = self.calibration.get_channel(phase)
+            raw = cal.pu_to_raw(pu_arr)
+            
+            # Simulate saturation if requested
+            if self.simulate_saturation_on_phase == phase or self.simulate_saturation_on_phase == "ALL":
+                # Force clipping to maximum positive and negative rail
+                raw = np.where(raw > 0, cal.max_adc_count, cal.min_adc_count).astype(raw.dtype)
+                
+            raw_channels[phase] = raw
+
+        # 3. Convert raw counts back through the real hardware pipeline
+        frame = self.convert_and_validate_chunk(
+            raw_channels=raw_channels,
+            timestamp_utc=t_frame,
+            sequence_num=self.sequence_number + 1
+        )
+        frame.source_type = "mock_hardware"
         return frame
