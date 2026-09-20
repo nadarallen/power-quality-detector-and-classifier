@@ -167,11 +167,17 @@ def extract_enhanced_features(signal: np.ndarray, sample_rate: float = 5000.0) -
     # --- 4. Spectral Distribution Descriptors ---
     spectral_features = compute_spectral_features(signal, sample_rate)
 
+    # --- 5. Windowed Event Duration (Sliding Half-Cycle RMS) ---
+    from dsp.standards_detector import measure_windowed_event_duration
+    windowed_duration_ms = measure_windowed_event_duration(signal, fs=sample_rate)
+
     # Combine into unified dictionary
     enhanced = {}
     enhanced.update(baseline)
+    enhanced['windowed_duration_ms'] = round(windowed_duration_ms, 2)
     enhanced.update(time_features)
     enhanced.update(harmonic_features)
     enhanced.update(spectral_features)
 
     return enhanced
+

@@ -70,16 +70,17 @@ def test_goertzel_pure_fundamental_parity():
 
 
 def test_goertzel_harmonics_spectrum_parity():
-    """Verify Goertzel parity on harmonic components (H1, H3, H5, H7)."""
+    """Verify Goertzel parity on all harmonic orders H1 through H11."""
     fs = 5000.0
     sig, meta = generate_pqd_waveform("Harmonics", seed=42)
     sig = sig.astype(np.float32)
 
-    for target_freq in [50.0, 150.0, 250.0, 350.0]:
+    for order in range(1, 12):
+        target_freq = order * 50.0
         py_mag = goertzel_magnitude(sig, target_freq, fs)
         cpp_mag = cpp_goertzel_simulation(sig, target_freq, fs)
         abs_err = abs(py_mag - cpp_mag)
-        assert abs_err < 1e-4, f"Mismatch at {target_freq} Hz: Py={py_mag:.6f}, C++={cpp_mag:.6f}, err={abs_err:.6e}"
+        assert abs_err < 1e-4, f"Mismatch at {target_freq} Hz (H{order}): Py={py_mag:.6f}, C++={cpp_mag:.6f}, err={abs_err:.6e}"
 
 
 def test_thd_parity_across_waveforms():
@@ -98,7 +99,7 @@ def test_thd_parity_across_waveforms():
         py_feats = extract_baseline_features(w, fs)
         py_thd = py_feats['thd']
 
-        # C++ simulated THD
+        # C++ simulated THD (Baseline H3, H5, H7)
         h1 = cpp_goertzel_simulation(w, 50.0, fs)
         h3 = cpp_goertzel_simulation(w, 150.0, fs)
         h5 = cpp_goertzel_simulation(w, 250.0, fs)
@@ -108,6 +109,33 @@ def test_thd_parity_across_waveforms():
 
         thd_err = abs(py_thd - cpp_thd)
         assert thd_err < 0.05, f"Waveform {idx}: THD parity mismatch: Python={py_thd}%, C++={cpp_thd}%, err={thd_err}%"
+
+
+def test_full_harmonic_spectrum_and_thd_2_11_parity():
+    """Verify comprehensive H2, H3, H5, H7, H9, H11 and THD_2_11 parity between Python FFT/Goertzel and C++ extractFeatures32."""
+    fs = 5000.0
+    sig, _ = generate_pqd_waveform("Harmonics", seed=101)
+    sig = sig.astype(np.float32)
+
+    orders = [2, 3, 5, 7, 9, 11]
+    h1_py = goertzel_magnitude(sig, 50.0, fs)
+    h1_cpp = cpp_goertzel_simulation(sig, 50.0, fs)
+    assert abs(h1_py - h1_cpp) < 1e-4
+
+    sq_sum_py = 0.0
+    sq_sum_cpp = 0.0
+    for h in orders:
+        freq = h * 50.0
+        mag_py = goertzel_magnitude(sig, freq, fs)
+        mag_cpp = cpp_goertzel_simulation(sig, freq, fs)
+        assert abs(mag_py - mag_cpp) < 1e-4, f"Mismatch at H{h}: py={mag_py}, cpp={mag_cpp}"
+        sq_sum_py += mag_py ** 2
+        sq_sum_cpp += mag_cpp ** 2
+
+    thd_2_11_py = (math.sqrt(sq_sum_py) / h1_py) * 100.0 if h1_py > 1e-4 else 0.0
+    thd_2_11_cpp = (math.sqrt(sq_sum_cpp) / h1_cpp) * 100.0 if h1_cpp > 1e-4 else 0.0
+    assert abs(thd_2_11_py - thd_2_11_cpp) < 0.01, f"THD_2_11 mismatch: py={thd_2_11_py}, cpp={thd_2_11_cpp}"
+
 
 
 def test_model_32_forward_pass_parity():

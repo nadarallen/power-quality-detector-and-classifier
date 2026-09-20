@@ -185,6 +185,36 @@ def detect_interruption(
     }
 
 
+def measure_windowed_event_duration(
+    signal: np.ndarray,
+    fs: float = DEFAULT_SAMPLE_RATE,
+    f0: float = DEFAULT_F0,
+    low_threshold_pu: float = 0.90,
+    high_threshold_pu: float = 1.10,
+    v_nom_rms: float = NOMINAL_RMS_PU
+) -> float:
+    """
+    Measures disturbance event duration using half-cycle sliding windowed RMS (U_rms(1/2)).
+    A disturbance occurs when sliding RMS deviates outside nominal limits [low_threshold_pu, high_threshold_pu].
+    Returns event duration in milliseconds.
+    """
+    samples_per_cycle = int(round(fs / f0))
+    window_len = max(2, samples_per_cycle // 2)
+
+    rms_pu, _ = compute_windowed_rms(signal, window_len=window_len, hop_size=1, v_nom_rms=v_nom_rms)
+    is_abnormal = (rms_pu < low_threshold_pu) | (rms_pu > high_threshold_pu)
+
+    if not np.any(is_abnormal):
+        return 0.0
+
+    diff = np.diff(np.pad(is_abnormal.astype(int), (1, 1), mode='constant'))
+    starts = np.where(diff == 1)[0]
+    ends = np.where(diff == -1)[0]
+
+    durations_ms = ((ends - starts) / fs) * 1000.0
+    return float(np.max(durations_ms))
+
+
 # ==============================================================================
 # 2. SPECTRAL HARMONIC ANALYSIS & CLASSIFICATION ENGINE
 # ==============================================================================
@@ -270,10 +300,12 @@ def classify_harmonic_disturbance(
     composite_thd_threshold: float = 4.0
 ) -> Tuple[bool, str]:
     """
-    Standards-aligned harmonic disturbance classifier based on spectral profile.
-    Requires at least one measurable harmonic component (H2, H3, H5, H7, H9, H11)
-    to exceed the instrumentation noise floor (default 2% of fundamental)
-    rather than relying on an arbitrary isolated THD threshold.
+    Project engineering heuristic for flagging harmonic disturbances based on spectral profile.
+    NOTE: This is a project engineering detection decision, NOT an IEEE standard requirement.
+    IEEE Std 519-2022 defines point-of-common-coupling (PCC) limits based on system voltage
+    and short-circuit ratios (Isc/IL), not a single universal disturbance boundary.
+    Here we require at least one measurable harmonic component (H2, H3, H5, H7, H9, H11)
+    to exceed the instrumentation noise floor (default 2% of fundamental) and composite THD >= 4.0%.
     """
     rel_mags = spectral_info['magnitude_relative_to_h1']
     active_harmonics = [order for order, ratio in rel_mags.items() if ratio >= individual_threshold]

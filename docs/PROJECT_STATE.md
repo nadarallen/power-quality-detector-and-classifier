@@ -91,17 +91,20 @@ The system addresses **8 physical states** strictly adhering to the immutable re
 
 ## 4. Current Test Suite Status
 
-Executed via `.venv/bin/pytest tests/ -v`:
-- **Total Tests Collected:** 43
-- **Passed:** 43
+Executed via `.venv/bin/pytest`:
+- **Total Tests Collected:** 51
+- **Passed:** 51
 - **Failed:** 0
 - **Skipped:** 0
-- **Execution Time:** ~2.56s
+- **Execution Time:** ~3.29s
 
 Breakdown:
 - `tests/test_classification_rules.py`: 11 tests (interruption boundary, duration thresholds, residual RMS $< 0.10\text{ pu}$, FFT harmonic components, analytical $\text{THD}_{2\_11}$).
 - `tests/test_waveform_acceptance.py`: 26 tests (sampling rate, buffer lengths, Nyquist checks, IEEE 1159.3-2025 metadata conformance across all 8 classes).
-- `tests/test_firmware_parity.py`: 5 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, 32-feature Compact MLP forward pass parity, and native C++ end-to-end `extractFeatures32` + `runInference32` binary execution parity).
+- `tests/test_firmware_parity.py`: 6 tests (Python $\leftrightarrow$ C++ Goertzel single-precision magnitude, THD parity, full $H_1\text{–}H_{11}$ and $\text{THD}_{2\_11}$ parity, 32-feature Compact MLP forward pass parity, and native C++ binary execution parity).
+- `tests/test_waveform_frame.py`: 3 tests (canonical 3-phase WaveformFrame creation, temporal duration, channel synchronization mismatch, and NaN/Inf validation).
+- `tests/test_acquisition_adapter.py`: 2 tests (SimulationAdapter multi-channel generation, per-phase disturbance injection, and CSVReplayAdapter streaming).
+- `tests/test_event_engine.py`: 2 tests (ThreePhaseEventEngine per-phase tracking, multi-window event merging, and cross-phase concurrent sag correlation).
 - `tests/test_dsp_features.py`: 1 test (baseline feature preservation).
 
 ---
