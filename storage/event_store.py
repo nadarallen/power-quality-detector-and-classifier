@@ -11,7 +11,8 @@ Lightweight SQLite-backed event repository storing:
 import sqlite3
 import json
 import os
-from typing import List, Optional, Dict, Any, Tuple
+from contextlib import contextmanager
+from typing import List, Optional, Dict, Any, Tuple, Generator
 
 from dsp.event_engine import PQEvent, PhaseMeasurement
 
@@ -24,10 +25,18 @@ class EventStore:
         os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
         self._init_db()
 
-    def _get_connection(self) -> sqlite3.Connection:
+    @contextmanager
+    def _get_connection(self) -> Generator[sqlite3.Connection, None, None]:
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
-        return conn
+        try:
+            yield conn
+        finally:
+            conn.close()
+
+    def close(self):
+        """Close hook for compatibility."""
+        pass
 
     def _init_db(self):
         """Initializes database tables if they do not exist."""

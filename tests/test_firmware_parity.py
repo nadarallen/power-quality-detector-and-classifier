@@ -180,7 +180,10 @@ def test_cpp_native_feature_extraction_and_inference_parity(tmp_path):
     and executes a C++ test binary on synthetic waveforms to verify zero-drift
     C++ vs Python end-to-end parity.
     """
+    import shutil
     import subprocess
+    if not shutil.which("g++"):
+        pytest.skip("g++ compiler not found in PATH")
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     src_dir = os.path.join(repo_root, 'firmware', 'src')
 
