@@ -1,0 +1,48 @@
+{
+  "physical_validation_passed": true,
+  "class": "Sag",
+  "affected_phases": [
+    "A",
+    "B",
+    "C"
+  ],
+  "phase_configuration": "three-phase",
+  "primary_phase": "B",
+  "pre_event_nominal_rms": 0.5887,
+  "min_event_rms": 0.3872,
+  "residual_voltage_pu": 0.6577,
+  "duration_ms": 87.4,
+  "start_time_s": 0.0406,
+  "end_time_s": 0.128,
+  "gates": {
+    "SAG-01_residual_ge_0.10": true,
+    "SAG-02_residual_lt_0.90": true,
+    "SAG-03_duration_ge_8.33ms": true,
+    "SAG-04_full_rms_depressed": true,
+    "SAG-05_thd_lt_5pct": true,
+    "SAG-06_freq_59.5_60.5": true,
+    "SAG-ANTI-INTERRUPT": true,
+    "SAG-ANTI-SWELL": true,
+    "WAVEFORM_CONTINUITY": true
+  },
+  "per_phase_metrics": {
+    "A": {
+      "min_rms": 0.4291,
+      "max_rms": 0.5989,
+      "residual_ratio": 0.7289,
+      "duration_ms": 92.4
+    },
+    "B": {
+      "min_rms": 0.3872,
+      "max_rms": 0.5961,
+      "residual_ratio": 0.6577,
+      "duration_ms": 87.4
+    },
+    "C": {
+      "min_rms": 0.4059,
+      "max_rms": 0.5906,
+      "residual_ratio": 0.6895,
+      "duration_ms": 89.4
+    }
+  }
+}

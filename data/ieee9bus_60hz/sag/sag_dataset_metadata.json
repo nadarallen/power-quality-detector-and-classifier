@@ -1,0 +1,212 @@
+{
+  "dataset_name": "IEEE 9-Bus 60-Hz Voltage Sag Dataset",
+  "gate": "GATE 3E",
+  "creation_date": "2026-09-30",
+  "electrical_system": {
+    "benchmark": "IEEE 9-bus WSCC 3-machine system",
+    "nominal_frequency_hz": 60.0,
+    "measurement_bus": "Bus 5",
+    "base_voltage_kv": 230.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_duration_ms": 200.0,
+    "cycles_per_window": 12.0
+  },
+  "counts": {
+    "total_simulations": 36,
+    "windows_per_simulation": 32,
+    "total_accepted_frames": 1152,
+    "total_rejected_frames": 0,
+    "train_frames": 832,
+    "val_frames": 160,
+    "test_frames": 160
+  },
+  "phase_coverage": {
+    "three_phase": 448,
+    "single_phase_to_ground": 384,
+    "phase_to_phase": 320
+  },
+  "operating_condition_coverage": {
+    "unique_operating_conditions": 32,
+    "condition_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32
+    ]
+  },
+  "parameter_distributions": {
+    "residual_voltage_pu": {
+      "min": 0.2379,
+      "max": 0.7602,
+      "mean": 0.5105583333333333,
+      "median": 0.50405
+    },
+    "duration_ms": {
+      "min": 41.2,
+      "max": 126.8,
+      "mean": 86.07777777777778,
+      "median": 85.30000000000001
+    }
+  },
+  "feature_comparison_vs_normal": {
+    "rms_voltage": {
+      "normal_mean": 0.5887397473214285,
+      "normal_std": 0.0185018103858168,
+      "normal_range": [
+        0.552336,
+        0.633427
+      ],
+      "sag_mean": 0.5354734991319444,
+      "sag_std": 0.03959663487972728,
+      "sag_range": [
+        0.470494,
+        0.599544
+      ],
+      "has_overlap": true
+    },
+    "peak_voltage": {
+      "normal_mean": 0.8354089687499999,
+      "normal_std": 0.026165124618950444,
+      "normal_range": [
+        0.782785,
+        0.900676
+      ],
+      "sag_mean": 0.8442964809027776,
+      "sag_std": 0.030819860746252595,
+      "sag_range": [
+        0.781321,
+        0.90311
+      ],
+      "has_overlap": true
+    },
+    "crest_factor": {
+      "normal_mean": 1.41898344375,
+      "normal_std": 0.0012217854873069873,
+      "normal_range": [
+        1.415794,
+        1.424066
+      ],
+      "sag_mean": 1.5832938559027778,
+      "sag_std": 0.10078713950962088,
+      "sag_range": [
+        1.419362,
+        1.730525
+      ],
+      "has_overlap": true
+    },
+    "thd": {
+      "normal_mean": 0.024813839285714286,
+      "normal_std": 0.014142991060921456,
+      "normal_range": [
+        0.0045,
+        0.0889
+      ],
+      "sag_mean": 0.30912100694444444,
+      "sag_std": 0.21050390676302225,
+      "sag_range": [
+        0.0266,
+        0.8247
+      ],
+      "has_overlap": true
+    },
+    "duration": {
+      "normal_mean": 0.0,
+      "normal_std": 0.0,
+      "normal_range": [
+        0.0,
+        0.0
+      ],
+      "sag_mean": 62.74444444444444,
+      "sag_std": 43.47995937737579,
+      "sag_range": [
+        0.0,
+        134.0
+      ],
+      "has_overlap": true
+    },
+    "dominant_freq": {
+      "normal_mean": 60.0,
+      "normal_std": 0.0,
+      "normal_range": [
+        60.0,
+        60.0
+      ],
+      "sag_mean": 60.0,
+      "sag_std": 0.0,
+      "sag_range": [
+        60.0,
+        60.0
+      ],
+      "has_overlap": true
+    },
+    "system_freq": {
+      "normal_mean": 59.99870392857143,
+      "normal_std": 0.01875652195690417,
+      "normal_range": [
+        59.9459,
+        60.0529
+      ],
+      "sag_mean": 59.99912569444445,
+      "sag_std": 0.017573653356835226,
+      "sag_range": [
+        59.9488,
+        60.0526
+      ],
+      "has_overlap": true
+    },
+    "snr": {
+      "normal_mean": 51.71192857142857,
+      "normal_std": 0.45283481462324143,
+      "normal_range": [
+        49.91,
+        52.95
+      ],
+      "sag_mean": 20.252439236111112,
+      "sag_std": 14.909319036489858,
+      "sag_range": [
+        7.66,
+        49.97
+      ],
+      "has_overlap": true
+    }
+  },
+  "pristine_reference_model": {
+    "path": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+    "sha256": "5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d",
+    "status": "UNTOUCHED"
+  },
+  "checksums": {
+    "sag_waveforms_npz": "2186f152fb714d3eafa317fb3c395944ad0799a5ebebbe1a04446735fc4ad40f",
+    "sag_features_csv": "55c8fb355a87656a501da287093c7e79203c4d065ae1044c04a82a82340b68e1",
+    "sag_scenarios_json": "e828b7667c6a9917cf6bea3a82e293b82582235b85d2025f2d82085e5a335db2"
+  }
+}

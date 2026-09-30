@@ -1,0 +1,2270 @@
+[
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0001_3p_nom_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 42,
+    "operating_condition_id": 1,
+    "simulation_id": "sag_sim_01",
+    "parameters": {
+      "fault_resistance_ohms": 180.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.0,
+      "duration_ms": 83.33333333333333,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_01",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0002_3p_light_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 43,
+    "operating_condition_id": 2,
+    "simulation_id": "sag_sim_02",
+    "parameters": {
+      "fault_resistance_ohms": 120.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_02",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0003_3p_light_shallow",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 44,
+    "operating_condition_id": 3,
+    "simulation_id": "sag_sim_03",
+    "parameters": {
+      "fault_resistance_ohms": 220.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 6.0,
+      "duration_ms": 100.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_03",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0004_3p_light_deep2",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 45,
+    "operating_condition_id": 4,
+    "simulation_id": "sag_sim_04",
+    "parameters": {
+      "fault_resistance_ohms": 80.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 3.5,
+      "duration_ms": 58.333333333333336,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_04",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0005_3p_heavy_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 46,
+    "operating_condition_id": 5,
+    "simulation_id": "sag_sim_05",
+    "parameters": {
+      "fault_resistance_ohms": 150.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.5,
+      "duration_ms": 91.66666666666666,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_05",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0006_3p_heavy_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 47,
+    "operating_condition_id": 6,
+    "simulation_id": "sag_sim_06",
+    "parameters": {
+      "fault_resistance_ohms": 60.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.5,
+      "duration_ms": 75.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_06",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0007_3p_heavy_shallow",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 48,
+    "operating_condition_id": 7,
+    "simulation_id": "sag_sim_07",
+    "parameters": {
+      "fault_resistance_ohms": 250.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 7.0,
+      "duration_ms": 116.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_07",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0008_3p_highpf_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 49,
+    "operating_condition_id": 8,
+    "simulation_id": "sag_sim_08",
+    "parameters": {
+      "fault_resistance_ohms": 100.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 3.0,
+      "duration_ms": 50.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_08",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0009_3p_lowpf_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 50,
+    "operating_condition_id": 9,
+    "simulation_id": "sag_sim_09",
+    "parameters": {
+      "fault_resistance_ohms": 140.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.0,
+      "duration_ms": 83.33333333333333,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_09",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0010_3p_bus5load_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 51,
+    "operating_condition_id": 10,
+    "simulation_id": "sag_sim_10",
+    "parameters": {
+      "fault_resistance_ohms": 90.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_10",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0011_1p_phA_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 52,
+    "operating_condition_id": 11,
+    "simulation_id": "sag_sim_11",
+    "parameters": {
+      "fault_resistance_ohms": 50.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_11",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0012_1p_phA_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 53,
+    "operating_condition_id": 12,
+    "simulation_id": "sag_sim_12",
+    "parameters": {
+      "fault_resistance_ohms": 100.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.0,
+      "duration_ms": 83.33333333333333,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_12",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0013_1p_phB_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 54,
+    "operating_condition_id": 13,
+    "simulation_id": "sag_sim_13",
+    "parameters": {
+      "fault_resistance_ohms": 60.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.5,
+      "duration_ms": 75.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_13",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0014_1p_phB_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 55,
+    "operating_condition_id": 14,
+    "simulation_id": "sag_sim_14",
+    "parameters": {
+      "fault_resistance_ohms": 120.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 6.0,
+      "duration_ms": 100.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_14",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0015_1p_phC_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 56,
+    "operating_condition_id": 15,
+    "simulation_id": "sag_sim_15",
+    "parameters": {
+      "fault_resistance_ohms": 50.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 3.5,
+      "duration_ms": 58.333333333333336,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_15",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0016_1p_phC_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 57,
+    "operating_condition_id": 16,
+    "simulation_id": "sag_sim_16",
+    "parameters": {
+      "fault_resistance_ohms": 110.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.0,
+      "duration_ms": 83.33333333333333,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_16",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0017_1p_phA_shallow",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 58,
+    "operating_condition_id": 17,
+    "simulation_id": "sag_sim_17",
+    "parameters": {
+      "fault_resistance_ohms": 160.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 6.5,
+      "duration_ms": 108.33333333333334,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_17",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0018_1p_phB_med2",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 59,
+    "operating_condition_id": 18,
+    "simulation_id": "sag_sim_18",
+    "parameters": {
+      "fault_resistance_ohms": 80.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_18",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0019_1p_phC_med2",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 60,
+    "operating_condition_id": 19,
+    "simulation_id": "sag_sim_19",
+    "parameters": {
+      "fault_resistance_ohms": 70.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.0,
+      "duration_ms": 83.33333333333333,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_19",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0020_1p_phA_deep2",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 61,
+    "operating_condition_id": 20,
+    "simulation_id": "sag_sim_20",
+    "parameters": {
+      "fault_resistance_ohms": 40.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 3.0,
+      "duration_ms": 50.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_20",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0021_2p_phAB_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 62,
+    "operating_condition_id": 21,
+    "simulation_id": "sag_sim_21",
+    "parameters": {
+      "fault_resistance_ohms": 70.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_21",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0022_2p_phAB_shallow",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 63,
+    "operating_condition_id": 22,
+    "simulation_id": "sag_sim_22",
+    "parameters": {
+      "fault_resistance_ohms": 130.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.5,
+      "duration_ms": 91.66666666666666,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_22",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0023_2p_phBC_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 64,
+    "operating_condition_id": 23,
+    "simulation_id": "sag_sim_23",
+    "parameters": {
+      "fault_resistance_ohms": 60.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 3.5,
+      "duration_ms": 58.333333333333336,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_23",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0024_2p_phBC_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 65,
+    "operating_condition_id": 24,
+    "simulation_id": "sag_sim_24",
+    "parameters": {
+      "fault_resistance_ohms": 110.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.0,
+      "duration_ms": 83.33333333333333,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_24",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0025_2p_phCA_med",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 66,
+    "operating_condition_id": 25,
+    "simulation_id": "sag_sim_25",
+    "parameters": {
+      "fault_resistance_ohms": 75.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.5,
+      "duration_ms": 75.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_25",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0026_2p_phCA_shallow",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 67,
+    "operating_condition_id": 26,
+    "simulation_id": "sag_sim_26",
+    "parameters": {
+      "fault_resistance_ohms": 140.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 6.0,
+      "duration_ms": 100.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_26",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0027_2p_phAB_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 68,
+    "operating_condition_id": 27,
+    "simulation_id": "sag_sim_27",
+    "parameters": {
+      "fault_resistance_ohms": 45.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 3.0,
+      "duration_ms": 50.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_27",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0028_2p_phBC_med2",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 69,
+    "operating_condition_id": 28,
+    "simulation_id": "sag_sim_28",
+    "parameters": {
+      "fault_resistance_ohms": 85.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_28",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0029_3p_very_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 70,
+    "operating_condition_id": 29,
+    "simulation_id": "sag_sim_29",
+    "parameters": {
+      "fault_resistance_ohms": 35.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 2.5,
+      "duration_ms": 41.666666666666664,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_29",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0030_3p_very_shallow",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 71,
+    "operating_condition_id": 30,
+    "simulation_id": "sag_sim_30",
+    "parameters": {
+      "fault_resistance_ohms": 280.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 7.5,
+      "duration_ms": 125.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_30",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0031_1p_phA_fast",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 72,
+    "operating_condition_id": 31,
+    "simulation_id": "sag_sim_31",
+    "parameters": {
+      "fault_resistance_ohms": 30.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 2.0,
+      "duration_ms": 33.333333333333336,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_31",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0032_2p_phBC_long",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 73,
+    "operating_condition_id": 32,
+    "simulation_id": "sag_sim_32",
+    "parameters": {
+      "fault_resistance_ohms": 160.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 6.5,
+      "duration_ms": 108.33333333333334,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_32",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0033_3p_nom_deep",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 74,
+    "operating_condition_id": 1,
+    "simulation_id": "sag_sim_33",
+    "parameters": {
+      "fault_resistance_ohms": 75.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_33",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0034_1p_heavy_phA",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 75,
+    "operating_condition_id": 5,
+    "simulation_id": "sag_sim_34",
+    "parameters": {
+      "fault_resistance_ohms": 90.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.0,
+      "duration_ms": 83.33333333333333,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_34",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0035_2p_light_phCA",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 76,
+    "operating_condition_id": 2,
+    "simulation_id": "sag_sim_35",
+    "parameters": {
+      "fault_resistance_ohms": 95.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_35",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SAG_0036_3p_highpf_shallow",
+    "class": "Sag",
+    "label_idx": 5,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "FAULT_IMPEDANCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 77,
+    "operating_condition_id": 8,
+    "simulation_id": "sag_sim_36",
+    "parameters": {
+      "fault_resistance_ohms": 200.0,
+      "ground_resistance_ohms": 0.01,
+      "duration_cycles": 5.5,
+      "duration_ms": 91.66666666666666,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "fault_resistance_ohms": "SIMULATION-PARAMETER",
+      "ground_resistance_ohms": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.58",
+        "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "sag_sim_36",
+      "split": "train"
+    }
+  }
+]
