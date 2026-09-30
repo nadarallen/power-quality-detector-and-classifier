@@ -1,0 +1,1248 @@
+{
+  "audit_1_uniqueness": {
+    "total_frames": 1120,
+    "intra_condition_stats": [
+      {
+        "condition_id": 1,
+        "name": "Nominal Baseline",
+        "frame_count": 35,
+        "mean_corr": -0.028852520510554314,
+        "min_corr": -0.999994158744812,
+        "max_corr": 0.9921318292617798,
+        "std_corr": 0.6963617205619812
+      },
+      {
+        "condition_id": 2,
+        "name": "Light Load 85%",
+        "frame_count": 35,
+        "mean_corr": -0.028851516544818878,
+        "min_corr": -0.9999948143959045,
+        "max_corr": 0.9921364188194275,
+        "std_corr": 0.6963611245155334
+      },
+      {
+        "condition_id": 3,
+        "name": "Light Load 90%",
+        "frame_count": 35,
+        "mean_corr": -0.028852062299847603,
+        "min_corr": -0.9999948740005493,
+        "max_corr": 0.9921343326568604,
+        "std_corr": 0.6963618397712708
+      },
+      {
+        "condition_id": 4,
+        "name": "Light Load 95%",
+        "frame_count": 35,
+        "mean_corr": -0.028851943090558052,
+        "min_corr": -0.9999944567680359,
+        "max_corr": 0.9921266436576843,
+        "std_corr": 0.696361780166626
+      },
+      {
+        "condition_id": 5,
+        "name": "Heavy Load 105%",
+        "frame_count": 35,
+        "mean_corr": -0.028851836919784546,
+        "min_corr": -0.9999938011169434,
+        "max_corr": 0.9921315908432007,
+        "std_corr": 0.6963610649108887
+      },
+      {
+        "condition_id": 6,
+        "name": "Heavy Load 110%",
+        "frame_count": 35,
+        "mean_corr": -0.028851618990302086,
+        "min_corr": -0.9999940395355225,
+        "max_corr": 0.9921354651451111,
+        "std_corr": 0.6963606476783752
+      },
+      {
+        "condition_id": 7,
+        "name": "Heavy Load 115%",
+        "frame_count": 35,
+        "mean_corr": -0.028851456940174103,
+        "min_corr": -0.9999932646751404,
+        "max_corr": 0.9921337962150574,
+        "std_corr": 0.6963608264923096
+      },
+      {
+        "condition_id": 8,
+        "name": "High PF (0.98 lag)",
+        "frame_count": 35,
+        "mean_corr": -0.02885187603533268,
+        "min_corr": -0.9999946355819702,
+        "max_corr": 0.9921281337738037,
+        "std_corr": 0.6963622570037842
+      },
+      {
+        "condition_id": 9,
+        "name": "Low PF (0.85 lag)",
+        "frame_count": 35,
+        "mean_corr": -0.0288511011749506,
+        "min_corr": -0.9999936819076538,
+        "max_corr": 0.992135226726532,
+        "std_corr": 0.6963614821434021
+      },
+      {
+        "condition_id": 10,
+        "name": "Bus 5 Heavy Local Load",
+        "frame_count": 35,
+        "mean_corr": -0.028851676732301712,
+        "min_corr": -0.9999942183494568,
+        "max_corr": 0.9921355247497559,
+        "std_corr": 0.6963602304458618
+      },
+      {
+        "condition_id": 11,
+        "name": "Bus 5 Light Local Load",
+        "frame_count": 35,
+        "mean_corr": -0.028852133080363274,
+        "min_corr": -0.9999947547912598,
+        "max_corr": 0.9921307563781738,
+        "std_corr": 0.6963623762130737
+      },
+      {
+        "condition_id": 12,
+        "name": "Bus 6 Heavy Local Load",
+        "frame_count": 35,
+        "mean_corr": -0.028852049261331558,
+        "min_corr": -0.9999938607215881,
+        "max_corr": 0.9921472072601318,
+        "std_corr": 0.6963617205619812
+      },
+      {
+        "condition_id": 13,
+        "name": "Bus 8 Heavy Local Load",
+        "frame_count": 35,
+        "mean_corr": -0.028851240873336792,
+        "min_corr": -0.9999936819076538,
+        "max_corr": 0.9921340346336365,
+        "std_corr": 0.6963610053062439
+      },
+      {
+        "condition_id": 14,
+        "name": "Cross-Bus Diversity A",
+        "frame_count": 35,
+        "mean_corr": -0.028851239010691643,
+        "min_corr": -0.9999940395355225,
+        "max_corr": 0.992127537727356,
+        "std_corr": 0.69636070728302
+      },
+      {
+        "condition_id": 15,
+        "name": "Cross-Bus Diversity B",
+        "frame_count": 35,
+        "mean_corr": -0.028851427137851715,
+        "min_corr": -0.9999942779541016,
+        "max_corr": 0.9921202063560486,
+        "std_corr": 0.696361780166626
+      },
+      {
+        "condition_id": 16,
+        "name": "Gen 2 Heavy Dispatch",
+        "frame_count": 35,
+        "mean_corr": -0.028851652517914772,
+        "min_corr": -0.9999936819076538,
+        "max_corr": 0.9921289086341858,
+        "std_corr": 0.6963614225387573
+      },
+      {
+        "condition_id": 17,
+        "name": "Gen 3 Heavy Dispatch",
+        "frame_count": 35,
+        "mean_corr": -0.028852004557847977,
+        "min_corr": -0.9999944567680359,
+        "max_corr": 0.9921315908432007,
+        "std_corr": 0.696361780166626
+      },
+      {
+        "condition_id": 18,
+        "name": "High Voltage Schedule (+2%)",
+        "frame_count": 35,
+        "mean_corr": -0.028851937502622604,
+        "min_corr": -0.999994158744812,
+        "max_corr": 0.9921371936798096,
+        "std_corr": 0.6963624954223633
+      },
+      {
+        "condition_id": 19,
+        "name": "Low Voltage Schedule (-2%)",
+        "frame_count": 35,
+        "mean_corr": -0.02885148487985134,
+        "min_corr": -0.9999938011169434,
+        "max_corr": 0.9921376705169678,
+        "std_corr": 0.6963609457015991
+      },
+      {
+        "condition_id": 20,
+        "name": "Gen 2 High V, Gen 3 Low V",
+        "frame_count": 35,
+        "mean_corr": -0.02885207161307335,
+        "min_corr": -0.9999939799308777,
+        "max_corr": 0.9921219348907471,
+        "std_corr": 0.6963615417480469
+      },
+      {
+        "condition_id": 21,
+        "name": "Gen 2 Low V, Gen 3 High V",
+        "frame_count": 35,
+        "mean_corr": -0.028851574286818504,
+        "min_corr": -0.9999938011169434,
+        "max_corr": 0.9921450614929199,
+        "std_corr": 0.6963613033294678
+      },
+      {
+        "condition_id": 22,
+        "name": "Frequency Lower Bound (59.95 Hz)",
+        "frame_count": 35,
+        "mean_corr": -0.028889600187540054,
+        "min_corr": -0.9997193217277527,
+        "max_corr": 0.9927978515625,
+        "std_corr": 0.6963547468185425
+      },
+      {
+        "condition_id": 23,
+        "name": "Frequency Upper Bound (60.05 Hz)",
+        "frame_count": 35,
+        "mean_corr": -0.028814062476158142,
+        "min_corr": -0.9997197389602661,
+        "max_corr": 0.991456151008606,
+        "std_corr": 0.6963669061660767
+      },
+      {
+        "condition_id": 24,
+        "name": "Frequency Excursion -0.03 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.028875065967440605,
+        "min_corr": -0.9998956918716431,
+        "max_corr": 0.992530345916748,
+        "std_corr": 0.6963579058647156
+      },
+      {
+        "condition_id": 25,
+        "name": "Frequency Excursion +0.03 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.0288285780698061,
+        "min_corr": -0.9998974204063416,
+        "max_corr": 0.9917356371879578,
+        "std_corr": 0.6963648796081543
+      },
+      {
+        "condition_id": 26,
+        "name": "Frequency Excursion -0.01 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.028859179466962814,
+        "min_corr": -0.9999831914901733,
+        "max_corr": 0.992262601852417,
+        "std_corr": 0.6963608264923096
+      },
+      {
+        "condition_id": 27,
+        "name": "Frequency Excursion +0.01 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.02884320169687271,
+        "min_corr": -0.9999833106994629,
+        "max_corr": 0.9919982552528381,
+        "std_corr": 0.6963628530502319
+      },
+      {
+        "condition_id": 28,
+        "name": "Combined: Heavy Load + 59.97 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.028874577954411507,
+        "min_corr": -0.9998952150344849,
+        "max_corr": 0.992526650428772,
+        "std_corr": 0.6963569521903992
+      },
+      {
+        "condition_id": 29,
+        "name": "Combined: Light Load + 60.03 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.02882794290781021,
+        "min_corr": -0.9998968243598938,
+        "max_corr": 0.9917412996292114,
+        "std_corr": 0.6963654160499573
+      },
+      {
+        "condition_id": 30,
+        "name": "Combined: Bus 5 Peak + 59.98 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.028866808861494064,
+        "min_corr": -0.9999503493309021,
+        "max_corr": 0.9923978447914124,
+        "std_corr": 0.6963590979576111
+      },
+      {
+        "condition_id": 31,
+        "name": "Combined: High Reactive + 60.02 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.02883707918226719,
+        "min_corr": -0.9999508261680603,
+        "max_corr": 0.9918622970581055,
+        "std_corr": 0.6963636875152588
+      },
+      {
+        "condition_id": 32,
+        "name": "Combined: Gen 2 Dispatch + 59.96 Hz",
+        "frame_count": 35,
+        "mean_corr": -0.028881710022687912,
+        "min_corr": -0.9998189806938171,
+        "max_corr": 0.9926597476005554,
+        "std_corr": 0.6963561773300171
+      }
+    ],
+    "overall_intra_correlation": {
+      "mean": -0.028852632269263268,
+      "min": -0.9999948740005493,
+      "max": 0.9927978515625,
+      "std": 0.696361243724823
+    },
+    "inter_condition_correlation": {
+      "mean": 0.9988290071487427,
+      "min": 0.9912319183349609,
+      "max": 0.9999942779541016,
+      "std": 0.0014449784066528082
+    }
+  },
+  "audit_2_operating_points": [
+    {
+      "condition_id": 1,
+      "name": "Nominal Baseline",
+      "classification": "IEEE-based",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5873830431235781,
+      "bus5_v_peak_pu": 0.8454488214294187,
+      "pct_vrms_change": 0.0,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 2,
+      "name": "Light Load 85%",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 106.25,
+      "loadA_Q_MVAR": 42.5,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 138,
+      "gen3_P_MW": 72,
+      "bus5_v_rms_pu": 0.6314296609010539,
+      "bus5_v_peak_pu": 0.9271259118683133,
+      "pct_vrms_change": 7.499,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 3,
+      "name": "Light Load 90%",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 112.5,
+      "loadA_Q_MVAR": 45,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 146,
+      "gen3_P_MW": 76,
+      "bus5_v_rms_pu": 0.6167706096669416,
+      "bus5_v_peak_pu": 0.8996913577870238,
+      "pct_vrms_change": 5.003,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 4,
+      "name": "Light Load 95%",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 118.75,
+      "loadA_Q_MVAR": 47.5,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 155,
+      "gen3_P_MW": 80,
+      "bus5_v_rms_pu": 0.6026206119127143,
+      "bus5_v_peak_pu": 0.8732221364795452,
+      "pct_vrms_change": 2.594,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 5,
+      "name": "Heavy Load 105%",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 131.25,
+      "loadA_Q_MVAR": 52.5,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 171,
+      "gen3_P_MW": 89,
+      "bus5_v_rms_pu": 0.5727178825145283,
+      "bus5_v_peak_pu": 0.8187967247370292,
+      "pct_vrms_change": -2.497,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 6,
+      "name": "Heavy Load 110%",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 137.5,
+      "loadA_Q_MVAR": 55.00000000000001,
+      "gen1_V_kV": 16.665,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 175,
+      "gen3_P_MW": 93,
+      "bus5_v_rms_pu": 0.5641935591109426,
+      "bus5_v_peak_pu": 0.8011764742613321,
+      "pct_vrms_change": -3.948,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 7,
+      "name": "Heavy Load 115%",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 143.75,
+      "loadA_Q_MVAR": 57.49999999999999,
+      "gen1_V_kV": 16.665,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 175,
+      "gen3_P_MW": 95,
+      "bus5_v_rms_pu": 0.5504833638846932,
+      "bus5_v_peak_pu": 0.7812253386780389,
+      "pct_vrms_change": -6.282,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 8,
+      "name": "High PF (0.98 lag)",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 30,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.6307363639708667,
+      "bus5_v_peak_pu": 0.8951297710259655,
+      "pct_vrms_change": 7.381,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 9,
+      "name": "Low PF (0.85 lag)",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 62.5,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.562469199671254,
+      "bus5_v_peak_pu": 0.8182523241311875,
+      "pct_vrms_change": -4.241,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 10,
+      "name": "Bus 5 Heavy Local Load",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 143.75,
+      "loadA_Q_MVAR": 57.49999999999999,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 168,
+      "gen3_P_MW": 87,
+      "bus5_v_rms_pu": 0.5670706209906712,
+      "bus5_v_peak_pu": 0.8081753665172544,
+      "pct_vrms_change": -3.458,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 11,
+      "name": "Bus 5 Light Local Load",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 106.25,
+      "loadA_Q_MVAR": 42.5,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 158,
+      "gen3_P_MW": 83,
+      "bus5_v_rms_pu": 0.6087825869451392,
+      "bus5_v_peak_pu": 0.8848934759377463,
+      "pct_vrms_change": 3.643,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 12,
+      "name": "Bus 6 Heavy Local Load",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 170,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5739267398317905,
+      "bus5_v_peak_pu": 0.8208342139934688,
+      "pct_vrms_change": -2.291,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 13,
+      "name": "Bus 8 Heavy Local Load",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 92,
+      "bus5_v_rms_pu": 0.5726412224978227,
+      "bus5_v_peak_pu": 0.8184405214776114,
+      "pct_vrms_change": -2.51,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 14,
+      "name": "Cross-Bus Diversity A",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 137.5,
+      "loadA_Q_MVAR": 55.00000000000001,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5773879770372784,
+      "bus5_v_peak_pu": 0.8268863946497522,
+      "pct_vrms_change": -1.702,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 15,
+      "name": "Cross-Bus Diversity B",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 112.5,
+      "loadA_Q_MVAR": 45,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5976380828267917,
+      "bus5_v_peak_pu": 0.8646592535166573,
+      "pct_vrms_change": 1.746,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 16,
+      "name": "Gen 2 Heavy Dispatch",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 175,
+      "gen3_P_MW": 75,
+      "bus5_v_rms_pu": 0.5873830431235781,
+      "bus5_v_peak_pu": 0.8454488214294187,
+      "pct_vrms_change": 0.0,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 17,
+      "name": "Gen 3 Heavy Dispatch",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 150,
+      "gen3_P_MW": 95,
+      "bus5_v_rms_pu": 0.5873830431235781,
+      "bus5_v_peak_pu": 0.8454488214294187,
+      "pct_vrms_change": 0.0,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 18,
+      "name": "High Voltage Schedule (+2%)",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.83,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.599130703986051,
+      "bus5_v_peak_pu": 0.8623577978580218,
+      "pct_vrms_change": 2.0,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 19,
+      "name": "Low Voltage Schedule (-2%)",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.17,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5756353822611079,
+      "bus5_v_peak_pu": 0.8285398450007687,
+      "pct_vrms_change": -2.0,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 20,
+      "name": "Gen 2 High V, Gen 3 Low V",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.588428374479109,
+      "bus5_v_peak_pu": 0.8469979597387345,
+      "pct_vrms_change": 0.178,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 21,
+      "name": "Gen 2 Low V, Gen 3 High V",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5863377231249395,
+      "bus5_v_peak_pu": 0.8438996850831673,
+      "pct_vrms_change": -0.178,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 22,
+      "name": "Frequency Lower Bound (59.95 Hz)",
+      "classification": "IEEE / NERC standard",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 59.95,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5870152649489593,
+      "bus5_v_peak_pu": 0.8332182226688375,
+      "pct_vrms_change": -0.063,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 23,
+      "name": "Frequency Upper Bound (60.05 Hz)",
+      "classification": "IEEE / NERC standard",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60.05,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5877902358199011,
+      "bus5_v_peak_pu": 0.8784097402929046,
+      "pct_vrms_change": 0.069,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 24,
+      "name": "Frequency Excursion -0.03 Hz",
+      "classification": "IEEE / NERC standard",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 59.97,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5871568245961117,
+      "bus5_v_peak_pu": 0.8333020985121093,
+      "pct_vrms_change": -0.039,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 25,
+      "name": "Frequency Excursion +0.03 Hz",
+      "classification": "IEEE / NERC standard",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60.03,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5876234923635238,
+      "bus5_v_peak_pu": 0.8666930176014187,
+      "pct_vrms_change": 0.041,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 26,
+      "name": "Frequency Excursion -0.01 Hz",
+      "classification": "IEEE / NERC standard",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 59.99,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5873059160847819,
+      "bus5_v_peak_pu": 0.8374049676671308,
+      "pct_vrms_change": -0.013,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 27,
+      "name": "Frequency Excursion +0.01 Hz",
+      "classification": "IEEE / NERC standard",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 60.01,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5874617536610999,
+      "bus5_v_peak_pu": 0.8530142929432595,
+      "pct_vrms_change": 0.013,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 28,
+      "name": "Combined: Heavy Load + 59.97 Hz",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 137.5,
+      "loadA_Q_MVAR": 55.00000000000001,
+      "gen1_V_kV": 16.665,
+      "grid_freq_Hz": 59.97,
+      "gen2_P_MW": 175,
+      "gen3_P_MW": 92,
+      "bus5_v_rms_pu": 0.5639898368293994,
+      "bus5_v_peak_pu": 0.8005232803644449,
+      "pct_vrms_change": -3.983,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 29,
+      "name": "Combined: Light Load + 60.03 Hz",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 112.5,
+      "loadA_Q_MVAR": 45,
+      "gen1_V_kV": 16.335,
+      "grid_freq_Hz": 60.03,
+      "gen2_P_MW": 145,
+      "gen3_P_MW": 75,
+      "bus5_v_rms_pu": 0.6125262752201427,
+      "bus5_v_peak_pu": 0.9128805529699312,
+      "pct_vrms_change": 4.281,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 30,
+      "name": "Combined: Bus 5 Peak + 59.98 Hz",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 140,
+      "loadA_Q_MVAR": 56.00000000000001,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 59.98,
+      "gen2_P_MW": 166,
+      "gen3_P_MW": 86,
+      "bus5_v_rms_pu": 0.5709044849734765,
+      "bus5_v_peak_pu": 0.81024007775322,
+      "pct_vrms_change": -2.805,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 31,
+      "name": "Combined: High Reactive + 60.02 Hz",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 57.49999999999999,
+      "gen1_V_kV": 16.665,
+      "grid_freq_Hz": 60.02,
+      "gen2_P_MW": 163,
+      "gen3_P_MW": 85,
+      "bus5_v_rms_pu": 0.5781250104281898,
+      "bus5_v_peak_pu": 0.8511085410354647,
+      "pct_vrms_change": -1.576,
+      "convergence_status": "CONVERGED_STABLE"
+    },
+    {
+      "condition_id": 32,
+      "name": "Combined: Gen 2 Dispatch + 59.96 Hz",
+      "classification": "PROJECT DESIGN CHOICE",
+      "loadA_P_MW": 125,
+      "loadA_Q_MVAR": 50,
+      "gen1_V_kV": 16.5,
+      "grid_freq_Hz": 59.96,
+      "gen2_P_MW": 170,
+      "gen3_P_MW": 80,
+      "bus5_v_rms_pu": 0.58708505669832,
+      "bus5_v_peak_pu": 0.8332603438173426,
+      "pct_vrms_change": -0.051,
+      "convergence_status": "CONVERGED_STABLE"
+    }
+  ],
+  "audit_3_snr_investigation": {
+    "status": "INVALID",
+    "root_cause": "The legacy baseline formula 'ideal_signal = peak_v * sin(2*pi*f*t)' omits the initial phase offset phi_0 of the sliding window. Because phi_0 is non-zero, the difference (signal - ideal_signal) contains a large fundamental frequency component 2*A*sin(phi_0/2)*cos(wt + phi_0/2), which was erroneously treated as noise. True SNR with phase alignment is 50-52 dB across all frames.",
+    "samples": [
+      {
+        "frame_id": "norm_0000",
+        "condition_id": 1,
+        "fund_peak_fitted": 0.833536,
+        "fund_phase_deg": -179.09,
+        "baseline_feature_snr": -6.04,
+        "flawed_reproduced_snr": -6.04,
+        "true_phase_aware_snr": 51.35,
+        "true_noise_rms_pu": 0.001595,
+        "signal_rms_pu": 0.589389
+      },
+      {
+        "frame_id": "norm_0010",
+        "condition_id": 1,
+        "fund_peak_fitted": 0.833411,
+        "fund_phase_deg": -160.5,
+        "baseline_feature_snr": -5.9,
+        "flawed_reproduced_snr": -5.9,
+        "true_phase_aware_snr": 51.6,
+        "true_noise_rms_pu": 0.001549,
+        "signal_rms_pu": 0.589317
+      },
+      {
+        "frame_id": "norm_0035",
+        "condition_id": 2,
+        "fund_peak_fitted": 0.895739,
+        "fund_phase_deg": -175.82,
+        "baseline_feature_snr": -6.03,
+        "flawed_reproduced_snr": -6.03,
+        "true_phase_aware_snr": 51.84,
+        "true_noise_rms_pu": 0.00162,
+        "signal_rms_pu": 0.633373
+      },
+      {
+        "frame_id": "norm_0070",
+        "condition_id": 3,
+        "fund_peak_fitted": 0.875003,
+        "fund_phase_deg": -176.99,
+        "baseline_feature_snr": -6.03,
+        "flawed_reproduced_snr": -6.03,
+        "true_phase_aware_snr": 52.49,
+        "true_noise_rms_pu": 0.001468,
+        "signal_rms_pu": 0.618713
+      },
+      {
+        "frame_id": "norm_0105",
+        "condition_id": 4,
+        "fund_peak_fitted": 0.854966,
+        "fund_phase_deg": -178.18,
+        "baseline_feature_snr": -6.04,
+        "flawed_reproduced_snr": -6.04,
+        "true_phase_aware_snr": 51.84,
+        "true_noise_rms_pu": 0.001546,
+        "signal_rms_pu": 0.60456
+      },
+      {
+        "frame_id": "norm_0140",
+        "condition_id": 5,
+        "fund_peak_fitted": 0.812794,
+        "fund_phase_deg": 179.79,
+        "baseline_feature_snr": -6.04,
+        "flawed_reproduced_snr": -6.04,
+        "true_phase_aware_snr": 51.44,
+        "true_noise_rms_pu": 0.00154,
+        "signal_rms_pu": 0.574739
+      },
+      {
+        "frame_id": "norm_0200",
+        "condition_id": 6,
+        "fund_peak_fitted": 0.800579,
+        "fund_phase_deg": -140.9,
+        "baseline_feature_snr": -5.51,
+        "flawed_reproduced_snr": -5.51,
+        "true_phase_aware_snr": 50.88,
+        "true_noise_rms_pu": 0.001617,
+        "signal_rms_pu": 0.566101
+      },
+      {
+        "frame_id": "norm_0350",
+        "condition_id": 11,
+        "fund_peak_fitted": 0.863677,
+        "fund_phase_deg": -177.66,
+        "baseline_feature_snr": -6.03,
+        "flawed_reproduced_snr": -6.03,
+        "true_phase_aware_snr": 52.38,
+        "true_noise_rms_pu": 0.001468,
+        "signal_rms_pu": 0.610716
+      },
+      {
+        "frame_id": "norm_0700",
+        "condition_id": 21,
+        "fund_peak_fitted": 0.83191,
+        "fund_phase_deg": -179.27,
+        "baseline_feature_snr": -6.04,
+        "flawed_reproduced_snr": -6.04,
+        "true_phase_aware_snr": 51.54,
+        "true_noise_rms_pu": 0.001558,
+        "signal_rms_pu": 0.588262
+      },
+      {
+        "frame_id": "norm_1000",
+        "condition_id": 29,
+        "fund_peak_fitted": 0.868566,
+        "fund_phase_deg": -142.53,
+        "baseline_feature_snr": -5.56,
+        "flawed_reproduced_snr": -5.56,
+        "true_phase_aware_snr": 51.7,
+        "true_noise_rms_pu": 0.001597,
+        "signal_rms_pu": 0.614217
+      }
+    ]
+  },
+  "audit_4_voltage_base": {
+    "bus5_nominal_vrms": 0.58738,
+    "bus5_nominal_vpeak": 0.8354,
+    "observed_vrms_min": 0.552336,
+    "observed_vrms_max": 0.633427,
+    "observed_vpeak_min": 0.782785,
+    "observed_vpeak_max": 0.900676,
+    "range_justification": "The voltage range 0.5523 to 0.6334 pu RMS directly reflects the physical load flow of the IEEE 9-bus network under 85% to 115% loading. Bus 5 is an uncompensated transmission load bus whose voltage drop is governed by the impedance of transmission lines 4-5 and 5-7. The system remains strictly stable and normal without disturbances."
+  },
+  "audit_5_frequency": {
+    "dominant_freq_unique": [
+      60.0
+    ],
+    "true_dominant_freq_unique": [
+      60.0
+    ],
+    "system_freq_min": 59.9459,
+    "system_freq_max": 60.0529,
+    "system_freq_mean": 59.99870392857143,
+    "explanation": "dominant_freq and true_dominant_freq are derived from discrete FFT / Goertzel integer bin indices. With N=1000 and Fs=5000 Hz, frequency bin spacing is Delta_f = Fs/N = 5.0 Hz. For all grid frequencies within the NERC deadband (59.95 to 60.05 Hz), the peak bin index is identically k = round(60/5) = 12 (60.0 Hz). Conversely, system_freq uses continuous-time linear sub-sample zero-crossing interpolation, providing sub-millihertz precision that accurately resolves the physical 59.95 to 60.05 Hz excursions."
+  },
+  "audit_6_duration": {
+    "duration_unique_values": [
+      0.0
+    ],
+    "is_hardcoded": false,
+    "verification": "Duration is computed dynamically using half-cycle sliding RMS normalized to Bus 5 nominal RMS (0.5877 pu). In steady-state Normal operation, sliding RMS remains strictly within [0.94 pu, 1.08 pu], never violating the [0.90, 1.10] pu disturbance thresholds. Consequently, abnormal sample count is identically 0.0 ms. The 0 ms value is physical, not hardcoded."
+  },
+  "audit_7_harmonics": {
+    "h1": {
+      "mean": 0.832581974107143,
+      "min": 0.781119,
+      "max": 0.895799
+    },
+    "h2": {
+      "mean": 0.00020192589285714286,
+      "min": 3e-06,
+      "max": 0.001054
+    },
+    "h3": {
+      "mean": 0.0001315732142857143,
+      "min": 3e-06,
+      "max": 0.000626
+    },
+    "h4": {
+      "mean": 0.00011464017857142859,
+      "min": 3e-06,
+      "max": 0.000535
+    },
+    "h5": {
+      "mean": 0.00010538928571428572,
+      "min": 5e-06,
+      "max": 0.000389
+    },
+    "h6": {
+      "mean": 9.764107142857143e-05,
+      "min": 3e-06,
+      "max": 0.000393
+    },
+    "h7": {
+      "mean": 9.284732142857142e-05,
+      "min": 2e-06,
+      "max": 0.000336
+    },
+    "h8": {
+      "mean": 9.343392857142857e-05,
+      "min": 5e-06,
+      "max": 0.00034
+    },
+    "h9": {
+      "mean": 9.124821428571429e-05,
+      "min": 3e-06,
+      "max": 0.000296
+    },
+    "h10": {
+      "mean": 9.003571428571429e-05,
+      "min": 2e-06,
+      "max": 0.000308
+    },
+    "h11": {
+      "mean": 8.844732142857144e-05,
+      "min": 5e-06,
+      "max": 0.000346
+    },
+    "thd": {
+      "mean": 0.024813839285714286,
+      "min": 0.0045,
+      "max": 0.0889
+    },
+    "harmonic_energy": {
+      "mean": 1.294642857142857e-07,
+      "min": 0.0,
+      "max": 2e-06
+    }
+  },
+  "audit_8_correlation": {
+    "constant_features": [
+      "duration",
+      "dominant_freq",
+      "true_dominant_freq"
+    ],
+    "highly_correlated_pairs": [
+      {
+        "feature_1": "rms_voltage",
+        "feature_2": "peak_voltage",
+        "correlation": 0.9996
+      },
+      {
+        "feature_1": "rms_voltage",
+        "feature_2": "h1",
+        "correlation": 1.0
+      },
+      {
+        "feature_1": "peak_voltage",
+        "feature_2": "h1",
+        "correlation": 0.9996
+      },
+      {
+        "feature_1": "h2",
+        "feature_2": "h2_ratio",
+        "correlation": 0.9996
+      },
+      {
+        "feature_1": "h3",
+        "feature_2": "h3_ratio",
+        "correlation": 0.9994
+      },
+      {
+        "feature_1": "h4",
+        "feature_2": "h4_ratio",
+        "correlation": 0.9991
+      },
+      {
+        "feature_1": "h5",
+        "feature_2": "h5_ratio",
+        "correlation": 0.9988
+      },
+      {
+        "feature_1": "h7",
+        "feature_2": "h7_ratio",
+        "correlation": 0.9984
+      },
+      {
+        "feature_1": "h9",
+        "feature_2": "h9_ratio",
+        "correlation": 0.998
+      },
+      {
+        "feature_1": "h11",
+        "feature_2": "h11_ratio",
+        "correlation": 0.998
+      }
+    ],
+    "redundancy_summary": [
+      "rms_voltage, peak_voltage, and h1 are mutually collinear (r > 0.999) under normal sinusoidal conditions.",
+      "duration, dominant_freq, and true_dominant_freq have zero variance in the Normal class.",
+      "higher harmonics (h3..h11) and their ratios have near-zero values with minimal variance under normal linear grid operation."
+    ]
+  },
+  "audit_9_normal_envelope": {
+    "rms_voltage": {
+      "P1": 0.55239795,
+      "P5": 0.5642588,
+      "P25": 0.5755220000000001,
+      "P50": 0.5892705,
+      "P75": 0.59272325,
+      "P95": 0.6329490999999999,
+      "P99": 0.6333594300000001,
+      "min": 0.552336,
+      "max": 0.633427
+    },
+    "peak_voltage": {
+      "P1": 0.78348945,
+      "P5": 0.8009489000000001,
+      "P25": 0.81656475,
+      "P50": 0.8358369999999999,
+      "P75": 0.8425830000000001,
+      "P95": 0.89740405,
+      "P99": 0.89871822,
+      "min": 0.782785,
+      "max": 0.900676
+    },
+    "crest_factor": {
+      "P1": 1.41658183,
+      "P5": 1.41712375,
+      "P25": 1.4181515,
+      "P50": 1.4189055000000002,
+      "P75": 1.419662,
+      "P95": 1.421256,
+      "P99": 1.42232329,
+      "min": 1.415794,
+      "max": 1.424066
+    },
+    "thd": {
+      "P1": 0.008019,
+      "P5": 0.0105,
+      "P25": 0.0161,
+      "P50": 0.0208,
+      "P75": 0.0285,
+      "P95": 0.05575999999999994,
+      "P99": 0.07874799999999996,
+      "min": 0.0045,
+      "max": 0.0889
+    },
+    "duration": {
+      "P1": 0.0,
+      "P5": 0.0,
+      "P25": 0.0,
+      "P50": 0.0,
+      "P75": 0.0,
+      "P95": 0.0,
+      "P99": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "dominant_freq": {
+      "P1": 60.0,
+      "P5": 60.0,
+      "P25": 60.0,
+      "P50": 60.0,
+      "P75": 60.0,
+      "P95": 60.0,
+      "P99": 60.0,
+      "min": 60.0,
+      "max": 60.0
+    },
+    "system_freq": {
+      "P1": 59.949295,
+      "P5": 59.960995,
+      "P25": 59.9977,
+      "P50": 59.9998,
+      "P75": 60.0018,
+      "P95": 60.0307,
+      "P99": 60.050681,
+      "min": 59.9459,
+      "max": 60.0529
+    },
+    "snr": {
+      "P1": -6.04,
+      "P5": -6.01,
+      "P25": -5.51,
+      "P50": -2.855,
+      "P75": 1.5550000000000002,
+      "P95": 17.35049999999999,
+      "P99": 36.371999999999986,
+      "min": -6.05,
+      "max": 48.53
+    }
+  },
+  "audit_11_provenance": [
+    {
+      "frame_id": "norm_0045",
+      "simulation_id": "sim_02",
+      "condition_id": 2,
+      "condition_name": "Light Load 85%",
+      "window_start_time_s": 0.0942,
+      "matched_t_sample": 0.0942,
+      "time_alignment_error_s": 0.0,
+      "features_sample": {
+        "rms_voltage": 0.633363,
+        "system_freq": 59.9988,
+        "crest_factor": 1.418409
+      },
+      "provenance_verified": true
+    },
+    {
+      "frame_id": "norm_0420",
+      "simulation_id": "sim_13",
+      "condition_id": 13,
+      "condition_name": "Bus 8 Heavy Local Load",
+      "window_start_time_s": 0.06,
+      "matched_t_sample": 0.06,
+      "time_alignment_error_s": 0.0,
+      "features_sample": {
+        "rms_voltage": 0.574594,
+        "system_freq": 59.9979,
+        "crest_factor": 1.417572
+      },
+      "provenance_verified": true
+    },
+    {
+      "frame_id": "norm_0915",
+      "simulation_id": "sim_27",
+      "condition_id": 27,
+      "condition_name": "Frequency Excursion +0.01 Hz",
+      "window_start_time_s": 0.077,
+      "matched_t_sample": 0.077,
+      "time_alignment_error_s": 0.0,
+      "features_sample": {
+        "rms_voltage": 0.58925,
+        "system_freq": 60.0121,
+        "crest_factor": 1.418051
+      },
+      "provenance_verified": true
+    }
+  ],
+  "audit_12_leakage": {
+    "train_groups_count": 22,
+    "val_groups_count": 5,
+    "test_groups_count": 5,
+    "train_groups": [
+      "sim_01",
+      "sim_04",
+      "sim_05",
+      "sim_09",
+      "sim_10",
+      "sim_12",
+      "sim_13",
+      "sim_15",
+      "sim_17",
+      "sim_18",
+      "sim_19",
+      "sim_20",
+      "sim_21",
+      "sim_22",
+      "sim_25",
+      "sim_26",
+      "sim_27",
+      "sim_28",
+      "sim_29",
+      "sim_30",
+      "sim_31",
+      "sim_32"
+    ],
+    "val_groups": [
+      "sim_03",
+      "sim_07",
+      "sim_11",
+      "sim_16",
+      "sim_24"
+    ],
+    "test_groups": [
+      "sim_02",
+      "sim_06",
+      "sim_08",
+      "sim_14",
+      "sim_23"
+    ],
+    "train_val_overlap": [],
+    "train_test_overlap": [],
+    "val_test_overlap": [],
+    "zero_leakage_verified": true
+  }
+}

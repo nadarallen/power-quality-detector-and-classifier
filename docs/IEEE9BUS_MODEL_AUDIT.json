@@ -1,0 +1,585 @@
+{
+  "model_name": "IEEE_9bus_PQD_HIL_R2025a",
+  "timestamp": "2026-09-30 02:44:36",
+  "solver": {
+    "solver_type": "Variable-step",
+    "solver_name": "ode45",
+    "start_time": "0.0",
+    "stop_time": "1.0",
+    "max_step": "auto",
+    "min_step": "auto",
+    "initial_step": "auto",
+    "fixed_step": "auto",
+    "rel_tol": "1e-3",
+    "abs_tol": "auto",
+    "return_workspace_outputs": "off",
+    "output_save_name": "yout"
+  },
+  "callbacks": {
+    "PreLoadFcn": "",
+    "PostLoadFcn": "",
+    "InitFcn": "",
+    "StartFcn": "",
+    "PauseFcn": "",
+    "ContinueFcn": "",
+    "StopFcn": "send_simulink_pqd_auto",
+    "CloseFcn": ""
+  },
+  "powergui": {
+    "status": "NOT FOUND"
+  },
+  "hierarchy": {
+    "top_blocks_count": 36,
+    "top_subsystems": [
+      "IEEE_9bus_PQD_HIL_R2025a/100 MW\n35 MVAR",
+      "IEEE_9bus_PQD_HIL_R2025a/125 MW\n50 MVAR",
+      "IEEE_9bus_PQD_HIL_R2025a/128 MVA, 13.8 kV",
+      "IEEE_9bus_PQD_HIL_R2025a/13.8 KV//230 KV\n5.86 %Z",
+      "IEEE_9bus_PQD_HIL_R2025a/16.5 KV//230 KV\n5.76 %Z     ",
+      "IEEE_9bus_PQD_HIL_R2025a/18KV//230KV\n6.25 %Z",
+      "IEEE_9bus_PQD_HIL_R2025a/192 MVA, 18 kV",
+      "IEEE_9bus_PQD_HIL_R2025a/247.5 MVA, 16.5 kV",
+      "IEEE_9bus_PQD_HIL_R2025a/90 MW\n30 MVAR",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_1\n16.5 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_2\n18 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_3\n13.8 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_4\n230 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_5\n230 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_6\n230 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_7\n230 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_8\n230 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Bus_9\n230 KV",
+      "IEEE_9bus_PQD_HIL_R2025a/Subsystem",
+      "IEEE_9bus_PQD_HIL_R2025a/powergui"
+    ]
+  },
+  "generators": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/128 MVA, 13.8 kV",
+      "mask_type": "Three-Phase Source",
+      "block_type": "SubSystem",
+      "Voltage": "13800",
+      "Frequency": "60",
+      "PhaseAngle": "0",
+      "Resistance": "0.529",
+      "Inductance": "0.0140"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/192 MVA, 18 kV",
+      "mask_type": "Three-Phase Source",
+      "block_type": "SubSystem",
+      "Voltage": "18000",
+      "Frequency": "60",
+      "PhaseAngle": "0",
+      "Resistance": "0.529",
+      "Inductance": "0.0140"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/247.5 MVA, 16.5 kV",
+      "mask_type": "Three-Phase Source",
+      "block_type": "SubSystem",
+      "Voltage": "16500",
+      "Frequency": "60",
+      "PhaseAngle": "0",
+      "Resistance": "0.529",
+      "Inductance": "0.0140"
+    }
+  ],
+  "transformers": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/13.8 KV//230 KV\n5.86 %Z",
+      "mask_type": "Three-Phase Transformer (Two Windings)",
+      "NominalPower": "[ 100e6 , 60 ]",
+      "Winding1Connection": "Yg",
+      "Winding2Connection": "Yg",
+      "Winding1": "[ 13.8e3 , 1e-6 , 0 ]",
+      "Winding2": "[ 230e3 , 1e-6, 0.0586 ]"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/16.5 KV//230 KV\n5.76 %Z     ",
+      "mask_type": "Three-Phase Transformer (Two Windings)",
+      "NominalPower": "[ 100e6 , 60 ]",
+      "Winding1Connection": "Yg",
+      "Winding2Connection": "Yg",
+      "Winding1": "[ 16.5e3 , 1e-6, 0 ]",
+      "Winding2": "[ 230e3 ,1e-6, 0.0576 ]"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/18KV//230KV\n6.25 %Z",
+      "mask_type": "Three-Phase Transformer (Two Windings)",
+      "NominalPower": "[ 100e6 , 60 ]",
+      "Winding1Connection": "Yg",
+      "Winding2Connection": "Yg",
+      "Winding1": "[ 18e3 , 1e-6 , 0]",
+      "Winding2": "[ 230e3 , 1e-6, 0.0625 ]"
+    }
+  ],
+  "transmission_lines": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/ Line 4 - 6",
+      "mask_type": "Three-Phase PI Section Line",
+      "Length": "100",
+      "Frequency": "60",
+      "Resistances": "[ 0.08993 0.224825] ",
+      "Inductances": "[ 1.29e-3  3.22e-3] ",
+      "Capacitances": "[7.922e-9 4.74e-9]"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/ Line 6 - 9",
+      "mask_type": "Three-Phase PI Section Line",
+      "Length": "100",
+      "Frequency": "60",
+      "Resistances": "[ 0.20631 0.5157] ",
+      "Inductances": "[ 2.38e-3  6.09e-3] ",
+      "Capacitances": "[17.95e-9 10.55e-9]"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Line 4 - 5 ",
+      "mask_type": "Three-Phase PI Section Line",
+      "Length": "100",
+      "Frequency": "60",
+      "Resistances": "[ 0.0529 0.13225] ",
+      "Inductances": "[ 1.192e-3  2.38e-3] ",
+      "Capacitances": "[8.82e-9 5.188e-9]"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Line 5 - 7 ",
+      "mask_type": "Three-Phase PI Section Line",
+      "Length": "100",
+      "Frequency": "60",
+      "Resistances": "[ 0.16928 0.4232] ",
+      "Inductances": "[ 2.259e-3  5.64e-3] ",
+      "Capacitances": "[15.34e-9 9.025e-9]"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Line 7- 8",
+      "mask_type": "Three-Phase PI Section Line",
+      "Length": "100",
+      "Frequency": "60",
+      "Resistances": "[0.044965 0.11241] ",
+      "Inductances": "[ 1.01e-3  2.02e-3] ",
+      "Capacitances": "[7.471e-9 4.394e-9]"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Line 8 - 9",
+      "mask_type": "Three-Phase PI Section Line",
+      "Length": "100",
+      "Frequency": "60",
+      "Resistances": "[ 0.062951 0.15737] ",
+      "Inductances": "[ 1.414e-3  3.53e-3] ",
+      "Capacitances": "[10.47e-9 6.15e-9]"
+    }
+  ],
+  "loads": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus1",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus2",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus3",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus4",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus5",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus6",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus7",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus8",
+      "mask_type": "Load Flow Bus"
+    }
+  ],
+  "buses": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_1\n16.5 KV",
+      "block_type": "SubSystem",
+      "mask_type": "Three-Phase VI Measurement"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_2\n18 KV",
+      "block_type": "SubSystem",
+      "mask_type": "Three-Phase VI Measurement"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_3\n13.8 KV",
+      "block_type": "SubSystem",
+      "mask_type": "Three-Phase VI Measurement"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_4\n230 KV",
+      "block_type": "SubSystem",
+      "mask_type": ""
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_5\n230 KV",
+      "block_type": "SubSystem",
+      "mask_type": "Three-Phase VI Measurement"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_6\n230 KV",
+      "block_type": "SubSystem",
+      "mask_type": "Three-Phase VI Measurement"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_7\n230 KV",
+      "block_type": "SubSystem",
+      "mask_type": ""
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_8\n230 KV",
+      "block_type": "SubSystem",
+      "mask_type": "Three-Phase VI Measurement"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_9\n230 KV",
+      "block_type": "SubSystem",
+      "mask_type": ""
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus1",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus2",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus3",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus4",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus5",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus6",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus7",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus8",
+      "block_type": "PMComponent",
+      "mask_type": "Load Flow Bus"
+    }
+  ],
+  "measurements": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_1\n16.5 KV",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "16.5e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_2\n18 KV",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "18e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_3\n13.8 KV",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "13.8e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_4\n230 KV/Three-Phase\nV-I Measurement1",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_4\n230 KV/Three-Phase\nV-I Measurement3",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_5\n230 KV",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_6\n230 KV",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_7\n230 KV/Three-Phase\nV-I Measurement1",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_7\n230 KV/Three-Phase\nV-I Measurement3",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_8\n230 KV",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_9\n230 KV/Three-Phase\nV-I Measurement1",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Bus_9\n230 KV/Three-Phase\nV-I Measurement3",
+      "mask_type": "Three-Phase VI Measurement",
+      "block_type": "SubSystem",
+      "VoltageMeasurement": "phase-to-ground",
+      "CurrentMeasurement": "yes",
+      "PhasorSimulation": "off",
+      "Vbase": "230e3"
+    }
+  ],
+  "goto_blocks": [],
+  "from_blocks": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Subsystem/From",
+      "tag": "Vabc_5"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Subsystem/From1",
+      "tag": "Iabc_5"
+    }
+  ],
+  "to_workspace": [
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Subsystem/To Workspace",
+      "variable_name": "PQD_Vabc",
+      "save_format": "Timeseries",
+      "max_data_points": "inf",
+      "decimation": "1",
+      "sample_time": "-1"
+    },
+    {
+      "block_path": "IEEE_9bus_PQD_HIL_R2025a/Subsystem/To Workspace1",
+      "variable_name": "PQD_Iabc",
+      "save_format": "Timeseries",
+      "max_data_points": "inf",
+      "decimation": "1",
+      "sample_time": "-1"
+    }
+  ],
+  "bus5_trace": {
+    "bus5_blocks": [
+      "IEEE_9bus_PQD_HIL_R2025a/Load Flow Bus5"
+    ]
+  },
+  "trace_to_workspace": [
+    {
+      "block": "IEEE_9bus_PQD_HIL_R2025a/Subsystem/To Workspace",
+      "var_name": "PQD_Vabc",
+      "chain": [
+        "IEEE_9bus_PQD_HIL_R2025a/Subsystem/To Workspace",
+        "IEEE_9bus_PQD_HIL_R2025a/Subsystem/From (Port 1)",
+        "[From Tag: Vabc_5]"
+      ]
+    },
+    {
+      "block": "IEEE_9bus_PQD_HIL_R2025a/Subsystem/To Workspace1",
+      "var_name": "PQD_Iabc",
+      "chain": [
+        "IEEE_9bus_PQD_HIL_R2025a/Subsystem/To Workspace1",
+        "IEEE_9bus_PQD_HIL_R2025a/Subsystem/From1 (Port 1)",
+        "[From Tag: Iabc_5]"
+      ]
+    }
+  ],
+  "vabc_5_trace": {
+    "gotos": [],
+    "froms": [
+      "IEEE_9bus_PQD_HIL_R2025a/Subsystem/From"
+    ]
+  },
+  "iabc_5_trace": {
+    "gotos": [],
+    "froms": [
+      "IEEE_9bus_PQD_HIL_R2025a/Subsystem/From1"
+    ]
+  },
+  "subsystems": [
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/100 MW\n35 MVAR",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/125 MW\n50 MVAR",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/128 MVA, 13.8 kV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/13.8 KV//230 KV\n5.86 %Z",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/16.5 KV//230 KV\n5.76 %Z     ",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/18KV//230KV\n6.25 %Z",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/192 MVA, 18 kV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/247.5 MVA, 16.5 kV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/90 MW\n30 MVAR",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_1\n16.5 KV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_2\n18 KV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_3\n13.8 KV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_4\n230 KV",
+      "blocks_count": 12
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_4\n230 KV/Three-Phase\nV-I Measurement1",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_4\n230 KV/Three-Phase\nV-I Measurement3",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_5\n230 KV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_6\n230 KV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_7\n230 KV",
+      "blocks_count": 15
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_7\n230 KV/Three-Phase\nV-I Measurement1",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_7\n230 KV/Three-Phase\nV-I Measurement3",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_8\n230 KV",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_9\n230 KV",
+      "blocks_count": 15
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_9\n230 KV/Three-Phase\nV-I Measurement1",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Bus_9\n230 KV/Three-Phase\nV-I Measurement3",
+      "blocks_count": 1
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/Subsystem",
+      "blocks_count": 7
+    },
+    {
+      "name": "IEEE_9bus_PQD_HIL_R2025a/powergui",
+      "blocks_count": 1
+    }
+  ]
+}
