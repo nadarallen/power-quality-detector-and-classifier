@@ -1,0 +1,434 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gate3c_scenario_schema",
+  "title": "PQD Disturbance Scenario Schema v1.0",
+  "description": "Machine-readable schema for every disturbance generation scenario in the IEEE 9-bus 60-Hz PQD dataset. Each scenario describes exactly one disturbance class, one parameter set, and one injection event.",
+  "type": "object",
+
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "class",
+    "label_idx",
+    "label_source",
+    "electrical_model",
+    "injection_location",
+    "nominal_frequency_hz",
+    "sampling_rate_hz",
+    "window_samples",
+    "window_ms",
+    "seed",
+    "parameters",
+    "parameter_provenance",
+    "standard_references",
+    "validation_gates"
+  ],
+
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version identifier."
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{3,4}_[0-9]{4}_[a-z0-9_]+$",
+      "examples": ["SAG_0001_deep_short", "HAR_0003_h3h5_heavy"],
+      "description": "Unique scenario identifier. Format: CLASS_NNNN_descriptor."
+    },
+    "class": {
+      "type": "string",
+      "enum": ["Normal", "Sag", "Swell", "Interruption", "Harmonics", "Flicker", "Notch", "Transient"],
+      "description": "Disturbance class. Determines ground-truth label."
+    },
+    "label_idx": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7,
+      "description": "Integer label index matching _CLASS_LABELS order in dsp/phase_processor.py."
+    },
+    "label_source": {
+      "type": "string",
+      "const": "SCENARIO_CONTROLLER",
+      "description": "Ground truth label must always originate from the scenario controller, never from the ML model."
+    },
+    "electrical_model": {
+      "type": "object",
+      "required": ["reference_model", "working_model", "model_unchanged"],
+      "properties": {
+        "reference_model": {
+          "type": "string",
+          "const": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+          "description": "Pristine electrical model. Must never be modified."
+        },
+        "working_model": {
+          "type": "string",
+          "description": "Working Simulink model used for disturbance injection. Distinct from reference.",
+          "examples": ["IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx"]
+        },
+        "model_unchanged": {
+          "type": "boolean",
+          "const": true,
+          "description": "Assert that the reference_model was not modified for this scenario."
+        }
+      }
+    },
+    "injection_location": {
+      "type": "object",
+      "required": ["bus", "measurement_point", "mechanism", "phase"],
+      "properties": {
+        "bus": {
+          "type": "string",
+          "examples": ["Bus5", "Bus4", "Bus7"],
+          "description": "Network bus at which disturbance is applied or observed."
+        },
+        "measurement_point": {
+          "type": "string",
+          "examples": ["Vabc_5", "Iabc_5"],
+          "description": "Simulink signal name of the measurement extraction point."
+        },
+        "mechanism": {
+          "type": "string",
+          "enum": [
+            "FAULT_IMPEDANCE",
+            "LOAD_STEP",
+            "HARMONIC_CURRENT_SOURCE",
+            "AMPLITUDE_MODULATION",
+            "POWER_ELECTRONIC_SWITCH",
+            "CAPACITOR_SWITCH",
+            "CONTROLLED_VOLTAGE_SOURCE",
+            "SIGNAL_INJECTION_POST_SIM"
+          ],
+          "description": "Physical injection mechanism. SIGNAL_INJECTION_POST_SIM requires explicit justification."
+        },
+        "mechanism_justification": {
+          "type": "string",
+          "description": "Required when mechanism is SIGNAL_INJECTION_POST_SIM. Must explain physical equivalence."
+        },
+        "phase": {
+          "type": "string",
+          "enum": ["ABC", "A", "B", "C", "AB", "BC", "CA"],
+          "description": "Phase applicability. ABC for three-phase balanced events."
+        }
+      }
+    },
+    "nominal_frequency_hz": {
+      "type": "number",
+      "const": 60.0,
+      "description": "Grid nominal frequency. Fixed for this project."
+    },
+    "sampling_rate_hz": {
+      "type": "number",
+      "const": 5000.0,
+      "description": "Acquisition sampling rate."
+    },
+    "window_samples": {
+      "type": "integer",
+      "const": 1000,
+      "description": "Samples per frame."
+    },
+    "window_ms": {
+      "type": "number",
+      "const": 200.0,
+      "description": "Frame duration in milliseconds. Equals 12 fundamental cycles at 60 Hz."
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Explicit random seed for reproducibility. Required whenever any stochastic process is used."
+    },
+    "operating_condition_id": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 32,
+      "description": "Reference to IEEE 9-bus operating condition used as the electrical background state."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Disturbance-class-specific parameters. Required fields vary by class.",
+      "properties": {
+        "magnitude_pu": {
+          "type": "number",
+          "description": "Disturbance voltage magnitude in per-unit. For Sag: residual. For Swell: peak. For Interruption: residual (<0.10)."
+        },
+        "duration_cycles": {
+          "type": "number",
+          "description": "Event duration in fundamental cycles. Class-dependent valid range."
+        },
+        "duration_ms": {
+          "type": "number",
+          "description": "Derived from duration_cycles. Informational."
+        },
+        "onset_time_ms": {
+          "type": "number",
+          "description": "Event start time within the 200ms window."
+        },
+        "transition_type": {
+          "type": "string",
+          "enum": ["ABRUPT", "ZERO_CROSSING", "POINT_ON_WAVE"],
+          "description": "Envelope transition behavior."
+        },
+        "harmonic_orders": {
+          "type": "array",
+          "items": {"type": "integer"},
+          "description": "For Harmonics class: active harmonic orders injected."
+        },
+        "harmonic_magnitudes_pu": {
+          "type": "object",
+          "description": "For Harmonics class: per-harmonic amplitude in pu relative to fundamental.",
+          "additionalProperties": {"type": "number"}
+        },
+        "thd_target_percent": {
+          "type": "number",
+          "description": "For Harmonics class: target THD. Informational."
+        },
+        "modulation_freq_hz": {
+          "type": "number",
+          "description": "For Flicker class: envelope modulation frequency."
+        },
+        "modulation_depth": {
+          "type": "number",
+          "description": "For Flicker class: peak modulation index m (dimensionless)."
+        },
+        "notch_depth_pu": {
+          "type": "number",
+          "description": "For Notch class: fractional depth of the commutation notch."
+        },
+        "notch_width_ms": {
+          "type": "number",
+          "description": "For Notch class: notch duration per commutation event."
+        },
+        "notch_period_cycles": {
+          "type": "number",
+          "description": "For Notch class: fundamental cycles between notch repetitions."
+        },
+        "transient_freq_hz": {
+          "type": "number",
+          "description": "For Transient class: oscillatory transient centre frequency."
+        },
+        "transient_amplitude_pu": {
+          "type": "number",
+          "description": "For Transient class: peak transient amplitude superimposed on fundamental."
+        },
+        "transient_damping_ms": {
+          "type": "number",
+          "description": "For Transient class: exponential decay time constant tau in ms."
+        },
+        "sensor_noise_snr_db": {
+          "type": "number",
+          "description": "ADC/sensor model noise level added post-extraction.",
+          "default": 52.0
+        }
+      }
+    },
+    "parameter_provenance": {
+      "type": "object",
+      "description": "Explicit provenance tag for every parameter. Every key must match a key in 'parameters'.",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "STANDARD-SUPPORTED",
+          "ENGINEERING-INTERPRETATION",
+          "PROJECT-DESIGN-CHOICE",
+          "SIMULATION-PARAMETER",
+          "DATASET-DESIGN-CHOICE"
+        ]
+      }
+    },
+    "standard_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["standard", "clause", "applies_to"],
+        "properties": {
+          "standard": {"type": "string"},
+          "clause": {"type": "string"},
+          "applies_to": {"type": "string"}
+        }
+      }
+    },
+    "validation_gates": {
+      "type": "object",
+      "description": "Independent physical validation thresholds for this scenario. Must be evaluated WITHOUT using the ML model.",
+      "required": ["method", "pass_conditions"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "WINDOWED_RMS",
+            "PEAK_DETECTION",
+            "HARMONIC_ANALYSIS",
+            "ENVELOPE_TRACKING",
+            "NOTCH_DETECTION",
+            "TRANSIENT_ENERGY",
+            "DURATION_MEASUREMENT"
+          ]
+        },
+        "pass_conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["metric", "operator", "threshold", "unit"],
+            "properties": {
+              "metric": {"type": "string"},
+              "operator": {"type": "string", "enum": ["<", "<=", ">", ">=", "==", "!=", "in_range"]},
+              "threshold": {},
+              "unit": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "normal_contamination_check": {
+      "type": "object",
+      "description": "Automated check proving the waveform is NOT Normal-class. Must pass before frame enters dataset.",
+      "properties": {
+        "metric": {"type": "string"},
+        "must_differ_from_normal_by": {"type": "string"}
+      }
+    },
+    "dataset_partition": {
+      "type": "object",
+      "description": "Leakage-prevention: group-based split assignment.",
+      "properties": {
+        "group_id": {"type": "string"},
+        "split": {"type": "string", "enum": ["train", "val", "test"]}
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp of scenario generation."
+    }
+  },
+
+  "examples": [
+    {
+      "schema_version": "1.0",
+      "scenario_id": "SAG_0001_moderate_short",
+      "class": "Sag",
+      "label_idx": 1,
+      "label_source": "SCENARIO_CONTROLLER",
+      "electrical_model": {
+        "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+        "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+        "model_unchanged": true
+      },
+      "injection_location": {
+        "bus": "Bus5",
+        "measurement_point": "Vabc_5",
+        "mechanism": "FAULT_IMPEDANCE",
+        "phase": "ABC"
+      },
+      "nominal_frequency_hz": 60.0,
+      "sampling_rate_hz": 5000.0,
+      "window_samples": 1000,
+      "window_ms": 200.0,
+      "seed": 20260930,
+      "operating_condition_id": 1,
+      "parameters": {
+        "magnitude_pu": 0.50,
+        "duration_cycles": 5.0,
+        "duration_ms": 83.33,
+        "onset_time_ms": 30.0,
+        "transition_type": "ZERO_CROSSING",
+        "sensor_noise_snr_db": 52.0
+      },
+      "parameter_provenance": {
+        "magnitude_pu": "STANDARD-SUPPORTED",
+        "duration_cycles": "STANDARD-SUPPORTED",
+        "duration_ms": "SIMULATION-PARAMETER",
+        "onset_time_ms": "PROJECT-DESIGN-CHOICE",
+        "transition_type": "ENGINEERING-INTERPRETATION",
+        "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+      },
+      "standard_references": [
+        {
+          "standard": "IEEE Std 1159-2019",
+          "clause": "Table 2 / Clause 3.1.58",
+          "applies_to": "Sag magnitude [0.10, 0.90] pu, duration 0.5 cycle to 1 min"
+        }
+      ],
+      "validation_gates": {
+        "method": "WINDOWED_RMS",
+        "pass_conditions": [
+          {"metric": "windowed_rms_min_pu", "operator": ">=", "threshold": 0.10, "unit": "pu"},
+          {"metric": "windowed_rms_min_pu", "operator": "<", "threshold": 0.90, "unit": "pu"},
+          {"metric": "sag_duration_ms", "operator": ">=", "threshold": 10.0, "unit": "ms"}
+        ]
+      },
+      "normal_contamination_check": {
+        "metric": "windowed_rms_min_pu",
+        "must_differ_from_normal_by": "< 0.90 pu (below Normal lower bound of 0.90)"
+      },
+      "dataset_partition": {
+        "group_id": "sag_cond01_seed20260930",
+        "split": "train"
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "scenario_id": "HAR_0001_h3h5_nominal",
+      "class": "Harmonics",
+      "label_idx": 4,
+      "label_source": "SCENARIO_CONTROLLER",
+      "electrical_model": {
+        "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+        "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+        "model_unchanged": true
+      },
+      "injection_location": {
+        "bus": "Bus5",
+        "measurement_point": "Vabc_5",
+        "mechanism": "HARMONIC_CURRENT_SOURCE",
+        "phase": "ABC"
+      },
+      "nominal_frequency_hz": 60.0,
+      "sampling_rate_hz": 5000.0,
+      "window_samples": 1000,
+      "window_ms": 200.0,
+      "seed": 20260930,
+      "operating_condition_id": 1,
+      "parameters": {
+        "harmonic_orders": [3, 5, 7],
+        "harmonic_magnitudes_pu": {"h3": 0.10, "h5": 0.07, "h7": 0.04},
+        "thd_target_percent": 12.8,
+        "sensor_noise_snr_db": 52.0
+      },
+      "parameter_provenance": {
+        "harmonic_orders": "ENGINEERING-INTERPRETATION",
+        "harmonic_magnitudes_pu": "ENGINEERING-INTERPRETATION",
+        "thd_target_percent": "DATASET-DESIGN-CHOICE",
+        "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+      },
+      "standard_references": [
+        {
+          "standard": "IEEE Std 519-2022",
+          "clause": "Clause 3.1.25, Table 1",
+          "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+        },
+        {
+          "standard": "IEEE Std 1159-2019",
+          "clause": "Clause 4.4.4.1",
+          "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+        }
+      ],
+      "validation_gates": {
+        "method": "HARMONIC_ANALYSIS",
+        "pass_conditions": [
+          {"metric": "thd_percent", "operator": ">", "threshold": 5.0, "unit": "%"},
+          {"metric": "h3_pu", "operator": ">", "threshold": 0.03, "unit": "pu"},
+          {"metric": "h5_pu", "operator": ">", "threshold": 0.01, "unit": "pu"}
+        ]
+      },
+      "normal_contamination_check": {
+        "metric": "thd_percent",
+        "must_differ_from_normal_by": "> 5% (Normal THD < 2% at Bus 5)"
+      },
+      "dataset_partition": {
+        "group_id": "har_cond01_seed20260930",
+        "split": "train"
+      }
+    }
+  ]
+}
