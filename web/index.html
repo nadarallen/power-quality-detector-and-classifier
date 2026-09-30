@@ -62,8 +62,39 @@
         </div>
 
         <!-- Mode Selector Switcher -->
-        <div class="mode-selector">
-          <button class="mode-btn active" id="mode-sim-btn" onclick="setInjectionMode('simulation')">A. Simulation</button>
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #788796; margin-bottom: 0.35rem; font-weight: 700;">
+          PRIMARY ACQUISITION SOURCE:
+        </div>
+        <div class="mode-selector" style="margin-bottom: 0.5rem;">
+          <button class="mode-btn active" id="mode-simulink-btn" onclick="setInjectionMode('simulink')" style="flex: 1; font-weight: 700; color: #00ff66; border-color: #00ff66;">⚡ MATLAB Simulink (IEEE 9-Bus)</button>
+        </div>
+
+        <!-- Simulink Active Status Card -->
+        <div id="simulink-status-card" style="background: #08150c; border: 1px solid #144622; border-radius: 6px; padding: 0.6rem 0.75rem; margin-bottom: 0.75rem; font-family: var(--font-mono); font-size: 0.68rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <span style="color: #00ff66; font-weight: 700;">IEEE 9-BUS SIMULINK ACTIVE</span>
+            <span style="background: #00ff66; color: #000; padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.58rem; font-weight: 800;">60 Hz NATIVE</span>
+          </div>
+          <div style="color: #8c9cae; line-height: 1.55;">
+            • Model: <span style="color: #f1e05a;">IEEE_9bus_PQD_HIL_R2025a.slx</span><br>
+            • Node: <span style="color: #58a6ff;">Bus 5 (Vabc_5 & Iabc_5)</span><br>
+            • Stream: <span id="simulink-stream-status" style="color: #00ff66; font-weight: 700;">● STREAM READY</span><br>
+            • Ingested Frames: <span id="simulink-chunks-count" style="color: #fff; font-weight: 700;">0</span><br>
+            • Last Ingestion: <span id="simulink-last-ts" style="color: #88a0b0;">--</span>
+          </div>
+          <div style="margin-top: 0.45rem; padding-top: 0.35rem; border-top: 1px dashed #1a4a2a; color: #728496; font-size: 0.62rem;">
+            MATLAB commands:<br>
+            <code style="color: #00e5ff; background: #000; padding: 1px 4px; border-radius: 2px;">stream_simulink_live</code> (continuous)<br>
+            <code style="color: #00e5ff; background: #000; padding: 1px 4px; border-radius: 2px;">send_pqd_now</code> (after GUI run)
+          </div>
+        </div>
+
+        <!-- Secondary Test Mode Toggles -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+          <span style="font-family: var(--font-mono); font-size: 0.62rem; color: #627282; font-weight: 700;">OTHER MODES (CLICK TO SWITCH):</span>
+        </div>
+        <div class="mode-selector" style="margin-bottom: 0.85rem;">
+          <button class="mode-btn" id="mode-sim-btn" onclick="setInjectionMode('simulation')">A. Math Sim (50Hz)</button>
           <button class="mode-btn" id="mode-dataset-btn" onclick="setInjectionMode('dataset')">B. BARC Data</button>
           <button class="mode-btn" id="mode-hw-btn" onclick="setInjectionMode('hardware')">C. ESP32 HW</button>
         </div>
@@ -122,7 +153,7 @@
       <!-- CENTER COLUMN: CRT OSCILLOSCOPE & SPECTRUM ANALYZER -->
       <section class="panel-box" style="flex: 1;">
         <div class="panel-title">
-          <span>2. LABORATORY OSCILLOSCOPE (50 Hz AC SIGNAL)</span>
+          <span id="scope-title-label">2. LABORATORY OSCILLOSCOPE (50 Hz AC SIGNAL)</span>
           <span style="font-size: 0.68rem; color: var(--crt-green);" id="scope-mode-label">TIME DOMAIN (TIMEBASE: 10 ms/div)</span>
         </div>
 
@@ -274,6 +305,6 @@
 
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=hil_2"></script>
 </body>
 </html>

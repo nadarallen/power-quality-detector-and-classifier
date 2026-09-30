@@ -96,33 +96,52 @@ def run_python_ml_inference(feature_vector):
 # Shared storage and pipeline components
 from storage.event_store import EventStore
 from dsp.waveform_frame import WaveformFrame
-from dsp.acquisition_adapter import SimulationAdapter, MockHardwareAdapter, HardwareAdapter
+from dsp.acquisition_adapter import SimulationAdapter, MockHardwareAdapter, HardwareAdapter, SimulinkAdapter
+from dsp.ring_buffer import MultiChannelRingBuffer
 from pipeline.realtime_pipeline import RealtimePQPipeline
 
 SHARED_EVENT_STORE = EventStore(os.path.join(BASE_DIR, 'data', 'pq_events.db'))
 
-PQD_SOURCE = os.environ.get("PQD_ACQUISITION_SOURCE", os.environ.get("SOURCE", "simulation")).lower()
+PQD_SOURCE = os.environ.get("PQD_ACQUISITION_SOURCE", os.environ.get("SOURCE", "simulink")).lower()
 if PQD_SOURCE in ("mock_hardware", "mock", "hardware"):
     ACTIVE_ADAPTER = MockHardwareAdapter(device_id="MOCK_HW_GRID_NODE")
-else:
+elif PQD_SOURCE in ("simulation", "sim"):
     ACTIVE_ADAPTER = SimulationAdapter(device_id="SIM_GRID_NODE_1", sampling_rate_hz=5000.0, nominal_frequency_hz=50.0)
+else:
+    ACTIVE_ADAPTER = SimulinkAdapter(device_id="SIMULINK_IEEE9BUS_BUS5", sampling_rate_hz=5000.0, nominal_frequency_hz=60.0)
 ACTIVE_ADAPTER.connect()
 
 SHARED_PIPELINE = RealtimePQPipeline(adapter=ACTIVE_ADAPTER, event_store=SHARED_EVENT_STORE, device_id="GRID_NODE_1")
 
 
 def set_active_source(source_name: str) -> None:
-    """Switches the active acquisition adapter (simulation vs mock_hardware)."""
+    """Switches the active acquisition adapter (simulation vs mock_hardware vs simulink)."""
     global ACTIVE_ADAPTER, SHARED_PIPELINE
     src = source_name.lower()
     if src in ("mock_hardware", "mock", "hardware"):
         ACTIVE_ADAPTER = MockHardwareAdapter(device_id="MOCK_HW_GRID_NODE")
     elif src in ("simulation", "sim"):
         ACTIVE_ADAPTER = SimulationAdapter(device_id="SIM_GRID_NODE_1")
+    elif src in ("simulink", "matlab"):
+        ACTIVE_ADAPTER = SimulinkAdapter(device_id="SIMULINK_IEEE9BUS_BUS5", sampling_rate_hz=5000.0, nominal_frequency_hz=60.0)
     else:
-        raise ValueError(f"Unknown acquisition source: {source_name}. Must be 'simulation' or 'mock_hardware'")
+        raise ValueError(f"Unknown acquisition source: {source_name}. Must be 'simulation', 'mock_hardware', or 'simulink'")
     ACTIVE_ADAPTER.connect()
     SHARED_PIPELINE.adapter = ACTIVE_ADAPTER
+    SHARED_PIPELINE.device_id = ACTIVE_ADAPTER.device_id
+    SHARED_PIPELINE.ring_buffer = MultiChannelRingBuffer(
+        channels=["L1", "L2", "L3"],
+        device_id=ACTIVE_ADAPTER.device_id,
+        source_type=ACTIVE_ADAPTER.source_type,
+        sampling_rate_hz=ACTIVE_ADAPTER.sampling_rate_hz,
+        nominal_frequency_hz=ACTIVE_ADAPTER.nominal_frequency_hz,
+    )
+    f0 = ACTIVE_ADAPTER.nominal_frequency_hz
+    SHARED_PIPELINE.last_frame_telemetry["source_type"] = ACTIVE_ADAPTER.source_type
+    SHARED_PIPELINE.last_frame_telemetry["device_id"] = ACTIVE_ADAPTER.device_id
+    SHARED_PIPELINE.last_frame_telemetry["nominal_frequency"] = f0
+    SHARED_PIPELINE.last_frame_telemetry["sampling_rate"] = ACTIVE_ADAPTER.sampling_rate_hz
+    SHARED_PIPELINE.last_frame_telemetry["spectrum"]["freqs"] = [h * f0 for h in range(1, 12)]
 
 
 class PQDServerRequestHandler(SimpleHTTPRequestHandler):
@@ -143,6 +162,7 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 'acquisition_source': getattr(ACTIVE_ADAPTER, 'source_type', 'simulation'),
                 'hardware_state': getattr(ACTIVE_ADAPTER, 'state', 'CONNECTED'),
                 'sampling_rate': getattr(ACTIVE_ADAPTER, 'sampling_rate_hz', 5000.0),
+                'nominal_frequency': getattr(ACTIVE_ADAPTER, 'nominal_frequency_hz', 50.0),
                 'device_id': getattr(ACTIVE_ADAPTER, 'device_id', 'DEV_LOCAL'),
                 'events_persisted': SHARED_EVENT_STORE.count_events(),
                 'timestamp': time.time()
@@ -277,38 +297,100 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 })
             except Exception as e:
                 self._send_json({'error': f'Failed to process waveform frame: {str(e)}'}, status=400)
-        elif parsed.path == '/api/ingest/chunk':
-            # Streaming chunk ingestion: multi-channel samples (raw ADC integer counts or per-unit floats)
-            channels_raw = data.get('channels', {})
-            if not channels_raw:
-                self._send_json({'error': 'Missing required channels dict in payload'}, status=400)
+        elif parsed.path in ('/api/ingest/chunk', '/api/ingest/simulink'):
+            # Ingestion handler supporting both standard chunks and Simulink electrical stream chunks
+            if not isinstance(data, dict):
+                self._send_json({'error': 'Payload must be a JSON object'}, status=400)
                 return
-            try:
-                is_raw_adc = bool(data.get('is_raw_adc', False))
-                if is_raw_adc and isinstance(ACTIVE_ADAPTER, HardwareAdapter):
-                    channels = ACTIVE_ADAPTER.calibration.raw_to_pu_frame({
-                        ch: np.asarray(arr) for ch, arr in channels_raw.items()
-                    })
-                else:
-                    channels = {
-                        ch: np.asarray(arr, dtype=np.float32)
-                        for ch, arr in channels_raw.items()
-                    }
+
+            channels_raw = data.get('channels', {})
+            if not channels_raw or not isinstance(channels_raw, dict):
+                self._send_json({'error': 'Missing or invalid "channels" dictionary in payload'}, status=400)
+                return
+
+            is_simulink = (parsed.path == '/api/ingest/simulink') or (data.get('source') == 'simulink')
+
+            if is_simulink:
+                # Dedicated Simulink / Bus 5 handling
+                device_id = str(data.get('device_id', 'SIMULINK_IEEE9BUS_BUS5'))
+                seq_num = data.get('sequence_number', None)
+                sampling_rate_hz = float(data.get('sampling_rate_hz', 5000.0))
+                nominal_frequency_hz = float(data.get('nominal_frequency_hz', 60.0))
+                current_channels_raw = data.get('current_channels') or data.get('currents')
+
                 ts = data.get('timestamp_utc', None)
                 if ts is not None:
-                    ts = float(ts)
-                events = SHARED_PIPELINE.ingest_samples(channels, timestamp_utc=ts)
-                first_ch_len = len(next(iter(channels.values())))
-                self._send_json({
-                    'status': 'success',
-                    'samples_ingested': first_ch_len,
-                    'is_raw_adc_calibrated': is_raw_adc,
-                    'events_detected': len(events),
-                    'event_ids': [e.event_id for e in events],
-                    'telemetry': SHARED_PIPELINE.get_latest_telemetry()
-                })
-            except Exception as e:
-                self._send_json({'error': f'Failed to ingest sample chunk: {str(e)}'}, status=400)
+                    try:
+                        ts = float(ts)
+                    except (ValueError, TypeError):
+                        ts = None
+
+                # Auto-switch to SimulinkAdapter if not already active or parameters changed
+                if not isinstance(ACTIVE_ADAPTER, SimulinkAdapter) or ACTIVE_ADAPTER.nominal_frequency_hz != nominal_frequency_hz:
+                    set_active_source("simulink")
+                ACTIVE_ADAPTER.sampling_rate_hz = sampling_rate_hz
+                ACTIVE_ADAPTER.nominal_frequency_hz = nominal_frequency_hz
+                ACTIVE_ADAPTER.device_id = device_id
+                SHARED_PIPELINE.device_id = device_id
+                if SHARED_PIPELINE.ring_buffer is not None:
+                    SHARED_PIPELINE.ring_buffer.sampling_rate_hz = sampling_rate_hz
+                    SHARED_PIPELINE.ring_buffer.nominal_frequency_hz = nominal_frequency_hz
+
+                try:
+                    frame = ACTIVE_ADAPTER.ingest_chunk(
+                        channels=channels_raw,
+                        current_channels=current_channels_raw if isinstance(current_channels_raw, dict) else None,
+                        timestamp_utc=ts,
+                        sequence_number=seq_num,
+                    )
+                    events = SHARED_PIPELINE.ingest_samples(frame.phases, timestamp_utc=frame.timestamp_utc)
+                    first_ch_len = len(frame.phases["L1"])
+                    dom_status = "MODEL_DOMAIN_MISMATCH" if abs(nominal_frequency_hz - 50.0) > 2.0 else "MODEL_COMPATIBLE"
+                    self._send_json({
+                        'status': 'success',
+                        'source': 'simulink',
+                        'device_id': device_id,
+                        'sequence_number': frame.sequence_number,
+                        'samples_ingested': first_ch_len,
+                        'nominal_frequency_hz': nominal_frequency_hz,
+                        'sampling_rate_hz': sampling_rate_hz,
+                        'model_domain_status': dom_status,
+                        'events_detected': len(events),
+                        'event_ids': [e.event_id for e in events],
+                        'telemetry': SHARED_PIPELINE.get_latest_telemetry()
+                    })
+                except (ValueError, TypeError, OverflowError) as e:
+                    self._send_json({'error': f'Simulink ingestion validation error: {str(e)}'}, status=400)
+                except Exception as e:
+                    self._send_json({'error': f'Failed to process Simulink chunk: {str(e)}'}, status=500)
+            else:
+                # Standard legacy chunk ingestion
+                try:
+                    is_raw_adc = bool(data.get('is_raw_adc', False))
+                    if is_raw_adc and isinstance(ACTIVE_ADAPTER, HardwareAdapter):
+                        channels = ACTIVE_ADAPTER.calibration.raw_to_pu_frame({
+                            ch: np.asarray(arr) for ch, arr in channels_raw.items()
+                        })
+                    else:
+                        channels = {
+                            ch: np.asarray(arr, dtype=np.float32)
+                            for ch, arr in channels_raw.items()
+                        }
+                    ts = data.get('timestamp_utc', None)
+                    if ts is not None:
+                        ts = float(ts)
+                    events = SHARED_PIPELINE.ingest_samples(channels, timestamp_utc=ts)
+                    first_ch_len = len(next(iter(channels.values())))
+                    self._send_json({
+                        'status': 'success',
+                        'samples_ingested': first_ch_len,
+                        'is_raw_adc_calibrated': is_raw_adc,
+                        'events_detected': len(events),
+                        'event_ids': [e.event_id for e in events],
+                        'telemetry': SHARED_PIPELINE.get_latest_telemetry()
+                    })
+                except Exception as e:
+                    self._send_json({'error': f'Failed to ingest sample chunk: {str(e)}'}, status=400)
         elif parsed.path == '/api/simulation/disturbance':
             # Control simulation / mock disturbance dynamically from UI
             phase = data.get('phase', 'L1')

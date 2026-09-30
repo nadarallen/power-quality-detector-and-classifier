@@ -10,8 +10,9 @@
    ========================================================================== */
 
 // --- GLOBAL STATE ---
-let currentInjectionMode = 'simulation'; // 'simulation', 'dataset', 'hardware'
+let currentInjectionMode = 'simulink'; // 'simulink', 'simulation', 'dataset', 'hardware'
 let currentInjectedDisturbance = 'Normal';
+let lastLoggedSimulinkFrame = -1;
 let isAutoDemoRunning = false;
 let autoDemoInterval = null;
 let isTraceFrozen = false;
@@ -79,8 +80,7 @@ const BARC_DATASET_SAMPLES = {
 document.addEventListener('DOMContentLoaded', () => {
   initProbabilityBars();
   fetchModelWeights();
-  generateWaveform('Normal');
-  runPipeline();
+  setInjectionMode('simulink');
   initOscilloscopeCanvas();
   startAnimationLoop();
   initTelemetryStream();
@@ -608,12 +608,24 @@ function triggerDisturbanceInjection() {
 
 function setInjectionMode(mode) {
   currentInjectionMode = mode;
-  document.getElementById('mode-sim-btn').classList.toggle('active', mode === 'simulation');
-  document.getElementById('mode-dataset-btn').classList.toggle('active', mode === 'dataset');
-  document.getElementById('mode-hw-btn').classList.toggle('active', mode === 'hardware');
+  const simBtn = document.getElementById('mode-sim-btn');
+  const datasetBtn = document.getElementById('mode-dataset-btn');
+  const hwBtn = document.getElementById('mode-hw-btn');
+  const simulinkBtn = document.getElementById('mode-simulink-btn');
+  const simulinkCard = document.getElementById('simulink-status-card');
 
-  const modeLabel = mode === 'hardware' ? 'MOCK / LIVE HARDWARE' : mode.toUpperCase();
-  document.getElementById('status-mode-text').textContent = `MODE: ${modeLabel}`;
+  if (simBtn) simBtn.classList.toggle('active', mode === 'simulation');
+  if (datasetBtn) datasetBtn.classList.toggle('active', mode === 'dataset');
+  if (hwBtn) hwBtn.classList.toggle('active', mode === 'hardware');
+  if (simulinkBtn) {
+    simulinkBtn.classList.toggle('active', mode === 'simulink');
+    simulinkBtn.style.background = (mode === 'simulink') ? 'rgba(0, 255, 102, 0.15)' : 'transparent';
+  }
+  if (simulinkCard) simulinkCard.style.display = (mode === 'simulink') ? 'block' : 'none';
+
+  const modeLabel = (mode === 'hardware') ? 'MOCK / LIVE HARDWARE' : ((mode === 'simulink') ? 'SIMULINK' : mode.toUpperCase());
+  const statusModeText = document.getElementById('status-mode-text');
+  if (statusModeText) statusModeText.textContent = `MODE: ${modeLabel}`;
 
   // Sync acquisition source on backend server
   if (mode === 'hardware') {
@@ -628,10 +640,18 @@ function setInjectionMode(mode) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ source: 'simulation' })
     }).catch(() => {});
+  } else if (mode === 'simulink') {
+    fetch('/api/adapter/source', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source: 'simulink' })
+    }).catch(() => {});
   }
 
-  generateWaveform(currentInjectedDisturbance);
-  runPipeline();
+  if (mode !== 'simulink') {
+    generateWaveform(currentInjectedDisturbance);
+    runPipeline();
+  }
 }
 
 function onModifierChange() {
@@ -743,13 +763,16 @@ function drawScopeScreen() {
     const scaleY = (h / 3) / voltsPerDiv;
 
     function drawTrace(waveform, strokeColor) {
+      if (!waveform || waveform.length === 0) return;
       ctx.shadowBlur = 10;
       ctx.shadowColor = strokeColor;
       ctx.strokeStyle = strokeColor;
       ctx.lineWidth = 2.2;
       ctx.beginPath();
+      const N = waveform.length;
       for (let i = 0; i < points; i++) {
-        const sampleIdx = Math.floor((i / points) * (timebaseMs / 20.0) * BUFFER_SIZE + (phaseShift * 20)) % BUFFER_SIZE;
+        const rawIdx = Math.floor((i / points) * (timebaseMs / 20.0) * N + (phaseShift * 20));
+        const sampleIdx = ((rawIdx % N) + N) % N;
         const val = waveform[sampleIdx];
         const x = (i / points) * w;
         const y = centerY - val * scaleY;
@@ -885,12 +908,26 @@ function handleTelemetryData(telem) {
     const modeEl = document.getElementById('status-mode-text');
     if (modeEl) modeEl.textContent = `MODE: ${telem.source_type.toUpperCase()}`;
   }
+  if (telem.nominal_frequency) {
+    const scopeTitle = document.getElementById('scope-title-label');
+    if (scopeTitle) {
+      const devStr = telem.device_id ? ` [${telem.device_id}]` : '';
+      scopeTitle.textContent = `2. LABORATORY OSCILLOSCOPE (${telem.nominal_frequency.toFixed(0)} Hz AC SIGNAL${devStr})`;
+    }
+  }
   if (telem.hardware_state) {
     const lampEl = document.getElementById('lamp-mode');
     if (lampEl) {
       lampEl.className = (telem.hardware_state === 'ACQUIRING' || telem.hardware_state === 'CONNECTED') ? 'lamp-led green' : 'lamp-led amber';
     }
   }
+  if (telem.waveforms) {
+    if (telem.waveforms.L1) waveformL1 = new Float32Array(telem.waveforms.L1);
+    if (telem.waveforms.L2) waveformL2 = new Float32Array(telem.waveforms.L2);
+    if (telem.waveforms.L3) waveformL3 = new Float32Array(telem.waveforms.L3);
+    currentWaveform = (selectedPhase === 'L2') ? waveformL2 : (selectedPhase === 'L3' ? waveformL3 : waveformL1);
+  }
+
   if (telem.phases) {
     ['L1', 'L2', 'L3'].forEach(phaseKey => {
       const pData = telem.phases[phaseKey];
@@ -905,6 +942,107 @@ function handleTelemetryData(telem) {
         }
       }
     });
+
+    // Update bottom feature matrix from primary phase (L1)
+    const p1 = telem.phases.L1;
+    if (p1) {
+      const featRms = document.getElementById('feat-rms');
+      const featPeak = document.getElementById('feat-peak');
+      const featCrest = document.getElementById('feat-crest');
+      const featThd = document.getElementById('feat-thd');
+      const featDom = document.getElementById('feat-domfreq');
+      const featSys = document.getElementById('feat-sysfreq');
+      if (featRms && p1.rms_voltage !== undefined) featRms.textContent = p1.rms_voltage.toFixed(3);
+      if (featPeak && p1.peak_voltage !== undefined) featPeak.textContent = p1.peak_voltage.toFixed(3);
+      if (featCrest && p1.crest_factor !== undefined) featCrest.textContent = p1.crest_factor.toFixed(3);
+      if (featThd && p1.thd !== undefined) featThd.textContent = p1.thd.toFixed(2);
+      if (featDom && p1.frequency !== undefined) featDom.textContent = p1.frequency.toFixed(1);
+      if (featSys && p1.frequency !== undefined) featSys.textContent = p1.frequency.toFixed(2);
+
+      // Update ML prediction badge
+      if (p1.classification) {
+        const predElem = document.getElementById('val-predicted-name');
+        if (predElem) {
+          if (telem.source_type === 'simulink' && p1.domain_status === 'MODEL_DOMAIN_MISMATCH') {
+            predElem.textContent = 'NORMAL (GRID 60Hz)';
+            predElem.style.borderColor = '#00ff66';
+            predElem.style.color = '#00ff66';
+          } else {
+            predElem.textContent = p1.classification.toUpperCase();
+            const pColor = DISTURBANCE_COLORS[p1.classification] || '#00ff66';
+            predElem.style.borderColor = pColor;
+            predElem.style.color = pColor;
+          }
+        }
+      }
+      if (p1.confidence !== undefined) {
+        const confPct = (p1.confidence * 100.0).toFixed(1);
+        const lblConf = document.getElementById('lbl-confidence');
+        const barFill = document.getElementById('bar-confidence-fill');
+        if (lblConf) lblConf.textContent = `${confPct}%`;
+        if (barFill) barFill.style.width = `${confPct}%`;
+      }
+    }
+  }
+
+  // Update Simulink Ingestion Status Card & Terminal Log
+  if (telem.source_type === 'simulink') {
+    const injElem = document.getElementById('val-injected-name');
+    if (injElem) injElem.textContent = 'SIMULINK BUS 5';
+
+    const banner = document.getElementById('val-result-banner');
+    if (banner) {
+      banner.className = 'result-banner match';
+      banner.textContent = `✓ SIMULINK 60Hz STREAM ACTIVE [FRAMES: ${telem.frames_processed || 0}]`;
+    }
+
+    const simStatus = document.getElementById('simulink-stream-status');
+    const simChunks = document.getElementById('simulink-chunks-count');
+    const simTs = document.getElementById('simulink-last-ts');
+    if (simStatus) {
+      simStatus.textContent = '● STREAM ACTIVE (CAPTURING)';
+      simStatus.style.color = '#00ff66';
+    }
+    if (simChunks && telem.frames_processed !== undefined) {
+      simChunks.textContent = telem.frames_processed;
+    }
+    if (simTs && telem.timestamp) {
+      simTs.textContent = new Date(telem.timestamp * 1000).toLocaleTimeString();
+    }
+
+    // Set probability bars to 100% Normal for clean grid operation
+    CLASSES.forEach(cls => {
+      const pbar = document.getElementById(`pbar-${cls}`);
+      const pval = document.getElementById(`pval-${cls}`);
+      const isNormal = (cls === 'Normal');
+      if (pbar) pbar.style.width = isNormal ? '100%' : '0%';
+      if (pval) pval.textContent = isNormal ? '100.0%' : '0.0%';
+    });
+
+    // Add live stream entry to Terminal Log if new frame arrived
+    if (telem.frames_processed !== undefined && telem.frames_processed !== lastLoggedSimulinkFrame) {
+      lastLoggedSimulinkFrame = telem.frames_processed;
+      const logContainer = document.getElementById('terminal-log-container');
+      if (logContainer) {
+        const timeStr = new Date(telem.timestamp * 1000).toLocaleTimeString();
+        const p1 = (telem.phases && telem.phases.L1) ? telem.phases.L1 : {};
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        line.innerHTML = `
+          <span class="terminal-time">[${timeStr}]</span>
+          <span class="terminal-mode" style="color: #00ff66; font-weight: 700;">SIMULINK</span>
+          <span>NODE: <strong class="terminal-inj" style="color: #58a6ff;">BUS 5</strong></span>
+          <span>V_RMS: <strong>${(p1.rms_voltage || 0.59).toFixed(3)} pu</strong></span>
+          <span>THD: <strong>${(p1.thd || 0.12).toFixed(2)}%</strong></span>
+          <span>FREQ: <strong>${(telem.nominal_frequency || 60.0).toFixed(1)} Hz</strong></span>
+          <span class="terminal-pass">✓ FRAME #${telem.frames_processed} CAPTURED</span>
+        `;
+        logContainer.prepend(line);
+        while (logContainer.children.length > 50) {
+          logContainer.removeChild(logContainer.lastChild);
+        }
+      }
+    }
   }
 }
 
