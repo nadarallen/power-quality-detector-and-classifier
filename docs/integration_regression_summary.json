@@ -1,0 +1,99 @@
+{
+  "gate": "PROJECT FREEZE + INTEGRATION REGRESSION GATE",
+  "status": "PASS_WITH_WARNINGS",
+  "timestamp": "2026-09-30T09:27:00+05:30",
+  "git_integrity": {
+    "branch": "main",
+    "commit": "03790fc",
+    "pristine_slx_path": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+    "pristine_slx_sha256": "5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d",
+    "slx_integrity": "CLEAN"
+  },
+  "python_server_health": {
+    "status": "online",
+    "model": "Compact MLP 8.4KB Int8",
+    "three_phase_engine": "active",
+    "acquisition_source": "simulink",
+    "hardware_state": "ACQUIRING",
+    "sampling_rate_hz": 5000.0,
+    "nominal_frequency_hz": 60.0,
+    "device_id": "SIMULINK_IEEE9BUS_BUS5"
+  },
+  "frontend_health": {
+    "url": "http://localhost:8500/",
+    "backend_connection": "ONLINE",
+    "oscilloscope_status": "RENDERING",
+    "telemetry_stream": "ACTIVE",
+    "uncaught_errors": 0
+  },
+  "simulink_runs": {
+    "run_1": {
+      "model": "IEEE_9bus_PQD_HIL_R2025a",
+      "stop_time_s": 0.2,
+      "source_samples": 225334,
+      "target_samples": 1001,
+      "chunks_sent": 1,
+      "samples_transmitted": 1000,
+      "http_failures": 0,
+      "simulation_wall_time_s": 11.16,
+      "transport_latency_ms": 1635.82,
+      "transport_mechanism": "Direct localhost HTTP / JSON memory bridge"
+    },
+    "run_2_repeatability": {
+      "model": "IEEE_9bus_PQD_HIL_R2025a",
+      "stop_time_s": 0.2,
+      "source_samples": 225334,
+      "target_samples": 1001,
+      "chunks_sent": 1,
+      "samples_transmitted": 1000,
+      "http_failures": 0,
+      "simulation_wall_time_s": 11.07,
+      "transport_latency_ms": 1559.32,
+      "sample_count_match": true,
+      "server_crashed": false
+    }
+  },
+  "dsp_validation": {
+    "phase_a_rms_pu": 0.5892,
+    "phase_a_peak_pu": 0.8334,
+    "phase_a_crest_factor": 1.4144,
+    "phase_a_thd_pct": 0.12,
+    "frequency_hz": 60.0,
+    "phase_aware_snr_active": true
+  },
+  "event_engine_validation": {
+    "physical_status": "NORMAL",
+    "active_events_count": 0,
+    "events_detected_count": 0,
+    "false_disturbance_triggered": false
+  },
+  "ml_output_validation": {
+    "raw_model_prediction": "Sag",
+    "model_confidence": 1.0,
+    "model_domain_status": "MODEL_DOMAIN_MISMATCH",
+    "physical_override_active": true,
+    "decoupling_verified": true
+  },
+  "full_test_suite": {
+    "total_tests": 148,
+    "passed": 146,
+    "skipped": 2,
+    "failed": 0,
+    "duration_s": 8.00
+  },
+  "backward_compatibility": {
+    "api_health_ok": true,
+    "api_telemetry_ok": true,
+    "api_ingest_chunk_ok": true
+  },
+  "data_integrity": {
+    "pristine_slx_unchanged": true,
+    "normal_waveforms_unchanged": true,
+    "normal_features_unchanged": true,
+    "model_weights_unchanged": true,
+    "firmware_header_unchanged": true
+  },
+  "known_limitations": [
+    "Model weights (model_weights_32.json) were trained on legacy 50-Hz synthetic dataset. When presented with 60-Hz IEEE 9-bus grid data, the raw MLP exhibits a domain mismatch, which is accurately reported by model_domain_status='MODEL_DOMAIN_MISMATCH' without corrupting the physical event engine."
+  ]
+}
