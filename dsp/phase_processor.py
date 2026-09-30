@@ -229,7 +229,7 @@ def classify_phase_signal(
     """
     clf = classifier if classifier is not None else _get_classifier()
 
-    feat_dict = extract_enhanced_features(signal, sample_rate=sample_rate)
+    feat_dict = extract_enhanced_features(signal, sample_rate=sample_rate, f0=nominal_frequency_hz)
     feat_vec = _features_to_vector(feat_dict)
 
     if clf is None:
@@ -271,13 +271,17 @@ def process_waveform_frame(
 
     targets = phases_to_process or frame.available_phases
     results: Dict[str, PhaseMeasurement] = {}
+    is_compatible = abs(frame.nominal_frequency_hz - 50.0) <= 2.0
+    domain_status = "MODEL_COMPATIBLE" if is_compatible else "MODEL_DOMAIN_MISMATCH"
 
     for phase in targets:
         if phase not in frame.phases:
             continue
 
         signal = frame.phases[phase]
-        feat = extract_enhanced_features(signal, sample_rate=frame.sampling_rate_hz)
+        feat = extract_enhanced_features(
+            signal, sample_rate=frame.sampling_rate_hz, f0=frame.nominal_frequency_hz
+        )
         cls_name, conf, _probs = classify_phase_signal(
             signal, frame.sampling_rate_hz,
             nominal_frequency_hz=frame.nominal_frequency_hz,
@@ -307,6 +311,8 @@ def process_waveform_frame(
             harmonics=harmonics,
             classification=cls_name,
             confidence=conf,
+            domain_status=domain_status,
         )
 
     return results
+

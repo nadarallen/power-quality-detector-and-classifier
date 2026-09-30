@@ -46,6 +46,7 @@ class PhaseMeasurement:
     harmonics: Dict[str, float] = field(default_factory=dict)
     classification: str = "Normal"
     confidence: float = 1.0
+    domain_status: str = "MODEL_COMPATIBLE"
 
 
 @dataclass
@@ -146,7 +147,7 @@ class ThreePhaseEventEngine:
         self.last_detected_states: Dict[str, Tuple[str, float, PhaseMeasurement]] = {}
 
     def _classify_phase(
-        self, signal: np.ndarray, sample_rate: float
+        self, signal: np.ndarray, sample_rate: float, nominal_frequency_hz: float = 50.0
     ) -> Tuple[str, float]:
         """
         Classifies an individual phase waveform.
@@ -165,7 +166,9 @@ class ThreePhaseEventEngine:
 
         if self.use_mlp:
             pp = _get_phase_processor()
-            cls_name, conf, _probs = pp.classify_phase_signal(signal, sample_rate)
+            cls_name, conf, _probs = pp.classify_phase_signal(
+                signal, sample_rate, nominal_frequency_hz=nominal_frequency_hz
+            )
             # classify_phase_signal already applies the uncertainty gate internally
             return cls_name, conf
 
@@ -184,27 +187,30 @@ class ThreePhaseEventEngine:
 
     def _build_phase_measurement(
         self, phase: str, signal: np.ndarray, sample_rate: float,
-        pred_class: str, conf: float
+        pred_class: str, conf: float, nominal_frequency_hz: float = 50.0
     ) -> PhaseMeasurement:
         """
         Builds a PhaseMeasurement from the enhanced DSP feature set.
         Uses extract_enhanced_features() for consistency with process_waveform_frame().
         """
-        feat = extract_enhanced_features(signal, sample_rate=sample_rate)
+        feat = extract_enhanced_features(signal, sample_rate=sample_rate, f0=nominal_frequency_hz)
         harmonics = {f"h{h}": feat.get(f"h{h}", 0.0) for h in range(1, 12)}
         rms_pu = float(feat.get("rms_voltage", 0.0))
+        is_compatible = abs(nominal_frequency_hz - 50.0) <= 2.0
+        domain_status = "MODEL_COMPATIBLE" if is_compatible else "MODEL_DOMAIN_MISMATCH"
         return PhaseMeasurement(
             phase=phase,
             rms_voltage=round(rms_pu, 4),
             min_rms=round(rms_pu, 4),
             max_rms=round(rms_pu, 4),
-            thd_2_11=round(float(feat.get("thd", 0.0)), 2),
-            fundamental_frequency=float(feat.get("system_freq", sample_rate / 100.0)),
+            thd_2_11=round(float(feat.get("thd_2_11", feat.get("thd", 0.0))), 2),
+            fundamental_frequency=float(feat.get("system_freq", nominal_frequency_hz)),
             peak_voltage=round(float(feat.get("peak_voltage", 0.0)), 4),
             crest_factor=round(float(feat.get("crest_factor", 0.0)), 4),
             harmonics=harmonics,
             classification=pred_class,
             confidence=round(conf, 4),
+            domain_status=domain_status,
         )
 
     def process_frame(self, frame: WaveformFrame) -> List[PQEvent]:
@@ -226,15 +232,35 @@ class ThreePhaseEventEngine:
         # 1. Per-Phase DSP + Inference
         for phase in frame.available_phases:
             sig = frame.get_phase(phase)
-            pred_class, conf = self._classify_phase(sig, frame.sampling_rate_hz)
-            pm = self._build_phase_measurement(phase, sig, frame.sampling_rate_hz, pred_class, conf)
+            pred_class, conf = self._classify_phase(
+                sig, frame.sampling_rate_hz, nominal_frequency_hz=frame.nominal_frequency_hz
+            )
+            pm = self._build_phase_measurement(
+                phase, sig, frame.sampling_rate_hz, pred_class, conf, nominal_frequency_hz=frame.nominal_frequency_hz
+            )
             detected_states[phase] = (pred_class, conf, pm)
 
         self.last_detected_states = detected_states
 
         # 2. State Machine & Event Lifecycle
         # Find which phases currently experience a non-Normal disturbance
-        active_disturbed_phases = [p for p, (cls, _, _) in detected_states.items() if cls != "Normal"]
+        active_disturbed_phases = []
+        for p, (cls, _, pm) in detected_states.items():
+            if pm.domain_status == "MODEL_DOMAIN_MISMATCH":
+                # For 60 Hz domain mismatch, do not trigger false grid disturbances
+                # if physical parameters are within normal steady-state bounds:
+                # Note: un-interpolated zero crossing over 200 ms has a discrete quantization step of 2.5 Hz (23 or 24 crossings)
+                is_physically_normal = (
+                    (pm.thd_2_11 < 5.0) and
+                    (0.50 <= pm.rms_voltage <= 1.20) and
+                    abs(pm.fundamental_frequency - 60.0) <= 3.0
+                )
+                if not is_physically_normal:
+                    active_disturbed_phases.append(p)
+            else:
+                if cls != "Normal":
+                    active_disturbed_phases.append(p)
+
 
         if not active_disturbed_phases:
             # All phases are Normal -> close any open events uniquely

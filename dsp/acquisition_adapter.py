@@ -575,3 +575,141 @@ class MockHardwareAdapter(HardwareAdapter):
         )
         frame.source_type = "mock_hardware"
         return frame
+
+
+class SimulinkAdapter(AcquisitionAdapter):
+    """
+    Dedicated acquisition adapter for MATLAB/Simulink electrical simulations
+    (specifically IEEE 9-bus Bus 5 model IEEE_9bus_PQD_HIL_R2025a.slx).
+
+    Characteristics:
+    - source_type: "simulink"
+    - device_id: "SIMULINK_IEEE9BUS_BUS5"
+    - nominal_frequency_hz: 60.0 (Preserves 60 Hz electrical grid standard)
+    - sampling_rate_hz: 5000.0 (configurable)
+    - Accepts 3-phase voltage channels (L1, L2, L3 / Va, Vb, Vc)
+    - Accepts optional current channels (I1, I2, I3 / Ia, Ib, Ic)
+    """
+
+    def __init__(
+        self,
+        device_id: str = "SIMULINK_IEEE9BUS_BUS5",
+        sampling_rate_hz: float = 5000.0,
+        nominal_frequency_hz: float = 60.0,
+        window_samples: int = 1000,
+    ):
+        super().__init__(
+            device_id=device_id,
+            sampling_rate_hz=sampling_rate_hz,
+            nominal_frequency_hz=nominal_frequency_hz,
+            source_type="simulink",
+        )
+        self.window_samples = window_samples
+        self.last_ingested_chunk: Optional[Dict[str, np.ndarray]] = None
+        self.last_current_chunk: Optional[Dict[str, np.ndarray]] = None
+        self.chunks_received_count: int = 0
+        self.total_samples_received: int = 0
+        self.last_timestamp_utc: float = 0.0
+
+    def connect(self) -> bool:
+        self.is_connected = True
+        self.state = AcquisitionState.CONNECTED
+        return True
+
+    def disconnect(self) -> None:
+        self.is_connected = False
+        self.state = AcquisitionState.DISCONNECTED
+
+    def set_phase_disturbance(self, phase: str, disturbance_class: str) -> None:
+        """Stores requested disturbance for Simulink reference or testing."""
+        if not hasattr(self, "phase_states"):
+            self.phase_states = {"L1": "Normal", "L2": "Normal", "L3": "Normal"}
+        if phase == "ALL":
+            for p in self.phase_states:
+                self.phase_states[p] = disturbance_class
+            return
+        if phase not in self.phase_states:
+            raise KeyError(f"Invalid phase: {phase}. Must be one of L1, L2, L3, or ALL")
+        self.phase_states[phase] = disturbance_class
+
+    def ingest_chunk(
+        self,
+        channels: Dict[str, np.ndarray],
+        current_channels: Optional[Dict[str, np.ndarray]] = None,
+        timestamp_utc: Optional[float] = None,
+        sequence_number: Optional[int] = None,
+    ) -> WaveformFrame:
+        """
+        Ingests a 3-phase waveform chunk from MATLAB/Simulink and returns
+        a validated WaveformFrame with 60 Hz metadata.
+        """
+        if not self.is_connected:
+            self.connect()
+
+        self.state = AcquisitionState.ACQUIRING
+        self.chunks_received_count += 1
+        if sequence_number is not None:
+            self.sequence_number = sequence_number
+        else:
+            self.sequence_number += 1
+
+        ts = timestamp_utc if timestamp_utc is not None else time.time()
+        self.last_timestamp_utc = ts
+
+        # Validate channel presence
+        phases = {}
+        for p in ["L1", "L2", "L3"]:
+            if p in channels:
+                arr = channels[p]
+            elif p == "L1" and "Va" in channels:
+                arr = channels["Va"]
+            elif p == "L2" and "Vb" in channels:
+                arr = channels["Vb"]
+            elif p == "L3" and "Vc" in channels:
+                arr = channels["Vc"]
+            else:
+                raise ValueError(f"Missing required phase '{p}' in Simulink payload")
+
+            phases[p] = np.asarray(arr, dtype=np.float32)
+
+        # Check lengths
+        first_len = len(phases["L1"])
+        if first_len == 0:
+            raise ValueError("Simulink channel arrays cannot be empty")
+        for p in ["L2", "L3"]:
+            if len(phases[p]) != first_len:
+                raise ValueError(f"Phase length mismatch: L1 has {first_len} samples, but {p} has {len(phases[p])}")
+
+        self.total_samples_received += first_len
+        self.last_ingested_chunk = phases
+
+        if current_channels:
+            self.last_current_chunk = {k: np.asarray(v, dtype=np.float32) for k, v in current_channels.items()}
+
+        frame = WaveformFrame(
+            timestamp_utc=ts,
+            sampling_rate_hz=self.sampling_rate_hz,
+            nominal_frequency_hz=self.nominal_frequency_hz,
+            source_type=self.source_type,
+            device_id=self.device_id,
+            sequence_number=self.sequence_number,
+            phases=phases,
+        )
+        frame.validate()
+        return frame
+
+    def acquire_frame(self) -> Optional[WaveformFrame]:
+        if self.last_ingested_chunk is not None:
+            frame = WaveformFrame(
+                timestamp_utc=self.last_timestamp_utc,
+                sampling_rate_hz=self.sampling_rate_hz,
+                nominal_frequency_hz=self.nominal_frequency_hz,
+                source_type=self.source_type,
+                device_id=self.device_id,
+                sequence_number=self.sequence_number,
+                phases=self.last_ingested_chunk,
+            )
+            frame.validate()
+            return frame
+        return None
+

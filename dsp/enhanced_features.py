@@ -12,7 +12,7 @@ All features computed in O(N) or O(N log N), designed to be reproducible in C++ 
 
 import numpy as np
 import scipy.stats as stats
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from dsp.baseline_features import goertzel_magnitude, extract_baseline_features
 
 def compute_spectral_features(signal: np.ndarray, sample_rate: float = 5000.0) -> Dict[str, float]:
@@ -97,12 +97,13 @@ def compute_harmonic_profile(signal: np.ndarray, sample_rate: float = 5000.0, f0
     higher_mags = [harmonics[f'h{h}'] for h in range(2, 12)]
     harmonic_energy = round(float(np.sum(np.array(higher_mags) ** 2)), 6)
     ratios['harmonic_energy'] = harmonic_energy
+    ratios['thd_2_11'] = round(float(np.sqrt(harmonic_energy) / h1 * 100.0), 4)
 
     harmonics.update(ratios)
     return harmonics
 
 
-def extract_enhanced_features(signal: np.ndarray, sample_rate: float = 5000.0) -> Dict[str, float]:
+def extract_enhanced_features(signal: np.ndarray, sample_rate: float = 5000.0, f0: float = 50.0, v_nom_rms: Optional[float] = None) -> Dict[str, float]:
     """
     Extracts comprehensive enhanced DSP feature vector (v2) from a 1D voltage waveform.
     Includes:
@@ -118,7 +119,7 @@ def extract_enhanced_features(signal: np.ndarray, sample_rate: float = 5000.0) -
         return {}
 
     # --- 1. Baseline Features ---
-    baseline = extract_baseline_features(signal, sample_rate)
+    baseline = extract_baseline_features(signal, sample_rate, f0=f0, v_nom_rms=v_nom_rms)
 
     # --- 2. Time-Domain Moments & Statistics ---
     mean_v = float(np.mean(signal))
@@ -162,7 +163,7 @@ def extract_enhanced_features(signal: np.ndarray, sample_rate: float = 5000.0) -
     }
 
     # --- 3. Harmonics & Ratios ---
-    harmonic_features = compute_harmonic_profile(signal, sample_rate, f0=50.0)
+    harmonic_features = compute_harmonic_profile(signal, sample_rate, f0=f0)
 
     # --- 4. Spectral Distribution Descriptors ---
     spectral_features = compute_spectral_features(signal, sample_rate)
