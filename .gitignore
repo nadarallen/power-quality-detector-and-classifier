@@ -40,3 +40,9 @@ temp_*.pkl
 *.npz
 data/waveforms/
 data/enhanced_splits/
+
+# Simulink compilation caches & temporary models
+*.slxc
+slprj/
+scripts/slprj/
+scratch/

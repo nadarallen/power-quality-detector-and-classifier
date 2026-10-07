@@ -5,6 +5,10 @@
 **Working Tree:** Clean  
 **Date of State Inspection:** 2026-09-20  
 
+> [!NOTE]
+> This document is preserved as a historical architectural baseline from September 20, 2026.
+> For the authoritative current project status, Phase 3 completion metrics, and current architecture, refer to [`docs/PROJECT_STATUS.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md).
+
 ---
 
 ## 1. System Architecture Overview

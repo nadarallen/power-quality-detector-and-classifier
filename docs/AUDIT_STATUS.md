@@ -1,8 +1,8 @@
-# Audit Status & Gate Control
+# Historical Audit Status & Gate Control (BARC DATA Synthetic Phase)
 # ------------------------------------------------------------------------------
-# Hard Gate Control for ML & Downstream Development
-# Rule: ready_for_ml_phase can ONLY become true when ALL sections PASS
-#       and blocking_issues is empty.
+# NOTE: This document is preserved as a historical audit of the legacy synthetic
+# tabular dataset (BARC DATA.csv). For the authoritative IEEE 9-bus 60-Hz physical
+# disturbance status, see docs/GATE_INDEX.md and docs/PROJECT_STATUS.md.
 # ------------------------------------------------------------------------------
 
 audit_status: COMPLETE

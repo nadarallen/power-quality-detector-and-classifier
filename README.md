@@ -1,273 +1,162 @@
 # Power Quality Disturbance (PQD) Detection and Classification System
 
-> **Real-Time Three-Phase Monitoring & AI Classification System**  
-> Compliant with **IEEE Std 1159-2019**, **IEEE Std 519-2022**, and **IEC 61000-4-30 Class A**.  
-> ![Tests](https://img.shields.io/badge/tests-58%20passing-brightgreen) ![Python](https://img.shields.io/badge/python-3.12-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+> **Validated Electromagnetic Simulation, Physics-Grounded Datasets & Power Quality DSP Architecture**  
+> Compliant with **IEEE Std 1159-2019**, **IEEE Std 519-2022**, **IEEE Std 1453-2022**, and **IEC 61000-4-30 Class A**.  
+> ![Tests](https://img.shields.io/badge/tests-300%20passing-brightgreen) ![Python](https://img.shields.io/badge/python-3.10%20|%203.12%20|%203.14-blue) ![MATLAB](https://img.shields.io/badge/MATLAB-R2024b%20|%20R2025a-orange) ![Phase](https://img.shields.io/badge/Phase%203-COMPLETE-success) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ---
 
 ## 📌 Executive Summary
 
-This repository implements an end-to-end, scientifically validated system for detecting, categorizing, and monitoring **Power Quality Disturbances (PQD)** on electrical power grids. The pipeline ingests continuous voltage waveforms sampled at $f_s = 5000\,\text{Hz}$ ($T_s = 200\,\mu\text{s}$, $N = 1000$ discrete samples per 10-cycle observation window at $f_0 = 50\,\text{Hz}$), extracts physics-informed digital signal processing (DSP) features, and executes low-latency neural network inference on resource-constrained embedded microcontrollers (ESP32) and cloud backends.
+This repository implements an end-to-end, scientifically validated, and standards-compliant framework for detecting, categorizing, and monitoring **Power Quality Disturbances (PQD)** in high-voltage power transmission networks.
+
+The core of the system bridges genuine electromagnetic simulation of the **WSCC 3-Machine 9-Bus System** (operating at $60.0\,\text{Hz}$ in Simscape Electrical) to a production-grade Python digital signal processing (DSP) pipeline. The pipeline ingests continuous three-phase voltages ($V_a, V_b, V_c$) sampled at $F_s = 5000\,\text{Hz}$ ($T_s = 200\,\mu\text{s}$, $N = 1000$ discrete samples per 12-cycle observation window), extracts an authoritative 32-feature mathematical contract (including Goertzel harmonic orders $H_1\text{--}H_{11}$, phase-invariant orthogonal SNR, and IEC 61000-4-30 sliding RMS), and tracks disturbance states across multi-phase lifecycles.
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│              REAL THREE-PHASE ACQUISITION (L1 / L2 / L3 synchronized)                  │
-│                                                                                        │
-│  Safety Front-End ──► 3-Channel DAQ / ESP32 ──► dsp/acquisition_adapter.py            │
-│  SimulationAdapter (3-phase synthesis) or CSVReplayAdapter or POST /api/ingest         │
-│  WaveformFrame: timestamp_utc, fs=5 kHz, 120°-spaced L1/L2/L3, validation guards       │
-└──────────────────────────────────────────┬─────────────────────────────────────────────┘
-                                           │
-                                           ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│               DSP & FEATURE EXTRACTION (per-phase, synchronized)                       │
-│                                                                                        │
-│   • Track A (8 Features): RMS, Peak, Crest Factor, Goertzel THD, Freq, SNR             │
-│   • Track B (32 Features): Goertzel Bank H1–H11 + Spectral Moments, Entropy           │
-│   • Half-Cycle Sliding RMS (10 ms window) — IEEE 1159 Interruption vs Sag             │
-└──────────────────────────────────────────┬─────────────────────────────────────────────┘
-                                           │
-                                           ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                    THREE-PHASE EVENT ENGINE (dsp/event_engine.py)                      │
-│                                                                                        │
-│   • Per-phase ThreePhaseEventEngine — state machine tracks L1/L2/L3 lifecycle          │
-│   • Cross-phase correlation — merges simultaneous multi-phase disturbances              │
-│   • PQEvent emitted on state transition (Normal→Disturbance→Normal)                    │
-│   • UNCERTAIN gate: confidence < 60% → escalated review flag                           │
-└──────────────────────────────────────────┬─────────────────────────────────────────────┘
-                                           │
-                 ┌─────────────────────────┴──────────────────────────┐
-                 ▼                                                     ▼
-┌─────────────────────────────────┐              ┌────────────────────────────────────────┐
-│  PERSISTENCE (storage/event_    │              │   REST API (server.py :8500)           │
-│  store.py — SQLite embedded)    │              │                                        │
-│                                 │              │   GET  /api/health                     │
-│  • save_event(PQEvent)          │              │   GET  /api/events?event_class=Sag     │
-│  • query_events(class, phase)   │              │   GET  /api/events/<id>                │
-│  • get_event_stats()            │              │   GET  /api/events/stats               │
-│                                 │              │   GET  /api/telemetry                  │
-│                                 │              │   POST /api/ingest (WaveformFrame)     │
-│                                 │              │   POST /api/simulation/disturbance     │
-└─────────────────────────────────┘              └────────────────────────────────────────┘
-                                                                │
-                                                                ▼
-                                              ┌────────────────────────────────────────┐
-                                              │  LIVE DASHBOARD (web/index.html)       │
-                                              │  • 3-Phase Grid Bus Bar (L1/L2/L3)     │
-                                              │  • CRT Oscilloscope & FFT Spectrum     │
-                                              │  • Disturbance injection controls      │
-                                              │  • Real-time event log & stats         │
-                                              └────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│               A. SIMULATION & PHYSICAL GENERATION (Simscape)           │
+│                                                                        │
+│   • WSCC 9-Bus 60-Hz Network (3 synchronous generators, 3 loads)       │
+│   • Observation Interface: Bus 5 (230 kV Transmission PCC)             │
+│   • 8 Physical Classes: Normal, Sag, Swell, Interruption, Harmonics,   │
+│     Flicker, Notch, Oscillatory Transient                              │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│               B. DISCRETE ACQUISITION & INTEGRATION BRIDGE             │
+│                                                                        │
+│   • Sampling representation: Fs = 5000 Hz (Ts = 200 us, N = 1000)      │
+│   • 12 fundamental cycles per 200-ms frame (f0 = 60.0 Hz)              │
+│   • 52 dB SNR calibrated analog front-end sensor noise                 │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│               C. AUTHORITATIVE 32-FEATURE DSP CONTRACT                 │
+│                                                                        │
+│   • Goertzel Filter Bank H1–H11 (60 Hz to 660 Hz single-bin DFT)       │
+│   • Phase-Aware Orthogonal Projection SNR (angle-invariant)            │
+│   • Half-Cycle Sliding RMS (41–42 sample IEC 61000-4-30 tracking)      │
+│   • Spectral moments, entropy, flatness, crest factor, and THD         │
+│   • MATLAB/Python numerical feature parity verified (< 0.000050)       │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│               D. THREE-PHASE EVENT ENGINE & TELEMETRY STREAM           │
+│                                                                        │
+│   • Per-phase state machine: Normal <-> Active Disturbance             │
+│   • Multi-window sliding aggregation & disturbance deduplication       │
+│   • REST Ingestion & Event API (server.py :8500)                       │
+│   • Server-Sent Events (SSE) telemetry stream & CRT Oscilloscope UI    │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📚 Technical Documentation & Research Audits
+## ⚡ Current Project State & Completed Work
 
-For in-depth architectural proofs, mathematical derivations, empirical validation logs, and standards mapping, refer to the documentation suite:
+### Phase 3 Complete: Disturbance Datasets & Independent Audits
+The project has completed genuine physical electromagnetic simulation, dataset extraction, and independent audits across all 8 disturbance classes under `data/ieee9bus_60hz/`:
 
-| Document | Primary Focus & Coverage |
-|---|---|
-| 📖 [**`docs/PROJECT_STATE.md`**](docs/PROJECT_STATE.md) | Verified commit status, full **58-test suite** breakdown, 3-phase pipeline architecture, model benchmarks, and hardware constraints. |
-| 🔬 [**`docs/DATASET_AUDIT.md`**](docs/DATASET_AUDIT.md) | Empirical audit of the 10,000-sample dataset: class imbalance ($7.83:1$), near-duplicate analysis, and synthetic artifact disclosures. |
-| 🔒 [**`docs/DATASET_SPECIFICATION.md`**](docs/DATASET_SPECIFICATION.md) | Frozen v1.0 dataset specification with SHA-256 integrity checksums, partition criteria, and frozen 70/15/15 train/val/test splits. |
-| ⚖️ [**`docs/IEEE_ALIGNMENT_AUDIT.md`**](docs/IEEE_ALIGNMENT_AUDIT.md) | Standards compliance audit mapping repository parameters against IEEE 1159-2019, IEEE 519-2022, and IEC 61000-4-30. |
-| 🌊 [**`docs/WAVEFORM_STANDARD_AUDIT.md`**](docs/WAVEFORM_STANDARD_AUDIT.md) | Deep mathematical audit of discrete waveform generation, IEEE 1159.3 COMTRADE metadata, and sub-cycle transient bounds. |
-| 🛡️ [**`docs/DATA_LEAKAGE_AUDIT.md`**](docs/DATA_LEAKAGE_AUDIT.md) | Quantitative verification of zero train/test contamination across continuous feature spaces ($k$-NN distance $\ge 0.0084$). |
-| 📊 [**`reports/experiment_results.csv`**](reports/experiment_results.csv) | Full machine-readable experiment tracking ledger covering ablation runs EXP-001 through EXP-009. |
-| 📜 [**`docs/paper_draft.md`**](docs/paper_draft.md) | IEEE PES transactions-style technical conference paper draft. |
+| Class | Label | Frames | Physical Switching Mechanism | Key Physical Metric | Audit Status |
+|:---|:---:|:---:|:---|:---|:---:|
+| **Normal** | 0 | 1,152 | Steady-state load flow (32 operating conditions) | $\text{RMS} = 0.589\,\text{pu}, \text{THD} = 0.35\%$ | **PASS** (Gate 3B.1) |
+| **Sag** | 1 | 1,152 | Transmission shunt fault switching (`PQD_Fault_Sag`) | Residual $0.10\text{--}0.90\,\text{pu}$, $16.7\text{--}120\,\text{ms}$ | **PASS** (Gate 3F) |
+| **Swell** | 2 | 1,152 | Shunt capacitor bank energization (`PQD_Breaker_Swell`) | Magnitude $1.10\text{--}1.80\,\text{pu}$, $16.7\text{--}120\,\text{ms}$ | **PASS** (Gate 3I) |
+| **Interruption** | 3 | 1,152 | Series line breaker opening (`PQD_Breaker_Interruption`) | Residual $< 0.10\,\text{pu}$ (mean $0.008\,\text{pu}$) | **PASS** (Gate 3L) |
+| **Harmonics** | 4 | 1,152 | Non-linear load current injection (`PQD_Harm_Inj`) | Orders $H_2\text{--}H_{11}$, $\text{THD} = 5.1\%\text{--}19.8\%$ | **PASS** (Gate 3O) |
+| **Flicker** | 5 | 1,152 | Sub-synchronous dynamic load modulation (`PQD_Flicker_Mod`) | $f_m \in [1, 25]\,\text{Hz}$, depth $1.0\%\text{--}10.0\%$ | **PASS** (Gate 3R) |
+| **Notch** | 6 | 1,152 | Power electronic bridge commutation (`PQD_Notch_Bus5`) | Width $0.43\text{--}2.97\,\text{ms}$, depth $22.9\%\text{--}53.8\%$ | **PASS** (Gate 3U) |
+| **Transient** | 7 | 1,152 | Grounded series RLC breaker energization (`PQD_Breaker_Transient`) | Freq $250\text{--}299\,\text{Hz}$, excursion $0.13\text{--}0.41\,\text{pu}$ | **PASS** (Gate 3X) |
+| **Total** | — | **9,216** | **100% Genuine Physical Electrical Simulation** | **Zero trajectory leakage ($\text{Train} \cap \text{Val} \cap \text{Test} = \emptyset$)** | **ALL PASS** |
 
----
-
-## ⚡ Physical Disturbance Classes & Standards Mapping
-
-The system classifies **8 distinct physical states** without modifying standard regulatory boundaries:
-
-| ID | Disturbance Class | Governing Standard | Defining Characteristics | Documentation Citation |
-|:---:|---|---|---|---|
-| `0` | **Flicker (Fluctuation)** | IEEE 1453 / IEC 61000-4-15 | Envelope modulation $\Delta V/V \in [1\%, 10\%]$ at $f_m \in [0.1, 30\,\text{Hz}]$. | [Read standard details](docs/IEEE_ALIGNMENT_AUDIT.md#flicker-voltage-fluctuations) |
-| `1` | **Harmonics** | IEEE 519-2022 | Discrete Fourier integer harmonics ($H_2$ through $H_{11}$); $\text{THD}_{2\_11} > 5.0\%$. | [Read standard details](docs/IEEE_ALIGNMENT_AUDIT.md#harmonics-and-waveform-distortion) |
-| `2` | **Interruption** | IEEE 1159 Clause 3.1.34 | Severe power loss where residual half-cycle RMS is strictly $< 0.10\,\text{pu}$. | [Read standard details](docs/IEEE_ALIGNMENT_AUDIT.md#voltage-sag-swell-and-interruption) |
-| `3` | **Normal** | Grid nominal baseline | Clean fundamental sinusoid: $V_{\text{rms}} \in [0.95, 1.05]\,\text{pu}$, $\text{THD} < 1.5\%$. | [Read baseline details](docs/DATASET_SPECIFICATION.md#sampling--windowing-parameters) |
-| `4` | **Notch** | IEEE 1159 Clause 3.1.50 | Commutation notch caused by thyristor switching; localized crest factor depression. | [Read standard details](docs/IEEE_ALIGNMENT_AUDIT.md#voltage-notching) |
-| `5` | **Voltage Sag** | IEEE 1159 Clause 3.1.53 | RMS voltage reduction to between $0.10\,\text{pu}$ and $0.90\,\text{pu}$ for $\ge 0.5$ cycles. | [Read standard details](docs/IEEE_ALIGNMENT_AUDIT.md#voltage-sag-swell-and-interruption) |
-| `6` | **Voltage Swell** | IEEE 1159 Clause 3.1.58 | RMS voltage increase to between $1.10\,\text{pu}$ and $1.80\,\text{pu}$ for $\ge 0.5$ cycles. | [Read standard details](docs/IEEE_ALIGNMENT_AUDIT.md#voltage-sag-swell-and-interruption) |
-| `7` | **Transient** | IEEE 1159 Clause 3.1.66 | Sub-cycle damped oscillatory transient ($350\text{–}750\,\text{Hz} < 2500\,\text{Hz}$ Nyquist). | [Read standard details](docs/IEEE_ALIGNMENT_AUDIT.md#oscillatory-transient) |
+### Machine Learning Status
+- **Current Model State**: The existing MLP model (`ml/models/model_weights_32.json`) remains frozen in its legacy state and is marked `OUT_OF_DOMAIN` when evaluated on 60-Hz physical waveforms.
+- **Phase 4 Retraining**: Retraining of neural network classifiers is **PENDING** and will be conducted during Phase 4 using the locked 60-Hz physical dataset.
 
 ---
 
-## 📊 Empirical Benchmarks & Controlled Ablation
+## 🔬 Standards Traceability
 
-### 1. Controlled Feature Ablation (Track A vs. Track B)
-
-All models were evaluated on the **frozen 70/15/15 stratified test set** (1,500 unseen samples, SHA-256: `e7dc1bc1...`):
-
-| Experiment | Feature Pipeline | Dims | Test Accuracy | Macro F1 | Interruption Recall | Safety Gate ($\ge 90\%$) | Inference Latency |
-|---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **EXP-001** | Baseline 8 Features (Track A) | 8 | 96.87% | 0.9624 | 90.24% | **PASS** | 310.2 $\mu\text{s}$ |
-| **EXP-002** | Baseline + Goertzel Harmonics ($H_1\text{–}H_{11}$) | 27 | 98.80% | 0.9861 | 99.19% | **PASS** | 319.4 $\mu\text{s}$ |
-| **EXP-003 (Deployed)** | **EXP-002 + Spectral Moments (Centroid, Bandwidth, Entropy, Flatness, Peak)** | **32** | **99.40%** | **0.9927** | **100.00%** | **PASS** | **325.7 $\mu\text{s}$** |
-| **EXP-004** | Full 47 Enhanced DSP Features | 47 | 99.67% | 0.9960 | 100.00% | **PASS** | 344.1 $\mu\text{s}$ |
-
-> **Audit Insight:** EXP-003 achieved **100% Interruption recall** and **99.40% overall test accuracy** at an embedded inference latency of only $325.7\,\mu\text{s}$, resolving the 19 cross-confusions between Sag and Interruption present in the 8-feature baseline.  
-> 🔗 *Full ablation analysis:* [docs/PROJECT_STATE.md (Section 5.2)](docs/PROJECT_STATE.md#52-controlled-feature-ablation-compact-mlp-track-b)
-
-### 2. Deep Learning vs. Physics-Informed DSP (EXP-007)
-
-We benchmarked a compact **1D Convolutional Neural Network (1D CNN)** operating directly on raw 1,000-sample time-series waveforms against our DSP-based MLPs:
-
-| Architecture | Representation | Parameters | Memory Footprint | Test Acc | Macro F1 | Interruption Recall | Safety Gate Status |
-|---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Compact 1D CNN** | Raw Waveform ($1 \times 1000$) | 4,232 | 16.53 KB | 87.87% | 0.8082 | 75.61% | ⚠️ **FAIL (<90%)** |
-| **Compact MLP (Baseline)** | 8 Preserved DSP Features | 2,888 | 11.28 KB | 96.87% | 0.9624 | 90.24% | **PASS** |
-| **Compact MLP (Enhanced)** | **32 DSP Features (EXP-003)** | **4,424** | **17.28 KB** | **99.40%** | **0.9927** | **100.00%** | **PASS** |
-
-> **Scientific Finding:** Pure raw time-series 1D CNNs cannot achieve reliable generalization from moderate dataset scales without phase invariants. Structured DSP transformations (Goertzel harmonic banks, sliding RMS, spectral entropy) provide essential translation and phase invariance.  
-> 🔗 *Complete study:* [docs/PROJECT_STATE.md (Section 5.4)](docs/PROJECT_STATE.md#54-raw-waveform-1d-cnn-vs-dsp-feature-compression-exp-007)
-
-### 3. Out-of-Grid Stress Testing & Compound Waveforms
-
-- **Out-of-Grid Parameter Sweep (EXP-005):** Tested on 13 randomized parameter configurations completely outside training grid points. Achieved **92.3% generalization** (12/13 passed).  
-  🔗 *Sweep details:* [docs/PROJECT_STATE.md (Section 5.3)](docs/PROJECT_STATE.md#53-generalization--out-of-grid-parameter-testing)
-- **Mixed Compound Disturbances (EXP-008):** Evaluated behavior on non-standard dual-event waveforms (e.g. Sag + Harmonics, Swell + Harmonics). Demonstrates that single-label softmax classifiers pick the dominant energy disturbance with ~100% confidence, proving the need for our confidence thresholding gate (`UNCERTAIN` for $< 60\%$).  
-  🔗 *Compound findings:* [docs/PROJECT_STATE.md (Section 5.5)](docs/PROJECT_STATE.md#55-out-of-distribution-ood-mixed-compound-disturbances-exp-008)
-- **Model Calibration (EXP-009):** Expected Calibration Error (ECE) is **$0.119\%$**, confirming predicted softmax probabilities match empirical accuracy.  
-  🔗 *Calibration curves:* [docs/PROJECT_STATE.md (Section 5.6)](docs/PROJECT_STATE.md#56-model-confidence-calibration--reliability-exp-009)
+| Standard | Scope in This Project | Traceability & Limits |
+|:---|:---|:---|
+| **IEEE Std 1159-2019** | Categorization of Sags, Swells, Interruptions, Notches, and Oscillatory Transients. | Distinguishes sub-cycle notches ($< 0.5$ cycle) and low-frequency transients ($< 5\,\text{kHz}$) from RMS events. |
+| **IEEE Std 519-2022** | Voltage harmonic distortion limits and commutation notch depths at the PCC. | Harmonic orders $H_2$ through $H_{11}$ evaluated at Bus 5 ($230\,\text{kV}$ PCC). |
+| **IEEE Std 1453-2022** | Voltage flicker envelope modulation concept. | Evaluates sub-synchronous envelope modulation in $[1.0, 25.0]\,\text{Hz}$. |
+| **IEC 61000-4-30 Class A** | Half-cycle sliding RMS calculation. | Implemented via 41–42 sample sliding convolution window at $5\,\text{kHz}$. |
 
 ---
 
-## 📁 Repository Structure
+## 📂 Repository Organization
 
 ```
-power-quality-detector-and-classifier/
-├── config/
-│   └── pqd_parameter_spec.yaml         # Single source of truth for all electrical parameters
+├── IEEE_9bus/                    # Simscape Electrical models
+│   ├── IEEE_9bus_PQD_HIL_R2025a.slx     # Pristine frozen reference model
+│   └── IEEE_9bus_PQD_DISTURBANCES.slx   # Working disturbance generation model
 ├── data/
-│   ├── pqd_features.csv                # Standardized 8-feature matrix (10,000 samples)
-│   ├── splits/                         # Frozen 70/15/15 train/val/test CSV splits (v1.0)
-│   └── waveforms/                      # 1000-sample raw time-series arrays (*.npz)
-├── Dataset/
-│   └── BARC DATA.csv                   # Ground-truth raw tabular recording (10,000 instances)
-├── dsp/
-│   ├── baseline_features.py            # Preserved 8-feature Goertzel extraction engine
-│   ├── enhanced_features.py            # 47-feature extended spectral, moment & entropy engine
-│   ├── standards_detector.py           # IEEE 1159 half-cycle sliding RMS & FFT detector
-│   ├── waveform_frame.py               # Canonical 3-phase WaveformFrame (L1/L2/L3, validation, JSON I/O)
-│   ├── acquisition_adapter.py          # AcquisitionAdapter, SimulationAdapter, CSVReplayAdapter
-│   ├── event_engine.py                 # ThreePhaseEventEngine, PhaseMeasurement, PQEvent state machine
-│   └── waveform_generator.py           # IEEE 1159.3 compliant 5 kHz synthetic waveform generator
+│   └── ieee9bus_60hz/            # 60-Hz physical datasets (8 classes)
+│       ├── normal/               # Normal baseline (1,152 frames, 32 conditions)
+│       ├── sag/                  # Voltage Sag dataset (1,152 frames)
+│       ├── swell/                # Voltage Swell dataset (1,152 frames)
+│       ├── interruption/         # Voltage Interruption dataset (1,152 frames)
+│       ├── harmonics/            # Harmonics dataset (1,152 frames)
+│       ├── flicker/              # Voltage Flicker dataset (1,152 frames)
+│       ├── notch/                # Voltage Notch dataset (1,152 frames)
+│       └── transient/            # Oscillatory Transient dataset (1,152 frames)
+├── dsp/                          # Production DSP feature extraction & state engine
+│   ├── enhanced_features.py      # Authoritative 32-feature extraction contract
+│   ├── event_engine.py           # Three-phase state machine & event lifecycle
+│   ├── phase_processor.py        # Per-phase inference & uncertainty gate
+│   └── waveform_frame.py         # WaveformFrame multi-channel data container
 ├── pipeline/
-│   └── realtime_pipeline.py            # Continuous streaming pipeline (adapter→engine→store→callbacks)
-├── storage/
-│   └── event_store.py                  # SQLite EventStore with phase/class querying and statistics
-├── docs/                               # Comprehensive research audits & technical specifications
-│   ├── PROJECT_STATE.md                # System baseline, commit status & test logs
-│   ├── DATASET_AUDIT.md                # 10,000-sample dataset audit & artifact analysis
-│   ├── DATASET_SPECIFICATION.md        # Cryptographic checksums & split methodology
-│   ├── IEEE_ALIGNMENT_AUDIT.md         # IEEE 1159/519 & IEC 61000 standards alignment
-│   ├── WAVEFORM_STANDARD_AUDIT.md      # Waveform acceptance & sampling math audit
-│   ├── DATA_LEAKAGE_AUDIT.md           # Nearest-neighbor leakage audit
-│   └── paper_draft.md                  # IEEE conference paper draft
-├── firmware/
-│   ├── platformio.ini                  # ESP32 PlatformIO configuration
-│   └── src/
-│       ├── main.cpp                    # Real-time 5 kHz ADC sampling and inference loop
-│       ├── feature_extraction.cpp / .h # C++ single-precision 8 & 32-feature extraction
-│       ├── inference.cpp / .h          # C++ inference runner with uncertainty gating
-│       ├── model_weights_32.h          # Zero-dependency C++ forward pass (EXP-003 model)
-│       ├── model_data.h                # Quantized TFLite Micro model byte array (8.4 KB)
-│       ├── relay_control.cpp / .h      # Hardware relay switching & timer ISR ADC sampler
-│       └── display.cpp / .h            # 115200 baud serial telemetry & OLED driver
-├── ml/
-│   ├── compare_models.py              # Cross-classifier benchmark suite
-│   ├── convert_tflite.py              # TFLite post-training quantization pipeline
-│   └── models/
-│       ├── model_weights_32.json       # Scaler and neural network weights for C++ exporter
-│       └── mlp_deployed.tflite         # Quantized 8.4 KB baseline model
-├── reports/
-│   └── experiment_results.csv          # Machine-readable ledger for experiments EXP-001–009
-├── tests/
-│   ├── test_classification_rules.py    # 11 tests: IEEE interruption, THD & boundaries
-│   ├── test_waveform_acceptance.py     # 26 tests: IEEE 1159.3 metadata, Nyquist & buffers
-│   ├── test_firmware_parity.py         # 6 tests: Python <-> C++ exact floating-point parity
-│   ├── test_waveform_frame.py          # 3 tests: 3-phase frame validation & JSON roundtrip
-│   ├── test_acquisition_adapter.py     # 2 tests: Simulation adapter & CSV replay
-│   ├── test_event_engine.py            # 2 tests: 3-phase event lifecycle & cross-phase correlation
-│   ├── test_event_store.py             # 2 tests: SQLite persistence, querying & statistics
-│   ├── test_realtime_pipeline.py       # 2 tests: Streaming pipeline normal & disturbance
-│   ├── test_server_endpoints.py        # 3 tests: REST API health, events, /api/ingest
-│   └── test_dsp_features.py            # 1 test: Baseline feature preservation
-├── app_frontend.py                     # Streamlit + Plotly interactive monitoring dashboard
-└── server.py                           # REST API & HTML5 CRT Oscilloscope frontend
+│   └── disturbance_validator.py  # Independent physical validation gates (TRN, NOT, FLK, etc.)
+├── scenarios/
+│   └── scenario_controller.py    # Ground-truth scenario controller & hash verifier
+├── scripts/                      # Batch simulation runners & audit tools
+│   ├── generate_ieee9bus_*.m     # MATLAB batch simulation scripts (36 trajectories/class)
+│   ├── build_and_validate_*.py   # Frame extraction, production DSP & validation
+│   └── audit_gate3*_*.py         # Independent 16-domain audit scripts
+├── tests/                        # Automated pytest suite (300 passing tests)
+├── docs/                         # Comprehensive gate documentation & audit reports
+│   ├── PROJECT_STATUS.md         # Master project status & architecture state
+│   ├── GATE_INDEX.md             # Complete gate registry (Gates 1 through 3X)
+│   ├── ROADMAP.md                # Multi-phase engineering roadmap
+│   ├── ARCHITECTURE.md           # End-to-end architectural specifications
+│   ├── DATASET.md                # Comprehensive dataset profiles & metrics
+│   ├── STANDARDS_TRACEABILITY_INDEX.md # Standards mapping & provenance taxonomy
+│   ├── ML_READINESS.md           # Phase 4 machine learning preparation protocol
+│   └── REPRODUCIBILITY.md        # Environment setup, execution & checksum guide
+├── server.py                     # Python REST & Server-Sent Events (SSE) server
+└── web/                          # Telemetry dashboard & live CRT oscilloscope overlay
 ```
 
 ---
 
-## 🚀 Quickstart & Verification
+## 🚀 Quickstart & Reproducibility
 
-### 1. Environment Setup
-
-Clone repository and install dependencies in a Python 3.10+ virtual environment:
+### 1. Verify Pristine Model Integrity
 ```bash
-git clone https://github.com/nadarallen/power-quality-detector-and-classifier.git
-cd power-quality-detector-and-classifier
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt  # or install numpy scipy pandas scikit-learn torch pytest
+python -c "import hashlib; h = hashlib.sha256(open('IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx', 'rb').read()).hexdigest().upper(); print('SHA-256:', h); assert h == '5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D'"
 ```
 
-### 2. Run Comprehensive Automated Test Suite
-
-Verify that all **58 tests** pass (physical, standards, 3-phase pipeline, firmware parity, REST API):
+### 2. Run the Full Test Suite
 ```bash
-.venv/bin/pytest tests/ -v
+pytest -v
 ```
-Expected output: `58 passed in ~3.9s`
+*Expected: 300 passed, 2 skipped, 0 failed in ~8s.*
 
-### 3. Launch the REST API + CRT Oscilloscope Dashboard
-
+### 3. Start Telemetry Server & Dashboard
 ```bash
-python server.py
+python server.py 8500
 ```
-Navigate to `http://localhost:8500` for the live HTML5 CRT Oscilloscope dashboard.
-
-**Available REST endpoints:**
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/health` | System health and engine status |
-| `GET` | `/api/events` | Query persisted PQ events (`?event_class=Sag&phase=L1&limit=50`) |
-| `GET` | `/api/events/<id>` | Retrieve single PQEvent by ID |
-| `GET` | `/api/events/stats` | Aggregate statistics by class and phase |
-| `GET` | `/api/telemetry` | Live pipeline telemetry (frames processed, active events) |
-| `POST` | `/api/ingest` | Ingest a canonical `WaveformFrame` JSON payload |
-| `POST` | `/api/simulation/disturbance` | Dynamically control per-phase disturbance injection (`{phase, disturbance}`) |
-| `POST` | `/api/predict` | Single-shot 8-feature MLP inference |
-
-### 4. Launch Interactive Streamlit Dashboard (Optional)
-
-For advanced analytics, DSP spectral decomposition, and model decision visualization:
-```bash
-streamlit run app_frontend.py --server.port 8501
-```
-
-### 4. Native C++ Parity Test Compilation
-
-Verify that the firmware C++ feature extraction and forward pass compile cleanly on native host machines without external dependencies:
-```bash
-g++ -std=c++17 -O2 tests/test_harness_manual.cpp firmware/src/feature_extraction.cpp firmware/src/inference.cpp -Ifirmware/src -o /tmp/pqd_test && /tmp/pqd_test
-```
-(Automated inside `tests/test_firmware_parity.py::test_cpp_native_feature_extraction_and_inference_parity`).
+Open your browser to `http://localhost:8500` to inspect real-time telemetry streaming and event logs.
 
 ---
 
-## 🔒 Electrical Safety & Hardware Interfacing
+## ⚠️ Important Limitations & Scope Boundaries
 
-For physical hardware testing on test rigs or microcontrollers, consult [hardware/safety_checklist.md](hardware/safety_checklist.md):
-- **Isolation:** Galvanic isolation using optocouplers (PC817) and 1:1 isolation transformers.
-- **Voltage Clamping:** 3.3V Zener diodes across ESP32 ADC input pins (`GPIO 34`, `GPIO 35`) to protect silicon from inductive kickback.
-- **Snubbers:** $RC$ snubber networks ($100\,\Omega, 0.1\,\mu\text{F}$) across all inductive switching relay contacts.
-- **Watchdog:** Firmware watchdog timer (`esp_task_wdt`) enabled with automatic timeout reset on loop lockup.
-
+1. **Sampling Bandwidth ($F_s = 5000\,\text{Hz}$)**: The discrete Nyquist limit is $2500\,\text{Hz}$. Ultra-high-frequency impulsive transients ($> 2.5\,\text{kHz}$) cannot be represented without aliasing and are excluded.
+2. **200-ms Observation Window**: A single 200-ms frame provides instantaneous point-on-wave classification; it does not replace 10-minute statistical flicker surveys ($P_{st}$) or 7-day harmonic surveys.
+3. **Current Operational Mode**: The current implementation operates as a validated offline simulation-to-Python integration. Full live closed-loop Simulink streaming is scheduled for **Phase 5 (Live Demonstration MVP)**.
