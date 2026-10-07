@@ -1,0 +1,102 @@
+{
+  "dataset_name": "IEEE_9bus_60Hz_Oscillatory_Transient_Dataset",
+  "disturbed_bus": "Bus 5",
+  "class": "Transient",
+  "label_idx": 7,
+  "label_source": "SCENARIO_CONTROLLER",
+  "total_frames": 1152,
+  "sampling_rate_hz": 5000.0,
+  "nominal_frequency_hz": 60.0,
+  "window_length_samples": 1000,
+  "window_duration_ms": 200.0,
+  "num_scenarios": 36,
+  "splits": {
+    "train": {
+      "trajectories": 26,
+      "frames": 832
+    },
+    "val": {
+      "trajectories": 5,
+      "frames": 160
+    },
+    "test": {
+      "trajectories": 5,
+      "frames": 160
+    }
+  },
+  "phase_distribution": {
+    "ABC": 640,
+    "AB": 96,
+    "BC": 96,
+    "CA": 64,
+    "A": 96,
+    "B": 96,
+    "C": 64
+  },
+  "percentile_statistics": {
+    "peak_excursion_pu": {
+      "min": 0.1297,
+      "p01": 0.132751,
+      "p05": 0.14321,
+      "p25": 0.199575,
+      "p50": 0.26825,
+      "p75": 0.327025,
+      "p95": 0.374145,
+      "p99": 0.40304900000000005,
+      "max": 0.4056,
+      "mean": 0.26189835069444445,
+      "std": 0.07173696108577124
+    },
+    "dominant_trans_freq_hz": {
+      "min": 250.2,
+      "p01": 250.2,
+      "p05": 250.2,
+      "p25": 257.6,
+      "p50": 266.1,
+      "p75": 275.9,
+      "p95": 285.6,
+      "p99": 288.1,
+      "max": 299.1,
+      "mean": 265.99131944444446,
+      "std": 11.868065709109182
+    },
+    "effective_duration_ms": {
+      "min": 30.0,
+      "p01": 30.2,
+      "p05": 32.2,
+      "p25": 35.2,
+      "p50": 37.2,
+      "p75": 41.2,
+      "p95": 43.4,
+      "p99": 44.8,
+      "max": 44.8,
+      "mean": 38.09045138888889,
+      "std": 3.7565561861339716
+    },
+    "system_freq_hz": {
+      "min": 59.95,
+      "p01": 59.95,
+      "p05": 59.96,
+      "p25": 60.0,
+      "p50": 60.0,
+      "p75": 60.0,
+      "p95": 60.03,
+      "p99": 60.0949,
+      "max": 60.1,
+      "mean": 60.00001736111111,
+      "std": 0.020569151085292687
+    }
+  },
+  "validation_summary": {
+    "total_evaluated": 1152,
+    "passed": 1152,
+    "failed": 0,
+    "pass_rate_pct": 100.0
+  },
+  "file_checksums": {
+    "transient_waveforms.npz": "8176A39D3FC91764B674B3EBE0A01F2B87F182A99417E1490984648819A7AED2",
+    "transient_features.csv": "0C9CD9E594B3FCB6AE2836E3C1B4F4E3485891551A9CABDB40427D2C17FDD11A",
+    "transient_scenarios.json": "C611CFCA9B1BE39A1E87D6A629691DEFD35DA2C017EE290CCDCD1FEEFE02BD32"
+  },
+  "pristine_model_sha256": "5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D"
+}

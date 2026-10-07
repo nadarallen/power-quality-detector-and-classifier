@@ -1,0 +1,3026 @@
+{
+  "TRAN_0001_3p_l2_c8_r08_cond01": {
+    "scenario_id": "TRAN_0001_3p_l2_c8_r08_cond01",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 1,
+    "parameters": {
+      "inductance_mh": 2.0,
+      "capacitance_uf": 8.0,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 104.2,
+      "transient_duration_ms": 30.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_01",
+      "split": "train"
+    }
+  },
+  "TRAN_0002_3p_l25_c7_r09_cond02": {
+    "scenario_id": "TRAN_0002_3p_l25_c7_r09_cond02",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 2,
+    "parameters": {
+      "inductance_mh": 2.5,
+      "capacitance_uf": 7.0,
+      "damping_resistance_ohms": 0.9,
+      "onset_ms": 110.0,
+      "transient_duration_ms": 32.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_02",
+      "split": "train"
+    }
+  },
+  "TRAN_0003_3p_l15_c6_r07_cond03": {
+    "scenario_id": "TRAN_0003_3p_l15_c6_r07_cond03",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 3,
+    "parameters": {
+      "inductance_mh": 1.5,
+      "capacitance_uf": 6.0,
+      "damping_resistance_ohms": 0.7,
+      "onset_ms": 102.5,
+      "transient_duration_ms": 28.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_03",
+      "split": "train"
+    }
+  },
+  "TRAN_0004_3p_l3_c5_r12_cond04": {
+    "scenario_id": "TRAN_0004_3p_l3_c5_r12_cond04",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 4,
+    "parameters": {
+      "inductance_mh": 3.0,
+      "capacitance_uf": 5.0,
+      "damping_resistance_ohms": 1.2,
+      "onset_ms": 115.0,
+      "transient_duration_ms": 35.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_04",
+      "split": "train"
+    }
+  },
+  "TRAN_0005_3p_l12_c85_r06_cond05": {
+    "scenario_id": "TRAN_0005_3p_l12_c85_r06_cond05",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 5,
+    "parameters": {
+      "inductance_mh": 1.2,
+      "capacitance_uf": 8.5,
+      "damping_resistance_ohms": 0.6,
+      "onset_ms": 108.3,
+      "transient_duration_ms": 26.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_05",
+      "split": "train"
+    }
+  },
+  "TRAN_0006_3p_l22_c45_r10_cond06": {
+    "scenario_id": "TRAN_0006_3p_l22_c45_r10_cond06",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 6,
+    "parameters": {
+      "inductance_mh": 2.2,
+      "capacitance_uf": 4.5,
+      "damping_resistance_ohms": 1.0,
+      "onset_ms": 120.0,
+      "transient_duration_ms": 30.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_06",
+      "split": "train"
+    }
+  },
+  "TRAN_0007_3p_l18_c75_r08_cond07": {
+    "scenario_id": "TRAN_0007_3p_l18_c75_r08_cond07",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 7,
+    "parameters": {
+      "inductance_mh": 1.8,
+      "capacitance_uf": 7.5,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 105.0,
+      "transient_duration_ms": 32.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_07",
+      "split": "train"
+    }
+  },
+  "TRAN_0008_3p_l28_c65_r11_cond08": {
+    "scenario_id": "TRAN_0008_3p_l28_c65_r11_cond08",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 8,
+    "parameters": {
+      "inductance_mh": 2.8,
+      "capacitance_uf": 6.5,
+      "damping_resistance_ohms": 1.1,
+      "onset_ms": 112.5,
+      "transient_duration_ms": 34.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_08",
+      "split": "train"
+    }
+  },
+  "TRAN_0009_3p_l15_c55_r07_cond09": {
+    "scenario_id": "TRAN_0009_3p_l15_c55_r07_cond09",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 9,
+    "parameters": {
+      "inductance_mh": 1.5,
+      "capacitance_uf": 5.5,
+      "damping_resistance_ohms": 0.7,
+      "onset_ms": 101.8,
+      "transient_duration_ms": 28.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_09",
+      "split": "train"
+    }
+  },
+  "TRAN_0010_3p_l32_c4_r13_cond10": {
+    "scenario_id": "TRAN_0010_3p_l32_c4_r13_cond10",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 10,
+    "parameters": {
+      "inductance_mh": 3.2,
+      "capacitance_uf": 4.0,
+      "damping_resistance_ohms": 1.3,
+      "onset_ms": 118.0,
+      "transient_duration_ms": 36.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_10",
+      "split": "train"
+    }
+  },
+  "TRAN_0011_3p_l2_c7_r08_cond11": {
+    "scenario_id": "TRAN_0011_3p_l2_c7_r08_cond11",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 11,
+    "parameters": {
+      "inductance_mh": 2.0,
+      "capacitance_uf": 7.0,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 106.7,
+      "transient_duration_ms": 30.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_11",
+      "split": "train"
+    }
+  },
+  "TRAN_0012_3p_l24_c5_r10_cond12": {
+    "scenario_id": "TRAN_0012_3p_l24_c5_r10_cond12",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 12,
+    "parameters": {
+      "inductance_mh": 2.4,
+      "capacitance_uf": 5.0,
+      "damping_resistance_ohms": 1.0,
+      "onset_ms": 114.2,
+      "transient_duration_ms": 33.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_12",
+      "split": "train"
+    }
+  },
+  "TRAN_0013_3p_l16_c8_r07_cond13": {
+    "scenario_id": "TRAN_0013_3p_l16_c8_r07_cond13",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 13,
+    "parameters": {
+      "inductance_mh": 1.6,
+      "capacitance_uf": 8.0,
+      "damping_resistance_ohms": 0.7,
+      "onset_ms": 103.3,
+      "transient_duration_ms": 29.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_13",
+      "split": "train"
+    }
+  },
+  "TRAN_0014_3p_l26_c6_r11_cond14": {
+    "scenario_id": "TRAN_0014_3p_l26_c6_r11_cond14",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 14,
+    "parameters": {
+      "inductance_mh": 2.6,
+      "capacitance_uf": 6.0,
+      "damping_resistance_ohms": 1.1,
+      "onset_ms": 111.0,
+      "transient_duration_ms": 35.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_14",
+      "split": "train"
+    }
+  },
+  "TRAN_0015_3p_l14_c45_r06_cond15": {
+    "scenario_id": "TRAN_0015_3p_l14_c45_r06_cond15",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 15,
+    "parameters": {
+      "inductance_mh": 1.4,
+      "capacitance_uf": 4.5,
+      "damping_resistance_ohms": 0.6,
+      "onset_ms": 122.5,
+      "transient_duration_ms": 25.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_15",
+      "split": "train"
+    }
+  },
+  "TRAN_0016_3p_l35_c35_r15_cond16": {
+    "scenario_id": "TRAN_0016_3p_l35_c35_r15_cond16",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 16,
+    "parameters": {
+      "inductance_mh": 3.5,
+      "capacitance_uf": 3.5,
+      "damping_resistance_ohms": 1.5,
+      "onset_ms": 116.7,
+      "transient_duration_ms": 38.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_16",
+      "split": "train"
+    }
+  },
+  "TRAN_0017_3p_l19_c78_r08_cond17": {
+    "scenario_id": "TRAN_0017_3p_l19_c78_r08_cond17",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 17,
+    "parameters": {
+      "inductance_mh": 1.9,
+      "capacitance_uf": 7.8,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 107.5,
+      "transient_duration_ms": 31.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_17",
+      "split": "train"
+    }
+  },
+  "TRAN_0018_3p_l27_c52_r12_cond18": {
+    "scenario_id": "TRAN_0018_3p_l27_c52_r12_cond18",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 18,
+    "parameters": {
+      "inductance_mh": 2.7,
+      "capacitance_uf": 5.2,
+      "damping_resistance_ohms": 1.2,
+      "onset_ms": 113.3,
+      "transient_duration_ms": 34.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_18",
+      "split": "train"
+    }
+  },
+  "TRAN_0019_3p_l17_c68_r08_cond19": {
+    "scenario_id": "TRAN_0019_3p_l17_c68_r08_cond19",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 19,
+    "parameters": {
+      "inductance_mh": 1.7,
+      "capacitance_uf": 6.8,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 104.0,
+      "transient_duration_ms": 29.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_19",
+      "split": "train"
+    }
+  },
+  "TRAN_0020_3p_l3_c42_r14_cond20": {
+    "scenario_id": "TRAN_0020_3p_l3_c42_r14_cond20",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "ABC",
+    "operating_condition_id": 20,
+    "parameters": {
+      "inductance_mh": 3.0,
+      "capacitance_uf": 4.2,
+      "damping_resistance_ohms": 1.4,
+      "onset_ms": 119.2,
+      "transient_duration_ms": 36.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_20",
+      "split": "train"
+    }
+  },
+  "TRAN_0021_2p_ab_l2_c75_r09_cond21": {
+    "scenario_id": "TRAN_0021_2p_ab_l2_c75_r09_cond21",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "AB",
+    "operating_condition_id": 21,
+    "parameters": {
+      "inductance_mh": 2.0,
+      "capacitance_uf": 7.5,
+      "damping_resistance_ohms": 0.9,
+      "onset_ms": 105.0,
+      "transient_duration_ms": 30.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_21",
+      "split": "train"
+    }
+  },
+  "TRAN_0022_2p_bc_l22_c65_r10_cond22": {
+    "scenario_id": "TRAN_0022_2p_bc_l22_c65_r10_cond22",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "BC",
+    "operating_condition_id": 22,
+    "parameters": {
+      "inductance_mh": 2.2,
+      "capacitance_uf": 6.5,
+      "damping_resistance_ohms": 1.0,
+      "onset_ms": 110.5,
+      "transient_duration_ms": 32.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_22",
+      "split": "train"
+    }
+  },
+  "TRAN_0023_2p_ca_l18_c8_r08_cond23": {
+    "scenario_id": "TRAN_0023_2p_ca_l18_c8_r08_cond23",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "CA",
+    "operating_condition_id": 23,
+    "parameters": {
+      "inductance_mh": 1.8,
+      "capacitance_uf": 8.0,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 103.0,
+      "transient_duration_ms": 28.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_23",
+      "split": "train"
+    }
+  },
+  "TRAN_0024_2p_ab_l25_c55_r11_cond24": {
+    "scenario_id": "TRAN_0024_2p_ab_l25_c55_r11_cond24",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "AB",
+    "operating_condition_id": 24,
+    "parameters": {
+      "inductance_mh": 2.5,
+      "capacitance_uf": 5.5,
+      "damping_resistance_ohms": 1.1,
+      "onset_ms": 115.0,
+      "transient_duration_ms": 34.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_24",
+      "split": "train"
+    }
+  },
+  "TRAN_0025_2p_bc_l15_c7_r07_cond25": {
+    "scenario_id": "TRAN_0025_2p_bc_l15_c7_r07_cond25",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "BC",
+    "operating_condition_id": 25,
+    "parameters": {
+      "inductance_mh": 1.5,
+      "capacitance_uf": 7.0,
+      "damping_resistance_ohms": 0.7,
+      "onset_ms": 108.0,
+      "transient_duration_ms": 27.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_25",
+      "split": "train"
+    }
+  },
+  "TRAN_0026_2p_ca_l28_c48_r12_cond26": {
+    "scenario_id": "TRAN_0026_2p_ca_l28_c48_r12_cond26",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "CA",
+    "operating_condition_id": 26,
+    "parameters": {
+      "inductance_mh": 2.8,
+      "capacitance_uf": 4.8,
+      "damping_resistance_ohms": 1.2,
+      "onset_ms": 118.5,
+      "transient_duration_ms": 35.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_26",
+      "split": "train"
+    }
+  },
+  "TRAN_0027_2p_ab_l16_c82_r08_cond27": {
+    "scenario_id": "TRAN_0027_2p_ab_l16_c82_r08_cond27",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "AB",
+    "operating_condition_id": 27,
+    "parameters": {
+      "inductance_mh": 1.6,
+      "capacitance_uf": 8.2,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 104.5,
+      "transient_duration_ms": 30.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_27",
+      "split": "val"
+    }
+  },
+  "TRAN_0028_2p_bc_l24_c58_r10_cond28": {
+    "scenario_id": "TRAN_0028_2p_bc_l24_c58_r10_cond28",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "BC",
+    "operating_condition_id": 28,
+    "parameters": {
+      "inductance_mh": 2.4,
+      "capacitance_uf": 5.8,
+      "damping_resistance_ohms": 1.0,
+      "onset_ms": 112.0,
+      "transient_duration_ms": 33.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_28",
+      "split": "val"
+    }
+  },
+  "TRAN_0029_1p_a_l2_c8_r08_cond29": {
+    "scenario_id": "TRAN_0029_1p_a_l2_c8_r08_cond29",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "A",
+    "operating_condition_id": 29,
+    "parameters": {
+      "inductance_mh": 2.0,
+      "capacitance_uf": 8.0,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 104.2,
+      "transient_duration_ms": 30.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_29",
+      "split": "val"
+    }
+  },
+  "TRAN_0030_1p_b_l22_c72_r09_cond30": {
+    "scenario_id": "TRAN_0030_1p_b_l22_c72_r09_cond30",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "B",
+    "operating_condition_id": 30,
+    "parameters": {
+      "inductance_mh": 2.2,
+      "capacitance_uf": 7.2,
+      "damping_resistance_ohms": 0.9,
+      "onset_ms": 109.8,
+      "transient_duration_ms": 32.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_30",
+      "split": "val"
+    }
+  },
+  "TRAN_0031_1p_c_l18_c68_r08_cond31": {
+    "scenario_id": "TRAN_0031_1p_c_l18_c68_r08_cond31",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "C",
+    "operating_condition_id": 31,
+    "parameters": {
+      "inductance_mh": 1.8,
+      "capacitance_uf": 6.8,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 106.0,
+      "transient_duration_ms": 29.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_31",
+      "split": "val"
+    }
+  },
+  "TRAN_0032_1p_a_l26_c5_r11_cond32": {
+    "scenario_id": "TRAN_0032_1p_a_l26_c5_r11_cond32",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "A",
+    "operating_condition_id": 32,
+    "parameters": {
+      "inductance_mh": 2.6,
+      "capacitance_uf": 5.0,
+      "damping_resistance_ohms": 1.1,
+      "onset_ms": 116.0,
+      "transient_duration_ms": 35.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_32",
+      "split": "test"
+    }
+  },
+  "TRAN_0033_1p_b_l15_c85_r07_cond01b": {
+    "scenario_id": "TRAN_0033_1p_b_l15_c85_r07_cond01b",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "B",
+    "operating_condition_id": 1,
+    "parameters": {
+      "inductance_mh": 1.5,
+      "capacitance_uf": 8.5,
+      "damping_resistance_ohms": 0.7,
+      "onset_ms": 102.0,
+      "transient_duration_ms": 28.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_33",
+      "split": "test"
+    }
+  },
+  "TRAN_0034_1p_c_l24_c6_r10_cond05b": {
+    "scenario_id": "TRAN_0034_1p_c_l24_c6_r10_cond05b",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "C",
+    "operating_condition_id": 5,
+    "parameters": {
+      "inductance_mh": 2.4,
+      "capacitance_uf": 6.0,
+      "damping_resistance_ohms": 1.0,
+      "onset_ms": 111.5,
+      "transient_duration_ms": 33.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_34",
+      "split": "test"
+    }
+  },
+  "TRAN_0035_1p_a_l17_c75_r08_cond12b": {
+    "scenario_id": "TRAN_0035_1p_a_l17_c75_r08_cond12b",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "A",
+    "operating_condition_id": 12,
+    "parameters": {
+      "inductance_mh": 1.7,
+      "capacitance_uf": 7.5,
+      "damping_resistance_ohms": 0.8,
+      "onset_ms": 107.2,
+      "transient_duration_ms": 31.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_35",
+      "split": "test"
+    }
+  },
+  "TRAN_0036_1p_b_l28_c45_r12_cond18b": {
+    "scenario_id": "TRAN_0036_1p_b_l28_c45_r12_cond18b",
+    "disturbed_bus": "Bus 5",
+    "class": "Transient",
+    "phase_mode": "B",
+    "operating_condition_id": 18,
+    "parameters": {
+      "inductance_mh": 2.8,
+      "capacitance_uf": 4.5,
+      "damping_resistance_ohms": 1.2,
+      "onset_ms": 117.5,
+      "transient_duration_ms": 34.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "inductance_mh": "SIMULATION-PARAMETER",
+      "capacitance_uf": "SIMULATION-PARAMETER",
+      "damping_resistance_ohms": "SIMULATION-PARAMETER",
+      "onset_ms": "ENGINEERING-INTERPRETATION",
+      "transient_duration_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.2, Table 2",
+        "applies_to": "Oscillatory transient: low/med frequency (< 5 kHz, duration 0.3-50 ms)"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 (Capacitor switching)",
+        "applies_to": "Sub-cycle / few-cycle oscillation, typical frequency 300-900 Hz, magnitude 1.1-2.0 pu"
+      }
+    ],
+    "validation_gates": {
+      "method": "TRANSIENT_PHYSICAL_VALIDATION",
+      "pass_conditions": [
+        {
+          "metric": "peak_excursion_pu",
+          "operator": ">=",
+          "threshold": 0.12,
+          "unit": "pu"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": ">=",
+          "threshold": 250.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_trans_freq_hz",
+          "operator": "<=",
+          "threshold": 1500.0,
+          "unit": "Hz"
+        },
+        {
+          "metric": "effective_duration_ms",
+          "operator": "<=",
+          "threshold": 50.0,
+          "unit": "ms"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "system_freq_hz",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "peak_excursion_pu",
+      "must_differ_from_normal_by": ">= 0.12 pu peak deviation from nominal sinusoidal envelope"
+    },
+    "dataset_partition": {
+      "group_id": "tran_sim_36",
+      "split": "test"
+    }
+  }
+}

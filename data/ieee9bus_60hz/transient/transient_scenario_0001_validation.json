@@ -1,0 +1,111 @@
+{
+  "scenario_id": "TRAN_0001_three_phase_typical",
+  "validation_result": {
+    "physical_validation_passed": true,
+    "class": "Transient",
+    "affected_phases": [
+      "A",
+      "B",
+      "C"
+    ],
+    "phase_configuration": "ABC",
+    "primary_phase": "B",
+    "peak_excursion_pu": 0.3668,
+    "event_peak_pu": 1.23,
+    "dominant_trans_freq_hz": 263.7,
+    "effective_duration_ms": 34.0,
+    "system_freq_hz": 60.0,
+    "gates": {
+      "TRN-01_peak_excursion_ge_0.12": true,
+      "TRN-02_dominant_freq_250_1500": true,
+      "TRN-03_duration_le_50ms": true,
+      "TRN-04_freq_59.5_60.5": true,
+      "TRN-05_baseline_0.50_0.70": true,
+      "ANTI_SAG": true,
+      "ANTI_INTERRUPTION": true,
+      "ANTI_SWELL": true,
+      "WAVEFORM_CONTINUITY": true
+    },
+    "per_phase_metrics": {
+      "A": {
+        "pre_rms": 0.6019,
+        "pre_peak": 0.8555,
+        "event_rms": 0.7874,
+        "event_peak": 1.2183,
+        "post_rms": 0.6033,
+        "post_peak": 0.8593,
+        "peak_excursion_pu": 0.3627,
+        "dominant_trans_freq_hz": 272.2,
+        "effective_duration_ms": 37.0,
+        "peak_spectral_energy": 3.1486,
+        "min_half_cycle_rms": 0.5233,
+        "max_half_cycle_rms": 0.8571,
+        "is_affected": true
+      },
+      "B": {
+        "pre_rms": 0.5975,
+        "pre_peak": 0.8633,
+        "event_rms": 0.7496,
+        "event_peak": 1.23,
+        "post_rms": 0.611,
+        "post_peak": 0.8655,
+        "peak_excursion_pu": 0.3668,
+        "dominant_trans_freq_hz": 263.7,
+        "effective_duration_ms": 34.0,
+        "peak_spectral_energy": 3.7921,
+        "min_half_cycle_rms": 0.5271,
+        "max_half_cycle_rms": 0.8602,
+        "is_affected": true
+      },
+      "C": {
+        "pre_rms": 0.6089,
+        "pre_peak": 0.85,
+        "event_rms": 0.7183,
+        "event_peak": 1.1755,
+        "post_rms": 0.5953,
+        "post_peak": 0.8486,
+        "peak_excursion_pu": 0.3255,
+        "dominant_trans_freq_hz": 250.2,
+        "effective_duration_ms": 42.6,
+        "peak_spectral_energy": 1.3094,
+        "min_half_cycle_rms": 0.5484,
+        "max_half_cycle_rms": 0.8359,
+        "is_affected": true
+      }
+    }
+  },
+  "dsp_parity": {
+    "parity_passed": true,
+    "comparison": {
+      "rms_voltage": {
+        "python": 0.646635,
+        "matlab": 0.646635,
+        "diff": 0.0,
+        "pass": true
+      },
+      "peak_voltage": {
+        "python": 1.218285,
+        "matlab": 1.218285,
+        "diff": 0.0,
+        "pass": true
+      },
+      "crest_factor": {
+        "python": 1.884039,
+        "matlab": 1.884039,
+        "diff": 0.0,
+        "pass": true
+      },
+      "thd": {
+        "python": 0.9264,
+        "matlab": 0.926376,
+        "diff": 2.4e-05,
+        "pass": true
+      }
+    }
+  },
+  "ml_diagnostic": {
+    "raw_prediction": "Transient",
+    "confidence": 0.5271168351173401,
+    "domain_status": "OUT_OF_DOMAIN"
+  }
+}

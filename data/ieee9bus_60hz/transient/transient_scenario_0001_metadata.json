@@ -1,0 +1,38 @@
+{
+  "scenario_id": "TRAN_0001_three_phase_typical",
+  "class": "Transient",
+  "label_idx": 7,
+  "label_source": "SCENARIO_CONTROLLER",
+  "nominal_frequency_hz": 60.0,
+  "sampling_rate_hz": 5000.0,
+  "window_samples": 1000,
+  "window_ms": 200.0,
+  "operating_condition_id": 1,
+  "physical_parameters": {
+    "inductance_henries": 0.002,
+    "capacitance_farads": 8e-06,
+    "damping_resistance_ohms": 0.8,
+    "onset_ms": 104.2,
+    "transient_duration_ms": 30.0,
+    "sensor_noise_snr_db": 52.0
+  },
+  "validation_passed": true,
+  "dsp_parity_passed": true,
+  "artifacts": {
+    "waveform_npz": {
+      "path": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\transient\\transient_scenario_0001_waveform.npz",
+      "sha256": "E1040D847A6E244382D36A931CEF9BC0B309C102A131A3E6AD5175B93142035C"
+    },
+    "features_json": {
+      "path": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\transient\\transient_scenario_0001_features.json",
+      "sha256": "436454AF038E97616A6E9BE4EB3D72B399646A30F454220D5B015D40DEF586E7"
+    },
+    "validation_json": {
+      "path": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\transient\\transient_scenario_0001_validation.json",
+      "sha256": "BF8785B17CF16668E7581E37E8773B6FD180B55FC7FDCD0D0527938BFFD3352D"
+    },
+    "pristine_model": {
+      "sha256": "5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D"
+    }
+  }
+}

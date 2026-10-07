@@ -1,0 +1,213 @@
+{
+  "3X.1_structural": {
+    "status": "PASS",
+    "frames": 1152,
+    "shape": [
+      1152,
+      1000,
+      3
+    ],
+    "sha256_npz": "8176A39D3FC91764B674B3EBE0A01F2B87F182A99417E1490984648819A7AED2",
+    "sha256_csv": "0C9CD9E594B3FCB6AE2836E3C1B4F4E3485891551A9CABDB40427D2C17FDD11A"
+  },
+  "3X.2_provenance": {
+    "status": "PASS",
+    "label": "Transient",
+    "label_idx": 7,
+    "label_source": "SCENARIO_CONTROLLER"
+  },
+  "3X.3_physics": {
+    "status": "PASS",
+    "peak_excursion_pu": {
+      "min": 0.1297,
+      "p01": 0.132751,
+      "p05": 0.14321,
+      "p25": 0.199575,
+      "p50": 0.26825,
+      "p75": 0.327025,
+      "p95": 0.374145,
+      "p99": 0.40304900000000005,
+      "max": 0.4056,
+      "mean": 0.26189835069444445,
+      "std": 0.07173696108577124
+    },
+    "dominant_trans_freq_hz": {
+      "min": 250.2,
+      "p01": 250.2,
+      "p05": 250.2,
+      "p25": 257.6,
+      "p50": 266.1,
+      "p75": 275.9,
+      "p95": 285.6,
+      "p99": 288.1,
+      "max": 299.1,
+      "mean": 265.99131944444446,
+      "std": 11.868065709109182
+    },
+    "effective_duration_ms": {
+      "min": 30.0,
+      "p01": 30.2,
+      "p05": 32.2,
+      "p25": 35.2,
+      "p50": 37.2,
+      "p75": 41.2,
+      "p95": 43.4,
+      "p99": 44.8,
+      "max": 44.8,
+      "mean": 38.09045138888889,
+      "std": 3.7565561861339716
+    }
+  },
+  "3X.4_sampling": {
+    "status": "PASS",
+    "sampling_rate_hz": 5000.0,
+    "nyquist_hz": 2500.0,
+    "highest_frequency_hz": 299.1,
+    "min_samples_per_oscillation_period": 16.716817118020728,
+    "mean_samples_per_oscillation_period": 18.797605916024306
+  },
+  "3X.5_frequency_coverage": {
+    "min": 250.2,
+    "p01": 250.2,
+    "p05": 250.2,
+    "p25": 257.6,
+    "p50": 266.1,
+    "p75": 275.9,
+    "p95": 285.6,
+    "p99": 288.1,
+    "max": 299.1,
+    "mean": 265.99131944444446,
+    "std": 11.868065709109182
+  },
+  "3X.6_magnitude_duration_coverage": {
+    "peak_excursion": {
+      "min": 0.1297,
+      "p01": 0.132751,
+      "p05": 0.14321,
+      "p25": 0.199575,
+      "p50": 0.26825,
+      "p75": 0.327025,
+      "p95": 0.374145,
+      "p99": 0.40304900000000005,
+      "max": 0.4056,
+      "mean": 0.26189835069444445,
+      "std": 0.07173696108577124
+    },
+    "duration": {
+      "min": 30.0,
+      "p01": 30.2,
+      "p05": 32.2,
+      "p25": 35.2,
+      "p50": 37.2,
+      "p75": 41.2,
+      "p95": 43.4,
+      "p99": 44.8,
+      "max": 44.8,
+      "mean": 38.09045138888889,
+      "std": 3.7565561861339716
+    }
+  },
+  "3X.7_timing_diversity": {
+    "min": 24.8,
+    "p01": 24.8,
+    "p05": 26.8,
+    "p25": 39.800000000000004,
+    "p50": 54.900000000000006,
+    "p75": 70.0,
+    "p95": 83.0,
+    "p99": 85.0,
+    "max": 85.0,
+    "mean": 54.91111111111111,
+    "std": 17.87081967867323
+  },
+  "3X.8_phase_distribution": {
+    "ABC": 640,
+    "AB": 96,
+    "BC": 96,
+    "CA": 64,
+    "A": 96,
+    "B": 96,
+    "C": 64
+  },
+  "3X.9_cross_class_distances": {
+    "Normal": 53.05473604414721,
+    "Sag": 31.732010656378744,
+    "Swell": 43.218322141892486,
+    "Interruption": 47.18093587122704,
+    "Harmonics": 36.46365418640233,
+    "Flicker": 30.517052131087127,
+    "Notch": 98.5683443134937
+  },
+  "3X.10_secondary_phenomena": {
+    "status": "PASS",
+    "min_rms_voltage": 0.581223,
+    "max_rms_voltage": 0.676893,
+    "mean_thd_pct": 0.7750087673611111
+  },
+  "3X.11_diversity_and_rank": {
+    "status": "PASS",
+    "matrix_rank": 31,
+    "max_possible_rank": 32
+  },
+  "3X.12_dsp_parity": {
+    "status": "PASS",
+    "comparison": {
+      "rms_voltage": {
+        "python": 0.646635,
+        "matlab": 0.646635,
+        "diff": 0.0,
+        "pass": true
+      },
+      "peak_voltage": {
+        "python": 1.218285,
+        "matlab": 1.218285,
+        "diff": 0.0,
+        "pass": true
+      },
+      "crest_factor": {
+        "python": 1.884039,
+        "matlab": 1.884039,
+        "diff": 0.0,
+        "pass": true
+      },
+      "thd": {
+        "python": 0.9264,
+        "matlab": 0.926376,
+        "diff": 2.4e-05,
+        "pass": true
+      }
+    }
+  },
+  "3X.13_leakage": {
+    "status": "PASS",
+    "train_trajectories": 26,
+    "val_trajectories": 5,
+    "test_trajectories": 5,
+    "leakage_detected": false
+  },
+  "3X.14_standards": [
+    {
+      "standard": "IEEE Std 1159-2019 Table 2",
+      "concept": "Low-frequency oscillatory transient (< 5 kHz, duration 0.3-50 ms)",
+      "measured": "Freq = [250.2, 299.1] Hz, Duration = [14.0, 44.8] ms",
+      "status": "PASS"
+    },
+    {
+      "standard": "IEEE Std 1159-2019 Table 2",
+      "concept": "Capacitor bank energization peak magnitude (1.1 - 2.0 pu)",
+      "measured": "Peak voltage = [0.980, 1.256] pu",
+      "status": "PASS"
+    },
+    {
+      "standard": "IEC 61000-4-30 Clause 5.2",
+      "concept": "Sliding RMS stability & anti-sag/swell validation",
+      "measured": "Full-window RMS = [0.581, 0.677] pu",
+      "status": "PASS"
+    }
+  ],
+  "3X.15_ml_decoupling": {
+    "status": "PASS",
+    "model_status": "OUT_OF_DOMAIN",
+    "influence_on_labels": "0.0%"
+  }
+}
