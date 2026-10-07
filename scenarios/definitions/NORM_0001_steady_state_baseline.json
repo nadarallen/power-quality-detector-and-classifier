@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "NORM_0001_steady_state_baseline",
+  "class": "Normal",
+  "label_idx": 0,
+  "label_source": "SCENARIO_CONTROLLER",
+  "electrical_model": {
+    "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+    "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+    "model_unchanged": true
+  },
+  "injection_location": {
+    "bus": "Bus5",
+    "measurement_point": "Vabc_5",
+    "mechanism": "STEADY_STATE_LOAD_FLOW",
+    "phase": "ABC"
+  },
+  "nominal_frequency_hz": 60.0,
+  "sampling_rate_hz": 5000.0,
+  "window_samples": 1000,
+  "window_ms": 200.0,
+  "seed": 42,
+  "operating_condition_id": 1,
+  "parameters": {
+    "magnitude_pu": 1.000,
+    "duration_cycles": 12.0,
+    "duration_ms": 200.0,
+    "onset_time_ms": 0.0,
+    "sensor_noise_snr_db": 52.0
+  },
+  "parameter_provenance": {
+    "magnitude_pu": "STANDARD-SUPPORTED",
+    "duration_cycles": "STANDARD-SUPPORTED",
+    "duration_ms": "PROJECT-DESIGN-CHOICE",
+    "onset_time_ms": "PROJECT-DESIGN-CHOICE",
+    "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+  },
+  "standard_references": [
+    {
+      "standard": "IEEE Std 1159-2019",
+      "clause": "Clause 3.1.53 / Table 2",
+      "applies_to": "Normal steady-state operating bounds [0.90, 1.10] pu"
+    },
+    {
+      "standard": "IEEE Std 519-2022",
+      "clause": "Table 1",
+      "applies_to": "Voltage THD < 5.0% for transmission bus voltage"
+    }
+  ],
+  "validation_gates": {
+    "method": "WINDOWED_RMS",
+    "pass_conditions": [
+      {"metric": "windowed_rms_min_pu", "operator": ">=", "threshold": 0.90, "unit": "pu"},
+      {"metric": "windowed_rms_max_pu", "operator": "<=", "threshold": 1.10, "unit": "pu"},
+      {"metric": "system_freq_hz", "operator": ">=", "threshold": 59.5, "unit": "Hz"},
+      {"metric": "system_freq_hz", "operator": "<=", "threshold": 60.5, "unit": "Hz"},
+      {"metric": "thd_percent", "operator": "<", "threshold": 5.0, "unit": "%"}
+    ]
+  },
+  "dataset_partition": {
+    "group_id": "norm_cond01_seed42",
+    "split": "train"
+  }
+}
