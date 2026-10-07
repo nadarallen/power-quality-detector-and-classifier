@@ -1,274 +1,160 @@
-# ⚡ How to Run This Project
+# Project Quickstart & Execution Guide
 
-**AI-Based Real-Time Power Quality Disturbance Classification Using Machine Learning**
-
----
-
-## 📋 Prerequisites
-
-| Requirement | Minimum Version | Purpose |
-|---|---|---|
-| **Python** | 3.10+ | ML training, server, diagnostics |
-| **uv** *(recommended)* or pip | latest | Python package manager |
-| **Git** | any | Clone/version control |
-| **Node.js** | 18+ | *(Optional)* Only needed for mobile app |
-| **PlatformIO CLI** | latest | *(Optional)* Only for ESP32 firmware flashing |
-| **Modern Browser** | Chrome / Firefox / Edge | Dashboard UI |
+**Project Title:** AI-Based Real-Time Power Quality Disturbance Classification Using Machine Learning with IEEE 9-Bus Simulation  
+**Current Status:** Phase 3 Complete (Eight Disturbance Classes Audited)  
+**Authoritative Frequency:** 60 Hz  
+**Authoritative Sampling Rate:** 5,000 Hz ($T_s = 200\ \mu\text{s}$, $N = 1,000$ samples per 200 ms frame)  
 
 ---
 
-## 🚀 Mode 1 — Simulation Dashboard (No Hardware Required)
+## 1. Environment Setup
 
-This is the primary demo mode. The dashboard runs a fully client-side Keras MLP inference engine in the browser using exported weights, simulating real waveforms and performing live ML classification.
-
-### Step 1 — Clone the Repository
+### 1.1 Python Environment
+Requires Python 3.10+ (tested on Python 3.10, 3.12, 3.14).
 
 ```bash
-git clone https://github.com/nadarallen/power-quality-detector-and-classifier.git
+# Clone repository and navigate to root
 cd power-quality-detector-and-classifier
+
+# Install dependencies
+pip install numpy scipy pandas scikit-learn pytest requests
 ```
 
-### Step 2 — Start the Python Server
+### 1.2 MATLAB / Simulink Environment (Optional for Simulation)
+- **Version:** MATLAB R2024b or R2025a
+- **Toolboxes:** Simulink, Simscape Electrical (Specialized Power Systems)
+- **Note:** All pre-generated datasets under `data/ieee9bus_60hz/` are bundled directly in the repository; MATLAB is only required for re-running physical simulations or generating new grid scenarios.
 
-**Option A: Using `uv` (recommended — auto-installs dependencies)**
+---
+
+## 2. Verified Active Workflows
+
+### Workflow 1: Run the Complete Automated Test Suite
+
+Verify all DSP algorithms, SNR phase invariance, physical disturbance validators, and streaming adapters:
 
 ```bash
-uv run --python 3.12 --with numpy python server.py 8500
+pytest -v
 ```
 
-**Option B: Using standard pip**
+**Expected Result:**
+```
+================= 300 passed, 2 skipped, 2 warnings in 7.80s ==================
+```
+*(2 skipped tests correspond to GPU/CUDA acceleration checks on CPU-only machines).*
+
+---
+
+### Workflow 2: Launch the REST Server & Laboratory Oscilloscope UI
+
+Start the lightweight REST & Server-Sent Events (SSE) telemetry server:
 
 ```bash
-pip install numpy
-python server.py 8500
+python server.py
 ```
 
-You should see:
-
-```
-========================================================
-  PQD RETRO LABORATORY SERVER ONLINE AT: http://localhost:8500
-========================================================
-```
-
-### Step 3 — Open the Dashboard
-
-Open your browser and navigate to:
-
+Then open your web browser to:
 ```
 http://localhost:8500
 ```
 
-### Step 4 — Inject a Disturbance & Run ML Pipeline
-
-1. Select a disturbance from the **DISTURBANCE INJECTOR** panel (e.g., `VOLTAGE SAG`)
-2. Click **`INJECT & RUN ML PIPELINE`**
-3. Observe:
-   - **CRT Oscilloscope** — waveform changes in real time
-   - **FFT Spectrum Analyzer** — frequency components update
-   - **Feature Parameter Matrix** — 8 extracted features displayed
-   - **ML CLASSIFICATION RESULT** — independent model prediction shown
-   - **Validation Banner** — `✓ CORRECT CLASSIFICATION` or `⚠ MISCLASSIFICATION`
-   - **Class Probability Breakdown** — softmax confidence bars for all 8 classes
-
-> The injected condition and ML prediction are **always evaluated independently** — the model never receives the label you selected.
+**Features available on the dashboard:**
+- **CRT Oscilloscope:** Real-time canvas rendering of 3-phase Bus 5 voltages ($L_1, L_2, L_3$).
+- **FFT Spectrum Analyzer:** Real-time harmonic spectrum (H1–H11).
+- **32-Feature Parameter Matrix:** Instantaneous DSP metric values.
+- **Physical Event Logger:** Live logging of detected disturbances with timestamps and RMS nadirs.
 
 ---
 
-## 🧪 Mode 2 — Run ML Diagnostics
+### Workflow 3: Run Simulink-to-Python Ingestion Bridge (Simulation Mode)
 
-Performs the full 12-phase scientific diagnostic investigation: dataset quality, feature distributions, class separability, model benchmarking, and simulation compatibility.
+In MATLAB:
+```matlab
+% Add integration path
+addpath('integration/matlab');
 
-### Requirements
-
-```bash
-pip install numpy pandas scikit-learn tensorflow matplotlib seaborn
+% Run automated simulation and stream chunks to http://localhost:8500
+send_simulink_pqd_auto('IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx');
 ```
 
-### Run
-
-```bash
-python ml/run_diagnostics.py
-```
-
-**Outputs:**
-- Real dataset test accuracy and confusion matrix
-- Per-class feature statistical distributions
-- Random Forest feature importance ranking
-- Multi-model benchmark comparison table
-- Simulation vs. BARC dataset feature compatibility audit
+The MATLAB script will:
+1. Execute the 60-Hz IEEE 9-bus simulation.
+2. Capture continuous three-phase voltages at Bus 5.
+3. Resample to 5,000 Hz.
+4. Stream 50 ms chunks via HTTP POST to `/api/simulink/ingest_chunk`.
+5. Display live waveform oscillations in the web dashboard.
 
 ---
 
-## 🤖 Mode 3 — Retrain the ML Model
+### Workflow 4: Inspect Audited 60-Hz Disturbance Datasets
 
-```bash
-pip install numpy pandas scikit-learn tensorflow
-python ml/compare_models.py
-```
+All 8 audited disturbance classes are organized under `data/ieee9bus_60hz/`:
 
-**Outputs trained artifacts to `ml/models/`:**
-- `mlp_deployed.h5` — Keras MLP model
-- `mlp_deployed.tflite` — TFLite quantized model (for ESP32)
-- `scaler.pkl` — StandardScaler
-- `label_encoder.pkl` — LabelEncoder
-- `model_weights.json` — Exported weights for browser inference
+```python
+import numpy as np
+import pandas as pd
 
----
+# Load Sag features
+sag_features = pd.read_csv("data/ieee9bus_60hz/sag/sag_features.csv")
+print(f"Sag dataset shape: {sag_features.shape}") # (1152, 33)
 
-## 🔧 Mode 4 — Flash ESP32 Firmware (Hardware Required)
-
-### Hardware Required
-
-| Component | Specification |
-|---|---|
-| Microcontroller | ESP32-WROOM-32 |
-| ADC Input | GPIO 34 (voltage divider + RC filter) |
-| Isolation | PC817 Optocoupler |
-| Protection | 3.3V Zener clamp, 5A fuse |
-| Relays | 4-channel relay module (disturbance injection) |
-| Display | SSD1306 OLED 128×64 |
-
-### Steps
-
-```bash
-# 1. Install PlatformIO
-pip install platformio
-
-# 2. Build and flash firmware
-cd firmware
-pio run --target upload
-
-# 3. Monitor serial output
-pio device monitor --baud 115200
+# Load raw Sag waveforms
+sag_waveforms = np.load("data/ieee9bus_60hz/sag/sag_waveforms.npz")
+print(f"Sag waveform tensor: {sag_waveforms['V'].shape}") # (1152, 1000, 3)
 ```
 
 ---
 
-## 📊 Development Status vs. Live Integration
+### Workflow 5: Run Production 32-Feature DSP on Custom Signals
 
-### Feature Comparison Table
+```python
+import numpy as np
+from dsp.enhanced_features import extract_32_features
 
-| Feature | Simulation Mode *(Current Demo)* | Live Hardware Integration |
-|---|---|---|
-| **Waveform Source** | 🟡 Mathematically generated in browser | 🟢 Real 12V AC waveform via ESP32 ADC @ 5 kHz |
-| **Disturbance Injection** | 🟡 Software-parameterised (amplitude/frequency coefficients) | 🟢 Physical relay switching on real AC circuit |
-| **Feature Extraction** | 🟡 JavaScript DSP engine (Goertzel THD, RMS, Peak, Crest) | 🟢 C++ DSP on ESP32 (`feature_extraction.cpp`) |
-| **ML Inference** | 🟡 Client-side JS forward pass (exported weights JSON) | 🟢 TFLite Micro on ESP32 (Int8 quantized, ≤100 µs) |
-| **ML Model** | 🟢 Identical trained weights (95.90% accuracy) | 🟢 Identical trained weights (95.90% accuracy) |
-| **Preprocessing** | 🟢 StandardScaler (same μ, σ as training) | 🟢 StandardScaler (same μ, σ as training) |
-| **Backend REST API** | 🟢 `/api/predict` live via `server.py` | 🟢 `/api/predict` live via `server.py` |
-| **Data Logging** | 🟢 CSV experiment log export | 🟢 Firebase Realtime Database telemetry |
-| **Real-time Display** | 🟢 CRT oscilloscope + FFT in browser | 🟡 SSD1306 OLED (128×64 text readout) |
-| **Validation** | 🟢 Injected vs. Predicted comparison banner | 🟢 Injected vs. Predicted comparison banner |
-| **Hardware Safety** | ➖ Not applicable | 🟢 Fuse, opto-isolation, Zener clamp |
-| **Mobile App** | 🟡 Flutter app scaffolded (`mobile_app/`) | ⬜ Pending Firebase live data binding |
+# Generate 200 ms 60-Hz test signal at 5 kHz (1,000 samples)
+t = np.linspace(0, 0.200, 1000, endpoint=False)
+v_test = np.sin(2 * np.pi * 60.0 * t) + 0.05 * np.sin(2 * np.pi * 300.0 * t)
 
-### Status Legend
+# Extract authoritative 32-feature vector
+features = extract_32_features(v_test, sampling_rate_hz=5000.0, nominal_frequency_hz=60.0)
 
-| Symbol | Meaning |
-|---|---|
-| 🟢 | Fully implemented and verified |
-| 🟡 | Implemented in simulation — functionally equivalent |
-| ⬜ | Planned / scaffolded — not yet complete |
-| ➖ | Not applicable to this mode |
-
----
-
-## 📂 Project File Structure
-
-```
-power-quality-detector-and-classifier/
-│
-├── server.py                  # Python REST server (port 8500)
-│
-├── web/
-│   ├── index.html             # Retro CRT laboratory dashboard
-│   ├── styles.css             # Phosphor glow & SCADA retro styling
-│   └── app.js                 # Client-side MLP inference + waveform simulator
-│
-├── ml/
-│   ├── compare_models.py      # Multi-model training & benchmarking suite
-│   ├── generate_dataset.py    # Dataset loader & preprocessor
-│   ├── run_diagnostics.py     # 12-phase scientific diagnostic suite
-│   └── models/
-│       ├── mlp_deployed.h5    # Trained Keras MLP model
-│       ├── mlp_deployed.tflite # TFLite Int8 quantized (ESP32)
-│       ├── scaler.pkl         # StandardScaler artifact
-│       ├── label_encoder.pkl  # LabelEncoder artifact
-│       └── model_weights.json # Exported weights for browser inference
-│
-├── firmware/
-│   └── src/
-│       ├── main.cpp           # ESP32 main loop & state machine
-│       ├── feature_extraction.cpp # Goertzel THD, RMS, Peak, Crest, SNR
-│       ├── inference.cpp      # TFLite Micro inference runtime
-│       ├── relay_control.cpp  # Relay GPIO disturbance injection
-│       └── firebase_client.h  # Firebase telemetry uplink
-│
-├── Dataset/
-│   └── BARC DATA.csv          # 10,000 real power quality recordings
-│
-├── hardware/
-│   └── safety_checklist.md   # Fuse, opto-isolation, Zener clamp specs
-│
-├── doc/
-│   └── system_design.md      # Architecture diagrams & feature schema
-│
-└── mobile_app/                # Flutter app (scaffolded)
+print(f"RMS Voltage: {features['rms_voltage']:.4f} pu")
+print(f"Total Harmonic Distortion (THD): {features['thd']:.2f}%")
+print(f"Orthogonal Projection SNR: {features['snr_db']:.2f} dB")
 ```
 
 ---
 
-## 🔑 REST API Reference
+## 3. Future & Planned Workflows (Post-Phase 3)
 
-Base URL: `http://localhost:8500`
+The following workflows represent planned future engineering phases:
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/` | GET | Serves the dashboard (`web/index.html`) |
-| `/api/health` | GET | Server and model status check |
-| `/api/classes` | GET | Returns list of 8 disturbance class names |
-| `/api/predict` | POST | Runs ML inference on a feature vector |
+### Phase 4 (Next): 60-Hz Machine Learning Retraining
+- **Objective:** Train 60-Hz MLP, Random Forest, and XGBoost classifiers on the audited 8-class physical datasets using trajectory-grouped cross-validation.
+- **Protocol:** Specified in [docs/ML_READINESS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ML_READINESS.md).
+- **Status:** PENDING (Do not retrain during Phase 3 maintenance).
 
-### `/api/predict` — Request Body
+### Phase 5 (Future): Live Demonstration MVP
+- **Objective:** Interactive disturbance triggering via MATLAB API (`pqd.sag(...)`, `pqd.reset()`) and Simulink dashboard controls during continuous live simulation.
+- **Specification:** Detailed in [docs/LIVE_MVP_PLAN.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/LIVE_MVP_PLAN.md).
+- **Status:** PENDING.
 
-```json
-{
-  "features": [0.707, 1.000, 1.414, 0.10, 36.0, 50.0, 50.0, 45.0]
-}
-```
-
-*Feature order: `rms_voltage`, `peak_voltage`, `crest_factor`, `thd`, `duration`, `dominant_freq`, `system_freq`, `snr`*
-
-### `/api/predict` — Response
-
-```json
-{
-  "predicted_class": "Normal",
-  "confidence": 0.8423,
-  "is_uncertain": false,
-  "probabilities": {
-    "Flicker": 0.012, "Harmonics": 0.008, "Interruption": 0.003,
-    "Normal": 0.842, "Notch": 0.041, "Sag": 0.065, "Swell": 0.021, "Transient": 0.008
-  },
-  "features_used": [0.707, 1.000, 1.414, 0.10, 36.0, 50.0, 50.0, 45.0]
-}
-```
+### Phase 6 (Optional Extension): Embedded ESP32 Hardware-in-the-Loop
+- **Objective:** Microcontroller ADC acquisition and on-device inference using TFLite-Micro on ESP32 hardware.
+- **Codebase:** Preserved in `firmware/` and `hardware/` with automated firmware parity tests in `tests/test_firmware_parity.py`.
+- **Status:** OPTIONAL FUTURE EXTENSION.
 
 ---
 
-## 🧠 ML Model Quick Reference
+## 4. Documentation Index
 
-| Parameter | Value |
-|---|---|
-| Architecture | Dense(64, ReLU) → Dense(32, ReLU) → Dense(8, Softmax) |
-| Input Features | 8 |
-| Output Classes | 8 (Flicker, Harmonics, Interruption, Normal, Notch, Sag, Swell, Transient) |
-| Training Dataset | BARC DATA.csv — 10,000 real samples, balanced (1,250/class) |
-| Test Accuracy | **95.90%** |
-| Macro F1-Score | **0.9468** |
-| Interruption Recall | **96.34%** (safety-critical class) |
-| Model Size | **8.40 KB** (Int8 TFLite) |
-| Inference Latency | **≤ 100 µs** (ESP32) |
-| Preprocessing | StandardScaler (z-score normalization) |
+For in-depth technical specifications, consult the master documentation:
+
+- [Documentation Index](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/README.md)
+- [Master Project Status](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md)
+- [Source of Truth Registry](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md)
+- [Multi-Phase Roadmap](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ROADMAP.md)
+- [System Architecture](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ARCHITECTURE.md)
+- [Dataset Specification](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/DATASET.md)
+- [Gate Registry (Gates 1–3X)](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE_INDEX.md)
+- [Full Reproducibility Guide](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/REPRODUCIBILITY.md)
