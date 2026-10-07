@@ -1,4 +1,8 @@
 # Power Quality Disturbance (PQD) Classification — Execution Plan
+
+> [!NOTE]
+> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md).
+
 *Prepared as a senior SW engineer / security analyst / systems designer review of the Group 11 proposal*
 
 ---

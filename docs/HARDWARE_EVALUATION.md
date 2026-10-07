@@ -1,5 +1,9 @@
 # Hardware Evaluation: Physical Acquisition Candidates for 3-Phase PQD
 
+> [!NOTE]
+> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md).
+
+
 This document systematically assesses hardware candidates and interface categories against the requirements defined in [`docs/ACQUISITION_REQUIREMENTS.md`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/ACQUISITION_REQUIREMENTS.md).
 
 ---

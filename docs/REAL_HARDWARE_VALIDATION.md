@@ -1,5 +1,9 @@
 # Real Hardware Validation Protocol & Empirical Status
 
+> [!NOTE]
+> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md).
+
+
 This document defines the validation protocol for physical three-phase electrical measurements and establishes the clear boundary between synthetic research benchmarks and real-world validation.
 
 ---

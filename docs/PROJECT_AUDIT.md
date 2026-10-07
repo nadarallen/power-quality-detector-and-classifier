@@ -1,4 +1,8 @@
 # Project Audit: Power Quality Disturbance (PQD) Classifier
+
+> [!NOTE]
+> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md).
+
 **Document Version:** 1.0.0  
 **Audit Date:** 2026-09-19  
 **Repository:** `https://github.com/nadarallen/power-quality-detector-and-classifier.git`
