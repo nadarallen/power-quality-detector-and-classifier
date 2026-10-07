@@ -32,7 +32,7 @@
     },
     "scenario_id": {
       "type": "string",
-      "pattern": "^[A-Z]{3,4}_[0-9]{4}_[a-z0-9_]+$",
+      "pattern": "^[A-Z]{3,5}_[0-9]{4}_[a-z0-9_]+$",
       "examples": ["SAG_0001_deep_short", "HAR_0003_h3h5_heavy"],
       "description": "Unique scenario identifier. Format: CLASS_NNNN_descriptor."
     },
@@ -96,6 +96,7 @@
             "AMPLITUDE_MODULATION",
             "POWER_ELECTRONIC_SWITCH",
             "CAPACITOR_SWITCH",
+            "CIRCUIT_BREAKER",
             "CONTROLLED_VOLTAGE_SOURCE",
             "SIGNAL_INJECTION_POST_SIM"
           ],
