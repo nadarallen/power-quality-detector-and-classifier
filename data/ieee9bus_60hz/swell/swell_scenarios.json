@@ -1,0 +1,2270 @@
+[
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0001_3p_nom_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1042,
+    "operating_condition_id": 1,
+    "simulation_id": "swell_sim_01",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_01",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0002_3p_light_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1043,
+    "operating_condition_id": 2,
+    "simulation_id": "swell_sim_02",
+    "parameters": {
+      "capacitive_power_mvar": 100.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_02",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0003_3p_light_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1044,
+    "operating_condition_id": 3,
+    "simulation_id": "swell_sim_03",
+    "parameters": {
+      "capacitive_power_mvar": 120.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_03",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0004_3p_light_mild2",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1045,
+    "operating_condition_id": 4,
+    "simulation_id": "swell_sim_04",
+    "parameters": {
+      "capacitive_power_mvar": 80.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_04",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0005_3p_heavy_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1046,
+    "operating_condition_id": 5,
+    "simulation_id": "swell_sim_05",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_05",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0006_3p_heavy_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1047,
+    "operating_condition_id": 6,
+    "simulation_id": "swell_sim_06",
+    "parameters": {
+      "capacitive_power_mvar": 160.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_06",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0007_3p_heavy_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1048,
+    "operating_condition_id": 7,
+    "simulation_id": "swell_sim_07",
+    "parameters": {
+      "capacitive_power_mvar": 120.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_07",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0008_3p_highpf_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1049,
+    "operating_condition_id": 8,
+    "simulation_id": "swell_sim_08",
+    "parameters": {
+      "capacitive_power_mvar": 90.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_08",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0009_3p_lowpf_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1050,
+    "operating_condition_id": 9,
+    "simulation_id": "swell_sim_09",
+    "parameters": {
+      "capacitive_power_mvar": 140.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_09",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0010_3p_bus5load_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1051,
+    "operating_condition_id": 10,
+    "simulation_id": "swell_sim_10",
+    "parameters": {
+      "capacitive_power_mvar": 160.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_10",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0011_3p_cond11_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1052,
+    "operating_condition_id": 11,
+    "simulation_id": "swell_sim_11",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_11",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0012_3p_cond12_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1053,
+    "operating_condition_id": 12,
+    "simulation_id": "swell_sim_12",
+    "parameters": {
+      "capacitive_power_mvar": 160.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_12",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0013_3p_cond13_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1054,
+    "operating_condition_id": 13,
+    "simulation_id": "swell_sim_13",
+    "parameters": {
+      "capacitive_power_mvar": 120.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_13",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0014_3p_cond14_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1055,
+    "operating_condition_id": 14,
+    "simulation_id": "swell_sim_14",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_14",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0015_3p_cond15_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1056,
+    "operating_condition_id": 15,
+    "simulation_id": "swell_sim_15",
+    "parameters": {
+      "capacitive_power_mvar": 110.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_15",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0016_3p_cond16_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1057,
+    "operating_condition_id": 16,
+    "simulation_id": "swell_sim_16",
+    "parameters": {
+      "capacitive_power_mvar": 160.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_16",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0017_3p_cond17_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1058,
+    "operating_condition_id": 17,
+    "simulation_id": "swell_sim_17",
+    "parameters": {
+      "capacitive_power_mvar": 80.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_17",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0018_3p_cond18_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1059,
+    "operating_condition_id": 18,
+    "simulation_id": "swell_sim_18",
+    "parameters": {
+      "capacitive_power_mvar": 140.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_18",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0019_3p_cond19_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1060,
+    "operating_condition_id": 19,
+    "simulation_id": "swell_sim_19",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_19",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0020_3p_cond20_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1061,
+    "operating_condition_id": 20,
+    "simulation_id": "swell_sim_20",
+    "parameters": {
+      "capacitive_power_mvar": 160.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_20",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0021_3p_cond21_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1062,
+    "operating_condition_id": 21,
+    "simulation_id": "swell_sim_21",
+    "parameters": {
+      "capacitive_power_mvar": 130.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_21",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0022_3p_cond22_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1063,
+    "operating_condition_id": 22,
+    "simulation_id": "swell_sim_22",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_22",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0023_3p_cond23_med",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1064,
+    "operating_condition_id": 23,
+    "simulation_id": "swell_sim_23",
+    "parameters": {
+      "capacitive_power_mvar": 120.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_23",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0024_2p_phAB_cond24",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1065,
+    "operating_condition_id": 24,
+    "simulation_id": "swell_sim_24",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_24",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0025_3p_cond25_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1066,
+    "operating_condition_id": 25,
+    "simulation_id": "swell_sim_25",
+    "parameters": {
+      "capacitive_power_mvar": 120.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_25",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0026_2p_phBC_cond26",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1067,
+    "operating_condition_id": 26,
+    "simulation_id": "swell_sim_26",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_26",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0027_2p_phAB_cond27",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1068,
+    "operating_condition_id": 27,
+    "simulation_id": "swell_sim_27",
+    "parameters": {
+      "capacitive_power_mvar": 90.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_27",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0028_2p_phBC_cond28",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1069,
+    "operating_condition_id": 28,
+    "simulation_id": "swell_sim_28",
+    "parameters": {
+      "capacitive_power_mvar": 140.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_28",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0029_2p_phAB_cond29",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1070,
+    "operating_condition_id": 29,
+    "simulation_id": "swell_sim_29",
+    "parameters": {
+      "capacitive_power_mvar": 150.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_29",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0030_2p_phBC_cond30",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1071,
+    "operating_condition_id": 30,
+    "simulation_id": "swell_sim_30",
+    "parameters": {
+      "capacitive_power_mvar": 120.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_30",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0031_3p_cond31_high",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1072,
+    "operating_condition_id": 31,
+    "simulation_id": "swell_sim_31",
+    "parameters": {
+      "capacitive_power_mvar": 160.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.8,
+      "duration_ms": 80.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_31",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0032_3p_cond32_mild",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1073,
+    "operating_condition_id": 32,
+    "simulation_id": "swell_sim_32",
+    "parameters": {
+      "capacitive_power_mvar": 70.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_32",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0033_2p_phAB_cond1",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1074,
+    "operating_condition_id": 1,
+    "simulation_id": "swell_sim_33",
+    "parameters": {
+      "capacitive_power_mvar": 130.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_33",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0034_2p_phBC_cond5",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1075,
+    "operating_condition_id": 5,
+    "simulation_id": "swell_sim_34",
+    "parameters": {
+      "capacitive_power_mvar": 140.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.0,
+      "duration_ms": 66.66666666666667,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_34",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0035_3p_light_phABC",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1076,
+    "operating_condition_id": 2,
+    "simulation_id": "swell_sim_35",
+    "parameters": {
+      "capacitive_power_mvar": 110.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_35",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "SWL_0036_3p_highpf_mild2",
+    "class": "Swell",
+    "label_idx": 6,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus4",
+      "measurement_point": "Vabc_5",
+      "mechanism": "CAPACITOR_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 1077,
+    "operating_condition_id": 8,
+    "simulation_id": "swell_sim_36",
+    "parameters": {
+      "capacitive_power_mvar": 90.0,
+      "damping_power_kw": 100.0,
+      "duration_cycles": 4.2,
+      "duration_ms": 70.0,
+      "onset_range_ms": [
+        20.0,
+        51.0
+      ],
+      "transition_type": "POINT_ON_WAVE",
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "magnitude_pu": "STANDARD-SUPPORTED",
+      "duration_cycles": "STANDARD-SUPPORTED",
+      "duration_ms": "PROJECT-DESIGN-CHOICE",
+      "onset_range_ms": "PROJECT-DESIGN-CHOICE",
+      "transition_type": "ENGINEERING-INTERPRETATION",
+      "capacitive_power_mvar": "SIMULATION-PARAMETER",
+      "damping_power_kw": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Table 2 / Clause 3.1.65",
+        "applies_to": "Swell magnitude [1.10, 1.80] pu, duration 0.5 cycle to 1 min"
+      },
+      {
+        "standard": "IEC 61000-4-30:2015",
+        "clause": "Clause 5.2",
+        "applies_to": "Half-cycle RMS U_rms(1/2) aggregation"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "swell_sim_36",
+      "split": "train"
+    }
+  }
+]

@@ -1,0 +1,76 @@
+{
+  "dataset_name": "IEEE-9bus-60Hz-Voltage-Swell",
+  "gate": "GATE3H",
+  "class": "Swell",
+  "label_idx": 6,
+  "label_source": "SCENARIO_CONTROLLER",
+  "sampling_rate_hz": 5000.0,
+  "nominal_frequency_hz": 60.0,
+  "window_samples": 1000,
+  "window_duration_ms": 200.0,
+  "num_frames": 1152,
+  "num_simulations": 36,
+  "windows_per_simulation": 32,
+  "operating_conditions_count": 32,
+  "partitions": {
+    "train_frames": 832,
+    "val_frames": 160,
+    "test_frames": 160
+  },
+  "phase_distribution": {
+    "three-phase": 896,
+    "phase-to-phase": 256
+  },
+  "severity_statistics": {
+    "magnitude_ratio_percentiles": {
+      "P0": 1.1525,
+      "P1": 1.1525,
+      "P5": 1.1769,
+      "P25": 1.264575,
+      "P50": 1.3162500000000001,
+      "P75": 1.3493249999999999,
+      "P95": 1.376,
+      "P99": 1.381,
+      "P100": 1.381
+    },
+    "duration_ms_percentiles": {
+      "P0": 66.0,
+      "P1": 66.0,
+      "P5": 66.0,
+      "P25": 73.4,
+      "P50": 74.4,
+      "P75": 82.25,
+      "P95": 82.6,
+      "P99": 82.6,
+      "P100": 82.6
+    },
+    "duration_cycles_percentiles": {
+      "P0": 3.9599999999999995,
+      "P1": 3.9599999999999995,
+      "P5": 3.9599999999999995,
+      "P25": 4.404,
+      "P50": 4.464,
+      "P75": 4.935,
+      "P95": 4.9559999999999995,
+      "P99": 4.9559999999999995,
+      "P100": 4.9559999999999995
+    },
+    "mean_magnitude_ratio": 1.2996305555555554,
+    "std_magnitude_ratio": 0.06324513516400751,
+    "mean_duration_ms": 75.81666666666668,
+    "std_duration_ms": 5.898658039475305
+  },
+  "checksums": {
+    "features_csv_sha256": "c774d7cb338f5c74fe4b69fd9492d442768caa643aba226104ac5c1d6adc89cc",
+    "waveforms_npz_sha256": "609d8277736cdb198105e88938d49b39f08adf8c3e1efd542eee827d0d45cf54",
+    "scenarios_json_sha256": "0bd631779974feebaa048b4c54357de18ebde624714bdf316ab3d217e1636dd1",
+    "pristine_model_sha256": "5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d"
+  },
+  "purity_verification": {
+    "duplicate_count": 0,
+    "nan_count": 0,
+    "inf_count": 0,
+    "rejected_frames_count": 0,
+    "physical_validation_pass_rate": 1.0
+  }
+}
