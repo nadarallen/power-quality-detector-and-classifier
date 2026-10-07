@@ -1,0 +1,2423 @@
+[
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0001_3p_h3h5h7_typical_cond01",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2042,
+    "operating_condition_id": 1,
+    "simulation_id": "har_sim_01",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 45.0,
+        "h5": 28.0,
+        "h7": 16.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.0,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_01",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0002_3p_h3h5h7_mild_cond02",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2043,
+    "operating_condition_id": 2,
+    "simulation_id": "har_sim_02",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 32.0,
+        "h5": 20.0,
+        "h7": 12.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.5235987755982988,
+        "h7": 1.0471975511965976
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_02",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0003_3p_h3h5h7_heavy_cond03",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2044,
+    "operating_condition_id": 3,
+    "simulation_id": "har_sim_03",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 60.0,
+        "h5": 38.0,
+        "h7": 22.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.7853981633974483,
+        "h5": 0.0,
+        "h7": 1.5707963267948966
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_03",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0004_3p_h3h5h7_typical_cond04",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2045,
+    "operating_condition_id": 4,
+    "simulation_id": "har_sim_04",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 40.0,
+        "h5": 25.0,
+        "h7": 15.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 1.0471975511965976,
+        "h5": 0.7853981633974483,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_04",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0005_3p_h3h5h7_heavy_cond05",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2046,
+    "operating_condition_id": 5,
+    "simulation_id": "har_sim_05",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 55.0,
+        "h5": 35.0,
+        "h7": 20.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 1.0471975511965976,
+        "h7": 0.5235987755982988
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_05",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0006_3p_h3h5h7_mild_cond06",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2047,
+    "operating_condition_id": 6,
+    "simulation_id": "har_sim_06",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 35.0,
+        "h5": 22.0,
+        "h7": 14.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.5235987755982988,
+        "h5": 0.0,
+        "h7": 0.7853981633974483
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_06",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0007_3p_h3h5h7_heavy_cond07",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2048,
+    "operating_condition_id": 7,
+    "simulation_id": "har_sim_07",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 65.0,
+        "h5": 42.0,
+        "h7": 25.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 1.5707963267948966,
+        "h5": 1.0471975511965976,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_07",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0008_3p_h3h5h7_typical_cond08",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2049,
+    "operating_condition_id": 8,
+    "simulation_id": "har_sim_08",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 48.0,
+        "h5": 30.0,
+        "h7": 18.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 1.5707963267948966,
+        "h7": 0.7853981633974483
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_08",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0009_3p_h3h5h7_typical_cond09",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2050,
+    "operating_condition_id": 9,
+    "simulation_id": "har_sim_09",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 52.0,
+        "h5": 32.0,
+        "h7": 19.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.7853981633974483,
+        "h5": 0.5235987755982988,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_09",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0010_3p_h3h5h7_heavy_cond10",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2051,
+    "operating_condition_id": 10,
+    "simulation_id": "har_sim_10",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 70.0,
+        "h5": 45.0,
+        "h7": 28.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.0,
+        "h7": 1.0471975511965976
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_10",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0011_3p_h3h5h7_mild_cond11",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2052,
+    "operating_condition_id": 11,
+    "simulation_id": "har_sim_11",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 38.0,
+        "h5": 24.0,
+        "h7": 14.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 1.0471975511965976,
+        "h5": 0.0,
+        "h7": 0.5235987755982988
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_11",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0012_3p_h3h5h7_typical_cond12",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2053,
+    "operating_condition_id": 12,
+    "simulation_id": "har_sim_12",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 46.0,
+        "h5": 29.0,
+        "h7": 17.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.5235987755982988,
+        "h5": 0.7853981633974483,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_12",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0013_3p_full_odd_cond13",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2054,
+    "operating_condition_id": 13,
+    "simulation_id": "har_sim_13",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h3": 42.0,
+        "h5": 26.0,
+        "h7": 16.0,
+        "h9": 10.0,
+        "h11": 8.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.0,
+        "h7": 0.0,
+        "h9": 0.0,
+        "h11": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_13",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0014_3p_full_odd_heavy_cond14",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2055,
+    "operating_condition_id": 14,
+    "simulation_id": "har_sim_14",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h3": 50.0,
+        "h5": 32.0,
+        "h7": 20.0,
+        "h9": 12.0,
+        "h11": 9.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.5235987755982988,
+        "h5": 0.0,
+        "h7": 0.7853981633974483,
+        "h9": 0.0,
+        "h11": 1.0471975511965976
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_14",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0015_3p_12pulse_cond15",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2056,
+    "operating_condition_id": 15,
+    "simulation_id": "har_sim_15",
+    "parameters": {
+      "harmonic_orders": [
+        5,
+        7,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h5": 35.0,
+        "h7": 22.0,
+        "h11": 10.0
+      },
+      "harmonic_phases_rad": {
+        "h5": 0.0,
+        "h7": 0.7853981633974483,
+        "h11": 1.5707963267948966
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_15",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0016_3p_12pulse_heavy_cond16",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2057,
+    "operating_condition_id": 16,
+    "simulation_id": "har_sim_16",
+    "parameters": {
+      "harmonic_orders": [
+        5,
+        7,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h5": 45.0,
+        "h7": 28.0,
+        "h11": 14.0
+      },
+      "harmonic_phases_rad": {
+        "h5": 1.0471975511965976,
+        "h7": 0.0,
+        "h11": 0.5235987755982988
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_16",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0017_3p_full_odd_mild_cond17",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2058,
+    "operating_condition_id": 17,
+    "simulation_id": "har_sim_17",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h3": 36.0,
+        "h5": 22.0,
+        "h7": 14.0,
+        "h9": 8.0,
+        "h11": 6.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 1.0471975511965976,
+        "h7": 0.0,
+        "h9": 0.7853981633974483,
+        "h11": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_17",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0018_3p_converter_cond18",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2059,
+    "operating_condition_id": 18,
+    "simulation_id": "har_sim_18",
+    "parameters": {
+      "harmonic_orders": [
+        5,
+        7,
+        9,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h5": 38.0,
+        "h7": 24.0,
+        "h9": 11.0,
+        "h11": 8.0
+      },
+      "harmonic_phases_rad": {
+        "h5": 0.7853981633974483,
+        "h7": 0.0,
+        "h9": 0.5235987755982988,
+        "h11": 1.5707963267948966
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_18",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0019_3p_h3h7h11_cond19",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2060,
+    "operating_condition_id": 19,
+    "simulation_id": "har_sim_19",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        7,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h3": 44.0,
+        "h7": 20.0,
+        "h11": 9.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h7": 1.5707963267948966,
+        "h11": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_19",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0020_3p_h3h5h9h11_cond20",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2061,
+    "operating_condition_id": 20,
+    "simulation_id": "har_sim_20",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        9,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h3": 46.0,
+        "h5": 28.0,
+        "h9": 12.0,
+        "h11": 8.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.5235987755982988,
+        "h5": 0.7853981633974483,
+        "h9": 0.0,
+        "h11": 1.0471975511965976
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_20",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0021_3p_even_odd_cond21",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2062,
+    "operating_condition_id": 21,
+    "simulation_id": "har_sim_21",
+    "parameters": {
+      "harmonic_orders": [
+        2,
+        3,
+        5
+      ],
+      "harmonic_currents_amps": {
+        "h2": 18.0,
+        "h3": 42.0,
+        "h5": 25.0
+      },
+      "harmonic_phases_rad": {
+        "h2": 0.0,
+        "h3": 0.0,
+        "h5": 0.7853981633974483
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_21",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0022_3p_even_odd_heavy_cond22",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2063,
+    "operating_condition_id": 22,
+    "simulation_id": "har_sim_22",
+    "parameters": {
+      "harmonic_orders": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h2": 22.0,
+        "h3": 48.0,
+        "h5": 30.0,
+        "h7": 18.0
+      },
+      "harmonic_phases_rad": {
+        "h2": 0.5235987755982988,
+        "h3": 0.0,
+        "h5": 1.0471975511965976,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_22",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0023_3p_even_h5h7_cond23",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2064,
+    "operating_condition_id": 23,
+    "simulation_id": "har_sim_23",
+    "parameters": {
+      "harmonic_orders": [
+        2,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h2": 16.0,
+        "h5": 34.0,
+        "h7": 22.0
+      },
+      "harmonic_phases_rad": {
+        "h2": 0.0,
+        "h5": 0.7853981633974483,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_23",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0024_3p_even_h11_cond24",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2065,
+    "operating_condition_id": 24,
+    "simulation_id": "har_sim_24",
+    "parameters": {
+      "harmonic_orders": [
+        2,
+        3,
+        5,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h2": 15.0,
+        "h3": 38.0,
+        "h5": 24.0,
+        "h11": 8.0
+      },
+      "harmonic_phases_rad": {
+        "h2": 1.0471975511965976,
+        "h3": 0.0,
+        "h5": 0.5235987755982988,
+        "h11": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_24",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0025_1p_a_h3h5h7_cond25",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2066,
+    "operating_condition_id": 25,
+    "simulation_id": "har_sim_25",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 50.0,
+        "h5": 30.0,
+        "h7": 18.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.0,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_25",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0026_1p_a_full_odd_cond26",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2067,
+    "operating_condition_id": 26,
+    "simulation_id": "har_sim_26",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h3": 44.0,
+        "h5": 26.0,
+        "h7": 16.0,
+        "h9": 10.0,
+        "h11": 7.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.7853981633974483,
+        "h5": 0.0,
+        "h7": 0.5235987755982988,
+        "h9": 0.0,
+        "h11": 1.0471975511965976
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_26",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0027_1p_b_h3h5h7_cond27",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2068,
+    "operating_condition_id": 27,
+    "simulation_id": "har_sim_27",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 52.0,
+        "h5": 32.0,
+        "h7": 20.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 1.0471975511965976,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_27",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0028_1p_b_even_odd_cond28",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2069,
+    "operating_condition_id": 28,
+    "simulation_id": "har_sim_28",
+    "parameters": {
+      "harmonic_orders": [
+        2,
+        3,
+        5
+      ],
+      "harmonic_currents_amps": {
+        "h2": 20.0,
+        "h3": 45.0,
+        "h5": 28.0
+      },
+      "harmonic_phases_rad": {
+        "h2": 0.5235987755982988,
+        "h3": 0.0,
+        "h5": 0.7853981633974483
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_28",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0029_1p_c_h3h5h7_cond29",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2070,
+    "operating_condition_id": 29,
+    "simulation_id": "har_sim_29",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 48.0,
+        "h5": 30.0,
+        "h7": 18.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.0,
+        "h7": 0.5235987755982988
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_29",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0030_1p_c_12pulse_cond30",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2071,
+    "operating_condition_id": 30,
+    "simulation_id": "har_sim_30",
+    "parameters": {
+      "harmonic_orders": [
+        5,
+        7,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h5": 42.0,
+        "h7": 26.0,
+        "h11": 12.0
+      },
+      "harmonic_phases_rad": {
+        "h5": 1.0471975511965976,
+        "h7": 0.7853981633974483,
+        "h11": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_30",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0031_2p_ab_h3h5h7_cond31",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2072,
+    "operating_condition_id": 31,
+    "simulation_id": "har_sim_31",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 46.0,
+        "h5": 28.0,
+        "h7": 16.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.5235987755982988,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_31",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0032_2p_ab_full_odd_cond32",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2073,
+    "operating_condition_id": 32,
+    "simulation_id": "har_sim_32",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h3": 42.0,
+        "h5": 26.0,
+        "h7": 15.0,
+        "h9": 9.0,
+        "h11": 7.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.7853981633974483,
+        "h5": 0.0,
+        "h7": 1.0471975511965976,
+        "h9": 0.0,
+        "h11": 0.5235987755982988
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_32",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0033_2p_bc_h3h5h7_cond01",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2074,
+    "operating_condition_id": 1,
+    "simulation_id": "har_sim_33",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 50.0,
+        "h5": 32.0,
+        "h7": 19.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 0.0,
+        "h5": 0.0,
+        "h7": 0.7853981633974483
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_33",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0034_2p_bc_even_odd_cond05",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2075,
+    "operating_condition_id": 5,
+    "simulation_id": "har_sim_34",
+    "parameters": {
+      "harmonic_orders": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h2": 18.0,
+        "h3": 44.0,
+        "h5": 28.0,
+        "h7": 16.0
+      },
+      "harmonic_phases_rad": {
+        "h2": 0.5235987755982988,
+        "h3": 1.0471975511965976,
+        "h5": 0.0,
+        "h7": 0.0
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_34",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0035_2p_ca_h3h5h7_cond10",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2076,
+    "operating_condition_id": 10,
+    "simulation_id": "har_sim_35",
+    "parameters": {
+      "harmonic_orders": [
+        3,
+        5,
+        7
+      ],
+      "harmonic_currents_amps": {
+        "h3": 48.0,
+        "h5": 30.0,
+        "h7": 18.0
+      },
+      "harmonic_phases_rad": {
+        "h3": 1.0471975511965976,
+        "h5": 0.0,
+        "h7": 0.5235987755982988
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_35",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "HAR_0036_2p_ca_12pulse_cond16",
+    "class": "Harmonics",
+    "label_idx": 1,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "HARMONIC_CURRENT_SOURCE",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2077,
+    "operating_condition_id": 16,
+    "simulation_id": "har_sim_36",
+    "parameters": {
+      "harmonic_orders": [
+        5,
+        7,
+        11
+      ],
+      "harmonic_currents_amps": {
+        "h5": 40.0,
+        "h7": 25.0,
+        "h11": 12.0
+      },
+      "harmonic_phases_rad": {
+        "h5": 0.0,
+        "h7": 0.7853981633974483,
+        "h11": 1.5707963267948966
+      },
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "harmonic_orders": "ENGINEERING-INTERPRETATION",
+      "harmonic_currents_amps": "ENGINEERING-INTERPRETATION",
+      "harmonic_phases_rad": "SIMULATION-PARAMETER",
+      "thd_target_percent": "DATASET-DESIGN-CHOICE",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 3.1.25, Table 1",
+        "applies_to": "Harmonic frequency definition (n*f1); voltage THD limits at PCC"
+      },
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.1",
+        "applies_to": "Harmonic phenomenon definition; steady-state continuous duration"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "har_sim_36",
+      "split": "train"
+    }
+  }
+]

@@ -1,0 +1,122 @@
+{
+  "scenario_id": "HAR_0001_h3h5h7_typical",
+  "class": "Harmonics",
+  "ground_truth": "Harmonics",
+  "label_source": "SCENARIO_CONTROLLER",
+  "label_idx": 1,
+  "physical_validation": {
+    "physical_validation_passed": true,
+    "class": "Harmonics",
+    "dominant_freq_hz": 60.0,
+    "thd_percent": 8.24,
+    "rms_voltage_pu": 0.5913,
+    "harmonic_mags_pu": {
+      "h1": 0.8333,
+      "h2": 0.0,
+      "h3": 0.0577,
+      "h5": 0.026,
+      "h7": 0.0267,
+      "h9": 0.0,
+      "h11": 0.0
+    },
+    "harmonic_ratios": {
+      "h3_ratio": 0.0693,
+      "h5_ratio": 0.0312,
+      "h7_ratio": 0.032
+    },
+    "gates": {
+      "HAR-01_freq_59.5_60.5": true,
+      "HAR-02_thd_gt_5pct": true,
+      "HAR-03_characteristic_harmonics": true,
+      "HAR-04_rms_range": true,
+      "HAR-05_anti_sag": true,
+      "HAR-06_anti_swell": true,
+      "HAR-07_continuous_duration": true,
+      "WAVEFORM_CONTINUITY": true
+    },
+    "per_phase_metrics": {
+      "A": {
+        "min_rms": 0.5889,
+        "max_rms": 0.5934,
+        "residual_ratio": 1.0003,
+        "event_ratio": 1.0079,
+        "duration_ms": 0.0
+      },
+      "B": {
+        "min_rms": 0.5912,
+        "max_rms": 0.5957,
+        "residual_ratio": 1.0043,
+        "event_ratio": 1.0119,
+        "duration_ms": 0.0
+      },
+      "C": {
+        "min_rms": 0.5821,
+        "max_rms": 0.5866,
+        "residual_ratio": 0.9888,
+        "event_ratio": 0.9964,
+        "duration_ms": 0.0
+      }
+    }
+  },
+  "multi_phase_analysis": {
+    "A": {
+      "rms_voltage": 0.591258,
+      "thd": 8.2427,
+      "h1": 0.833339,
+      "h3": 0.057733,
+      "h5": 0.025964,
+      "h7": 0.026667
+    },
+    "B": {
+      "rms_voltage": 0.593621,
+      "thd": 8.4812,
+      "h1": 0.836504,
+      "h3": 0.05773,
+      "h5": 0.027013,
+      "h7": 0.031156
+    },
+    "C": {
+      "rms_voltage": 0.584466,
+      "thd": 7.9662,
+      "h1": 0.823949,
+      "h3": 0.054558,
+      "h5": 0.029677,
+      "h7": 0.021238
+    }
+  },
+  "dsp_parity": {
+    "parity_passed": true,
+    "max_diff": 4.8148047197216215e-05,
+    "diffs": {
+      "rms_diff": 0.0,
+      "peak_diff": 0.0,
+      "crest_diff": 0.0,
+      "h1_diff": 0.0,
+      "h3_diff": 0.0,
+      "h5_diff": 0.0,
+      "h7_diff": 0.0,
+      "thd_diff": 4.8e-05
+    },
+    "reference_values": {
+      "ref_rms": 0.5913,
+      "ref_peak": 0.8147,
+      "ref_crest": 1.378,
+      "ref_h1": 0.8333,
+      "ref_h3": 0.0577,
+      "ref_h5": 0.026,
+      "ref_h7": 0.0267,
+      "ref_thd": 8.24
+    }
+  },
+  "fundamental_harmonic_decomposition": {
+    "fundamental_rms_pu": 0.5893,
+    "harmonic_rms_pu": 0.0486,
+    "relative_fit_error_pct": 0.01
+  },
+  "ml_evaluation": {
+    "raw_prediction": "Interruption",
+    "confidence": 1.0,
+    "model_domain_status": "OUT_OF_DOMAIN",
+    "decoupled": true
+  }
+}

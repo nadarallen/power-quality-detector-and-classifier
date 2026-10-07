@@ -1,0 +1,244 @@
+{
+  "audit_3o_1_structure": {
+    "status": "PASS",
+    "n_frames": 1152,
+    "waveforms_shape": [
+      1152,
+      1000,
+      3
+    ],
+    "checksum_match": true,
+    "nan_csv": 0,
+    "inf_csv": 0,
+    "nan_npz": 0,
+    "inf_npz": 0,
+    "duplicate_rows": 0,
+    "duplicate_frames": 0
+  },
+  "audit_3o_2_ground_truth": {
+    "status": "PASS",
+    "label_sources": [
+      "SCENARIO_CONTROLLER"
+    ],
+    "class_labels": [
+      "Harmonics"
+    ],
+    "label_indices": [
+      1
+    ],
+    "provenance_traces_verified": true
+  },
+  "audit_3o_3_harmonic_orders": {
+    "status": "PASS",
+    "orders_checked": [
+      2,
+      3,
+      5,
+      7,
+      9,
+      11
+    ],
+    "orders_presence": {
+      "2": true,
+      "3": true,
+      "5": true,
+      "7": true,
+      "9": true,
+      "11": true
+    },
+    "order_min_pu": {
+      "2": 0.0138,
+      "3": 0.0368,
+      "5": 0.0201,
+      "7": 0.0224,
+      "9": 0.0095,
+      "11": 0.0066
+    },
+    "order_max_pu": {
+      "2": 0.0216,
+      "3": 0.0832,
+      "5": 0.0545,
+      "7": 0.0546,
+      "9": 0.0177,
+      "11": 0.0156
+    }
+  },
+  "audit_3o_4_propagation": {
+    "status": "PASS",
+    "h5_current_voltage_correlation": 0.8312,
+    "network_transfer_impedance_verified": true
+  },
+  "audit_3o_5_thd_distribution": {
+    "status": "PASS",
+    "percentiles": {
+      "min": 6.05,
+      "p1": 6.08,
+      "p5": 6.15,
+      "p25": 7.02,
+      "p50": 7.8,
+      "p75": 8.62,
+      "p95": 12.42,
+      "p99": 12.96,
+      "max": 12.96,
+      "mean": 8.19
+    },
+    "demarcation_ge_5pct": true,
+    "normal_max_thd_pct": 0.09,
+    "zero_overlap_with_normal": true
+  },
+  "audit_3o_6_fundamental": {
+    "status": "PASS",
+    "freq_range_hz": [
+      60.0,
+      60.0
+    ],
+    "mean_freq_hz": 60.0,
+    "fundamental_pu_range": [
+      0.9419,
+      1.0797
+    ],
+    "total_rms_pu_range": [
+      0.9491,
+      1.0836
+    ],
+    "freq_ok": true,
+    "fundamental_stability_ok": true
+  },
+  "audit_3o_7_phase_audit": {
+    "status": "PASS",
+    "distribution": {
+      "ABC": 768,
+      "A": 64,
+      "B": 64,
+      "C": 64,
+      "AB": 64,
+      "BC": 64,
+      "CA": 64
+    },
+    "three_phase_diagnostic": {
+      "sample_frame": "har_01_01",
+      "thd_a_pct": 8.25,
+      "thd_b_pct": 8.49,
+      "thd_c_pct": 7.98
+    },
+    "single_phase_diagnostic": {
+      "sample_frame": "har_25_01",
+      "thd_a_pct": 7.75,
+      "thd_b_pct": 1.89,
+      "thd_c_pct": 1.87
+    },
+    "two_phase_diagnostic": {
+      "sample_frame": "har_31_01",
+      "thd_a_pct": 8.0,
+      "thd_b_pct": 7.76,
+      "thd_c_pct": 2.93
+    }
+  },
+  "audit_3o_8_operating_conditions": {
+    "status": "PASS",
+    "unique_conditions": 32,
+    "min_frames_per_condition": 32,
+    "max_frames_per_condition": 64,
+    "max_condition_share_pct": 5.56
+  },
+  "audit_3o_9_waveform_diversity": {
+    "status": "PASS",
+    "feature_matrix_rank": 30,
+    "mean_cross_trajectory_correlation": 0.9959,
+    "max_cross_trajectory_correlation": 0.9996,
+    "feature_dispersion_std": {
+      "rms_voltage": 0.0182,
+      "peak_voltage": 0.0318,
+      "crest_factor": 0.0385,
+      "thd": 1.612,
+      "h3": 0.023,
+      "h5": 0.0094,
+      "harmonic_energy": 0.0019,
+      "snr": 1.4965
+    }
+  },
+  "audit_3o_10_class_separation": {
+    "status": "PASS",
+    "harmonics_thd_dominance": true,
+    "class_profiles": {
+      "Harmonics": {
+        "mean_thd": 8.185949305555555,
+        "mean_rms": 0.5908096901041666,
+        "mean_he": 0.004922128472222222
+      },
+      "Normal": {
+        "mean_thd": 0.024813839285714286,
+        "mean_rms": 0.5887397473214285,
+        "mean_he": 1.294642857142857e-07
+      },
+      "Sag": {
+        "mean_thd": 0.30912100694444444,
+        "mean_rms": 0.5354734991319444,
+        "mean_he": 9.106770833333334e-05
+      },
+      "Swell": {
+        "mean_thd": 0.8015688368055556,
+        "mean_rms": 0.6506881597222223,
+        "mean_he": 0.0002468263888888889
+      },
+      "Interruption": {
+        "mean_thd": 1.1359316840277778,
+        "mean_rms": 0.4653375555555556,
+        "mean_he": 0.00017405989583333333
+      }
+    }
+  },
+  "audit_3o_11_secondary_phenomena": {
+    "status": "PASS",
+    "sag_contamination_count": 0,
+    "swell_contamination_count": 0,
+    "interruption_contamination_count": 0,
+    "purity_verified": true
+  },
+  "audit_3o_12_dsp_parity": {
+    "status": "PASS",
+    "max_absolute_difference": 4.8e-05,
+    "parity_tolerance": 0.05
+  },
+  "audit_3o_13_sampling_adequacy": {
+    "status": "PASS",
+    "sampling_rate_hz": 5000.0,
+    "nyquist_frequency_hz": 2500.0,
+    "highest_harmonic_freq_hz": 660.0,
+    "nyquist_ratio": 0.264,
+    "max_sample_step_pu": 0.1123
+  },
+  "audit_3o_14_leakage": {
+    "status": "PASS",
+    "train_sims": 26,
+    "val_sims": 5,
+    "test_sims": 5,
+    "leakage_detected": false
+  },
+  "audit_3o_15_standards_traceability": {
+    "status": "PASS",
+    "provenance_categories_present": [
+      "DATASET-DESIGN-CHOICE",
+      "ENGINEERING-INTERPRETATION",
+      "SIMULATION-PARAMETER"
+    ],
+    "all_categories_valid": true
+  },
+  "audit_3o_16_ml_decoupling": {
+    "status": "PASS",
+    "ground_truth": "Harmonics",
+    "label_source": "SCENARIO_CONTROLLER",
+    "ml_model_domain_status": "OUT_OF_DOMAIN",
+    "decoupling_confirmed": true
+  },
+  "audit_3o_17_regression_and_pristine": {
+    "status": "PASS",
+    "pristine_sha256": "5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D",
+    "pristine_intact": true
+  },
+  "overall_evaluation": {
+    "GATE3O_HARMONICS_AUDIT": "PASS",
+    "total_audits_evaluated": 17,
+    "audits_passed": 17
+  }
+}

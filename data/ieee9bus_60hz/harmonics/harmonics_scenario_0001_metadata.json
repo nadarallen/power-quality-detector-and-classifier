@@ -1,0 +1,33 @@
+{
+  "scenario_id": "HAR_0001_h3h5h7_typical",
+  "class": "Harmonics",
+  "ground_truth_label": "Harmonics",
+  "ground_truth_source": "SCENARIO_CONTROLLER",
+  "label_idx": 1,
+  "nominal_frequency_hz": 60.0,
+  "sampling_rate_hz": 5000.0,
+  "window_samples": 1000,
+  "window_duration_ms": 200.0,
+  "electrical_insertion": {
+    "bus": "Bus 5 (230 kV)",
+    "mechanism": "Three-Phase Controlled Harmonic Current Source with SimPowerSystems Ground",
+    "orders": [
+      3,
+      5,
+      7
+    ],
+    "currents_amps": {
+      "h3": 45.0,
+      "h5": 28.0,
+      "h7": 16.0
+    }
+  },
+  "files": {
+    "waveform_npz": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\harmonics\\harmonics_scenario_0001_waveform.npz",
+    "waveform_sha256": "9e80c4d98a33a861ceda96a99b1cf5b5aed791c46710f2244407646e6e9f9b89",
+    "features_json": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\harmonics\\harmonics_scenario_0001_features.json",
+    "features_sha256": "77236a160ab7290a30f0f835259083c7cfd414dec865afc72193ccc11442f43c",
+    "validation_json": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\harmonics\\harmonics_scenario_0001_validation.json"
+  },
+  "verdict": "PASS"
+}
