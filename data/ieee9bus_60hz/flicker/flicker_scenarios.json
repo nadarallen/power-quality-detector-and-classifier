@@ -1,0 +1,1982 @@
+[
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0001_3p_fm10hz_m05_cond01",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2042,
+    "operating_condition_id": 1,
+    "simulation_id": "flk_sim_01",
+    "parameters": {
+      "modulation_freq_hz": 10.0,
+      "modulation_depth": 0.05,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 278.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_01",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0002_3p_fm8p8hz_m06_cond02",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2043,
+    "operating_condition_id": 2,
+    "simulation_id": "flk_sim_02",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.5235987755982988,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_02",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0003_3p_fm6hz_m055_cond03",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2044,
+    "operating_condition_id": 3,
+    "simulation_id": "flk_sim_03",
+    "parameters": {
+      "modulation_freq_hz": 6.0,
+      "modulation_depth": 0.055,
+      "modulation_phase_rad": 0.7853981633974483,
+      "flicker_current_amps": 305.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_03",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0004_3p_fm12p5hz_m04_cond04",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2045,
+    "operating_condition_id": 4,
+    "simulation_id": "flk_sim_04",
+    "parameters": {
+      "modulation_freq_hz": 12.5,
+      "modulation_depth": 0.04,
+      "modulation_phase_rad": 1.0471975511965976,
+      "flicker_current_amps": 222.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_04",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0005_3p_fm7hz_m06_cond05",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2046,
+    "operating_condition_id": 5,
+    "simulation_id": "flk_sim_05",
+    "parameters": {
+      "modulation_freq_hz": 7.0,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_05",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0006_3p_fm15hz_m035_cond06",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2047,
+    "operating_condition_id": 6,
+    "simulation_id": "flk_sim_06",
+    "parameters": {
+      "modulation_freq_hz": 15.0,
+      "modulation_depth": 0.035,
+      "modulation_phase_rad": 1.5707963267948966,
+      "flicker_current_amps": 194.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_06",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0007_3p_fm8p8hz_m065_cond07",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2048,
+    "operating_condition_id": 7,
+    "simulation_id": "flk_sim_07",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.065,
+      "modulation_phase_rad": 0.7853981633974483,
+      "flicker_current_amps": 361.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_07",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0008_3p_fm11hz_m055_cond08",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2049,
+    "operating_condition_id": 8,
+    "simulation_id": "flk_sim_08",
+    "parameters": {
+      "modulation_freq_hz": 11.0,
+      "modulation_depth": 0.055,
+      "modulation_phase_rad": 0.5235987755982988,
+      "flicker_current_amps": 305.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_08",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0009_3p_fm6hz_m05_cond09",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2050,
+    "operating_condition_id": 9,
+    "simulation_id": "flk_sim_09",
+    "parameters": {
+      "modulation_freq_hz": 6.0,
+      "modulation_depth": 0.05,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 278.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_09",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0010_3p_fm13hz_m045_cond10",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2051,
+    "operating_condition_id": 10,
+    "simulation_id": "flk_sim_10",
+    "parameters": {
+      "modulation_freq_hz": 13.0,
+      "modulation_depth": 0.045,
+      "modulation_phase_rad": 1.0471975511965976,
+      "flicker_current_amps": 250.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_10",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0011_3p_fm9p5hz_m06_cond11",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2052,
+    "operating_condition_id": 11,
+    "simulation_id": "flk_sim_11",
+    "parameters": {
+      "modulation_freq_hz": 9.5,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.7853981633974483,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_11",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0012_3p_fm8p8hz_m065_cond12",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2053,
+    "operating_condition_id": 12,
+    "simulation_id": "flk_sim_12",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.065,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 361.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_12",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0013_3p_fm6p5hz_m05_cond13",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2054,
+    "operating_condition_id": 13,
+    "simulation_id": "flk_sim_13",
+    "parameters": {
+      "modulation_freq_hz": 6.5,
+      "modulation_depth": 0.05,
+      "modulation_phase_rad": 0.5235987755982988,
+      "flicker_current_amps": 278.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_13",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0014_3p_fm14hz_m038_cond14",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2055,
+    "operating_condition_id": 14,
+    "simulation_id": "flk_sim_14",
+    "parameters": {
+      "modulation_freq_hz": 14.0,
+      "modulation_depth": 0.038,
+      "modulation_phase_rad": 1.5707963267948966,
+      "flicker_current_amps": 211.3,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_14",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0015_3p_fm7p5hz_m06_cond15",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2056,
+    "operating_condition_id": 15,
+    "simulation_id": "flk_sim_15",
+    "parameters": {
+      "modulation_freq_hz": 7.5,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.7853981633974483,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_15",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0016_3p_fm10p5hz_m055_cond16",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2057,
+    "operating_condition_id": 16,
+    "simulation_id": "flk_sim_16",
+    "parameters": {
+      "modulation_freq_hz": 10.5,
+      "modulation_depth": 0.055,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 305.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_16",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0017_3p_fm8p8hz_m045_cond17",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2058,
+    "operating_condition_id": 17,
+    "simulation_id": "flk_sim_17",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.045,
+      "modulation_phase_rad": 1.0471975511965976,
+      "flicker_current_amps": 250.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_17",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0018_3p_fm12hz_m06_cond18",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2059,
+    "operating_condition_id": 18,
+    "simulation_id": "flk_sim_18",
+    "parameters": {
+      "modulation_freq_hz": 12.0,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.5235987755982988,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_18",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0019_3p_fm6p5hz_m055_cond19",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2060,
+    "operating_condition_id": 19,
+    "simulation_id": "flk_sim_19",
+    "parameters": {
+      "modulation_freq_hz": 6.5,
+      "modulation_depth": 0.055,
+      "modulation_phase_rad": 0.7853981633974483,
+      "flicker_current_amps": 305.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_19",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0020_3p_fm15hz_m05_cond20",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2061,
+    "operating_condition_id": 20,
+    "simulation_id": "flk_sim_20",
+    "parameters": {
+      "modulation_freq_hz": 15.0,
+      "modulation_depth": 0.05,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 278.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_20",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0021_3p_fm8hz_m065_cond21",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2062,
+    "operating_condition_id": 21,
+    "simulation_id": "flk_sim_21",
+    "parameters": {
+      "modulation_freq_hz": 8.0,
+      "modulation_depth": 0.065,
+      "modulation_phase_rad": 1.5707963267948966,
+      "flicker_current_amps": 361.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_21",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0022_3p_fm11p5hz_m04_cond22",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2063,
+    "operating_condition_id": 22,
+    "simulation_id": "flk_sim_22",
+    "parameters": {
+      "modulation_freq_hz": 11.5,
+      "modulation_depth": 0.04,
+      "modulation_phase_rad": 1.0471975511965976,
+      "flicker_current_amps": 222.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_22",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0023_3p_fm9hz_m06_cond23",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2064,
+    "operating_condition_id": 23,
+    "simulation_id": "flk_sim_23",
+    "parameters": {
+      "modulation_freq_hz": 9.0,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.5235987755982988,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_23",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0024_3p_fm8p8hz_m055_cond24",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2065,
+    "operating_condition_id": 24,
+    "simulation_id": "flk_sim_24",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.055,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 305.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_24",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0025_1p_phA_fm10hz_m065_cond25",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2066,
+    "operating_condition_id": 25,
+    "simulation_id": "flk_sim_25",
+    "parameters": {
+      "modulation_freq_hz": 10.0,
+      "modulation_depth": 0.065,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 361.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_25",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0026_1p_phB_fm8p8hz_m06_cond26",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2067,
+    "operating_condition_id": 26,
+    "simulation_id": "flk_sim_26",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.7853981633974483,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_26",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0027_1p_phC_fm7p5hz_m065_cond27",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2068,
+    "operating_condition_id": 27,
+    "simulation_id": "flk_sim_27",
+    "parameters": {
+      "modulation_freq_hz": 7.5,
+      "modulation_depth": 0.065,
+      "modulation_phase_rad": 1.0471975511965976,
+      "flicker_current_amps": 361.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_27",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0028_1p_phA_fm12hz_m055_cond28",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2069,
+    "operating_condition_id": 28,
+    "simulation_id": "flk_sim_28",
+    "parameters": {
+      "modulation_freq_hz": 12.0,
+      "modulation_depth": 0.055,
+      "modulation_phase_rad": 0.5235987755982988,
+      "flicker_current_amps": 305.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_28",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0029_1p_phB_fm9hz_m06_cond29",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2070,
+    "operating_condition_id": 29,
+    "simulation_id": "flk_sim_29",
+    "parameters": {
+      "modulation_freq_hz": 9.0,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_29",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0030_1p_phC_fm8p8hz_m065_cond30",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2071,
+    "operating_condition_id": 30,
+    "simulation_id": "flk_sim_30",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.065,
+      "modulation_phase_rad": 1.5707963267948966,
+      "flicker_current_amps": 361.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_30",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0031_2p_phAB_fm10hz_m06_cond31",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2072,
+    "operating_condition_id": 31,
+    "simulation_id": "flk_sim_31",
+    "parameters": {
+      "modulation_freq_hz": 10.0,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_31",
+      "split": "test"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0032_2p_phBC_fm8p8hz_m065_cond32",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2073,
+    "operating_condition_id": 32,
+    "simulation_id": "flk_sim_32",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.065,
+      "modulation_phase_rad": 0.7853981633974483,
+      "flicker_current_amps": 361.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_32",
+      "split": "val"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0033_2p_phCA_fm7hz_m06_cond01",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2074,
+    "operating_condition_id": 1,
+    "simulation_id": "flk_sim_33",
+    "parameters": {
+      "modulation_freq_hz": 7.0,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 1.0471975511965976,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_33",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0034_2p_phAB_fm12p5hz_m05_cond02",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2075,
+    "operating_condition_id": 2,
+    "simulation_id": "flk_sim_34",
+    "parameters": {
+      "modulation_freq_hz": 12.5,
+      "modulation_depth": 0.05,
+      "modulation_phase_rad": 0.5235987755982988,
+      "flicker_current_amps": 278.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_34",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0035_2p_phBC_fm9p5hz_m06_cond03",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2076,
+    "operating_condition_id": 3,
+    "simulation_id": "flk_sim_35",
+    "parameters": {
+      "modulation_freq_hz": 9.5,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 0.0,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_35",
+      "split": "train"
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "scenario_id": "FLK_0036_2p_phCA_fm8p8hz_m06_cond04",
+    "class": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "AMPLITUDE_MODULATION",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 2077,
+    "operating_condition_id": 4,
+    "simulation_id": "flk_sim_36",
+    "parameters": {
+      "modulation_freq_hz": 8.8,
+      "modulation_depth": 0.06,
+      "modulation_phase_rad": 1.5707963267948966,
+      "flicker_current_amps": 333.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "modulation_freq_hz": "STANDARD-SUPPORTED",
+      "modulation_depth": "STANDARD-SUPPORTED",
+      "modulation_phase_rad": "SIMULATION-PARAMETER",
+      "flicker_current_amps": "SIMULATION-PARAMETER",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.3",
+        "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band"
+      },
+      {
+        "standard": "IEEE Std 1453-2022",
+        "clause": "Clause 4, 5",
+        "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+      }
+    ],
+    "dataset_partition": {
+      "group_id": "flk_sim_36",
+      "split": "train"
+    }
+  }
+]

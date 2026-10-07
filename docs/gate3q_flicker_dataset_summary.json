@@ -1,0 +1,98 @@
+{
+  "gate": "GATE 3Q",
+  "status": "PASS",
+  "dataset": "IEEE 9-bus 60-Hz Voltage Flicker Dataset",
+  "class": "Flicker",
+  "label_idx": 0,
+  "label_source": "SCENARIO_CONTROLLER",
+  "total_frames": 1152,
+  "simulations": 36,
+  "splits": {
+    "train_frames": 832,
+    "val_frames": 160,
+    "test_frames": 160,
+    "train_simulations": [
+      "flk_sim_01",
+      "flk_sim_04",
+      "flk_sim_05",
+      "flk_sim_07",
+      "flk_sim_08",
+      "flk_sim_10",
+      "flk_sim_11",
+      "flk_sim_12",
+      "flk_sim_13",
+      "flk_sim_14",
+      "flk_sim_15",
+      "flk_sim_16",
+      "flk_sim_17",
+      "flk_sim_20",
+      "flk_sim_21",
+      "flk_sim_22",
+      "flk_sim_23",
+      "flk_sim_26",
+      "flk_sim_27",
+      "flk_sim_28",
+      "flk_sim_29",
+      "flk_sim_30",
+      "flk_sim_33",
+      "flk_sim_34",
+      "flk_sim_35",
+      "flk_sim_36"
+    ],
+    "val_simulations": [
+      "flk_sim_03",
+      "flk_sim_09",
+      "flk_sim_19",
+      "flk_sim_25",
+      "flk_sim_32"
+    ],
+    "test_simulations": [
+      "flk_sim_02",
+      "flk_sim_06",
+      "flk_sim_18",
+      "flk_sim_24",
+      "flk_sim_31"
+    ],
+    "leakage_verified": true
+  },
+  "operating_conditions": 32,
+  "phases": {
+    "three_phase": 768,
+    "single_phase": 192,
+    "two_phase": 192
+  },
+  "modulation_depth_stats": {
+    "min": 0.0332,
+    "p1": 0.0338,
+    "p5": 0.0367,
+    "p25": 0.047,
+    "p50": 0.0521,
+    "p75": 0.0567,
+    "p95": 0.0692,
+    "p99": 0.0776,
+    "max": 0.0874,
+    "mean": 0.0521
+  },
+  "modulation_freq_stats": {
+    "min": 5.0,
+    "p1": 5.5,
+    "p5": 6.0,
+    "p25": 8.0,
+    "p50": 9.0,
+    "p75": 11.5,
+    "p95": 15.0,
+    "p99": 15.245,
+    "max": 15.5,
+    "mean": 9.6181
+  },
+  "pass_rate_pct": 100.0,
+  "checksums": {
+    "waveforms_npz": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\flicker\\flicker_waveforms.npz",
+    "waveforms_sha256": "a5abae764c923bcd223c2ac42fc7edd836f93a9e12a8b6d24e304f38217e946b",
+    "features_csv": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\flicker\\flicker_features.csv",
+    "features_sha256": "d8a1c536cc23d41ea699221c6f60a0e9f436e7a46e9e5fae702e2bec17501e70",
+    "scenarios_json": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\flicker\\flicker_scenarios.json",
+    "scenarios_sha256": "11098de19c481f3872eabf1c182d734231ac88b648c54312cfc1e4391752d146"
+  },
+  "pristine_model_unchanged": true
+}

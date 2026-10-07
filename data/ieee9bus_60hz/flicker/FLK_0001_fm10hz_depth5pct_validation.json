@@ -1,0 +1,113 @@
+{
+  "scenario_id": "FLK_0001_fm10hz_depth5pct",
+  "ground_truth": "Flicker",
+  "label_idx": 0,
+  "validation": {
+    "physical_validation_passed": true,
+    "class": "Flicker",
+    "affected_phases": [
+      "A",
+      "B",
+      "C"
+    ],
+    "phase_configuration": "three-phase",
+    "primary_phase": "C",
+    "dominant_freq_hz": 60.0,
+    "thd_percent": 0.01,
+    "primary_envelope_depth": 0.0379,
+    "primary_modulation_freq_hz": 10.0,
+    "primary_modulation_cycles": 2.0,
+    "gates": {
+      "FLK-01_depth_gt_0.02": true,
+      "FLK-02_depth_lt_0.15": true,
+      "FLK-03_freq_3_to_20Hz": true,
+      "FLK-04_anti_sag": true,
+      "FLK-05_anti_swell": true,
+      "FLK-06_thd_lt_3pct": true,
+      "FLK-07_cycles_ge_1.0": true,
+      "FLK-ANTI-INTERRUPT": true,
+      "FLK-FREQ_59.5_60.5": true,
+      "WAVEFORM_CONTINUITY": true
+    },
+    "per_phase_envelope": {
+      "A": {
+        "envelope_depth": 0.0371,
+        "envelope_freq_hz": 10.0,
+        "modulation_cycles": 2.0,
+        "env_mean": 0.8428,
+        "env_min": 0.8047,
+        "env_max": 0.8671
+      },
+      "B": {
+        "envelope_depth": 0.0377,
+        "envelope_freq_hz": 10.0,
+        "modulation_cycles": 2.0,
+        "env_mean": 0.846,
+        "env_min": 0.8074,
+        "env_max": 0.8712
+      },
+      "C": {
+        "envelope_depth": 0.0379,
+        "envelope_freq_hz": 10.0,
+        "modulation_cycles": 2.0,
+        "env_mean": 0.8339,
+        "env_min": 0.7948,
+        "env_max": 0.858
+      }
+    },
+    "per_phase_metrics": {
+      "A": {
+        "min_rms": 0.5624,
+        "max_rms": 0.6221,
+        "residual_ratio": 0.9552,
+        "event_ratio": 1.0567,
+        "duration_ms": 0.0
+      },
+      "B": {
+        "min_rms": 0.5639,
+        "max_rms": 0.6249,
+        "residual_ratio": 0.958,
+        "event_ratio": 1.0615,
+        "duration_ms": 0.0
+      },
+      "C": {
+        "min_rms": 0.5564,
+        "max_rms": 0.6156,
+        "residual_ratio": 0.9452,
+        "event_ratio": 1.0457,
+        "duration_ms": 0.0
+      }
+    }
+  },
+  "parity": {
+    "parity_passed": true,
+    "max_diff": 0.0007268743001883722,
+    "diffs": {
+      "rms_diff": 0.0,
+      "peak_diff": 0.0,
+      "crest_diff": 0.0,
+      "h1_diff": 0.0,
+      "h3_diff": 0.0,
+      "h5_diff": 0.0,
+      "thd_diff": 0.000727
+    },
+    "reference_values": {
+      "ref_rms": 0.5951,
+      "ref_peak": 0.8661,
+      "ref_crest": 1.4553,
+      "ref_h1": 0.8329,
+      "ref_h3": 0.0,
+      "ref_h5": 0.0,
+      "ref_thd": 0.01
+    }
+  },
+  "ml_diagnostic": {
+    "model_evaluated": "model_weights_32.json (EXP-003 MLP, legacy 50-Hz)",
+    "raw_prediction": "Interruption",
+    "raw_confidence": 1.0,
+    "model_domain_status": "OUT_OF_DOMAIN (Legacy 50-Hz weights on 60-Hz grid)",
+    "ground_truth": "Flicker",
+    "ground_truth_source": "SCENARIO_CONTROLLER",
+    "label_independence_confirmed": true
+  }
+}

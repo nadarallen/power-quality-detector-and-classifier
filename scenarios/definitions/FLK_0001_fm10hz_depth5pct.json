@@ -1,0 +1,92 @@
+{
+  "$schema": "../../docs/GATE3C_SCENARIO_SCHEMA.json",
+  "schema_version": "1.0",
+  "scenario_id": "FLK_0001_fm10hz_depth5pct",
+  "class": "Flicker",
+  "label_idx": 0,
+  "label_source": "SCENARIO_CONTROLLER",
+  "electrical_model": {
+    "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+    "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+    "model_unchanged": true
+  },
+  "injection_location": {
+    "bus": "Bus5",
+    "measurement_point": "Vabc_5",
+    "mechanism": "AMPLITUDE_MODULATION",
+    "phase": "ABC"
+  },
+  "nominal_frequency_hz": 60.0,
+  "sampling_rate_hz": 5000.0,
+  "window_samples": 1000,
+  "window_ms": 200.0,
+  "seed": 20261007,
+  "operating_condition_id": 1,
+  "parameters": {
+    "modulation_freq_hz": 10.0,
+    "modulation_depth": 0.05,
+    "flicker_current_amps": 278.0,
+    "sensor_noise_snr_db": 52.0
+  },
+  "parameter_provenance": {
+    "modulation_freq_hz": "STANDARD-SUPPORTED",
+    "modulation_depth": "STANDARD-SUPPORTED",
+    "flicker_current_amps": "SIMULATION-PARAMETER",
+    "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+  },
+  "standard_references": [
+    {
+      "standard": "IEEE Std 1159-2019",
+      "clause": "Clause 4.4.3",
+      "applies_to": "Voltage fluctuation phenomenon, 0.5-30 Hz frequency band, envelope modulation"
+    },
+    {
+      "standard": "IEEE Std 1453-2022",
+      "clause": "Clause 4, 5",
+      "applies_to": "Flickermeter specification; sinusoidal fluctuation as calibration stimulus"
+    }
+  ],
+  "validation_gates": {
+    "method": "ENVELOPE_TRACKING",
+    "pass_conditions": [
+      {
+        "metric": "envelope_depth",
+        "operator": ">",
+        "threshold": 0.02,
+        "unit": "pu"
+      },
+      {
+        "metric": "envelope_depth",
+        "operator": "<",
+        "threshold": 0.15,
+        "unit": "pu"
+      },
+      {
+        "metric": "envelope_freq_hz",
+        "operator": ">=",
+        "threshold": 3.0,
+        "unit": "Hz"
+      },
+      {
+        "metric": "envelope_freq_hz",
+        "operator": "<=",
+        "threshold": 20.0,
+        "unit": "Hz"
+      },
+      {
+        "metric": "thd_percent",
+        "operator": "<",
+        "threshold": 3.0,
+        "unit": "%"
+      }
+    ]
+  },
+  "normal_contamination_check": {
+    "metric": "envelope_depth",
+    "must_differ_from_normal_by": "> 2.0% (Normal envelope depth < 0.5%)"
+  },
+  "dataset_partition": {
+    "group_id": "flk_cond01_seed20261007",
+    "split": "train"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "structural_audit": {
+    "status": "PASS",
+    "frame_count": 1152,
+    "waveform_shape": [
+      1152,
+      1000,
+      3
+    ],
+    "nan_count": 0,
+    "inf_count": 0,
+    "duplicate_waveforms": 0,
+    "checksums": {
+      "waveforms_sha256": "A5ABAE764C923BCD223C2AC42FC7EDD836F93A9E12A8B6D24E304F38217E946B",
+      "features_sha256": "D8A1C536CC23D41EA699221C6F60A0E9F436E7A46E9E5FAE702E2BEC17501E70",
+      "scenarios_sha256": "11098DE19C481F3872EABF1C182D734231AC88B648C54312CFC1E4391752D146",
+      "metadata_sha256": "2C4DCBACAAE434538369D9D394BC4C68E6BF024E62F6422D029D76B2462EBC66"
+    }
+  },
+  "label_audit": {
+    "status": "PASS",
+    "class_label": "Flicker",
+    "label_idx": 0,
+    "label_source": "SCENARIO_CONTROLLER",
+    "ml_independence": true
+  },
+  "physical_flicker_audit": {
+    "status": "PASS",
+    "depth_measured_range": [
+      0.0332,
+      0.0874
+    ],
+    "depth_measured_mean": 0.052095052083333336,
+    "freq_measured_range": [
+      5.0,
+      15.5
+    ],
+    "freq_measured_mean": 9.618055555555555,
+    "dominant_freq_range": [
+      60.0,
+      60.0
+    ],
+    "max_sample_delta": 0.07927127182483673
+  },
+  "sag_swell_interruption_separation": {
+    "status": "PASS",
+    "flicker_rms_min": 0.551265,
+    "flicker_rms_max": 0.649868,
+    "sag_min_rms": 0.470494,
+    "swell_max_rms": 0.695389,
+    "interruption_min_rms": 0.385945
+  },
+  "harmonic_separation": {
+    "status": "PASS",
+    "flicker_max_thd": 0.7217,
+    "flicker_mean_thd": 0.13318723958333334,
+    "harmonics_min_thd": 6.0514,
+    "harmonics_mean_thd": 8.185949305555555,
+    "margin_pct_thd": 5.3297
+  },
+  "parameter_coverage": {
+    "status": "PASS",
+    "depth_percentiles": {
+      "min": 0.0332,
+      "p1": 0.033750999999999996,
+      "p5": 0.0367,
+      "p25": 0.047,
+      "p50": 0.0521,
+      "p75": 0.0567,
+      "p95": 0.06919,
+      "p99": 0.077598,
+      "max": 0.0874
+    },
+    "frequency_percentiles": {
+      "min": 5.0,
+      "p1": 5.5,
+      "p5": 6.0,
+      "p25": 8.0,
+      "p50": 9.0,
+      "p75": 11.5,
+      "p95": 15.0,
+      "p99": 15.245000000000005,
+      "max": 15.5
+    }
+  },
+  "waveform_diversity": {
+    "status": "PASS",
+    "feature_matrix_rank": 31,
+    "pairwise_correlation_mean": 0.9822138347487038,
+    "pairwise_correlation_min": 0.9610208523501902,
+    "pairwise_correlation_max": 0.9993669354269732,
+    "feature_dispersion_std": {
+      "rms_voltage": 0.02076545268636639,
+      "peak_voltage": 0.03128795033432679,
+      "crest_factor": 0.01014731921173373,
+      "thd": 0.10401513020291855,
+      "envelope_depth_measured": 0.009299911411095901,
+      "modulation_freq_measured_hz": 2.4417598895109833
+    }
+  },
+  "cross_class_separation": {
+    "status": "PASS",
+    "distance_to_normal": 37.716623358900485,
+    "distance_to_sag": 52.74581783851663,
+    "distance_to_swell": 67.21001467592318,
+    "distance_to_interruption": 74.03286638417843,
+    "distance_to_harmonics": 20.109512545840133
+  },
+  "dsp_parity": {
+    "status": "PASS",
+    "max_difference": 0.0,
+    "tolerance": 0.001
+  },
+  "sampling_and_window_audit": {
+    "status": "PASS",
+    "sampling_rate_hz": 5000.0,
+    "samples_per_window": 1000,
+    "duration_ms": 200.0,
+    "fundamental_cycles": 12.0,
+    "demarcation_pst_confirmed": true
+  },
+  "trajectory_leakage_audit": {
+    "status": "PASS",
+    "train_trajectories": 26,
+    "val_trajectories": 5,
+    "test_trajectories": 5,
+    "cross_split_leakage": false
+  },
+  "standards_traceability": {
+    "status": "PASS",
+    "category_a_claims": 5,
+    "category_b_claims": 1,
+    "category_c_claims": 1,
+    "category_f_unsupported": 0,
+    "traceability_table": [
+      {
+        "claim": "Modulation frequency 0.5-30 Hz",
+        "standard": "IEEE 1159-2019 Clause 4.4.3",
+        "category": "A (Standard-supported)"
+      },
+      {
+        "claim": "Peak human sensitivity ~8.8 Hz",
+        "standard": "IEEE 1453-2022 Clause 4",
+        "category": "A (Standard-supported)"
+      },
+      {
+        "claim": "Modulation depth 0.001-0.10",
+        "standard": "IEEE 1159-2019 Clause 4.4.3",
+        "category": "A (Standard-supported)"
+      },
+      {
+        "claim": "P_st requires 10-minute aggregate",
+        "standard": "IEEE 1453-2022 Clause 4",
+        "category": "A (Standard-supported)"
+      },
+      {
+        "claim": "Sinusoidal AM flickermeter calibration stimulus",
+        "standard": "IEC 61000-4-15 / IEEE 1453",
+        "category": "A (Standard-supported)"
+      },
+      {
+        "claim": "Simulation sub-range 5-15 Hz for 200 ms window",
+        "standard": "Gate 3C Project Spec",
+        "category": "C (Design choice)"
+      },
+      {
+        "claim": "Bus 5 controlled current source modulation",
+        "standard": "Power system engineering",
+        "category": "B (Engineering interpretation)"
+      }
+    ]
+  },
+  "ml_decoupling_audit": {
+    "status": "PASS",
+    "model_decoupled": true,
+    "model_domain_status": "OUT_OF_DOMAIN",
+    "label_purity_pct": 100.0
+  },
+  "regression_and_integrity": {
+    "status": "PASS",
+    "pristine_sha256": "5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D",
+    "untouched": true
+  },
+  "gate": "GATE 3R",
+  "audit_verdict": "GATE3R_FLICKER_AUDIT = PASS",
+  "overall_status": "PASS"
+}
