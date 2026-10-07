@@ -1,0 +1,194 @@
+{
+  "audit_1_integrity": {
+    "status": "PASS",
+    "n_frames": 1152,
+    "waveforms_shape": [
+      1152,
+      1000,
+      3
+    ],
+    "checksum_match": true,
+    "nan_csv": 0,
+    "inf_csv": 0,
+    "nan_npz": 0,
+    "inf_npz": 0,
+    "duplicate_rows": 0,
+    "duplicate_frames": 0
+  },
+  "audit_2_provenance": {
+    "status": "PASS",
+    "label_sources": [
+      "SCENARIO_CONTROLLER"
+    ],
+    "class_labels": [
+      "Interruption"
+    ],
+    "label_indices": [
+      2
+    ],
+    "provenance_traces_verified": true
+  },
+  "audit_3_physical_criteria": {
+    "status": "PASS",
+    "min_residual_ratio": 0.0013,
+    "max_residual_ratio": 0.0039,
+    "min_duration_ms": 43.8,
+    "max_duration_ms": 118.8,
+    "ieee_1159_compliance": {
+      "INT-01_residual_lt_0.10": true,
+      "INT-02_residual_gt_0.0": true,
+      "INT-03_duration_ge_8.33ms": true,
+      "INT-04_duration_le_500ms": true
+    }
+  },
+  "audit_4_duration_audit": {
+    "status": "PASS",
+    "mean_error_ms": 2.9,
+    "median_error_ms": 2.23,
+    "max_error_ms": 5.13,
+    "dsp_duration_min_ms": 43.6,
+    "dsp_duration_max_ms": 119.2
+  },
+  "audit_5_residual_percentiles": {
+    "status": "PASS",
+    "percentiles": {
+      "min": 0.0013,
+      "p1": 0.0013,
+      "p5": 0.0015,
+      "p25": 0.0017,
+      "p50": 0.0018,
+      "p75": 0.0021,
+      "p95": 0.0033,
+      "p99": 0.0039,
+      "max": 0.0039
+    }
+  },
+  "audit_6_phase_coverage": {
+    "status": "PASS",
+    "distribution": {
+      "three-phase": 512,
+      "phase-to-ground": 320,
+      "phase-to-phase": 320
+    },
+    "three_phase_diagnostic": {
+      "sample_frame": "int_01_01",
+      "event_rms_a": 0.27835825085639954,
+      "event_rms_b": 0.27653974294662476,
+      "event_rms_c": 0.28571102023124695
+    },
+    "two_phase_diagnostic": {
+      "sample_frame": "int_27_01",
+      "event_rms_a": 0.2760961353778839,
+      "event_rms_b": 0.2772320806980133,
+      "event_rms_c": 0.5690585374832153
+    },
+    "one_phase_diagnostic": {
+      "sample_frame": "int_17_01",
+      "event_rms_a": 0.27490147948265076,
+      "event_rms_b": 0.5835916996002197,
+      "event_rms_c": 0.5770806074142456
+    }
+  },
+  "audit_7_timing_diversity": {
+    "status": "PASS",
+    "start_time_min_s": 0.02,
+    "start_time_max_s": 0.057,
+    "start_time_std_s": 0.009527308054504803,
+    "unique_start_times": 172
+  },
+  "audit_8_operating_conditions": {
+    "status": "PASS",
+    "unique_conditions": 32,
+    "min_frames_per_condition": 32,
+    "max_frames_per_condition": 64,
+    "max_condition_share_pct": 5.56
+  },
+  "audit_9_waveform_diversity": {
+    "status": "PASS",
+    "feature_matrix_rank": 31,
+    "mean_cross_trajectory_correlation": 0.9133,
+    "max_cross_trajectory_correlation": 0.9998,
+    "feature_dispersion_std": {
+      "rms_voltage": 0.03781089637920066,
+      "peak_voltage": 0.04060985906233995,
+      "crest_factor": 0.1440667090517337,
+      "thd": 0.3970966213603122,
+      "duration": 17.59428481140087,
+      "snr": 7.149359825811906
+    }
+  },
+  "audit_10_class_separation": {
+    "status": "PASS",
+    "energy_ordering_verified": true,
+    "class_statistics": {
+      "Interruption": {
+        "mean_rms": 0.4653375555555556,
+        "min_rms": 0.385945,
+        "max_rms": 0.546723
+      },
+      "Normal": {
+        "mean_rms": 0.5887397473214285,
+        "min_rms": 0.552336,
+        "max_rms": 0.633427
+      },
+      "Sag": {
+        "mean_rms": 0.5354734991319444,
+        "min_rms": 0.470494,
+        "max_rms": 0.599544
+      },
+      "Swell": {
+        "mean_rms": 0.6506881597222223,
+        "min_rms": 0.601722,
+        "max_rms": 0.695389
+      }
+    }
+  },
+  "audit_11_disturbance_purity": {
+    "status": "PASS",
+    "overvoltage_count": 0,
+    "excessive_thd_count": 0,
+    "purity_verified": true
+  },
+  "audit_12_dsp_parity": {
+    "status": "PASS",
+    "max_rms_delta": 4.3577575681297276e-07,
+    "max_peak_delta": 3.959426879696082e-07,
+    "max_crest_delta": 4.98430657858151e-07
+  },
+  "audit_13_sampling_adequacy": {
+    "status": "PASS",
+    "max_sample_step_pu": 0.8265,
+    "mean_max_step_pu": 0.6072,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000
+  },
+  "audit_14_leakage": {
+    "status": "PASS",
+    "train_sims": 26,
+    "val_sims": 5,
+    "test_sims": 5,
+    "leakage_detected": false
+  },
+  "audit_15_standards_traceability": {
+    "status": "PASS",
+    "provenance_categories_present": [
+      "ENGINEERING-INTERPRETATION",
+      "PROJECT-DESIGN-CHOICE",
+      "SIMULATION-PARAMETER",
+      "STANDARD-SUPPORTED"
+    ],
+    "all_categories_valid": true
+  },
+  "audit_16_ml_decoupling": {
+    "status": "PASS",
+    "ground_truth": "Interruption",
+    "label_source": "SCENARIO_CONTROLLER",
+    "ml_model_domain_status": "OUT_OF_DOMAIN",
+    "decoupling_confirmed": true
+  },
+  "overall_evaluation": {
+    "GATE3L_INTERRUPTION_AUDIT": "PASS",
+    "total_audits_evaluated": 16,
+    "audits_passed": 16
+  }
+}

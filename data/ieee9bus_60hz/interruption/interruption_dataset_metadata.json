@@ -1,0 +1,58 @@
+{
+  "dataset_name": "IEEE_9bus_60Hz_Voltage_Interruption_Dataset",
+  "gate": "GATE_3K",
+  "class": "Interruption",
+  "label_idx": 2,
+  "label_source": "SCENARIO_CONTROLLER",
+  "total_frames_target": 1152,
+  "total_frames_accepted": 1152,
+  "total_frames_rejected": 0,
+  "acceptance_rate_pct": 100.0,
+  "split_distribution": {
+    "train": 832,
+    "val": 160,
+    "test": 160
+  },
+  "phase_distribution": {
+    "three-phase": 512,
+    "phase-to-ground": 320,
+    "phase-to-phase": 320
+  },
+  "operating_condition_coverage": {
+    "unique_conditions": 32,
+    "frames_per_condition_min": 32,
+    "frames_per_condition_max": 64
+  },
+  "duration_statistics_ms": {
+    "min": 43.8,
+    "p1": 43.8,
+    "p5": 45.8,
+    "p25": 65.9,
+    "p50": 71.9,
+    "p75": 86.7,
+    "p95": 110.6,
+    "p99": 118.8,
+    "max": 118.8
+  },
+  "residual_voltage_statistics_pu": {
+    "min": 0.0013,
+    "p1": 0.0013,
+    "p5": 0.0015,
+    "p25": 0.0017,
+    "p50": 0.0018,
+    "p75": 0.0021,
+    "p95": 0.0033,
+    "p99": 0.0039,
+    "max": 0.0039
+  },
+  "event_timing_statistics_s": {
+    "start_time_min": 0.02,
+    "start_time_max": 0.057,
+    "start_time_mean": 0.0379
+  },
+  "checksums": {
+    "interruption_waveforms_npz_sha256": "57970958638ac83e4e1e91b4f8261242bf50043f5fe7ea821e05b8864b700130",
+    "interruption_features_csv_sha256": "efb70703d280c0c89e6fb5806afcd0758da1aa41b86f453a888f68ef21cf80a5",
+    "interruption_scenarios_json_sha256": "4b1cf546be22f99dcece53c81ea413c36a660d50c9050394165a65bca8c181db"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "physical_validation_passed": true,
+  "class": "Interruption",
+  "affected_phases": [
+    "A",
+    "B",
+    "C"
+  ],
+  "phase_configuration": "three-phase",
+  "primary_phase": "C",
+  "pre_event_nominal_rms": 0.5887,
+  "min_event_rms": 0.0002,
+  "residual_voltage_pu": 0.0004,
+  "duration_ms": 73.8,
+  "start_time_s": 0.0402,
+  "end_time_s": 0.114,
+  "gates": {
+    "INT-01_residual_lt_0.10": true,
+    "INT-02_residual_gt_0.0": true,
+    "INT-03_duration_ge_8.33ms": true,
+    "INT-04_recovery_confirmed": true,
+    "INT-05_pre_event_nominal": true,
+    "INT-06_freq_59.5_60.5": true,
+    "INT-ANTI-SWELL": true,
+    "WAVEFORM_CONTINUITY": true
+  },
+  "per_phase_metrics": {
+    "A": {
+      "min_rms": 0.0002,
+      "max_rms": 0.5921,
+      "residual_ratio": 0.0004,
+      "event_ratio": 1.0057,
+      "duration_ms": 68.4
+    },
+    "B": {
+      "min_rms": 0.0002,
+      "max_rms": 0.5998,
+      "residual_ratio": 0.0004,
+      "event_ratio": 1.0189,
+      "duration_ms": 68.6
+    },
+    "C": {
+      "min_rms": 0.0002,
+      "max_rms": 0.5858,
+      "residual_ratio": 0.0004,
+      "event_ratio": 0.9951,
+      "duration_ms": 73.8
+    }
+  }
+}
