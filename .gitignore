@@ -27,9 +27,11 @@ wheels/
 venv/
 ENV/
 
-# IDE
+# IDE & Editor Metadata
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # PlatformIO
 .pio/
@@ -41,8 +43,12 @@ temp_*.pkl
 data/waveforms/
 data/enhanced_splits/
 
-# Simulink compilation caches & temporary models
+# Simulink compilation caches, autosaves & temporary models
 *.slxc
+*.autosave
 slprj/
 scripts/slprj/
 scratch/
+
+# Generated graph analysis tools
+graphify-out/
