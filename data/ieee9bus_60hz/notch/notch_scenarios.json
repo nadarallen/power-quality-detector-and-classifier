@@ -1,0 +1,3566 @@
+{
+  "NOT_0001_3p_w600us_rf150_rep1_cond01": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0001_3p_w600us_rf150_rep1_cond01",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261007,
+    "operating_condition_id": 1,
+    "parameters": {
+      "notch_width_us": 600.0,
+      "commutation_resistance_ohms": 150.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_01",
+      "split": "train"
+    }
+  },
+  "NOT_0002_3p_w650us_rf160_rep1_cond02": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0002_3p_w650us_rf160_rep1_cond02",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261008,
+    "operating_condition_id": 2,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 160.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_02",
+      "split": "test"
+    }
+  },
+  "NOT_0003_3p_w500us_rf175_rep1_cond03": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0003_3p_w500us_rf175_rep1_cond03",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261009,
+    "operating_condition_id": 3,
+    "parameters": {
+      "notch_width_us": 500.0,
+      "commutation_resistance_ohms": 175.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_03",
+      "split": "val"
+    }
+  },
+  "NOT_0004_3p_w700us_rf165_rep1_cond04": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0004_3p_w700us_rf165_rep1_cond04",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261010,
+    "operating_condition_id": 4,
+    "parameters": {
+      "notch_width_us": 700.0,
+      "commutation_resistance_ohms": 165.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_04",
+      "split": "train"
+    }
+  },
+  "NOT_0005_3p_w450us_rf190_rep1_cond05": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0005_3p_w450us_rf190_rep1_cond05",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261011,
+    "operating_condition_id": 5,
+    "parameters": {
+      "notch_width_us": 450.0,
+      "commutation_resistance_ohms": 190.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 6.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_05",
+      "split": "train"
+    }
+  },
+  "NOT_0006_3p_w550us_rf170_rep1_cond06": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0006_3p_w550us_rf170_rep1_cond06",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261012,
+    "operating_condition_id": 6,
+    "parameters": {
+      "notch_width_us": 550.0,
+      "commutation_resistance_ohms": 170.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 3.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_06",
+      "split": "test"
+    }
+  },
+  "NOT_0007_3p_w600us_rf160_rep1_cond07": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0007_3p_w600us_rf160_rep1_cond07",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261013,
+    "operating_condition_id": 7,
+    "parameters": {
+      "notch_width_us": 600.0,
+      "commutation_resistance_ohms": 160.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_07",
+      "split": "train"
+    }
+  },
+  "NOT_0008_3p_w650us_rf155_rep1_cond08": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0008_3p_w650us_rf155_rep1_cond08",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261014,
+    "operating_condition_id": 8,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 155.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_08",
+      "split": "train"
+    }
+  },
+  "NOT_0009_3p_w500us_rf180_rep1_cond09": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0009_3p_w500us_rf180_rep1_cond09",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261015,
+    "operating_condition_id": 9,
+    "parameters": {
+      "notch_width_us": 500.0,
+      "commutation_resistance_ohms": 180.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_09",
+      "split": "val"
+    }
+  },
+  "NOT_0010_3p_w700us_rf170_rep1_cond10": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0010_3p_w700us_rf170_rep1_cond10",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261016,
+    "operating_condition_id": 10,
+    "parameters": {
+      "notch_width_us": 700.0,
+      "commutation_resistance_ohms": 170.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_10",
+      "split": "train"
+    }
+  },
+  "NOT_0011_3p_w600us_rf150_rep1_cond11": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0011_3p_w600us_rf150_rep1_cond11",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261017,
+    "operating_condition_id": 11,
+    "parameters": {
+      "notch_width_us": 600.0,
+      "commutation_resistance_ohms": 150.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_11",
+      "split": "train"
+    }
+  },
+  "NOT_0012_3p_w750us_rf165_rep1_cond12": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0012_3p_w750us_rf165_rep1_cond12",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261018,
+    "operating_condition_id": 12,
+    "parameters": {
+      "notch_width_us": 750.0,
+      "commutation_resistance_ohms": 165.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_12",
+      "split": "train"
+    }
+  },
+  "NOT_0013_3p_w450us_rf195_rep1_cond13": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0013_3p_w450us_rf195_rep1_cond13",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261019,
+    "operating_condition_id": 13,
+    "parameters": {
+      "notch_width_us": 450.0,
+      "commutation_resistance_ohms": 195.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 6.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_13",
+      "split": "train"
+    }
+  },
+  "NOT_0014_3p_w550us_rf175_rep1_cond14": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0014_3p_w550us_rf175_rep1_cond14",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261020,
+    "operating_condition_id": 14,
+    "parameters": {
+      "notch_width_us": 550.0,
+      "commutation_resistance_ohms": 175.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 3.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_14",
+      "split": "train"
+    }
+  },
+  "NOT_0015_3p_w650us_rf155_rep1_cond15": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0015_3p_w650us_rf155_rep1_cond15",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261021,
+    "operating_condition_id": 15,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 155.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_15",
+      "split": "train"
+    }
+  },
+  "NOT_0016_3p_w700us_rf165_rep1_cond16": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0016_3p_w700us_rf165_rep1_cond16",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261022,
+    "operating_condition_id": 16,
+    "parameters": {
+      "notch_width_us": 700.0,
+      "commutation_resistance_ohms": 165.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_16",
+      "split": "train"
+    }
+  },
+  "NOT_0017_3p_w550us_rf170_rep1_cond17": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0017_3p_w550us_rf170_rep1_cond17",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261023,
+    "operating_condition_id": 17,
+    "parameters": {
+      "notch_width_us": 550.0,
+      "commutation_resistance_ohms": 170.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.4,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_17",
+      "split": "train"
+    }
+  },
+  "NOT_0018_3p_w650us_rf160_rep1_cond18": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0018_3p_w650us_rf160_rep1_cond18",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261024,
+    "operating_condition_id": 18,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 160.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_18",
+      "split": "test"
+    }
+  },
+  "NOT_0019_3p_w700us_rf165_rep1_cond19": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0019_3p_w700us_rf165_rep1_cond19",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261025,
+    "operating_condition_id": 19,
+    "parameters": {
+      "notch_width_us": 700.0,
+      "commutation_resistance_ohms": 165.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_19",
+      "split": "val"
+    }
+  },
+  "NOT_0020_3p_w500us_rf175_rep1_cond20": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0020_3p_w500us_rf175_rep1_cond20",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "ABC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261026,
+    "operating_condition_id": 20,
+    "parameters": {
+      "notch_width_us": 500.0,
+      "commutation_resistance_ohms": 175.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_20",
+      "split": "train"
+    }
+  },
+  "NOT_0021_2p_phAB_w600us_rf95_cond21": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0021_2p_phAB_w600us_rf95_cond21",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261027,
+    "operating_condition_id": 21,
+    "parameters": {
+      "notch_width_us": 600.0,
+      "commutation_resistance_ohms": 95.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_21",
+      "split": "train"
+    }
+  },
+  "NOT_0022_2p_phBC_w650us_rf75_cond22": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0022_2p_phBC_w650us_rf75_cond22",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261028,
+    "operating_condition_id": 22,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 75.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_22",
+      "split": "train"
+    }
+  },
+  "NOT_0023_2p_phCA_w500us_rf90_cond23": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0023_2p_phCA_w500us_rf90_cond23",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261029,
+    "operating_condition_id": 23,
+    "parameters": {
+      "notch_width_us": 500.0,
+      "commutation_resistance_ohms": 90.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_23",
+      "split": "train"
+    }
+  },
+  "NOT_0024_2p_phAB_w700us_rf100_cond24": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0024_2p_phAB_w700us_rf100_cond24",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261030,
+    "operating_condition_id": 24,
+    "parameters": {
+      "notch_width_us": 700.0,
+      "commutation_resistance_ohms": 100.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_24",
+      "split": "test"
+    }
+  },
+  "NOT_0025_2p_phBC_w650us_rf75_cond25": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0025_2p_phBC_w650us_rf75_cond25",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261031,
+    "operating_condition_id": 25,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 75.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_25",
+      "split": "val"
+    }
+  },
+  "NOT_0026_2p_phCA_w600us_rf85_cond26": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0026_2p_phCA_w600us_rf85_cond26",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "CA"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261032,
+    "operating_condition_id": 26,
+    "parameters": {
+      "notch_width_us": 600.0,
+      "commutation_resistance_ohms": 85.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_26",
+      "split": "train"
+    }
+  },
+  "NOT_0027_2p_phAB_w450us_rf85_cond27": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0027_2p_phAB_w450us_rf85_cond27",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "AB"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261033,
+    "operating_condition_id": 27,
+    "parameters": {
+      "notch_width_us": 450.0,
+      "commutation_resistance_ohms": 85.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 6.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_27",
+      "split": "train"
+    }
+  },
+  "NOT_0028_2p_phBC_w650us_rf85_cond28": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0028_2p_phBC_w650us_rf85_cond28",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "BC"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261034,
+    "operating_condition_id": 28,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 85.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_28",
+      "split": "train"
+    }
+  },
+  "NOT_0029_1p_phA_w600us_rf150_cond29": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0029_1p_phA_w600us_rf150_cond29",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261035,
+    "operating_condition_id": 29,
+    "parameters": {
+      "notch_width_us": 600.0,
+      "commutation_resistance_ohms": 150.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_29",
+      "split": "train"
+    }
+  },
+  "NOT_0030_1p_phB_w650us_rf145_cond30": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0030_1p_phB_w650us_rf145_cond30",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261036,
+    "operating_condition_id": 30,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 145.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_30",
+      "split": "train"
+    }
+  },
+  "NOT_0031_1p_phC_w500us_rf165_cond31": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0031_1p_phC_w500us_rf165_cond31",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261037,
+    "operating_condition_id": 31,
+    "parameters": {
+      "notch_width_us": 500.0,
+      "commutation_resistance_ohms": 165.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.5,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_31",
+      "split": "test"
+    }
+  },
+  "NOT_0032_1p_phA_w550us_rf160_cond32": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0032_1p_phA_w550us_rf160_cond32",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261038,
+    "operating_condition_id": 32,
+    "parameters": {
+      "notch_width_us": 550.0,
+      "commutation_resistance_ohms": 160.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_32",
+      "split": "val"
+    }
+  },
+  "NOT_0033_1p_phB_w600us_rf155_cond01": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0033_1p_phB_w600us_rf155_cond01",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261039,
+    "operating_condition_id": 1,
+    "parameters": {
+      "notch_width_us": 600.0,
+      "commutation_resistance_ohms": 155.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.8,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_33",
+      "split": "train"
+    }
+  },
+  "NOT_0034_1p_phC_w700us_rf140_cond02": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0034_1p_phC_w700us_rf140_cond02",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "C"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261040,
+    "operating_condition_id": 2,
+    "parameters": {
+      "notch_width_us": 700.0,
+      "commutation_resistance_ohms": 140.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 5.2,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_34",
+      "split": "train"
+    }
+  },
+  "NOT_0035_1p_phA_w450us_rf175_cond03": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0035_1p_phA_w450us_rf175_cond03",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "A"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261041,
+    "operating_condition_id": 3,
+    "parameters": {
+      "notch_width_us": 450.0,
+      "commutation_resistance_ohms": 175.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 6.0,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_35",
+      "split": "train"
+    }
+  },
+  "NOT_0036_1p_phB_w650us_rf150_cond04": {
+    "schema_version": "1.0",
+    "scenario_id": "NOT_0036_1p_phB_w650us_rf150_cond04",
+    "class": "Notch",
+    "label_idx": 4,
+    "label_source": "SCENARIO_CONTROLLER",
+    "electrical_model": {
+      "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+      "working_model": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+      "model_unchanged": true
+    },
+    "injection_location": {
+      "bus": "Bus5",
+      "measurement_point": "Vabc_5",
+      "mechanism": "POWER_ELECTRONIC_SWITCH",
+      "phase": "B"
+    },
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_ms": 200.0,
+    "seed": 20261042,
+    "operating_condition_id": 4,
+    "parameters": {
+      "notch_width_us": 650.0,
+      "commutation_resistance_ohms": 150.0,
+      "notch_repetition_per_cycle": 1,
+      "phase_offset_ms": 4.6,
+      "sensor_noise_snr_db": 52.0
+    },
+    "parameter_provenance": {
+      "notch_width_us": "PROJECT-DESIGN-CHOICE",
+      "commutation_resistance_ohms": "SIMULATION-PARAMETER",
+      "notch_repetition_per_cycle": "ENGINEERING-INTERPRETATION",
+      "phase_offset_ms": "ENGINEERING-INTERPRETATION",
+      "sensor_noise_snr_db": "SIMULATION-PARAMETER"
+    },
+    "standard_references": [
+      {
+        "standard": "IEEE Std 1159-2019",
+        "clause": "Clause 4.4.4.2, Table 2",
+        "applies_to": "Sub-cycle waveform distortion (< 8.33 ms)"
+      },
+      {
+        "standard": "IEEE Std 519-2022",
+        "clause": "Clause 5.3, Table 2",
+        "applies_to": "Voltage notch depth and commutation notch limits at PCC"
+      }
+    ],
+    "validation_gates": {
+      "method": "NOTCH_DETECTION",
+      "pass_conditions": [
+        {
+          "metric": "notch_depth_pu",
+          "operator": ">=",
+          "threshold": 0.2,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_depth_pu",
+          "operator": "<=",
+          "threshold": 0.85,
+          "unit": "pu"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": ">=",
+          "threshold": 0.35,
+          "unit": "ms"
+        },
+        {
+          "metric": "notch_width_ms",
+          "operator": "<",
+          "threshold": 8.33,
+          "unit": "ms"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": ">=",
+          "threshold": 59.5,
+          "unit": "Hz"
+        },
+        {
+          "metric": "dominant_freq",
+          "operator": "<=",
+          "threshold": 60.5,
+          "unit": "Hz"
+        }
+      ]
+    },
+    "normal_contamination_check": {
+      "metric": "notch_depth_pu",
+      "must_differ_from_normal_by": "> 0.20 pu (Normal has no sub-cycle commutation notches)"
+    },
+    "dataset_partition": {
+      "group_id": "not_sim_36",
+      "split": "train"
+    }
+  }
+}

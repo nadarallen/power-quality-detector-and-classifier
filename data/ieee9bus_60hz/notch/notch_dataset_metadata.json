@@ -1,0 +1,59 @@
+{
+  "total_frames": 1152,
+  "accepted_frames": 1152,
+  "rejected_frames": 0,
+  "pass_rate_percent": 100.0,
+  "class": "Notch",
+  "label_idx": 4,
+  "label_source": "SCENARIO_CONTROLLER",
+  "nominal_frequency_hz": 60.0,
+  "sampling_rate_hz": 5000.0,
+  "window_samples": 1000,
+  "window_ms": 200.0,
+  "sensor_noise_snr_db": 52.0,
+  "splits": {
+    "train": 832,
+    "val": 160,
+    "test": 160
+  },
+  "trajectories_count": 36,
+  "operating_conditions_count": 32,
+  "metrics_summary": {
+    "max_depth_pu": {
+      "min": 0.2289,
+      "mean": 0.4188,
+      "max": 0.5504,
+      "p50": 0.4282
+    },
+    "mean_width_ms": {
+      "min": 0.43,
+      "mean": 1.32,
+      "max": 5.1
+    },
+    "notch_count": {
+      "min": 12,
+      "mean": 21.4,
+      "max": 37
+    },
+    "thd_percent": {
+      "min": 3.82,
+      "mean": 7.27,
+      "max": 10.87
+    }
+  },
+  "files": {
+    "notch_waveforms.npz": {
+      "path": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\notch\\notch_waveforms.npz",
+      "sha256": "46250f10917a82fee03c530aeed8f680e3ee9a17ba6fdfdf5a5136ae0ea15a76"
+    },
+    "notch_features.csv": {
+      "path": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\notch\\notch_features.csv",
+      "sha256": "76f4b8722a6ddb9ab6461dbf10abe8d24a2d6f06da43784bc87b3e07a5201775"
+    },
+    "notch_scenarios.json": {
+      "path": "D:\\my study\\Project\\power-quality-detector-and-classifier\\data\\ieee9bus_60hz\\notch\\notch_scenarios.json",
+      "sha256": "7615f6517c78ff2ff6b94d96417d1eaac715ed43eaa2bd4fd5c70251dafe6b2e"
+    }
+  },
+  "verdict": "GATE3T_NOTCH_DATASET = PASS"
+}

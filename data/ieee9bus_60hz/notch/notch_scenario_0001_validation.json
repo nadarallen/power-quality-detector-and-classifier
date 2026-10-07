@@ -1,0 +1,112 @@
+{
+  "scenario_id": "NOT_0001_width600us_depth40pct",
+  "ground_truth": "Notch",
+  "label_source": "SCENARIO_CONTROLLER",
+  "label_idx": 4,
+  "validation": {
+    "physical_validation_passed": true,
+    "class": "Notch",
+    "affected_phases": [
+      "A",
+      "B",
+      "C"
+    ],
+    "phase_configuration": "three-phase",
+    "primary_phase": "A",
+    "primary_max_depth_pu": 0.4387,
+    "primary_mean_width_ms": 1.18,
+    "primary_notch_count": 36,
+    "primary_energy_ratio": 0.05437,
+    "dominant_freq_hz": 60.07,
+    "gates": {
+      "NOT-01_depth_ge_0.20": true,
+      "NOT-02_depth_le_0.85": true,
+      "NOT-03_width_subcycle": true,
+      "NOT-04_energy_ratio_elevated": true,
+      "NOT-05_periodicity_ok": true,
+      "NOT-06_rms_0.45_0.80": true,
+      "NOT-07_freq_59.5_60.5": true,
+      "ANTI_INTERRUPTION": true,
+      "ANTI_SWELL": true,
+      "WAVEFORM_CONTINUITY": true
+    },
+    "per_phase_notches": {
+      "A": {
+        "notch_count": 36,
+        "mean_width_ms": 1.18,
+        "min_width_ms": 0.6,
+        "max_width_ms": 1.6,
+        "mean_depth_pu": 0.2639,
+        "max_depth_pu": 0.4387,
+        "periodicity_ok": true,
+        "residual_energy_ratio": 0.05437
+      },
+      "B": {
+        "notch_count": 24,
+        "mean_width_ms": 0.61,
+        "min_width_ms": 0.2,
+        "max_width_ms": 1.0,
+        "mean_depth_pu": 0.2637,
+        "max_depth_pu": 0.3866,
+        "periodicity_ok": false,
+        "residual_energy_ratio": 0.01399
+      },
+      "C": {
+        "notch_count": 24,
+        "mean_width_ms": 0.94,
+        "min_width_ms": 0.8,
+        "max_width_ms": 1.2,
+        "mean_depth_pu": 0.1982,
+        "max_depth_pu": 0.2224,
+        "periodicity_ok": false,
+        "residual_energy_ratio": 0.030874
+      }
+    },
+    "per_phase_rms": {
+      "A": {
+        "min_rms": 0.3697,
+        "max_rms": 0.5617,
+        "residual_ratio": 0.6279
+      },
+      "B": {
+        "min_rms": 0.5531,
+        "max_rms": 0.6131,
+        "residual_ratio": 0.9396
+      },
+      "C": {
+        "min_rms": 0.4779,
+        "max_rms": 0.6214,
+        "residual_ratio": 0.8118
+      }
+    }
+  },
+  "parity": {
+    "parity_passed": true,
+    "max_diff": 4.976975681625362e-05,
+    "diffs": {
+      "diff_rms": 1.5970251227015453e-07,
+      "diff_peak": 3.4036859408725917e-07,
+      "diff_crest": 3.509026857972941e-07,
+      "diff_thd": 4.976975681625362e-05
+    },
+    "reference_values": {
+      "ref_rms": 0.4739,
+      "ref_peak": 0.8391,
+      "ref_crest": 1.7707,
+      "ref_h1": 0.6517,
+      "ref_h2": 0.1286,
+      "ref_h3": 0.0315,
+      "ref_h5": 0.0265,
+      "ref_thd": 7.33
+    }
+  },
+  "ml_diagnostic": {
+    "model_evaluated": "model_weights_32.json (EXP-003 MLP, legacy 50-Hz)",
+    "raw_prediction": "Interruption",
+    "raw_confidence": 0.8442,
+    "model_domain_status": "OUT_OF_DOMAIN (Legacy 50-Hz weights on 60-Hz grid)",
+    "ground_truth": "Notch",
+    "ground_truth_source": "SCENARIO_CONTROLLER",
+    "label_independence_confirmed": true
+  }
+}
