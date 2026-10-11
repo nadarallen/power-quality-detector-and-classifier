@@ -100,14 +100,14 @@ The following files under `data/ieee9bus_60hz/` are authoritative:
 
 | Disturbance Class | Authoritative Feature File | Authoritative Scenario File | Checksum Authority |
 |:---|:---|:---|:---|
-| **Normal** | `data/ieee9bus_60hz/normal/normal_features.csv` | `data/ieee9bus_60hz/normal/operating_conditions.json` | [`docs/gate3b1_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3b1_quality_summary.json) |
-| **Sag** | `data/ieee9bus_60hz/sag/sag_features.csv` | `data/ieee9bus_60hz/sag/sag_scenarios.json` | [`docs/gate3f_sag_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3f_sag_quality_summary.json) |
-| **Swell** | `data/ieee9bus_60hz/swell/swell_features.csv` | `data/ieee9bus_60hz/swell/swell_scenarios.json` | [`docs/gate3i_swell_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3i_swell_quality_summary.json) |
-| **Interruption** | `data/ieee9bus_60hz/interruption/interruption_features.csv` | `data/ieee9bus_60hz/interruption/interruption_scenarios.json` | [`docs/gate3l_interruption_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3l_interruption_quality_summary.json) |
-| **Harmonics** | `data/ieee9bus_60hz/harmonics/harmonics_features.csv` | `data/ieee9bus_60hz/harmonics/harmonics_scenarios.json` | [`docs/gate3o_harmonics_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3o_harmonics_quality_summary.json) |
-| **Flicker** | `data/ieee9bus_60hz/flicker/flicker_features.csv` | `data/ieee9bus_60hz/flicker/flicker_scenarios.json` | [`docs/gate3r_flicker_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3r_flicker_quality_summary.json) |
-| **Notch** | `data/ieee9bus_60hz/notch/notch_features.csv` | `data/ieee9bus_60hz/notch/notch_scenarios.json` | [`docs/gate3u_notch_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3u_notch_quality_summary.json) |
-| **Transient** | `data/ieee9bus_60hz/transient/transient_features.csv` | `data/ieee9bus_60hz/transient/transient_scenarios.json` | [`docs/gate3x_transient_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3x_transient_quality_summary.json) |
+| **Normal** | `data/ieee9bus_60hz/normal/normal_features.csv` | `data/ieee9bus_60hz/normal/operating_conditions.json` | [`docs/gate3b1_quality_summary.json`](gate3b1_quality_summary.json) |
+| **Sag** | `data/ieee9bus_60hz/sag/sag_features.csv` | `data/ieee9bus_60hz/sag/sag_scenarios.json` | [`docs/gate3f_sag_quality_summary.json`](gate3f_sag_quality_summary.json) |
+| **Swell** | `data/ieee9bus_60hz/swell/swell_features.csv` | `data/ieee9bus_60hz/swell/swell_scenarios.json` | [`docs/gate3i_swell_quality_summary.json`](gate3i_swell_quality_summary.json) |
+| **Interruption** | `data/ieee9bus_60hz/interruption/interruption_features.csv` | `data/ieee9bus_60hz/interruption/interruption_scenarios.json` | [`docs/gate3l_interruption_quality_summary.json`](gate3l_interruption_quality_summary.json) |
+| **Harmonics** | `data/ieee9bus_60hz/harmonics/harmonics_features.csv` | `data/ieee9bus_60hz/harmonics/harmonics_scenarios.json` | [`docs/gate3o_harmonics_quality_summary.json`](gate3o_harmonics_quality_summary.json) |
+| **Flicker** | `data/ieee9bus_60hz/flicker/flicker_features.csv` | `data/ieee9bus_60hz/flicker/flicker_scenarios.json` | [`docs/gate3r_flicker_quality_summary.json`](gate3r_flicker_quality_summary.json) |
+| **Notch** | `data/ieee9bus_60hz/notch/notch_features.csv` | `data/ieee9bus_60hz/notch/notch_scenarios.json` | [`docs/gate3u_notch_quality_summary.json`](gate3u_notch_quality_summary.json) |
+| **Transient** | `data/ieee9bus_60hz/transient/transient_features.csv` | `data/ieee9bus_60hz/transient/transient_scenarios.json` | [`docs/gate3x_transient_quality_summary.json`](gate3x_transient_quality_summary.json) |
 
 ---
 

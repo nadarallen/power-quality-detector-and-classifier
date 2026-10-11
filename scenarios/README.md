@@ -1,7 +1,7 @@
 # Disturbance Scenario Controller & Ground-Truth Registry
 
 **Subsystem:** Scenarios & Ground-Truth Generation  
-**Schema Version:** 1.0 ([docs/GATE3C_SCENARIO_SCHEMA.json](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3C_SCENARIO_SCHEMA.json))  
+**Schema Version:** 1.0 ([docs/GATE3C_SCENARIO_SCHEMA.json](../docs/GATE3C_SCENARIO_SCHEMA.json))  
 **Electrical System:** WSCC 3-Machine 9-Bus System (60 Hz, Simscape Electrical)  
 **Observation Point:** Bus 5 ($V_{abc}, I_{abc}$)  
 

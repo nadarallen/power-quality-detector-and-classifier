@@ -83,4 +83,4 @@ pytest -v
   [PHASE 6: EMBEDDED ESP32 HIL EXTENSION] ---------------> FUTURE / OPTIONAL
 ```
 
-- **Remaining Technical Debt:** Phase 4 machine learning model training on the audited 60-Hz physical datasets per [docs/ML_READINESS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ML_READINESS.md), followed by Phase 5 live demonstration derivative model creation per [docs/LIVE_MVP_PLAN.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/LIVE_MVP_PLAN.md).
+- **Remaining Technical Debt:** Phase 4 machine learning model training on the audited 60-Hz physical datasets per [docs/ML_READINESS.md](ML_READINESS.md), followed by Phase 5 live demonstration derivative model creation per [docs/LIVE_MVP_PLAN.md](LIVE_MVP_PLAN.md).

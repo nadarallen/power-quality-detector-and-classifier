@@ -146,18 +146,17 @@ print(f"Orthogonal Projection SNR: {features['snr_db']:.2f} dB")
 
 ---
 
-## 3. Future & Planned Workflows (Post-Phase 3)
+## 3. Engineering Phases & Future Workflows
 
-The following workflows represent planned future engineering phases:
-
-### Phase 4 (Next): 60-Hz Machine Learning Retraining
-- **Objective:** Train 60-Hz MLP, Random Forest, and XGBoost classifiers on the audited 8-class physical datasets using trajectory-grouped cross-validation.
-- **Protocol:** Specified in [docs/ML_READINESS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ML_READINESS.md).
-- **Status:** PENDING (Do not retrain during Phase 3 maintenance).
+### Phase 4 (Completed): 60-Hz Machine Learning Training & Evaluation
+- **Objective:** Trajectory-grouped dataset splitting, train-only scaler fitting, 5-baseline classifier benchmarking, hyperparameter tuning, and independent evaluation on locked test partition (99.92% accuracy, 99.93% macro F1).
+- **Reproduction Guide:** Specified in [docs/REPRODUCING_PHASE4.md](docs/REPRODUCING_PHASE4.md).
+- **Integrity Audit:** Reconciled in [docs/ARTIFACT_INTEGRITY_RECONCILIATION.md](docs/ARTIFACT_INTEGRITY_RECONCILIATION.md).
+- **Status:** **COMPLETE (Gates 4A–4D Passed)**.
 
 ### Phase 5 (Future): Live Demonstration MVP
 - **Objective:** Interactive disturbance triggering via MATLAB API (`pqd.sag(...)`, `pqd.reset()`) and Simulink dashboard controls during continuous live simulation.
-- **Specification:** Detailed in [docs/LIVE_MVP_PLAN.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/LIVE_MVP_PLAN.md).
+- **Specification:** Detailed in [docs/LIVE_MVP_PLAN.md](docs/LIVE_MVP_PLAN.md).
 - **Status:** PENDING.
 
 ### Phase 6 (Optional Extension): Embedded ESP32 Hardware-in-the-Loop
@@ -171,11 +170,13 @@ The following workflows represent planned future engineering phases:
 
 For in-depth technical specifications, consult the master documentation:
 
-- [Documentation Index](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/README.md)
-- [Master Project Status](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md)
-- [Source of Truth Registry](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md)
-- [Multi-Phase Roadmap](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ROADMAP.md)
-- [System Architecture](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ARCHITECTURE.md)
-- [Dataset Specification](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/DATASET.md)
-- [Gate Registry (Gates 1–3X)](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE_INDEX.md)
-- [Full Reproducibility Guide](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/REPRODUCIBILITY.md)
+- [Documentation Index](docs/README.md)
+- [Reproducing Phase 4 on a Clean Clone](docs/REPRODUCING_PHASE4.md)
+- [Artifact Integrity Reconciliation Audit](docs/ARTIFACT_INTEGRITY_RECONCILIATION.md)
+- [Master Project Status](docs/PROJECT_STATUS.md)
+- [Source of Truth Registry](docs/SOURCE_OF_TRUTH.md)
+- [Multi-Phase Roadmap](docs/ROADMAP.md)
+- [System Architecture](docs/ARCHITECTURE.md)
+- [Dataset Specification](docs/DATASET.md)
+- [Gate Registry (Gates 1–4D)](docs/GATE_INDEX.md)
+- [Full Reproducibility Guide](docs/REPRODUCIBILITY.md)

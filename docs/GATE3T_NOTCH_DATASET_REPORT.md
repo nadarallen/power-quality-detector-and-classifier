@@ -14,8 +14,8 @@
 The primary objective of **Gate 3T** is to scale the physically grounded Voltage Notch mechanism established in Gate 3S into an authoritative, multi-condition machine learning dataset for the 60-Hz IEEE 9-bus transmission network.
 
 In strict accordance with the **Global Freeze Rules**:
-- The reference model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte untouched (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`).
-- All physical simulations were executed exclusively in the working disturbance model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical commutation switching element `PQD_Notch_Bus5` (`spsThreePhaseFaultLib/Three-Phase Fault` block) connected to Bus 5 (230 kV PCC), driven by high-resolution sub-cycle pulse timing from the base workspace.
+- The reference model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte untouched (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`).
+- All physical simulations were executed exclusively in the working disturbance model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](../IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical commutation switching element `PQD_Notch_Bus5` (`spsThreePhaseFaultLib/Three-Phase Fault` block) connected to Bus 5 (230 kV PCC), driven by high-resolution sub-cycle pulse timing from the base workspace.
 - Exactly **1,152 genuinely unique frames** were generated, extracted, and physically validated (**100.0% acceptance rate**, zero rejections).
 - Ground truth originates strictly from the scenario controller (`label_source = "SCENARIO_CONTROLLER"`, `label_idx = 4`, `class = "Notch"`).
 - Production 32-feature extraction via Python DSP was executed on all 1,152 frames with zero NaNs, zero Infs, and strict adherence to the feature contract.

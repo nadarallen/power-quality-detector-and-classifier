@@ -70,20 +70,20 @@ The primary architecture bridges an electromagnetic simulation of the **WSCC 3-M
 
 ## 2. Completed Disturbance Datasets (Phase 3)
 
-The project has completed physical electromagnetic modeling, dataset generation, feature extraction, and independent scientific audits across all **8 disturbance classes** under `data/ieee9bus_60hz/`:
+The project has completed physical electromagnetic modeling, dataset generation, feature extraction, and independent scientific audits across all **8 disturbance classes** under `data/ieee9bus_60hz/`, authoritatively codified in [`data/ieee9bus_60hz/dataset_manifest_v1.json`](data/ieee9bus_60hz/dataset_manifest_v1.json):
 
-| Class | Label | Frames | Physical Switching Mechanism | Key Physical Metric | Gate Status |
-|---|:---:|:---:|---|---|:---:|
-| **Normal** | 0 | 1,152 | Steady-state load flow (32 operating conditions) | $\text{RMS} = 0.589\text{ pu}, \text{THD} = 0.35\%$ | **PASS** (Gate 3B.1) |
-| **Sag** | 1 | 1,152 | Transmission shunt fault switching (`PQD_Fault_Sag`) | Residual $0.10\text{--}0.90\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3F) |
-| **Swell** | 2 | 1,152 | Shunt capacitor bank energization (`PQD_Breaker_Swell`) | Magnitude $1.10\text{--}1.80\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3I) |
-| **Interruption** | 3 | 1,152 | Series line breaker opening (`PQD_Breaker_Interruption`) | Residual $< 0.10\text{ pu}$ (mean $0.008\text{ pu}$) | **PASS** (Gate 3L) |
-| **Harmonics** | 4 | 1,152 | Non-linear load current injection (`PQD_Harm_Inj`) | Orders $H_2\text{--}H_{11}$, $\text{THD} = 5.1\%\text{--}19.8\%$ | **PASS** (Gate 3O) |
-| **Flicker** | 5 | 1,152 | Sub-synchronous dynamic load modulation (`PQD_Flicker_Mod`) | $f_m \in [1, 25]\text{ Hz}$, depth $1.0\%\text{--}10.0\%$ | **PASS** (Gate 3R) |
-| **Notch** | 6 | 1,152 | Commutation short-circuit switching (`PQD_Notch_Bus5`) | Width $100\text{--}900\ \mu\text{s}$, depth $20\%\text{--}70\%$ | **PASS** (Gate 3U) |
-| **Transient** | 7 | 1,152 | High-frequency RLC energization (`PQD_Breaker_Transient`) | Oscillation $300\text{--}2,200\text{ Hz}$, peak $1.2\text{--}1.9\text{ pu}$ | **PASS** (Gate 3X) |
+| Class | Label | Frames | Trajectories | Physical Switching Mechanism | Key Physical Metric | Gate Status |
+|---|:---:|:---:|:---:|---|---|:---:|
+| **Normal** | 0 | 1,120 | 32 | Steady-state load flow (32 operating conditions) | $\text{RMS} = 0.589\text{ pu}, \text{THD} = 0.35\%$ | **PASS** (Gate 3B.1) |
+| **Sag** | 1 | 1,152 | 36 | Transmission shunt fault switching (`PQD_Fault_Sag`) | Residual $0.10\text{--}0.90\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3F) |
+| **Swell** | 2 | 1,152 | 36 | Shunt capacitor bank energization (`PQD_Breaker_Swell`) | Magnitude $1.10\text{--}1.80\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3I) |
+| **Interruption** | 3 | 1,152 | 36 | Series line breaker opening (`PQD_Breaker_Interruption`) | Residual $< 0.10\text{ pu}$ (mean $0.008\text{ pu}$) | **PASS** (Gate 3L) |
+| **Harmonics** | 4 | 1,152 | 36 | Non-linear load current injection (`PQD_Harm_Inj`) | Orders $H_2\text{--}H_{11}$, $\text{THD} = 5.1\%\text{--}19.8\%$ | **PASS** (Gate 3O) |
+| **Flicker** | 5 | 1,152 | 36 | Sub-synchronous dynamic load modulation (`PQD_Flicker_Mod`) | $f_m \in [1, 25]\text{ Hz}$, depth $1.0\%\text{--}10.0\%$ | **PASS** (Gate 3R) |
+| **Notch** | 6 | 1,152 | 36 | Commutation short-circuit switching (`PQD_Notch_Bus5`) | Width $100\text{--}900\ \mu\text{s}$, depth $20\%\text{--}70\%$ | **PASS** (Gate 3U) |
+| **Transient** | 7 | 1,152 | 36 | High-frequency RLC energization (`PQD_Breaker_Transient`) | Oscillation $300\text{--}2,200\text{ Hz}$, peak $1.2\text{--}1.9\text{ pu}$ | **PASS** (Gate 3X) |
 
-**Total Dataset Size:** 9,216 multi-phase frames across 256 independent simulation trajectories with **zero inter-trajectory leakage**.
+**Total Dataset Size:** Exactly **9,184 multi-phase frames across 284 independent simulation trajectories** (Train: 6,594 frames / 71.80%, Validation: 1,295 frames / 14.10%, Locked Test: 1,295 frames / 14.10%) with **zero inter-trajectory leakage**.
 
 ---
 
@@ -94,7 +94,7 @@ The project has completed physical electromagnetic modeling, dataset generation,
 2. **Ground-Truth Decoupling Rule:**  
    Ground-truth class labels originate strictly from **physical scenario controllers and simulation metadata**—never from machine learning predictions.
 3. **Legacy ML Weights Preservation:**  
-   The legacy 50-Hz runtime weights (`ml/models/model_weights_32.json`, SHA-256: `BE9BDBC3...`) remain frozen for historical backwards compatibility. Phase 4 produced the verified 60-Hz production candidate MLP (`experiments/phase4c/models/candidate_mlp_pipeline.pkl`, 99.92% locked test accuracy).
+   The legacy 50-Hz runtime weights (`ml/models/model_weights_32.json`, SHA-256: `BE9BDBC3641F...`) remain frozen for historical backwards compatibility. Phase 4 produced the verified 60-Hz production candidate MLP (`experiments/phase4c/models/candidate_mlp_pipeline.pkl`, 99.92% locked test accuracy, 99.93% macro F1).
 4. **Authoritative 60-Hz / 5-kHz Sampling Contract:**  
    All feature definitions, FFT harmonic bins, and sliding RMS algorithms are strictly locked to $f_0 = 60.0\text{ Hz}$, $F_s = 5,000\text{ Hz}$, and $N = 1,000$ samples (200 ms).
 
@@ -111,7 +111,7 @@ The project has completed physical electromagnetic modeling, dataset generation,
   [PHASE 6: EMBEDDED ESP32 HIL EXTENSION] ---------------> FUTURE / OPTIONAL
 ```
 
-- **Phase 4 (Proper 60-Hz ML):** COMPLETE. Trajectory-grouped dataset splitting (zero leakage), train-only scaler fitting, multi-model benchmarking (5 classifiers), hyperparameter tuning, and independent evaluation on locked test partition (99.92% macro F1).
+- **Phase 4 (Proper 60-Hz ML):** COMPLETE. Trajectory-grouped dataset splitting (zero leakage), train-only scaler fitting, multi-model benchmarking (5 classifiers), hyperparameter tuning, and independent evaluation on locked test partition (99.92% accuracy, 99.93% macro F1).
 - **Phase 5 (Live Demo MVP):** Derivative live Simulink model (`IEEE_9bus_PQD_LIVE_DEMO.slx`), programmatic MATLAB trigger API (`pqd.sag(...)`, etc.), Simulink interactive controls, and streaming CRT dashboard.
 - **Phase 6 (Embedded HIL Extension):** Microcontroller ADC sampling and firmware inference on ESP32 hardware.
 
@@ -219,12 +219,12 @@ streamlit run app.py
 ```
 
 ### Operational Modes:
-- **Mode A: Recorded Experiment Explorer (Zero MATLAB Requirement):**  
-  Browse and visualize 3-phase waveforms ($V_A, V_B, V_C$) across all 8 classes from the frozen 60 Hz IEEE 9-bus dataset. Computes instantaneous 32-feature vectors in real time, runs inference with the frozen Phase 4C candidate MLP model, and displays prediction confidence distributions and softmax probability charts.
-- **Mode B: Simulink Live Experiment Runner:**  
-  Allows researchers with MATLAB R2024b/R2025a and Simscape Electrical to parameterize live disturbance injections (duration, fault resistance, affected phases) and invoke [`scripts/run_disturbance_simulation.m`](scripts/run_disturbance_simulation.m).
+- **Mode A: Recorded Experiment Explorer (Zero MATLAB Requirement — FULLY VERIFIED):**  
+  Browse and visualize 3-phase waveforms ($V_A, V_B, V_C$) across all 8 classes from the frozen 60 Hz IEEE 9-bus dataset. Computes instantaneous 32-feature vectors in real time, runs inference with the frozen Phase 4C candidate MLP model, and displays prediction confidence distributions and softmax probability charts. Operates 100% standalone without requiring MATLAB or Simscape.
+- **Mode B: Simulink Live Experiment Runner (SCRIPT HOOKS IMPLEMENTED — RUNTIME EXECUTION UNVERIFIED / NOT TESTED):**  
+  Provides parameter validation and execution hooks for researchers with MATLAB R2024b/R2025a and Simscape Electrical to parameterize live disturbance injections (duration, fault resistance, affected phases) and invoke [`scripts/run_disturbance_simulation.m`](scripts/run_disturbance_simulation.m). *Note: While the model topology, injection blocks, and runner scripts have passed static dependency audits, full end-to-end live MATLAB execution is marked as UNVERIFIED / NOT TESTED in automated CI environments due to external MATLAB license and headless execution constraints.*
 - **Model Comparison & Audit Evidence:**  
-  Displays quantitative benchmark tables from Phase 4B (Logistic Regression, Random Forest, SVM-RBF, Gradient Boosting, Compact MLP), latency-vs-accuracy trade-offs, and independent confusion matrices on the locked Phase 4D test partition (1,295 frames, 99.92% accuracy).
+  Displays quantitative benchmark tables from Phase 4B (Logistic Regression, Random Forest, SVM-RBF, Gradient Boosting, Compact MLP), latency-vs-accuracy trade-offs, and independent confusion matrices on the locked Phase 4D test partition (1,295 frames, 99.92% accuracy, 99.93% macro F1).
 - **Feature Engineering & Explainability:**  
   Provides full mathematical descriptions and IEEE standard mappings for all 32 time-domain, Goertzel harmonic, harmonic ratio, and FFT spectral moments.
 
@@ -244,6 +244,8 @@ Each generated figure features a three-panel comparative layout:
 2. **Middle Panel:** Disturbed waveform synthesized according to physical equations.
 3. **Bottom Panel:** Comparative overlay with shaded disturbance regions and exact engineering parameter callouts.
 
+> **Note on Parameter Specifications**: The numerical values listed below (e.g., sag depth $0.45\text{ pu}$, swell magnitude $1.45\text{ pu}$, transient oscillation $550\text{ Hz}$, flicker modulation $8.0\text{ Hz}$) represent **curated, standards-aligned simulation and demonstration parameters** selected for clean visual contrast and benchmark reproducibility. They fall within the allowable classification envelopes defined by IEEE Std 1159, IEEE Std 519, and IEEE Std 1453, but are illustrative design settings rather than singular numerical mandates of those standards.
+
 ### Curated Disturbance Parameter Specifications:
 - **Voltage Sag (IEEE 1159):** Remaining magnitude $0.45\text{ pu}$, duration $4.0\text{ cycles}$ ($66.7\text{ ms}$), onset $t = 30.0\text{ ms}$.
 - **Voltage Swell (IEEE 1159):** Elevated magnitude $1.45\text{ pu}$, duration $4.0\text{ cycles}$ ($66.7\text{ ms}$), onset $t = 30.0\text{ ms}$.
@@ -255,7 +257,7 @@ Each generated figure features a three-panel comparative layout:
 
 ---
 
-## 8. Verification & Automated Testing
+## 8. Verification & Performance Boundaries
 
 The complete test suite verifies mathematical parity, signal processing invariants, physical disturbance generation, model inference, and dashboard backend services:
 
@@ -271,14 +273,18 @@ pytest -v
 - **Failed:** 0
 - **Execution Time:** ~13.5 seconds
 
+> **Scope of Validation & Performance Claims**:
+> - **Evaluation Domain**: Model generalization metrics (99.92% accuracy, 99.93% macro F1) are measured on the trajectory-disjoint held-out test partition (1,295 frames across 40 unseen trajectories) of the simulated WSCC 9-bus grid model. While robust to unseen network operating points within the physical simulation envelope, these results reflect electromagnetic simulations and have not yet been evaluated on real-world utility physical grid substation PMU recordings.
+> - **Inference Latency**: Benchmarked single-sample CPU latency (~190 µs) measures pure Python/x86 forward-pass evaluation of the 32-feature vector on host hardware. It does not include network round-trip time, hardware-in-the-loop streaming delays, or microcontroller clock constraints (addressed separately in Phase 6).
+
 ---
 
 ## 9. Documentation Quick Links
 
-- [Documentation Landing Page](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/README.md)
-- [Reproducing Phase 4 on a Clean Clone](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/REPRODUCING_PHASE4.md)
-- [Artifact Integrity Reconciliation Audit](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ARTIFACT_INTEGRITY_RECONCILIATION.md)
-- [Master Project Status](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md)
-- [Authoritative Source of Truth](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md)
-- [Gate Verification Matrix (Gates 1–4D)](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE_INDEX.md)
-- [Developer Quickstart & Execution Guide](file:///d:/my%20study/Project/power-quality-detector-and-classifier/RUNTHISPROJECT.md)
+- [Documentation Landing Page](docs/README.md)
+- [Reproducing Phase 4 on a Clean Clone](docs/REPRODUCING_PHASE4.md)
+- [Artifact Integrity Reconciliation Audit](docs/ARTIFACT_INTEGRITY_RECONCILIATION.md)
+- [Master Project Status](docs/PROJECT_STATUS.md)
+- [Authoritative Source of Truth](docs/SOURCE_OF_TRUTH.md)
+- [Gate Verification Matrix (Gates 1–4D)](docs/GATE_INDEX.md)
+- [Developer Quickstart & Execution Guide](RUNTHISPROJECT.md)

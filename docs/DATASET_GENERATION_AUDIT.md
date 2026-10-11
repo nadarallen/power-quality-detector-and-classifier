@@ -7,7 +7,7 @@
 
 ## 1. Dataset Scope & Composition
 
-The primary dataset file is [`Dataset/BARC DATA.csv`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/Dataset/BARC%20DATA.csv).
+The primary dataset file is [`Dataset/BARC DATA.csv`](../Dataset/BARC DATA.csv).
 - **Total Samples:** 10,000
 - **Total Columns:** 10 (`Event_ID`, `V_rms_pu`, `V_peak_pu`, `Crest_Factor`, `THD_percent`, `Duration_ms`, `Dominant_Freq_Hz`, `Freq_Hz`, `SNR_dB`, `Label`)
 - **Missing / NaN / Inf values:** Exactly 0 (100% complete)

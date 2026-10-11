@@ -3,10 +3,10 @@
 **Dataset Release:** Version 1.0.0  
 **Freeze Date:** 2026-09-20  
 **Target Files:**
-- Ground Truth: [`Dataset/BARC DATA.csv`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/Dataset/BARC%20DATA.csv)
-- Standardized Feature Matrix: [`data/pqd_features.csv`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/data/pqd_features.csv)
-- Stratified Split Subsets: [`data/splits/`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/data/splits/)
-- Raw Waveforms: [`data/waveforms/`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/data/waveforms/)
+- Ground Truth: [`Dataset/BARC DATA.csv`](../Dataset/BARC DATA.csv)
+- Standardized Feature Matrix: [`data/pqd_features.csv`](../data/pqd_features.csv)
+- Stratified Split Subsets: [`data/splits/`](../data/splits)
+- Raw Waveforms: [`data/waveforms/`](../data/ieee9bus_60hz)
 
 ---
 

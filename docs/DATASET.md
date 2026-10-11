@@ -82,7 +82,7 @@ data/ieee9bus_60hz/
   - Authoritative 32 production DSP features: `rms_voltage`, `peak_voltage`, `crest_factor`, `thd`, `duration`, `dominant_freq`, `system_freq`, `snr`, `h1` through `h11`, `h2_ratio`, `h3_ratio`, `h4_ratio`, `h5_ratio`, `h7_ratio`, `h9_ratio`, `h11_ratio`, `harmonic_energy`, `spectral_centroid`, `spectral_bandwidth`, `spectral_entropy`, `spectral_flatness`, `true_dominant_freq`.
 
 ### 2.3 Scenario Format (`*_scenarios.json`)
-- Conforms strictly to [`docs/GATE3C_SCENARIO_SCHEMA.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3C_SCENARIO_SCHEMA.json).
+- Conforms strictly to [`docs/GATE3C_SCENARIO_SCHEMA.json`](GATE3C_SCENARIO_SCHEMA.json).
 - Contains complete physical provenance: disturbance mechanism, switching times, electrical impedance/reactance values, affected phases, standards references, and train/val/test group assignments.
 
 ---
@@ -97,7 +97,7 @@ data/ieee9bus_60hz/
   - THD: $[0.20\%, 0.45\%]$ (pure fundamental sine wave).
   - SNR: Mean $52.00\,\text{dB}$ (via phase-aware orthogonal projection).
   - System frequency: Exactly $60.00\,\text{Hz}$.
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3B1_NORMAL_DATASET_QUALITY_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3B1_NORMAL_DATASET_QUALITY_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3B1_NORMAL_DATASET_QUALITY_AUDIT.md`](GATE3B1_NORMAL_DATASET_QUALITY_AUDIT.md)).
 - **Known Limitations**: Does not include ambient transmission line noise beyond the calibrated 52 dB instrumentation floor.
 
 ### 3.2 Voltage Sag (Class 1)
@@ -107,7 +107,7 @@ data/ieee9bus_60hz/
   - Residual voltage: $[0.10, 0.90]\,\text{pu}$ (Gate 3C required band).
   - Duration: $16.7\,\text{ms}$ to $120.0\,\text{ms}$ (1 to 7.2 cycles).
   - Anti-Interruption: Residual voltage $\ge 0.10\,\text{pu}$ confirmed on all frames.
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3F_SAG_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3F_SAG_DATASET_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3F_SAG_DATASET_AUDIT.md`](GATE3F_SAG_DATASET_AUDIT.md)).
 - **Known Limitations**: Fault events are modeled at Bus 5; remote faults on distant radial lines are not represented.
 
 ### 3.3 Voltage Swell (Class 2)
@@ -117,7 +117,7 @@ data/ieee9bus_60hz/
   - Swell magnitude: $[1.10, 1.80]\,\text{pu}$.
   - Duration: $16.7\,\text{ms}$ to $120.0\,\text{ms}$.
   - Post-event recovery: Full baseline RMS recovery verified within 1 cycle.
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3I_SWELL_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3I_SWELL_DATASET_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3I_SWELL_DATASET_AUDIT.md`](GATE3I_SWELL_DATASET_AUDIT.md)).
 - **Known Limitations**: Maximum swell bounded at $1.80\,\text{pu}$ to prevent numerical divergence of linear magnetic transformer models.
 
 ### 3.4 Voltage Interruption (Class 3)
@@ -127,7 +127,7 @@ data/ieee9bus_60hz/
   - Residual voltage ratio: $[0.000, 0.082]\,\text{pu}$ (mean $0.0076\,\text{pu}$, strictly $< 0.10\,\text{pu}$).
   - Duration: $16.7\,\text{ms}$ to $120.0\,\text{ms}$.
   - Separation from Sag: 100% of frames have residual voltage $< 0.10\,\text{pu}$, ensuring zero sag overlap.
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3L_INTERRUPTION_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3L_INTERRUPTION_DATASET_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3L_INTERRUPTION_DATASET_AUDIT.md`](GATE3L_INTERRUPTION_DATASET_AUDIT.md)).
 - **Known Limitations**: Simulates local bus isolation; system-wide cascading blackouts are out of scope.
 
 ### 3.5 Harmonics (Class 4)
@@ -137,7 +137,7 @@ data/ieee9bus_60hz/
   - Total Harmonic Distortion (THD): $[5.12\%, 19.84\%]$ (mean $11.45\%$).
   - Fundamental frequency: Exactly $60.00\,\text{Hz}$ ($[59.98, 60.02]\,\text{Hz}$).
   - Full-window RMS: $[0.568, 0.612]\,\text{pu}$ (zero sustained sag/swell collapse).
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3O_HARMONICS_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3O_HARMONICS_DATASET_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3O_HARMONICS_DATASET_AUDIT.md`](GATE3O_HARMONICS_DATASET_AUDIT.md)).
 - **Known Limitations**: Current harmonic injection orders are bounded at $H_{11}$ ($660\,\text{Hz}$) to ensure clean Goertzel DFT resolution at $5\,\text{kHz}$.
 
 ### 3.6 Voltage Flicker (Class 5)
@@ -147,7 +147,7 @@ data/ieee9bus_60hz/
   - Modulation frequency ($f_m$): $[1.0, 25.0]\,\text{Hz}$.
   - Modulation depth ($\Delta V / V$): $[1.0\%, 10.0\%]$ (mean $5.2\%$).
   - Sideband structure: Symmetric sidebands $60 \pm f_m\,\text{Hz}$ verified.
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3R_FLICKER_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3R_FLICKER_DATASET_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3R_FLICKER_DATASET_AUDIT.md`](GATE3R_FLICKER_DATASET_AUDIT.md)).
 - **Known Limitations**: Observation window is $200\,\text{ms}$ ($12$ cycles); short-term flicker perceptibility ($P_{st}$, 10-minute integration) is outside single-frame scope.
 
 ### 3.7 Voltage Notch (Class 6)
@@ -157,7 +157,7 @@ data/ieee9bus_60hz/
   - Notch depth: $[22.9\%, 53.8\%]$ (mean $38.2\%$).
   - Notch width: $[0.43\,\text{ms}, 2.97\,\text{ms}]$ (mean $1.38\,\text{ms}$).
   - Samples per notch interval: $2.2$ to $14.8$ discrete points (mean $6.9$ points @ $5\,\text{kHz}$).
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3U_NOTCH_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3U_NOTCH_DATASET_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3U_NOTCH_DATASET_AUDIT.md`](GATE3U_NOTCH_DATASET_AUDIT.md)).
 - **Known Limitations**: Commutation notches narrower than $0.35\,\text{ms}$ approach the single-sample Nyquist limit at $5\,\text{kHz}$ and are excluded.
 
 ### 3.8 Oscillatory Transient (Class 7)
@@ -168,7 +168,7 @@ data/ieee9bus_60hz/
   - Peak excursion: $[0.1297, 0.4056]\,\text{pu}$ (mean $0.2619\,\text{pu}$).
   - Effective duration: $[14.0, 44.8]\,\text{ms}$ (mean $38.1\,\text{ms} \le 50.0\,\text{ms}$).
   - Discrete resolution: $16.7$ to $20.0$ samples per oscillation cycle at $5\,\text{kHz}$.
-- **Validation & Audit Status**: **PASS** ([`docs/GATE3X_TRANSIENT_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3X_TRANSIENT_DATASET_AUDIT.md)).
+- **Validation & Audit Status**: **PASS** ([`docs/GATE3X_TRANSIENT_DATASET_AUDIT.md`](GATE3X_TRANSIENT_DATASET_AUDIT.md)).
 - **Known Limitations**: Confined to low-frequency oscillatory transient band ($< 1500\,\text{Hz}$); impulsive transients ($> 2500\,\text{Hz}$) exceed the $5\,\text{kHz}$ Nyquist limit and are excluded.
 
 ---

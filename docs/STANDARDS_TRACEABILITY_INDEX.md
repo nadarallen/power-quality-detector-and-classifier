@@ -86,7 +86,7 @@ To maintain rigorous scientific clarity and prevent unsupportable claims, every 
 ## 3. Critical Architectural Boundaries & Scope Clarifications
 
 1. **ML Classification Thresholds vs Utility Compliance Limits**:
-   - The boundaries established in [`pipeline/disturbance_validator.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/pipeline/disturbance_validator.py) (e.g. $10\%$ sag depth threshold, $5\%$ flicker modulation) are **dataset synthesis and pattern classification bounds**, not utility grid penalty limits.
+   - The boundaries established in [`pipeline/disturbance_validator.py`](../pipeline/disturbance_validator.py) (e.g. $10\%$ sag depth threshold, $5\%$ flicker modulation) are **dataset synthesis and pattern classification bounds**, not utility grid penalty limits.
 2. **200-ms Window vs Long-Term Power Quality Metrics**:
    - A single 200-ms observation window ($12$ cycles) provides instantaneous point-on-wave classification. It does not replace 10-minute IEC 61000-4-30 $P_{st}$ flicker indices or 7-day IEEE 519 harmonic compliance surveys.
 3. **5-kHz Sampling Bandwidth Limitation**:

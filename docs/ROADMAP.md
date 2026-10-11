@@ -77,7 +77,7 @@
 - [x] **Pristine Reference Freeze**: `IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx` SHA-256 frozen at `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`.
 
 ### Phase 2 — DSP & Integration Foundation (`COMPLETE`)
-- [x] **32-Feature Contract**: Implemented authoritative 32-feature production DSP in [`dsp/enhanced_features.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/dsp/enhanced_features.py).
+- [x] **32-Feature Contract**: Implemented authoritative 32-feature production DSP in [`dsp/enhanced_features.py`](../dsp/enhanced_features.py).
 - [x] **Goertzel Harmonic Bank**: Single-bin DFT filters tuned to orders $H_1$ through $H_{11}$ ($60\text{--}660\,\text{Hz}$).
 - [x] **Phase-Aware Orthogonal SNR**: Replaced angle-sensitive formula with projection-based calculation.
 - [x] **Half-Cycle Sliding RMS**: IEC 61000-4-30 sliding RMS implementation for sub-cycle envelope tracking.

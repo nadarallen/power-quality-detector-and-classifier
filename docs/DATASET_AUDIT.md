@@ -1,7 +1,7 @@
 # Dataset Quality & Empirical Diversity Audit
 
 **Document Version:** 1.0.0  
-**Target File:** [`Dataset/BARC DATA.csv`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/Dataset/BARC%20DATA.csv) & [`data/pqd_features.csv`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/data/pqd_features.csv)  
+**Target File:** [`Dataset/BARC DATA.csv`](../Dataset/BARC DATA.csv) & [`data/pqd_features.csv`](../data/pqd_features.csv)  
 **Audit Scope:** 10,000 Samples, 8 Physical Classes, 8 Pre-extracted Features  
 
 ---

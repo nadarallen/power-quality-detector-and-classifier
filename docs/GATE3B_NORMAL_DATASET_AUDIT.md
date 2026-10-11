@@ -130,35 +130,35 @@ The table below presents the audited statistical distribution across all 1,120 g
 All 8 diagnostic figures have been generated using MATLAB's vector rendering engine and saved into `docs/figures/gate3b/`:
 
 1. **Random Normal Vabc Waveform**:  
-   [fig1_random_normal_vabc_waveform.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig1_random_normal_vabc_waveform.png)  
+   [fig1_random_normal_vabc_waveform.png](figures/gate3b/fig1_random_normal_vabc_waveform.png)  
    *Displays 200 ms (1000 samples) of continuous, balanced 3-phase voltages from Bus 5.*
 
 2. **Three-Phase Fundamental Cycle Overlay**:  
-   [fig2_three_phase_overlay.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig2_three_phase_overlay.png)  
+   [fig2_three_phase_overlay.png](figures/gate3b/fig2_three_phase_overlay.png)  
    *Zooms into a single 16.67 ms cycle, proving exact $120^\circ$ phase displacement.*
 
 3. **Bus 5 Voltage RMS Distribution**:  
-   [fig3_voltage_rms_distribution.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig3_voltage_rms_distribution.png)  
+   [fig3_voltage_rms_distribution.png](figures/gate3b/fig3_voltage_rms_distribution.png)  
    *Shows the physical voltage distribution ($0.55\text{--}0.63\,\text{pu}$) across the 32 operating conditions.*
 
 4. **Dominant & System Frequency Distributions**:  
-   [fig4_dominant_frequency_distribution.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig4_dominant_frequency_distribution.png)  
+   [fig4_dominant_frequency_distribution.png](figures/gate3b/fig4_dominant_frequency_distribution.png)  
    *Proves zero 50-Hz contamination and verifies zero-crossing frequency tracking around 60.00 Hz.*
 
 5. **THD Distribution**:  
-   [fig5_thd_distribution.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig5_thd_distribution.png)  
+   [fig5_thd_distribution.png](figures/gate3b/fig5_thd_distribution.png)  
    *Demonstrates THD $< 0.1\%$, far below the IEEE 519 5.0% threshold.*
 
 6. **Crest Factor Distribution**:  
-   [fig6_crest_factor_distribution.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig6_crest_factor_distribution.png)  
+   [fig6_crest_factor_distribution.png](figures/gate3b/fig6_crest_factor_distribution.png)  
    *Shows tight clustering around theoretical $\sqrt{2} \approx 1.4142$.*
 
 7. **Duration Distribution**:  
-   [fig7_duration_distribution.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig7_duration_distribution.png)  
+   [fig7_duration_distribution.png](figures/gate3b/fig7_duration_distribution.png)  
    *Demonstrates zero disturbance duration across all frames, confirming the 200 ms artifact is eradicated.*
 
 8. **Goertzel Harmonic Magnitudes (H1–H7)**:  
-   [fig8_selected_harmonic_distributions.png](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/fig8_selected_harmonic_distributions.png)  
+   [fig8_selected_harmonic_distributions.png](figures/gate3b/fig8_selected_harmonic_distributions.png)  
    *Details the harmonic spectrum and proves negligible harmonic distortion.*
 
 ---
@@ -166,18 +166,18 @@ All 8 diagnostic figures have been generated using MATLAB's vector rendering eng
 ## 7. Deliverables Summary
 
 1. **Versioned Dataset Artifacts**:
-   * Feature Matrix: [`data/ieee9bus_60hz/normal/normal_features.csv`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/normal/normal_features.csv) (1,120 rows $\times$ 47 columns)
-   * Waveform Arrays: [`data/ieee9bus_60hz/normal/normal_waveforms.npz`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/normal/normal_waveforms.npz) (1,120 $\times$ 1000 $\times$ 3 float32)
-   * Raw Trajectories: [`data/ieee9bus_60hz/normal/raw_normal_simulations.mat`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/normal/raw_normal_simulations.mat) (32 conditions $\times$ 1651 samples $\times$ 3 phases)
-   * Operating Conditions Metadata: [`data/ieee9bus_60hz/normal/operating_conditions.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/normal/operating_conditions.json)
+   * Feature Matrix: [`data/ieee9bus_60hz/normal/normal_features.csv`](../data/ieee9bus_60hz/normal/normal_features.csv) (1,120 rows $\times$ 47 columns)
+   * Waveform Arrays: [`data/ieee9bus_60hz/normal/normal_waveforms.npz`](../data/ieee9bus_60hz/normal/normal_waveforms.npz) (1,120 $\times$ 1000 $\times$ 3 float32)
+   * Raw Trajectories: [`data/ieee9bus_60hz/normal/raw_normal_simulations.mat`](../data/ieee9bus_60hz/normal/raw_normal_simulations.mat) (32 conditions $\times$ 1651 samples $\times$ 3 phases)
+   * Operating Conditions Metadata: [`data/ieee9bus_60hz/normal/operating_conditions.json`](../data/ieee9bus_60hz/normal/operating_conditions.json)
 2. **Machine-Readable Metadata**:
-   * [`data/ieee9bus_60hz/normal/normal_dataset_metadata.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/normal/normal_dataset_metadata.json)
-   * [`docs/gate3b_normal_dataset_metadata.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3b_normal_dataset_metadata.json)
+   * [`data/ieee9bus_60hz/normal/normal_dataset_metadata.json`](../data/ieee9bus_60hz/normal/normal_dataset_metadata.json)
+   * [`docs/gate3b_normal_dataset_metadata.json`](gate3b_normal_dataset_metadata.json)
 3. **Specifications & Audits**:
-   * [`docs/GATE3B_NORMAL_DATASET_SPEC.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3B_NORMAL_DATASET_SPEC.md)
-   * [`docs/GATE3B_NORMAL_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3B_NORMAL_DATASET_AUDIT.md)
+   * [`docs/GATE3B_NORMAL_DATASET_SPEC.md`](GATE3B_NORMAL_DATASET_SPEC.md)
+   * [`docs/GATE3B_NORMAL_DATASET_AUDIT.md`](GATE3B_NORMAL_DATASET_AUDIT.md)
 4. **Diagnostic Visualizations**:
-   * 8 PNG figures in [`docs/figures/gate3b/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/gate3b/)
+   * 8 PNG figures in [`docs/figures/gate3b/`](figures/gate3b)
 
 ---
 

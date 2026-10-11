@@ -5,7 +5,7 @@
 **Author:** Antigravity PQD Physical Simulation & Integration Team  
 **Evaluation Status:** **PASS** (`GATE3O_HARMONICS_AUDIT = PASS`)  
 **Electrical System:** IEEE 9-bus Western System Coordinating Council (WSCC) 3-Machine 9-Bus System  
-**Dataset Under Audit:** [`data/ieee9bus_60hz/harmonics/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/harmonics/)  
+**Dataset Under Audit:** [`data/ieee9bus_60hz/harmonics/`](../data/ieee9bus_60hz/harmonics)  
 
 ---
 
@@ -16,7 +16,7 @@ Under **Gate 3O**, an independent, rigorous computational audit of the completed
 Key Findings:
 - **1,152 / 1,152 frames verified** with complete 1-to-1-to-1-to-1 mapping across waveforms, features, scenarios, and simulations.
 - **Cryptographic integrity verified**: SHA-256 hashes of all artifacts match dataset metadata byte-for-byte.
-- **Pristine reference model remains unchanged**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`.
+- **Pristine reference model remains unchanged**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`.
 - **Physical harmonic orders verified (H2, H3, H5, H7, H9, H11)**: All 6 approved harmonic orders were physically injected via controlled current sources at Bus 5 and measured at physical bus voltages with non-zero magnitudes ($> 0.005\,\text{pu}$).
 - **Network propagation verified**: Measured harmonic voltage correlates with injected harmonic current ($r = 0.8312$ for H5), confirming genuine electrical grid impedance response without synthetic post-processing.
 - **THD demarcation & distribution**: Measured THD ranges from $6.05\%$ to $12.96\%$ (median $7.80\%$), completely demarcated from Normal background noise ($\text{Normal THD} \le 0.09\%$) with zero overlap.
@@ -55,7 +55,7 @@ Key Findings:
 ## 3. Detailed Audit Domain Findings
 
 ### 3O.1 Dataset Structure & Cryptographic Checksums
-All primary dataset artifacts were hashed using SHA-256 and compared against [`data/ieee9bus_60hz/harmonics/harmonics_dataset_metadata.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/harmonics/harmonics_dataset_metadata.json):
+All primary dataset artifacts were hashed using SHA-256 and compared against [`data/ieee9bus_60hz/harmonics/harmonics_dataset_metadata.json`](../data/ieee9bus_60hz/harmonics/harmonics_dataset_metadata.json):
 - `harmonics_waveforms.npz`: `00CE2F0ED0CB9BA687E727ECF82C6CAA84F91F874A317634E99AD6F6586B4A27` (**MATCH**)
 - `harmonics_features.csv`: `F541B388BF606F25B20F7ED8E457EF5C6542DC6E873D23B082D122BFF1600E41` (**MATCH**)
 - `harmonics_scenarios.json`: `FDE0415B2B07FD386DCAD0FFDFF6550E71FA6EC445D30AD93EA62F2E40C67A37` (**MATCH**)
@@ -152,9 +152,9 @@ All parameters are rigorously mapped to the established 5-tier provenance taxono
 The frozen legacy MLP model was evaluated strictly as a diagnostic tool. Due to the domain shift ($50\,\text{Hz} \rightarrow 60\,\text{Hz}$), the model outputs `OUT_OF_DOMAIN`. Zero model predictions influenced ground-truth labeling or sample retention.
 
 ### 3O.17 Regression & Pristine Reference Integrity
-- Pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) hash:
+- Pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) hash:
   `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D` (**IDENTICAL**).
-- Automated regression suite [`tests/test_gate3n_harmonics_dataset.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/tests/test_gate3n_harmonics_dataset.py): 13 / 13 passed cleanly.
+- Automated regression suite [`tests/test_gate3n_harmonics_dataset.py`](../tests/test_gate3n_harmonics_dataset.py): 13 / 13 passed cleanly.
 
 ---
 

@@ -5,8 +5,8 @@
 **Date:** October 11, 2026  
 **Auditor:** Senior Machine Learning Engineer, Power-Quality Researcher & Dataset Auditor  
 **Audit Gate Decision:** **PASS** (Frozen Baseline Established)  
-**Authoritative Manifest:** [`data/ieee9bus_60hz/dataset_manifest_v1.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/dataset_manifest_v1.json)  
-**Verification Script:** [`scripts/verify_dataset_freeze.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/scripts/verify_dataset_freeze.py)  
+**Authoritative Manifest:** [`data/ieee9bus_60hz/dataset_manifest_v1.json`](../data/ieee9bus_60hz/dataset_manifest_v1.json)  
+**Verification Script:** [`scripts/verify_dataset_freeze.py`](../scripts/verify_dataset_freeze.py)  
 
 ---
 
@@ -162,8 +162,8 @@ All 24 primary files comprising the frozen 60-Hz baseline have been fingerprinte
 ## 7. Freeze Readiness & Stop Condition Compliance
 
 1. **Preconditions Satisfied:** All 8 disturbance classes are physically validated and leak-free.
-2. **Reproducibility Automated:** [`scripts/verify_dataset_freeze.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/scripts/verify_dataset_freeze.py) confirms that all checksums match with zero drift.
-3. **Artifact Integrity:** The authoritative dataset manifest [`data/ieee9bus_60hz/dataset_manifest_v1.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/dataset_manifest_v1.json) is established.
+2. **Reproducibility Automated:** [`scripts/verify_dataset_freeze.py`](../scripts/verify_dataset_freeze.py) confirms that all checksums match with zero drift.
+3. **Artifact Integrity:** The authoritative dataset manifest [`data/ieee9bus_60hz/dataset_manifest_v1.json`](../data/ieee9bus_60hz/dataset_manifest_v1.json) is established.
 4. **Stop Condition:** No model training, hyperparameter tuning, or weight modification was initiated. Phase 4A stops here.
 
 ---

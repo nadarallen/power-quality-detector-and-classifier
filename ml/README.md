@@ -3,7 +3,7 @@
 **Subsystem:** Machine Learning Classification & Model Artifacts  
 **Current Phase:** Pre-Phase 4 Maintenance (Legacy Weights Frozen)  
 **Next Engineering Phase:** Phase 4 — Proper 60-Hz Machine Learning Training  
-**Authoritative Protocol:** [docs/ML_READINESS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ML_READINESS.md)  
+**Authoritative Protocol:** [docs/ML_READINESS.md](../docs/ML_READINESS.md)  
 
 ---
 
@@ -40,7 +40,7 @@ ml/
 
 ## 3. Phase 4 Retraining Protocol (Upcoming)
 
-When Phase 4 commences, retraining will follow the strict 10-step protocol specified in [docs/ML_READINESS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ML_READINESS.md):
+When Phase 4 commences, retraining will follow the strict 10-step protocol specified in [docs/ML_READINESS.md](../docs/ML_READINESS.md):
 
 1. **Dataset Freeze:** Lock all 8 audited datasets in `data/ieee9bus_60hz/` (9,216 total multi-phase frames across 256 trajectories).
 2. **Trajectory-Grouped Splitting:** Partition by operating condition trajectory ($70\%\text{ train} / 15\%\text{ val} / 15\%\text{ test}$) with **zero inter-trajectory leakage**.

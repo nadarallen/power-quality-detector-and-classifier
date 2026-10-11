@@ -47,13 +47,13 @@ Over early exploratory iterations, the repository accumulated components from in
 ## 4. Documentation Consolidation & Archival Actions
 
 ### 4.1 Master Documents Created / Updated
-- [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md): Master authoritative registry across all models, datasets, DSP algorithms, and schemas.
-- [docs/LIVE_MVP_PLAN.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/LIVE_MVP_PLAN.md): Detailed architectural specification for Phase 5 live demonstration MVP (Simulink disturbance rack + MATLAB trigger API).
-- [docs/README.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/README.md): Central documentation navigation landing page.
-- [docs/REPOSITORY_LEGACY_AUDIT.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/REPOSITORY_LEGACY_AUDIT.md): Systematic component classification and action matrix.
-- [README.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/README.md): Completely rewritten around the 60-Hz WSCC IEEE 9-bus architecture, 8 audited classes, and multi-phase roadmap.
-- [RUNTHISPROJECT.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/RUNTHISPROJECT.md): Completely rewritten with clear developer quickstart workflows and future phase separation.
-- [CHANGELOG.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/CHANGELOG.md): Updated with Phase 3 Complete modernization milestone.
+- [docs/SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md): Master authoritative registry across all models, datasets, DSP algorithms, and schemas.
+- [docs/LIVE_MVP_PLAN.md](LIVE_MVP_PLAN.md): Detailed architectural specification for Phase 5 live demonstration MVP (Simulink disturbance rack + MATLAB trigger API).
+- [docs/README.md](README.md): Central documentation navigation landing page.
+- [docs/REPOSITORY_LEGACY_AUDIT.md](REPOSITORY_LEGACY_AUDIT.md): Systematic component classification and action matrix.
+- [README.md](../README.md): Completely rewritten around the 60-Hz WSCC IEEE 9-bus architecture, 8 audited classes, and multi-phase roadmap.
+- [RUNTHISPROJECT.md](../RUNTHISPROJECT.md): Completely rewritten with clear developer quickstart workflows and future phase separation.
+- [CHANGELOG.md](../CHANGELOG.md): Updated with Phase 3 Complete modernization milestone.
 
 ### 4.2 Historical Records Tagged with Context Banners
 The following historical documents were updated with prominent archival/future context banners:
@@ -118,5 +118,5 @@ A recursive scan was performed across all directories for credentials, API token
 
 ## 8. Remaining Technical Debt & Next Steps
 
-1. **Phase 4 ML Implementation:** Execute global trajectory-grouped train/val/test split across the 8 audited datasets in `data/ieee9bus_60hz/`, fit StandardScaler exclusively on train folds, benchmark classical models (Random Forest, XGBoost) and train a dedicated 60-Hz MLP classifier per [docs/ML_READINESS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/ML_READINESS.md).
-2. **Phase 5 Live Demo Model Creation:** Create derivative live model `IEEE_9bus_PQD_LIVE_DEMO.slx` and implement programmatic MATLAB trigger controller (`pqd_controller.m`) per [docs/LIVE_MVP_PLAN.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/LIVE_MVP_PLAN.md).
+1. **Phase 4 ML Implementation:** Execute global trajectory-grouped train/val/test split across the 8 audited datasets in `data/ieee9bus_60hz/`, fit StandardScaler exclusively on train folds, benchmark classical models (Random Forest, XGBoost) and train a dedicated 60-Hz MLP classifier per [docs/ML_READINESS.md](ML_READINESS.md).
+2. **Phase 5 Live Demo Model Creation:** Create derivative live model `IEEE_9bus_PQD_LIVE_DEMO.slx` and implement programmatic MATLAB trigger controller (`pqd_controller.m`) per [docs/LIVE_MVP_PLAN.md](LIVE_MVP_PLAN.md).

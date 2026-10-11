@@ -364,7 +364,7 @@ $$\mathbf{AUDIT\ 9\ VERDICT:\ PASS}$$
 
 ## Detailed Audit 10 — Standards Traceability
 
-All 15 standards-referencing statements from the Gate 3B documentation have been audited and classified in [`docs/GATE3B1_STANDARDS_TRACEABILITY.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3B1_STANDARDS_TRACEABILITY.md):
+All 15 standards-referencing statements from the Gate 3B documentation have been audited and classified in [`docs/GATE3B1_STANDARDS_TRACEABILITY.md`](GATE3B1_STANDARDS_TRACEABILITY.md):
 - **Category A (Explicitly Supported)**: 6 statements ($40.0\%$)
 - **Category B (Engineering Interpretation)**: 3 statements ($20.0\%$)
 - **Category C (Project Design Choice)**: 4 statements ($26.7\%$)
@@ -466,8 +466,8 @@ Before proceeding to Gate 4 (Disturbance Generation) and model retraining, the f
 
 | File | Change Type | Description |
 |:---|:---:|:---|
-| [`dsp/baseline_features.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/dsp/baseline_features.py) | **Modified** | Replaced lines 111–116 (zero-phase SNR formula) with phase-aware orthogonal projection (lines 111–138) |
-| [`tests/test_snr_phase_invariance.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/tests/test_snr_phase_invariance.py) | **New** | 10-test regression suite for SNR phase invariance, known-SNR accuracy, noiseless edge case, near-zero edge case, and IEEE 9-bus live dataset verification |
+| [`dsp/baseline_features.py`](../dsp/baseline_features.py) | **Modified** | Replaced lines 111–116 (zero-phase SNR formula) with phase-aware orthogonal projection (lines 111–138) |
+| [`tests/test_snr_phase_invariance.py`](../tests/test_snr_phase_invariance.py) | **New** | 10-test regression suite for SNR phase invariance, known-SNR accuracy, noiseless edge case, near-zero edge case, and IEEE 9-bus live dataset verification |
 
 ### A.2 Unchanged Features (Zero Regression)
 The following features were **not changed**:

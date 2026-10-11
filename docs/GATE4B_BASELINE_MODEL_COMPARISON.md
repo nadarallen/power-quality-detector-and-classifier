@@ -5,10 +5,10 @@
 **Date:** October 11, 2026  
 **Auditor:** Senior ML Engineer, Power-Quality Researcher & Dataset Auditor  
 **Audit Gate Decision:** **PASS** (Baseline Models Evaluated, Candidate Selected)  
-**Authoritative Manifest:** [`data/ieee9bus_60hz/dataset_manifest_v1.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/dataset_manifest_v1.json)  
-**Dataset Loader:** [`ml/dataset_loader.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/ml/dataset_loader.py)  
-**Experiment Driver:** [`experiments/phase4b/run_comparison.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase4b/run_comparison.py)  
-**Machine-Readable Summary:** [`experiments/phase4b/baseline_comparison_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase4b/baseline_comparison_summary.json)  
+**Authoritative Manifest:** [`data/ieee9bus_60hz/dataset_manifest_v1.json`](../data/ieee9bus_60hz/dataset_manifest_v1.json)  
+**Dataset Loader:** [`ml/dataset_loader.py`](../ml/dataset_loader.py)  
+**Experiment Driver:** [`experiments/phase4b/run_comparison.py`](../experiments/phase4b/run_comparison.py)  
+**Machine-Readable Summary:** [`experiments/phase4b/baseline_comparison_summary.json`](../experiments/phase4b/baseline_comparison_summary.json)  
 
 ---
 
@@ -19,7 +19,7 @@ In Phase 4B, five baseline multiclass classifiers were rigorously benchmarked on
 ### Gate Classification: **`PASS`**
 
 All protocol requirements were strictly satisfied:
-1. **Dataset Integrity Precondition Verified:** The frozen dataset manifest (`B4C7CCA7...`) and pristine Simulink reference model (`5D833D8F...`) were cryptographically validated via [`scripts/verify_dataset_freeze.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/scripts/verify_dataset_freeze.py) prior to data loading.
+1. **Dataset Integrity Precondition Verified:** The frozen dataset manifest (`B4C7CCA7...`) and pristine Simulink reference model (`5D833D8F...`) were cryptographically validated via [`scripts/verify_dataset_freeze.py`](../scripts/verify_dataset_freeze.py) prior to data loading.
 2. **Leakage-Safe Partitions:** Only the Training (6,594 frames across 204 trajectories) and Validation (1,295 frames across 40 trajectories) sets were utilized. The Locked Test partition (1,295 frames across 40 trajectories) was **strictly quarantined and untouched**. Trajectory overlap between Train and Validation is **0.0%**.
 3. **Preprocessing Isolation:** `StandardScaler` was fitted strictly on the 6,594 training samples and serialized (`experiments/phase4b/models/scaler_phase4b.pkl`). Zero validation or test data influenced feature centering or scaling.
 4. **All Five Models Successfully Benchmarked:** Logistic Regression, Random Forest, Support Vector Machine (RBF), Gradient Boosting, and Compact MLP (32 $\to$ 64 $\to$ 32 $\to$ 8) were trained and evaluated on identical partitions using a fixed random seed (`SEED = 42`).

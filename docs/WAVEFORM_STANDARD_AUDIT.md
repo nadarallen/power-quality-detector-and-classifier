@@ -140,7 +140,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples, $T = 200\text{ ms}$, 10 full cycles.
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/normal_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/normal_waveform.png)
+- Figure: [`docs/figures/waveforms/normal_waveform.png`](figures/waveforms/normal_waveform.png)
 
 #### 9. Parameter Annotations
 - Top Panel: Nominal reference $v_{\mathrm{nom}}(t)$
@@ -196,7 +196,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples. Sub-cycle sag onset is captured with $200\,\mu\text{s}$ discrete resolution.
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/sag_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/sag_waveform.png)
+- Figure: [`docs/figures/waveforms/sag_waveform.png`](figures/waveforms/sag_waveform.png)
 
 #### 9. Parameter Annotations
 - Highlighted active event window ($[30.0, 110.0]\text{ ms}$, duration $80.0\text{ ms} = 4.0\text{ cycles}$)
@@ -250,7 +250,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples.
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/swell_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/swell_waveform.png)
+- Figure: [`docs/figures/waveforms/swell_waveform.png`](figures/waveforms/swell_waveform.png)
 
 #### 9. Parameter Annotations
 - Highlighted swell window ($[30.0, 110.0]\text{ ms}$, duration $80.0\text{ ms} = 4.0\text{ cycles}$)
@@ -311,7 +311,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples. Windowed RMS tracked via sliding half-cycle window ($W = 50\text{ samples} = 10\text{ ms}$).
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/interruption_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/interruption_waveform.png)
+- Figure: [`docs/figures/waveforms/interruption_waveform.png`](figures/waveforms/interruption_waveform.png)
 
 #### 9. Parameter Annotations
 - Highlighted interruption window ($[30.0, 130.0]\text{ ms}$, duration $100.0\text{ ms} = 5.0\text{ cycles}$)
@@ -372,7 +372,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples. Exactly captures up to 11th harmonic ($550\text{ Hz} \ll 2500\text{ Hz}$) with zero spectral leakage due to 10-cycle coherent windowing.
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/harmonics_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/harmonics_waveform.png)
+- Figure: [`docs/figures/waveforms/harmonics_waveform.png`](figures/waveforms/harmonics_waveform.png)
 - Includes discrete FFT spectrum inset confirming peaks at $50, 150, 250, 350\text{ Hz}$.
 
 #### 9. Parameter Annotations
@@ -430,7 +430,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples. Nyquist limit ($2500\text{ Hz}$) provides $\ge 3.3\times$ oversampling for $750\text{ Hz}$ transients.
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/transient_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/transient_waveform.png)
+- Figure: [`docs/figures/waveforms/transient_waveform.png`](figures/waveforms/transient_waveform.png)
 
 #### 9. Parameter Annotations
 - Highlighted transient event window ($[65.0, 85.0]\text{ ms}$)
@@ -486,7 +486,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples. Envelope frequency $8.0\text{ Hz}$ produces $1.6$ full modulation cycles across the $200\text{ ms}$ window.
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/flicker_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/flicker_waveform.png)
+- Figure: [`docs/figures/waveforms/flicker_waveform.png`](figures/waveforms/flicker_waveform.png)
 
 #### 9. Parameter Annotations
 - Modulation envelope frequency: $f_m = 8.0\text{ Hz}$
@@ -543,7 +543,7 @@ where:
 - $F_s = 5000\text{ Hz}$, $N = 1000$ samples. At $5\text{ kHz}$, each $700\,\mu\text{s}$ notch spans $3\text{--}4$ discrete samples, sufficient for DWT Level 1/2 wavelet detail coefficients and high-pass residual energy detection.
 
 #### 8. Representative Waveform
-- Figure: [`docs/figures/waveforms/notch_waveform.png`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/docs/figures/waveforms/notch_waveform.png)
+- Figure: [`docs/figures/waveforms/notch_waveform.png`](figures/waveforms/notch_waveform.png)
 
 #### 9. Parameter Annotations
 - Commutation notch depth: $45.0\%$

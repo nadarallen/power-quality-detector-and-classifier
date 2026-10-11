@@ -5,7 +5,7 @@
 **Author:** Antigravity PQD Physical Simulation & Integration Team  
 **Evaluation Status:** **PASS** (`GATE3R_FLICKER_AUDIT = PASS`)  
 **Electrical System:** IEEE 9-bus Western System Coordinating Council (WSCC) 3-Machine 9-Bus System  
-**Dataset Under Audit:** [`data/ieee9bus_60hz/flicker/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/flicker/)  
+**Dataset Under Audit:** [`data/ieee9bus_60hz/flicker/`](../data/ieee9bus_60hz/flicker)  
 
 ---
 
@@ -16,7 +16,7 @@ Under **Gate 3R**, an independent, rigorous computational audit of the completed
 Key Findings:
 - **1,152 / 1,152 frames verified** with complete 1-to-1 mapping across waveforms, features, scenarios, and simulations.
 - **Cryptographic integrity verified**: SHA-256 hashes of all artifacts match dataset metadata byte-for-byte.
-- **Pristine reference model remains unchanged**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`.
+- **Pristine reference model remains unchanged**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`.
 - **Physical modulation envelope verified**: Measured envelope depth spans $3.32\%$ to $8.74\%$ (mean $5.21\%$) within the approved Gate 3C range $[0.02, 0.15]$ and IEEE 1159 typical range $0.1\%–10\%$.
 - **Modulation frequency verified**: Measured modulation frequency spans $5.00\,\text{Hz}$ to $15.50\,\text{Hz}$ (mean $9.62\,\text{Hz}$), fully covering the human eye sensitivity peak at $8.8\,\text{Hz}$ per IEEE Std 1453-2022.
 - **Fundamental voltage stability & preservation**: Nominal fundamental frequency is exactly $60.00\,\text{Hz}$ ($59.5–60.5\,\text{Hz}$), with RMS voltage strictly bounded in $[0.5513, 0.6499]\,\text{pu}$, confirming complete absence of unintended sag, swell, or interruption residual collapse.
@@ -54,7 +54,7 @@ Key Findings:
 ## 3. Detailed Audit Domain Findings
 
 ### 3R.1 Dataset Structure & Cryptographic Checksums
-All primary dataset artifacts were hashed using SHA-256 and matched against [`data/ieee9bus_60hz/flicker/flicker_dataset_metadata.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/flicker/flicker_dataset_metadata.json):
+All primary dataset artifacts were hashed using SHA-256 and matched against [`data/ieee9bus_60hz/flicker/flicker_dataset_metadata.json`](../data/ieee9bus_60hz/flicker/flicker_dataset_metadata.json):
 - `flicker_waveforms.npz`: `a5abae764c923bcd223c2ac42fc7edd836f93a9e12a8b6d24e304f38217e946b` (**MATCH**)
 - `flicker_features.csv`: `d8a1c536cc23d41ea699221c6f60a0e9f436e7a46e9e5fae702e2bec17501e70` (**MATCH**)
 - `flicker_scenarios.json`: `11098de19c481f3872eabf1c182d734231ac88b648c54312cfc1e4391752d146` (**MATCH**)
@@ -144,7 +144,7 @@ All parameters trace directly to Gate 3C specifications:
 - Ground-truth labels remained 100% decoupled and unaffected by model predictions.
 
 ### 3R.14 Full Regression & Pristine SLX Hash
-- Pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) hash verified:
+- Pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) hash verified:
   `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D` (**UNTOUCHED**).
 - Automated test suites:
   - Gate 3P (`test_gate3p_flicker.py`): 12 / 12 passed
@@ -156,7 +156,7 @@ All parameters trace directly to Gate 3C specifications:
 ## 4. Audit Deliverables & Summary JSON
 
 Audit summary successfully written to:
-[`docs/gate3r_flicker_quality_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/gate3r_flicker_quality_summary.json)
+[`docs/gate3r_flicker_quality_summary.json`](gate3r_flicker_quality_summary.json)
 
 ---
 

@@ -1,7 +1,7 @@
 # Power Quality Disturbance (PQD) Classifier — System Architecture & Design Specification
 
 > [!NOTE]
-> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md).
+> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](../docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](../docs/SOURCE_OF_TRUTH.md).
 
 
 > **A Clean Architecture & SOLID Design Document for Embedded ML & Cloud Telemetry**
@@ -52,7 +52,7 @@ Each module in the system has a single, well-defined reason to change:
 - **Extensible Model Benchmarking**: `compare_models.py` uses a dictionary-driven candidate registry (`models = {...}`), allowing new scikit-learn or PyTorch models to be benchmarked without changing evaluation or plotting code.
 
 ### 2.3 Liskov Substitution Principle (LSP) & Dependency Inversion (DIP)
-- High-level validation services ([validation/test_harness.py](file:///d:/Major%20proj/validation/test_harness.py)) depend on abstract database interfaces (`FirebaseDBService`), allowing seamless substitution between **Live Firebase Firestore** and **Local Offline Mock Service** without breaking client code.
+- High-level validation services ([validation/test_harness.py](../tests)) depend on abstract database interfaces (`FirebaseDBService`), allowing seamless substitution between **Live Firebase Firestore** and **Local Offline Mock Service** without breaking client code.
 
 ---
 

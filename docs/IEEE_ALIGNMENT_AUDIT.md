@@ -215,7 +215,7 @@ To uphold rigorous scientific integrity, we explicitly demarcate standards-presc
 ## 5. Critical Inconsistencies & Bugs Uncovered
 
 ### 5.1 CRITICAL BUG: Simulation Interruption Magnitude in `web/app.js`
-In [`web/app.js`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/web/app.js#L121-L123):
+In [`web/app.js`](../web/app.js#L121-L123):
 ```javascript
 } else if (distType === 'Interruption') {
   val *= 0.680; // Scaled so V_rms = 0.482 pu
@@ -228,7 +228,7 @@ In [`web/app.js`](file:///home/salmo/Projects/major%20project/power-quality-dete
 ---
 
 ### 5.2 CRITICAL BUG: Firmware Goertzel Frequency Bin Attenuation
-In [`firmware/src/feature_extraction.cpp`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/firmware/src/feature_extraction.cpp#L7-L11):
+In [`firmware/src/feature_extraction.cpp`](../firmware/src/feature_extraction.cpp#L7-L11):
 ```cpp
 float computeGoertzelMagnitude(const float* signal, size_t length, float target_freq, float sample_rate) {
     float k = 0.5f + (length * target_freq / sample_rate);
@@ -248,7 +248,7 @@ float computeGoertzelMagnitude(const float* signal, size_t length, float target_
 ---
 
 ### 5.3 STUBBED INFERENCE: Firmware Rule-Based Fallback
-In [`firmware/src/inference.cpp`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/firmware/src/inference.cpp#L64-L89):
+In [`firmware/src/inference.cpp`](../firmware/src/inference.cpp#L64-L89):
 - The ESP32 firmware compiles `model_data.h` into Flash, but `runInference()` executes an **ad-hoc `if-else` heuristic** based on coarse RMS and THD thresholds instead of calling `tflite::MicroInterpreter::Invoke()`.
 - The heuristic **omits `Flicker` and `Notch` entirely**, making them impossible to detect on the microcontroller.
 - **Required Action:** Wire the real TFLite Micro runtime to invoke the quantized flatbuffer.
@@ -256,7 +256,7 @@ In [`firmware/src/inference.cpp`](file:///home/salmo/Projects/major%20project/po
 ---
 
 ### 5.4 SYNTHETIC ARTIFACT: 5.0 ms Duration Cluster for Transients
-In [`Dataset/BARC DATA.csv`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/Dataset/BARC%20DATA.csv):
+In [`Dataset/BARC DATA.csv`](../Dataset/BARC DATA.csv):
 - All 985 `Transient` instances have `Duration_ms == 5.0 ms` exactly.
 - All `Normal`, `Harmonics`, `Flicker`, and `Notch` instances have `Duration_ms == 0.0 ms`.
 - Models achieve 100% precision on Transients by simply learning `if duration == 5.0 ms -> Transient`.

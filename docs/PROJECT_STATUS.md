@@ -92,10 +92,10 @@ The current project architecture follows an unbroken physical-to-digital chain o
 - **Grid Configuration**: 3 synchronous generators (G1, G2, G3), 3 two-winding step-up transformers, 6 transmission line sections, and 3 major load centers (Loads A, B, C).
 - **Nominal Grid Frequency**: $f_0 = 60.0\,\text{Hz}$ (fundamental period $T_0 = 16.667\,\text{ms}$).
 - **Base Power**: $100\,\text{MVA}$ three-phase system base.
-- **Pristine Reference Model**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx)
+- **Pristine Reference Model**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx)
   - Frozen, read-only baseline model.
   - Byte-for-byte SHA-256: `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`.
-- **Working Disturbance Model**: [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx)
+- **Working Disturbance Model**: [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](../IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx)
   - Derivative model housing all approved physical disturbance blocks with strict mutual dormancy logic.
 
 ### 3.2 Observation Point
@@ -113,7 +113,7 @@ The current project architecture follows an unbroken physical-to-digital chain o
 
 ## 4. Authoritative 32-Feature Production DSP Contract
 
-Every 200-ms observation frame is processed by [`dsp/enhanced_features.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/dsp/enhanced_features.py) to extract exactly 32 features in strict sequential order:
+Every 200-ms observation frame is processed by [`dsp/enhanced_features.py`](../dsp/enhanced_features.py) to extract exactly 32 features in strict sequential order:
 
 ```
  1. rms_voltage          9. h1              17. h9               25. h9_ratio
@@ -161,7 +161,7 @@ The project has completed genuine physical electrical dataset generation for all
 ## 6. Machine Learning Decoupling Status
 
 ### 6.1 Current Model State
-- **Model File**: [`ml/models/model_weights_32.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/ml/models/model_weights_32.json)
+- **Model File**: [`ml/models/model_weights_32.json`](../ml/models/model_weights_32.json)
 - **Architecture**: Compact Multi-Layer Perceptron (32 $\rightarrow$ 64 $\rightarrow$ 32 $\rightarrow$ 8, FP32).
 - **Training Baseline**: EXP-003 trained on legacy 50-Hz synthetic datasets.
 - **Operating Domain**: `OUT_OF_DOMAIN` when evaluated on native 60-Hz IEEE 9-bus waveforms.
@@ -184,7 +184,7 @@ Retraining the neural network on the completed 60-Hz physical dataset is deferre
 ## 7. Global Freeze Rules
 
 To guarantee experimental integrity and reproducibility, the following artifacts remain under absolute global freeze:
-1. **Pristine Reference Model**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) must remain byte-for-byte identical.
+1. **Pristine Reference Model**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) must remain byte-for-byte identical.
 2. **Feature Contract**: The 32-feature extraction signature, feature ordering, and phase-aware SNR algorithm must not be modified.
 3. **Validated Datasets**: All 9,216 generated frames, features, and scenario catalogs under `data/ieee9bus_60hz/` are immutable.
 4. **No Premature ML Retraining**: No model training or weight adjustments are permitted until Phase 4 begins.

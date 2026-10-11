@@ -14,8 +14,8 @@
 The primary objective of **Gate 3Q** is to expand the physically validated Gate 3P deterministic Flicker mechanism into a comprehensive, multi-condition machine learning dataset for the 60-Hz IEEE 9-bus electrical domain.
 
 In strict compliance with the **Global Freeze Rules**:
-- The authoritative pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte unchanged (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`).
-- Disturbance simulations were executed exclusively in the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical three-phase controlled current source modulation blocks (`PQD_Flicker_A`, `PQD_Flicker_B`, `PQD_Flicker_C`, `PQD_Flicker_Switch`).
+- The authoritative pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte unchanged (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`).
+- Disturbance simulations were executed exclusively in the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](../IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical three-phase controlled current source modulation blocks (`PQD_Flicker_A`, `PQD_Flicker_B`, `PQD_Flicker_C`, `PQD_Flicker_Switch`).
 - Exactly **1,152 genuinely unique frames** were generated, extracted, and accepted (**100.0% acceptance rate**, zero rejections).
 - Ground truth originates strictly from the scenario controller (`label_source = "SCENARIO_CONTROLLER"`, `label_idx = 0`, `class = "Flicker"`).
 - The legacy MLP model was evaluated in isolation, confirming complete decoupling with zero feedback into ground truth.

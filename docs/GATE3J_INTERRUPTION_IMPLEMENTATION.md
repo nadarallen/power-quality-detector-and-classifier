@@ -14,8 +14,8 @@
 Under **Gate 3J**, a physically authentic, deterministic **Voltage Interruption** scenario (`INT_0001_three_phase_symmetric`) has been successfully designed, modeled, simulated, and physically validated within the 60-Hz IEEE 9-bus electrical domain.
 
 In strict adherence to the **Global Freeze Rules**:
-- The pristine electrical model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains completely untouched (SHA-256 verified).
-- Disturbance switching was integrated into the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) via a dedicated, dormant-by-default Three-Phase Circuit Breaker (`PQD_Breaker_Interruption`).
+- The pristine electrical model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains completely untouched (SHA-256 verified).
+- Disturbance switching was integrated into the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](../IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) via a dedicated, dormant-by-default Three-Phase Circuit Breaker (`PQD_Breaker_Interruption`).
 - The residual voltage drops from $0.5887\,\text{pu}$ ($1.000\,\text{pu}$ normalized) to $0.0002\,\text{pu}$ ($0.0004\,\text{pu}$ ratio, $\approx 0.04\%$), fully satisfying the IEEE Std 1159-2019 threshold of $V_{\text{residual}} < 0.10\,\text{pu}$.
 - Ground truth originates exclusively from the scenario controller (`label_source = "SCENARIO_CONTROLLER"`, `label_idx = 2`).
 - Production 32-feature DSP extraction completed with zero NaN/Inf and valid phase-aware SNR.
@@ -54,7 +54,7 @@ Per **IEEE Std 1159-2019 Clause 3.1.34** and **IEC 61000-4-30:2015 Clause 5.2**,
 
 ## 3. Exact Parameters & Provenance
 
-The deterministic scenario parameters are codified in [`scenarios/definitions/INT_0001_three_phase_symmetric.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/scenarios/definitions/INT_0001_three_phase_symmetric.json):
+The deterministic scenario parameters are codified in [`scenarios/definitions/INT_0001_three_phase_symmetric.json`](../scenarios/definitions/INT_0001_three_phase_symmetric.json):
 
 | Parameter | Configured Value | Provenance Category | Standard / Engineering Source |
 | :--- | :--- | :--- | :--- |
@@ -121,7 +121,7 @@ Every portion of the waveform was audited for unintended secondary disturbances:
 
 ## 6. Authoritative Production 32-Feature Extraction
 
-Extracted via [`dsp/enhanced_features.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/dsp/enhanced_features.py) with authoritative phase-aware SNR:
+Extracted via [`dsp/enhanced_features.py`](../dsp/enhanced_features.py) with authoritative phase-aware SNR:
 
 | Index | Feature Key | Value | Description |
 | :---: | :--- | :--- | :--- |
@@ -178,7 +178,7 @@ In strict compliance with Gate 3J decoupling mandates:
 
 ## 8. Data Storage & Artifacts
 
-All Gate 3J deterministic artifacts are persisted under [`data/ieee9bus_60hz/interruption/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/interruption/):
+All Gate 3J deterministic artifacts are persisted under [`data/ieee9bus_60hz/interruption/`](../data/ieee9bus_60hz/interruption):
 
 | File Path | Description | SHA-256 Checksum |
 | :--- | :--- | :--- |
@@ -193,7 +193,7 @@ All Gate 3J deterministic artifacts are persisted under [`data/ieee9bus_60hz/int
 ## 9. Integration Regression & Test Results
 
 1. **Gate 3J Unit & Functional Suite**:
-   [`tests/test_gate3j_interruption.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/tests/test_gate3j_interruption.py) verifies all 16 required items:
+   [`tests/test_gate3j_interruption.py`](../tests/test_gate3j_interruption.py) verifies all 16 required items:
    - Scenario selection, ground-truth provenance, breaker insertion point, electrical event, residual RMS ($< 0.10\,\text{pu}$), event timing, duration ($\ge 8.33\,\text{ms}$), recovery, per-phase behavior, secondary phenomena absence, duration feature physicality, 32-feature extraction, metadata completeness, pristine model integrity, integration pipeline health, and ML decoupling.
    - **Result**: `16 passed in 1.44s`
 

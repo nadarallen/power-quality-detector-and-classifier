@@ -14,8 +14,8 @@
 The primary objective of **Gate 3K** is to expand the physically validated Gate 3J deterministic Voltage Interruption mechanism into a comprehensive, reproducible, multi-condition machine learning dataset for the 60-Hz IEEE 9-bus electrical domain.
 
 In strict compliance with the **Global Freeze Rules**:
-- The authoritative pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte unchanged (SHA-256: `5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d`).
-- Disturbance simulations were executed exclusively in the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical Three-Phase Circuit Breaker block (`PQD_Breaker_Interruption`).
+- The authoritative pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte unchanged (SHA-256: `5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d`).
+- Disturbance simulations were executed exclusively in the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](../IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical Three-Phase Circuit Breaker block (`PQD_Breaker_Interruption`).
 - Exactly **1,152 genuinely unique frames** were generated, extracted, and accepted ($100.0\%$ acceptance rate, zero rejections).
 - Ground truth originates strictly from the scenario controller (`label_source = "SCENARIO_CONTROLLER"`, `label_idx = 2`, `class = "Interruption"`).
 - The legacy MLP model was evaluated in isolation, confirming complete decoupling with zero feedback into ground truth.
@@ -165,7 +165,7 @@ Interruption is distinctly separated from Sag by its deep residual collapse ($< 
 
 ## 9. Production DSP & MATLAB Parity
 
-Parity between reference mathematical expressions and the production Python 32-feature pipeline ([`dsp/enhanced_features.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/dsp/enhanced_features.py)) was audited across representative Interruption frames:
+Parity between reference mathematical expressions and the production Python 32-feature pipeline ([`dsp/enhanced_features.py`](../dsp/enhanced_features.py)) was audited across representative Interruption frames:
 - **Max RMS Delta:** $4.36\times 10^{-7}$
 - **Max Peak Delta:** $3.96\times 10^{-7}$
 - **Max Crest Factor Delta:** $4.98\times 10^{-7}$
@@ -192,7 +192,7 @@ No window, trajectory, or operating-condition sequence leaks across split bounda
 
 ## 11. Artifacts & Checksums
 
-All Gate 3K artifacts are stored under [`data/ieee9bus_60hz/interruption/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/interruption/):
+All Gate 3K artifacts are stored under [`data/ieee9bus_60hz/interruption/`](../data/ieee9bus_60hz/interruption):
 
 | File Name | Size | SHA-256 Checksum |
 | :--- | :--- | :--- |
@@ -206,7 +206,7 @@ All Gate 3K artifacts are stored under [`data/ieee9bus_60hz/interruption/`](file
 
 ## 12. Regression Test Results
 
-- **Gate 3K Unit Suite** ([`tests/test_gate3k_interruption_dataset.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/tests/test_gate3k_interruption_dataset.py)): **12 / 12 PASSED** in 1.33s.
+- **Gate 3K Unit Suite** ([`tests/test_gate3k_interruption_dataset.py`](../tests/test_gate3k_interruption_dataset.py)): **12 / 12 PASSED** in 1.33s.
 - **Cross-Gate Suite** (Gates 3D, 3E, 3G, 3H, 3J, 3K): **68 / 68 PASSED** in 2.01s.
 - **Full Project Test Suite**: **194 PASSED**, 2 skipped, 0 failed in 6.56s.
 - **Pristine Simulink Model Integrity**: **CLEAN / UNTOUCHED** (SHA-256 verified).

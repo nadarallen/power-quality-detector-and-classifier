@@ -1,7 +1,7 @@
 # Project Audit: Power Quality Disturbance (PQD) Classifier
 
 > [!NOTE]
-> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md).
+> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md).
 
 **Document Version:** 1.0.0  
 **Audit Date:** 2026-09-19  
@@ -122,7 +122,7 @@ The system is an edge-to-cloud power quality monitoring system designed to class
 ## 4. Identified Limitations & Architectural Risks
 
 1. **Firmware Inference Stubbed Out:**
-   In [`firmware/src/inference.cpp`](file:///home/salmo/Projects/major%20project/power-quality-detector-and-classifier/firmware/src/inference.cpp#L51-L89), while `model_data.h` is present, `runInference()` currently executes a hardcoded `if-else` rule-based heuristic rather than calling `tflite::MicroInterpreter::Invoke()`.
+   In [`firmware/src/inference.cpp`](../firmware/src/inference.cpp#L51-L89), while `model_data.h` is present, `runInference()` currently executes a hardcoded `if-else` rule-based heuristic rather than calling `tflite::MicroInterpreter::Invoke()`.
 2. **Evaluation Protocol Vulnerabilities:**
    - Evaluated on only a single 80/20 split. No cross-validation was conducted.
    - No separate, permanently held-out final test set was locked.

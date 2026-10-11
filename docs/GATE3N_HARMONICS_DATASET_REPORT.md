@@ -14,8 +14,8 @@
 The primary objective of **Gate 3N** is to expand the physically validated Gate 3M deterministic Harmonics mechanism into a comprehensive, multi-condition machine learning dataset for the 60-Hz IEEE 9-bus electrical domain.
 
 In strict compliance with the **Global Freeze Rules**:
-- The authoritative pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte unchanged (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`).
-- Disturbance simulations were executed exclusively in the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical three-phase controlled current source injection blocks (`PQD_Harmonics_A`, `PQD_Harmonics_B`, `PQD_Harmonics_C`, `PQD_Harm_Switch`).
+- The authoritative pristine model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) remains byte-for-byte unchanged (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`).
+- Disturbance simulations were executed exclusively in the working model [`IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`](../IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx) using the physical three-phase controlled current source injection blocks (`PQD_Harmonics_A`, `PQD_Harmonics_B`, `PQD_Harmonics_C`, `PQD_Harm_Switch`).
 - Exactly **1,152 genuinely unique frames** were generated, extracted, and accepted ($100.0\%$ acceptance rate, zero rejections).
 - Ground truth originates strictly from the scenario controller (`label_source = "SCENARIO_CONTROLLER"`, `label_idx = 1`, `class = "Harmonics"`).
 - The legacy MLP model was evaluated in isolation, confirming complete decoupling with zero feedback into ground truth.

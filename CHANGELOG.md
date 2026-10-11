@@ -9,11 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Modernized & Standardized
 - **Master Documentation Architecture**:
-  - Established [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md) defining the single authoritative registry for all simulation models, datasets, DSP contracts, and pipeline components.
-  - Created [docs/LIVE_MVP_PLAN.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/LIVE_MVP_PLAN.md) detailing the future Phase 5 live demonstration MVP architecture (Simulink disturbance rack, MATLAB programmatic trigger API, streaming telemetry).
-  - Created [docs/README.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/README.md) as the central documentation navigation hub.
-  - Created [docs/REPOSITORY_LEGACY_AUDIT.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/REPOSITORY_LEGACY_AUDIT.md) providing a comprehensive component classification and legacy audit matrix.
-  - Rewrote root [README.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/README.md) and [RUNTHISPROJECT.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/RUNTHISPROJECT.md) to eliminate obsolete 50-Hz / 8-feature / ESP32-first claims and present the 60-Hz WSCC 9-bus architecture.
+  - Established [docs/SOURCE_OF_TRUTH.md](docs/SOURCE_OF_TRUTH.md) defining the single authoritative registry for all simulation models, datasets, DSP contracts, and pipeline components.
+  - Created [docs/LIVE_MVP_PLAN.md](docs/LIVE_MVP_PLAN.md) detailing the future Phase 5 live demonstration MVP architecture (Simulink disturbance rack, MATLAB programmatic trigger API, streaming telemetry).
+  - Created [docs/README.md](docs/README.md) as the central documentation navigation hub.
+  - Created [docs/REPOSITORY_LEGACY_AUDIT.md](docs/REPOSITORY_LEGACY_AUDIT.md) providing a comprehensive component classification and legacy audit matrix.
+  - Rewrote root [README.md](README.md) and [RUNTHISPROJECT.md](RUNTHISPROJECT.md) to eliminate obsolete 50-Hz / 8-feature / ESP32-first claims and present the 60-Hz WSCC 9-bus architecture.
 - **Legacy & Future Subsystem Reclassification**:
   - Reclassified ESP32 C++ firmware (`firmware/`) and hardware schematics (`hardware/`) as **Phase 6 Optional Embedded HIL Extension**.
   - Reclassified Firebase real-time service (`firebase/`) and mobile app (`mobile_app/`) as optional cloud/mobile telemetry clients.

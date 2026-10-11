@@ -5,7 +5,7 @@
 **Author:** Antigravity PQD Physical Simulation & Integration Team  
 **Evaluation Status:** **PASS** (`GATE3L_INTERRUPTION_AUDIT = PASS`)  
 **Electrical System:** IEEE 9-bus Western System Coordinating Council (WSCC) 3-Machine 9-Bus System  
-**Dataset Under Audit:** [`data/ieee9bus_60hz/interruption/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/interruption/)  
+**Dataset Under Audit:** [`data/ieee9bus_60hz/interruption/`](../data/ieee9bus_60hz/interruption)  
 
 ---
 
@@ -16,7 +16,7 @@ Under **Gate 3L**, an independent, comprehensive computational audit of the comp
 Key Findings:
 - **1,152 / 1,152 frames verified** with complete 1-to-1-to-1-to-1 mapping across waveforms, features, scenarios, and simulations.
 - **Cryptographic integrity verified**: SHA-256 hashes of all artifacts match dataset metadata byte-for-byte.
-- **Pristine reference model remains unchanged**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d`.
+- **Pristine reference model remains unchanged**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d`.
 - **Physical compliance (IEEE Std 1159-2019 Table 2)**: All frames exhibit residual voltage ratio $V_{\text{res}} / V_{\text{pre}} \in [0.0013, 0.0039]\,\text{pu}$ ($0.13\% - 0.39\%$), comfortably below the standard threshold of $< 0.10\,\text{pu}$, with physical non-zero residual voltage ($> 0.0\,\text{pu}$).
 - **Measured duration**: $43.8\text{--}118.8\,\text{ms}$ ($2.6\text{--}7.1\,\text{cycles}$), strictly meeting the instantaneous interruption definition ($\ge 8.33\,\text{ms}$ / 0.5 cycle).
 - **Zero data leakage**: Simulation trajectory-grouped splitting verified ($\text{Train} \cap \text{Val} = \emptyset$, $\text{Train} \cap \text{Test} = \emptyset$, $\text{Val} \cap \text{Test} = \emptyset$).
@@ -52,7 +52,7 @@ Key Findings:
 ## 3. Detailed Audit Domain Findings
 
 ### Audit 1: Dataset Integrity & Cryptographic Checksums
-All 4 primary dataset artifacts were hashed using SHA-256 and compared against [`data/ieee9bus_60hz/interruption/interruption_dataset_metadata.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/interruption/interruption_dataset_metadata.json):
+All 4 primary dataset artifacts were hashed using SHA-256 and compared against [`data/ieee9bus_60hz/interruption/interruption_dataset_metadata.json`](../data/ieee9bus_60hz/interruption/interruption_dataset_metadata.json):
 - `interruption_waveforms.npz`: `57970958638ac83e4e1e91b4f8261242bf50043f5fe7ea821e05b8864b700130` (**MATCH**)
 - `interruption_features.csv`: `efb70703d280c0c89e6fb5806afcd0758da1aa41b86f453a888f68ef21cf80a5` (**MATCH**)
 - `interruption_scenarios.json`: `4b1cf546be22f99dcece53c81ea413c36a660d50c9050394165a65bca8c181db` (**MATCH**)
@@ -74,7 +74,7 @@ Configured scenario durations were compared against measured durations from slid
 - **Mean Error**: $2.90\,\text{ms}$ ($0.17\,\text{cycles}$)
 - **Median Error**: $2.23\,\text{ms}$
 - **Max Error**: $5.13\,\text{ms}$ ($0.31\,\text{cycles}$)
-The small timing offset physically originates from the point-on-wave current zero crossing at which circuit breaker contact arcs extinguish. The production DSP duration feature ([`dsp/enhanced_features.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/dsp/enhanced_features.py)) spans $[43.6, 119.2]\,\text{ms}$, confirming that no legacy `abs(signal) < 0.9` heuristic was reintroduced.
+The small timing offset physically originates from the point-on-wave current zero crossing at which circuit breaker contact arcs extinguish. The production DSP duration feature ([`dsp/enhanced_features.py`](../dsp/enhanced_features.py)) spans $[43.6, 119.2]\,\text{ms}$, confirming that no legacy `abs(signal) < 0.9` heuristic was reintroduced.
 
 ### Audit 5: Residual Voltage Percentiles
 | Percentile | Residual Ratio (pu) | Normalized Voltage (%) |

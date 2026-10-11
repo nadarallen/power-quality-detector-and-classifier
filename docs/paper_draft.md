@@ -1,7 +1,7 @@
 # On-Device Power Quality Disturbance Classification via Physics-Informed Spectral Moments and Embedded Micro-MLP on ESP32 Microcontrollers
 
 > [!NOTE]
-> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/SOURCE_OF_TRUTH.md).
+> **Historical / Future Extension Record:** This document represents early exploratory studies or future Phase 6 embedded hardware investigations. For the current authoritative 60-Hz WSCC IEEE 9-bus simulation architecture and Phase 3 dataset records, consult [docs/PROJECT_STATUS.md](PROJECT_STATUS.md) and [docs/SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md).
 
 
 **Authors:** Senior Systems Engineer / Research Group  

@@ -7,7 +7,7 @@
 
 > [!NOTE]
 > This document is preserved as a historical architectural baseline from September 20, 2026.
-> For the authoritative current project status, Phase 3 completion metrics, and current architecture, refer to [`docs/PROJECT_STATUS.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PROJECT_STATUS.md).
+> For the authoritative current project status, Phase 3 completion metrics, and current architecture, refer to [`docs/PROJECT_STATUS.md`](PROJECT_STATUS.md).
 
 ---
 

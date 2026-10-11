@@ -5,7 +5,7 @@
 **Author:** Antigravity PQD Physical Simulation & Integration Team  
 **Evaluation Status:** **PASS** (`GATE3U_NOTCH_AUDIT = PASS`)  
 **Electrical System:** IEEE 9-bus Western System Coordinating Council (WSCC) 3-Machine 9-Bus System  
-**Dataset Under Audit:** [`data/ieee9bus_60hz/notch/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/notch/)  
+**Dataset Under Audit:** [`data/ieee9bus_60hz/notch/`](../data/ieee9bus_60hz/notch)  
 
 ---
 
@@ -20,7 +20,7 @@ Under **Gate 3U**, an independent, exhaustive computational audit of the complet
   - `notch_features.csv`: `76F4B8722A6DDB9AB6461DBF10ABE8D24A2D6F06DA43784BC87B3E07A5201775`
   - `notch_scenarios.json`: `7615F6517C78FF2FF6B94D96417D1EAAC715ED43EAA2BD4FD5C70251DAFE6B2E`
   - `notch_dataset_metadata.json`: `1B0904A934E5C4C22039C60BD00121BCE5EC1B62A04FE09AA715FA52FF171CA4`
-- **Pristine reference model remains untouched**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D` (byte-for-byte identical).
+- **Pristine reference model remains untouched**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) SHA-256 is `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D` (byte-for-byte identical).
 - **Physical commutation mechanism verified**: Point-on-wave notches are generated solely by actual physical line-to-line thyristor commutation switching on Bus 5 (230 kV PCC), driven by `notch_ctrl_signal` through a three-phase commutation bridge with finite commutation resistance $R_{\text{comm}} \in [10, 100]\,\Omega$.
 - **Notch width and depth metrics verified**:
   - Measured notch depth $d \in [22.89\%, 53.82\%]$ (mean $38.19\%$), satisfying the Gate 3C criterion $[20\%, 80\%]$.
@@ -187,7 +187,7 @@ Claims verified against IEEE standards:
 - The model prediction was recorded strictly as a diagnostic; it had zero influence on dataset ground truth, filtering, or validation.
 
 ### 3U.15 Regression & Pristine Reference Integrity
-- Pristine reference model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx):
+- Pristine reference model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx):
   - Verified SHA-256: `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D` (byte-for-byte identical).
 - Previous disturbance datasets (`normal`, `sag`, `swell`, `interruption`, `harmonics`, `flicker`):
   - 100% intact, zero files modified.
