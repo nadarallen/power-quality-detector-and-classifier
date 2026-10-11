@@ -19,17 +19,20 @@ All datasets, feature vectors, scalers, and trained models are committed directl
 ### 2.1 Verified Python Environment
 - **Python Version**: Python 3.10+ (Verified on Python 3.14.2 64-bit on Windows; compatible with Linux / macOS)
 - **Verified Package Versions**:
-  - `numpy >= 2.0.0` (verified with `2.4.6`)
-  - `scipy >= 1.14.0` (verified with `1.17.1`)
-  - `pandas >= 2.2.0` (verified with `3.0.3`)
-  - `scikit-learn >= 1.5.0` (verified with `1.9.0`)
-  - `pytest >= 8.0.0` (verified with `8.2.2`)
+  - `numpy >= 2.0.0` (verified with `2.4.6` / `2.5.4`)
+  - `scipy >= 1.14.0` (verified with `1.17.1` / `1.18.1`)
+  - `pandas >= 2.2.0` (verified with `3.0.3` / `3.0.6`)
+  - `scikit-learn >= 1.5.0` (verified with `1.9.0` / `1.9.1`)
+  - `pytest >= 8.0.0` (verified with `8.2.2` / `9.1.1`)
+  - `jsonschema >= 4.20.0` (verified with `4.26.0`, required for scenario schemas)
+  - `requests >= 2.31.0` (verified with `2.34.2`, required for server telemetry)
+  - `matplotlib >= 3.8.0` (verified with `3.11.2`, required for waveform plotting)
 
 ### 2.2 Installation
 In a standard Python environment or virtual environment:
 
 ```bash
-pip install numpy scipy pandas scikit-learn pytest
+pip install numpy scipy pandas scikit-learn pytest jsonschema requests matplotlib
 ```
 
 ---

@@ -212,7 +212,7 @@ def plot_single_waveform(cls_name: str):
     out_path = os.path.join(OUT_DIR, f"{cls_name.lower()}_waveform.png")
     plt.savefig(out_path, dpi=300)
     plt.close(fig)
-    print(f"  ✓ Saved: {out_path}")
+    print(f"  [OK] Saved: {out_path}")
     return out_path
 
 
@@ -250,7 +250,7 @@ def plot_consolidated_grid():
     out_path = os.path.join(OUT_DIR, "all_waveforms_comparison.png")
     plt.savefig(out_path, dpi=300)
     plt.close(fig)
-    print(f"  ✓ Saved consolidated grid: {out_path}")
+    print(f"  [OK] Saved consolidated grid: {out_path}")
 
 
 def main():

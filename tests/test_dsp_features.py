@@ -41,7 +41,7 @@ def test_dsp():
             assert not np.isnan(v), f"NaN in enhanced feature {k} for {cls}"
             assert not np.isinf(v), f"Inf in enhanced feature {k} for {cls}"
 
-        print(f"  ✓ {cls:<15}: RMS = {e_feats['rms_voltage']:.3f} pu, THD = {e_feats['thd']:>5.2f}%, Centroid = {e_feats['spectral_centroid']:>6.1f} Hz, Total feats = {len(e_feats)}")
+        print(f"  [OK] {cls:<15}: RMS = {e_feats['rms_voltage']:.3f} pu, THD = {e_feats['thd']:>5.2f}%, Centroid = {e_feats['spectral_centroid']:>6.1f} Hz, Total feats = {len(e_feats)}")
 
     print(f"\n[Success] All 8 disturbance classes successfully generated and extracted!")
     print(f"Total Enhanced Features Extracted: {len(e_feats)}")

@@ -113,13 +113,13 @@ def generate_split_waveforms(split_name: str, seed_offset: int, splits_dir: str,
     # Save primary output file
     out_file = os.path.join(out_dir, f"{split_name}_waveforms.npz")
     np.savez_compressed(out_file, X=X, y=y, classes=CLASSES)
-    print(f"  ✓ Saved: {out_file} (Shape: {X.shape})")
+    print(f"  [OK] Saved: {out_file} (Shape: {X.shape})")
 
     # If split is 'validation', also create 'val_waveforms.npz' alias
     if split_name == "validation":
         alias_file = os.path.join(out_dir, "val_waveforms.npz")
         shutil.copyfile(out_file, alias_file)
-        print(f"  ✓ Created alias: {alias_file}")
+        print(f"  [OK] Created alias: {alias_file}")
 
     return out_file
 
@@ -133,7 +133,7 @@ def verify_waveforms(out_dir: str):
     for s in splits_to_check:
         npz_path = os.path.join(out_dir, f"{s}_waveforms.npz")
         if not os.path.exists(npz_path):
-            print(f"  ⚠ Missing: {npz_path}")
+            print(f"  [WARN] Missing: {npz_path}")
             continue
 
         data = np.load(npz_path)
@@ -146,7 +146,7 @@ def verify_waveforms(out_dir: str):
         assert X.dtype == np.float32, f"Expected float32, got {X.dtype}"
         assert len(classes) == 8, f"Expected 8 classes, got {len(classes)}"
 
-        print(f"  ✓ {s:<12}: Shape={X.shape}, Samples={len(y)}, Range=[{X.min():.3f}, {X.max():.3f}], NaNs=0, Infs=0")
+        print(f"  [OK] {s:<12}: Shape={X.shape}, Samples={len(y)}, Range=[{X.min():.3f}, {X.max():.3f}], NaNs=0, Infs=0")
 
 
 def main():

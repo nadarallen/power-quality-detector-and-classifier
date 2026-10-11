@@ -17,7 +17,7 @@ Requires Python 3.10+ (tested on Python 3.10, 3.12, 3.14).
 cd power-quality-detector-and-classifier
 
 # Install dependencies
-pip install numpy scipy pandas scikit-learn pytest requests
+pip install numpy scipy pandas scikit-learn pytest requests jsonschema matplotlib
 ```
 
 ### 1.2 MATLAB / Simulink Environment (Optional for Simulation)
