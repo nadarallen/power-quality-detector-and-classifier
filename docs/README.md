@@ -53,6 +53,10 @@ Each completed engineering gate produced an immutable technical report, audit lo
 - **Artifact Reconciliation & Provenance Audit:** [ARTIFACT_INTEGRITY_RECONCILIATION.md](ARTIFACT_INTEGRITY_RECONCILIATION.md)
 - **Clean-Clone Reproduction Guide:** [REPRODUCING_PHASE4.md](REPRODUCING_PHASE4.md)
 
+### Phase 5: Feature Analysis, Comparative Modeling & Live Demonstration
+- **Phase 5A (Feature Audit & Multi-Model Research Design):** [PHASE5A_FEATURE_ANALYSIS_AND_COMPARISON_PLAN.md](PHASE5A_FEATURE_ANALYSIS_AND_COMPARISON_PLAN.md)
+- **Phase 5 Live Demonstration Specification:** [LIVE_MVP_PLAN.md](LIVE_MVP_PLAN.md)
+
 ---
 
 ## 3. Historical Archives & Future Extensions
