@@ -2,7 +2,7 @@
 
 **Subsystem:** Automated Testing & Continuous Verification  
 **Test Runner:** `pytest` (configured in `pytest.ini`)  
-**Current Test Metrics:** 302 collected, 300 passed, 2 skipped, 0 failed (~7.8s)  
+**Current Test Metrics:** 324 collected, 322 passed, 2 skipped, 0 failed (~16s)  
 
 ---
 
@@ -12,12 +12,12 @@ The test suite provides exhaustive coverage across physical disturbance generati
 
 ```
 +-----------------------------------------------------------------------------+
-|                      AUTOMATED TEST SUITE MATRIX (300 PASSING)              |
+|                      AUTOMATED TEST SUITE MATRIX (322 PASSING)              |
 +-----------------------------------------------------------------------------+
 |                                                                             |
 |  1. Physical Disturbance & Dataset Tests (Gates 3A–3X)                      |
 |     - test_gate3a_60hz_compatibility.py   --> 60-Hz WSCC 9-Bus Model Checks |
-|     - test_gate3b_normal_dataset.py       --> Normal Baseline Frames (1,152)|
+|     - test_gate3b_normal_dataset.py       --> Normal Baseline Frames (1,120)|
 |     - test_gate3d_sag.py / test_gate3e... --> Sag Implementation & Dataset  |
 |     - test_gate3g_swell.py / test_gate3h. --> Swell Implementation & Dataset|
 |     - test_gate3j_interruption.py / 3k... --> Interruption Pipeline & Audit |

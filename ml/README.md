@@ -42,7 +42,7 @@ ml/
 
 When Phase 4 commences, retraining will follow the strict 10-step protocol specified in [docs/ML_READINESS.md](../docs/ML_READINESS.md):
 
-1. **Dataset Freeze:** Lock all 8 audited datasets in `data/ieee9bus_60hz/` (9,216 total multi-phase frames across 256 trajectories).
+1. **Dataset Freeze:** Lock all 8 audited datasets in `data/ieee9bus_60hz/` (9,184 total multi-phase frames across 284 trajectories).
 2. **Trajectory-Grouped Splitting:** Partition by operating condition trajectory ($70\%\text{ train} / 15\%\text{ val} / 15\%\text{ test}$) with **zero inter-trajectory leakage**.
 3. **Train-Only Scaler Fitting:** Compute `StandardScaler` ($\mu, \sigma$) strictly on training folds.
 4. **Baseline Classical Benchmarking:** Train Random Forest, Extra Trees, and XGBoost baselines.

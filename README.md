@@ -72,15 +72,15 @@ The primary architecture bridges an electromagnetic simulation of the **WSCC 3-M
 
 The project has completed physical electromagnetic modeling, dataset generation, feature extraction, and independent scientific audits across all **8 disturbance classes** under `data/ieee9bus_60hz/`, authoritatively codified in [`data/ieee9bus_60hz/dataset_manifest_v1.json`](data/ieee9bus_60hz/dataset_manifest_v1.json):
 
-| Class | Label | Frames | Trajectories | Physical Switching Mechanism | Key Physical Metric | Gate Status |
+| Class | Label Index | Frames | Trajectories | Physical Switching Mechanism | Key Physical Metric | Gate Status |
 |---|:---:|:---:|:---:|---|---|:---:|
-| **Normal** | 0 | 1,120 | 32 | Steady-state load flow (32 operating conditions) | $\text{RMS} = 0.589\text{ pu}, \text{THD} = 0.35\%$ | **PASS** (Gate 3B.1) |
-| **Sag** | 1 | 1,152 | 36 | Transmission shunt fault switching (`PQD_Fault_Sag`) | Residual $0.10\text{--}0.90\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3F) |
-| **Swell** | 2 | 1,152 | 36 | Shunt capacitor bank energization (`PQD_Breaker_Swell`) | Magnitude $1.10\text{--}1.80\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3I) |
-| **Interruption** | 3 | 1,152 | 36 | Series line breaker opening (`PQD_Breaker_Interruption`) | Residual $< 0.10\text{ pu}$ (mean $0.008\text{ pu}$) | **PASS** (Gate 3L) |
-| **Harmonics** | 4 | 1,152 | 36 | Non-linear load current injection (`PQD_Harm_Inj`) | Orders $H_2\text{--}H_{11}$, $\text{THD} = 5.1\%\text{--}19.8\%$ | **PASS** (Gate 3O) |
-| **Flicker** | 5 | 1,152 | 36 | Sub-synchronous dynamic load modulation (`PQD_Flicker_Mod`) | $f_m \in [1, 25]\text{ Hz}$, depth $1.0\%\text{--}10.0\%$ | **PASS** (Gate 3R) |
-| **Notch** | 6 | 1,152 | 36 | Commutation short-circuit switching (`PQD_Notch_Bus5`) | Width $100\text{--}900\ \mu\text{s}$, depth $20\%\text{--}70\%$ | **PASS** (Gate 3U) |
+| **Flicker** | 0 | 1,152 | 36 | Sub-synchronous dynamic load modulation (`PQD_Flicker_Mod`) | $f_m \in [1, 25]\text{ Hz}$, depth $1.0\%\text{--}10.0\%$ | **PASS** (Gate 3R) |
+| **Harmonics** | 1 | 1,152 | 36 | Non-linear load current injection (`PQD_Harm_Inj`) | Orders $H_2\text{--}H_{11}$, $\text{THD} = 5.1\%\text{--}19.8\%$ | **PASS** (Gate 3O) |
+| **Interruption** | 2 | 1,152 | 36 | Series line breaker opening (`PQD_Breaker_Interruption`) | Residual $< 0.10\text{ pu}$ (mean $0.008\text{ pu}$) | **PASS** (Gate 3L) |
+| **Normal** | 3 | 1,120 | 32 | Steady-state load flow (32 operating conditions) | $\text{RMS} = 0.589\text{ pu}, \text{THD} = 0.35\%$ | **PASS** (Gate 3B.1) |
+| **Notch** | 4 | 1,152 | 36 | Commutation short-circuit switching (`PQD_Notch_Bus5`) | Width $100\text{--}900\ \mu\text{s}$, depth $20\%\text{--}70\%$ | **PASS** (Gate 3U) |
+| **Sag** | 5 | 1,152 | 36 | Transmission shunt fault switching (`PQD_Fault_Sag`) | Residual $0.10\text{--}0.90\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3F) |
+| **Swell** | 6 | 1,152 | 36 | Shunt capacitor bank energization (`PQD_Breaker_Swell`) | Magnitude $1.10\text{--}1.80\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3I) |
 | **Transient** | 7 | 1,152 | 36 | High-frequency RLC energization (`PQD_Breaker_Transient`) | Oscillation $300\text{--}2,200\text{ Hz}$, peak $1.2\text{--}1.9\text{ pu}$ | **PASS** (Gate 3X) |
 
 **Total Dataset Size:** Exactly **9,184 multi-phase frames across 284 independent simulation trajectories** (Train: 6,594 frames / 71.80%, Validation: 1,295 frames / 14.10%, Locked Test: 1,295 frames / 14.10%) with **zero inter-trajectory leakage**.
@@ -157,7 +157,7 @@ power-quality-detector-and-classifier/
 ├── data/
 │   ├── ieee9bus_60hz/             # Authoritative 8-class 60-Hz physical datasets
 │   │   ├── dataset_manifest_v1.json # Cryptographically frozen manifest (SHA-256 verified)
-│   │   ├── normal/                # 1,152 frames, 32 operating conditions (.npz, .csv)
+│   │   ├── normal/                # 1,120 frames, 32 operating conditions (.npz, .csv)
 │   │   ├── sag/                   # 1,152 frames, shunt fault switching (.npz, .csv)
 │   │   ├── swell/                 # 1,152 frames, capacitor energization (.npz, .csv)
 │   │   ├── interruption/          # 1,152 frames, line breaker opening (.npz, .csv)

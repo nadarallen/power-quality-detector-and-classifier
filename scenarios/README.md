@@ -23,13 +23,13 @@ Each scenario definition is a declarative JSON file specifying:
 
 | Class | Label Index | Scenario Definition File | Physical Injection Subsystem | Primary Physical Mechanism | Standards Reference |
 |---|:---:|---|---|---|---|
-| **Normal** | 0 | `NORM_0001_steady_state_baseline.json` | Steady-state grid load flow | Varied operating conditions (G1–G3 dispatch, load scaling) | IEEE 1159 Cl. 3.1.53 |
-| **Voltage Sag** | 1 | `SAG_0001_three_phase_symmetric.json` | `PQD_Fault_Sag` | Shunt fault switching on Bus 4/5 ($R_f \in [0.1, 15.0]\ \Omega$) | IEEE 1159 Cl. 3.1.58 |
-| **Voltage Swell** | 2 | `SWELL_0001_three_phase_symmetric.json` | `PQD_Breaker_Swell` | Switched shunt capacitor bank ($50\text{--}150\text{ MVAR}$) | IEEE 1159 Cl. 3.1.58 |
-| **Interruption** | 3 | `INT_0001_three_phase_symmetric.json` | `PQD_Breaker_Interruption` | Series circuit breaker opening on Line 4-5 + feeder isolation | IEEE 1159 Cl. 3.1.34 |
-| **Harmonics** | 4 | `HAR_0001_h3h5h7_typical.json` | `PQD_Harm_Inj` | Controlled non-linear load current injection ($H_2\text{--}H_{11}$) | IEEE 519-2022 Table 1 |
-| **Flicker** | 5 | `FLK_0001_fm10hz_depth5pct.json` | `PQD_Flicker_Mod` | Sub-synchronous dynamic load modulation ($f_m \in [1, 25]\text{ Hz}$) | IEEE 1453-2022 / IEC |
-| **Notch** | 6 | `NOT_0001_width600us_depth40pct.json` | `PQD_Notch_Bus5` | Thyristor commutation line-to-line switching ($R_{comm} \in [10, 100]\ \Omega$) | IEEE 1159 Cl. 3.1.48 |
+| **Flicker** | 0 | `FLK_0001_fm10hz_depth5pct.json` | `PQD_Flicker_Mod` | Sub-synchronous dynamic load modulation ($f_m \in [1, 25]\text{ Hz}$) | IEEE 1453-2022 / IEC |
+| **Harmonics** | 1 | `HAR_0001_h3h5h7_typical.json` | `PQD_Harm_Inj` | Controlled non-linear load current injection ($H_2\text{--}H_{11}$) | IEEE 519-2022 Table 1 |
+| **Interruption** | 2 | `INT_0001_three_phase_symmetric.json` | `PQD_Breaker_Interruption` | Series circuit breaker opening on Line 4-5 + feeder isolation | IEEE 1159 Cl. 3.1.34 |
+| **Normal** | 3 | `NORM_0001_steady_state_baseline.json` | Steady-state grid load flow | Varied operating conditions (G1–G3 dispatch, load scaling) | IEEE 1159 Cl. 3.1.53 |
+| **Notch** | 4 | `NOT_0001_width600us_depth40pct.json` | `PQD_Notch_Bus5` | Thyristor commutation line-to-line switching ($R_{comm} \in [10, 100]\ \Omega$) | IEEE 1159 Cl. 3.1.48 |
+| **Voltage Sag** | 5 | `SAG_0001_three_phase_symmetric.json` | `PQD_Fault_Sag` | Shunt fault switching on Bus 4/5 ($R_f \in [0.1, 15.0]\ \Omega$) | IEEE 1159 Cl. 3.1.58 |
+| **Voltage Swell** | 6 | `SWELL_0001_three_phase_symmetric.json` | `PQD_Breaker_Swell` | Switched shunt capacitor bank ($50\text{--}150\text{ MVAR}$) | IEEE 1159 Cl. 3.1.58 |
 | **Transient** | 7 | `TRAN_0001_three_phase_typical.json` | `PQD_Breaker_Transient` | Switched series RLC branch energization ($300\text{--}2,200\text{ Hz}$) | IEEE 1159 Cl. 3.1.57 |
 
 ---

@@ -5,8 +5,8 @@
 **Status**: COMPLETE / VERIFIED  
 **Root Storage Location**: `data/ieee9bus_60hz/`  
 **Total Disturbance Classes**: 8  
-**Total Frames**: 9,216 (1,152 per class)  
-**Total Partitioning**: 6,656 Train (72.2%) / 1,280 Val (13.9%) / 1,280 Test (13.9%)  
+**Total Frames**: Exactly 9,184 across 284 trajectories (1,120 Normal; 1,152 for each of the seven disturbance classes)  
+**Total Partitioning**: 6,594 Train (71.80%) / 1,295 Val (14.10%) / 1,295 Test (14.10%)  
 
 ---
 
@@ -76,7 +76,7 @@ data/ieee9bus_60hz/
 - **Sensor Noise**: Additive Gaussian noise calibrated at $52.0\,\text{dB}$ SNR per DAQ analog front-end model.
 
 ### 2.2 Feature Format (`*_features.csv`)
-- **Rows**: Exactly 1,152 rows per class file.
+- **Rows**: Exactly 1,120 rows for Normal; 1,152 rows for each of the seven disturbance classes.
 - **Header Columns**:
   - Metadata columns: `frame_id`, `split` (`train`, `val`, `test`), `ground_truth`, `label_idx`.
   - Authoritative 32 production DSP features: `rms_voltage`, `peak_voltage`, `crest_factor`, `thd`, `duration`, `dominant_freq`, `system_freq`, `snr`, `h1` through `h11`, `h2_ratio`, `h3_ratio`, `h4_ratio`, `h5_ratio`, `h7_ratio`, `h9_ratio`, `h11_ratio`, `harmonic_energy`, `spectral_centroid`, `spectral_bandwidth`, `spectral_entropy`, `spectral_flatness`, `true_dominant_freq`.
@@ -89,7 +89,7 @@ data/ieee9bus_60hz/
 
 ## 3. Class-by-Class Physical Profiles
 
-### 3.1 Normal Baseline (Class 0)
+### 3.1 Normal Baseline (Class 3)
 - **Purpose**: Establishes undisturbed reference grid operating state across broad generation dispatch and load variations.
 - **Physical Mechanism**: Steady-state load flow on WSCC 9-bus system under 32 distinct operating conditions (variation in generator dispatch, voltage setpoints, and load scaling across Loads A, B, C).
 - **Key Metrics**:
@@ -100,7 +100,7 @@ data/ieee9bus_60hz/
 - **Validation & Audit Status**: **PASS** ([`docs/GATE3B1_NORMAL_DATASET_QUALITY_AUDIT.md`](GATE3B1_NORMAL_DATASET_QUALITY_AUDIT.md)).
 - **Known Limitations**: Does not include ambient transmission line noise beyond the calibrated 52 dB instrumentation floor.
 
-### 3.2 Voltage Sag (Class 1)
+### 3.2 Voltage Sag (Class 5)
 - **Purpose**: Represents transmission-level short-circuit fault dips per IEEE Std 1159-2019 Table 2.
 - **Physical Mechanism**: Three-phase, phase-to-phase, and single-phase-to-ground shunt fault switching on Bus 5 via `PQD_Fault_Sag` with fault resistance $R_f \in [0.1, 15.0]\,\Omega$.
 - **Key Metrics**:
@@ -110,7 +110,7 @@ data/ieee9bus_60hz/
 - **Validation & Audit Status**: **PASS** ([`docs/GATE3F_SAG_DATASET_AUDIT.md`](GATE3F_SAG_DATASET_AUDIT.md)).
 - **Known Limitations**: Fault events are modeled at Bus 5; remote faults on distant radial lines are not represented.
 
-### 3.3 Voltage Swell (Class 2)
+### 3.3 Voltage Swell (Class 6)
 - **Purpose**: Represents sudden voltage elevation caused by capacitor energization or ground faults on ungrounded phases.
 - **Physical Mechanism**: Three-phase shunt capacitor bank switching on Bus 5 via `PQD_Breaker_Swell` ($Q_C \in [50, 150]\,\text{MVAR}$).
 - **Key Metrics**:
@@ -120,7 +120,7 @@ data/ieee9bus_60hz/
 - **Validation & Audit Status**: **PASS** ([`docs/GATE3I_SWELL_DATASET_AUDIT.md`](GATE3I_SWELL_DATASET_AUDIT.md)).
 - **Known Limitations**: Maximum swell bounded at $1.80\,\text{pu}$ to prevent numerical divergence of linear magnetic transformer models.
 
-### 3.4 Voltage Interruption (Class 3)
+### 3.4 Voltage Interruption (Class 2)
 - **Purpose**: Represents complete supply loss ($< 0.10\,\text{pu}$) per IEEE Std 1159-2019 Clause 3.1.34.
 - **Physical Mechanism**: Opening of series line circuit breaker on Line 4-5 and local feeder isolation via `PQD_Breaker_Interruption`.
 - **Key Metrics**:
@@ -130,7 +130,7 @@ data/ieee9bus_60hz/
 - **Validation & Audit Status**: **PASS** ([`docs/GATE3L_INTERRUPTION_DATASET_AUDIT.md`](GATE3L_INTERRUPTION_DATASET_AUDIT.md)).
 - **Known Limitations**: Simulates local bus isolation; system-wide cascading blackouts are out of scope.
 
-### 3.5 Harmonics (Class 4)
+### 3.5 Harmonics (Class 1)
 - **Purpose**: Represents steady-state non-linear load waveform distortion per IEEE Std 519-2022.
 - **Physical Mechanism**: Controlled multi-frequency harmonic current injection at Bus 5 via `PQD_Harm_Inj` across characteristic orders $H_2, H_3, H_5, H_7, H_9, H_{11}$.
 - **Key Metrics**:
@@ -140,7 +140,7 @@ data/ieee9bus_60hz/
 - **Validation & Audit Status**: **PASS** ([`docs/GATE3O_HARMONICS_DATASET_AUDIT.md`](GATE3O_HARMONICS_DATASET_AUDIT.md)).
 - **Known Limitations**: Current harmonic injection orders are bounded at $H_{11}$ ($660\,\text{Hz}$) to ensure clean Goertzel DFT resolution at $5\,\text{kHz}$.
 
-### 3.6 Voltage Flicker (Class 5)
+### 3.6 Voltage Flicker (Class 0)
 - **Purpose**: Represents periodic sub-synchronous voltage envelope modulation per IEEE Std 1453-2022.
 - **Physical Mechanism**: Sub-synchronous dynamic load modulation at Bus 5 via `PQD_Flicker_Mod` driving variable load impedance.
 - **Key Metrics**:
@@ -150,7 +150,7 @@ data/ieee9bus_60hz/
 - **Validation & Audit Status**: **PASS** ([`docs/GATE3R_FLICKER_DATASET_AUDIT.md`](GATE3R_FLICKER_DATASET_AUDIT.md)).
 - **Known Limitations**: Observation window is $200\,\text{ms}$ ($12$ cycles); short-term flicker perceptibility ($P_{st}$, 10-minute integration) is outside single-frame scope.
 
-### 3.7 Voltage Notch (Class 6)
+### 3.7 Voltage Notch (Class 4)
 - **Purpose**: Represents sub-cycle commutation dips caused by power-electronic converters per IEEE Std 519-2022 / IEEE Std 1159-2019.
 - **Physical Mechanism**: Controlled sub-cycle line-to-line thyristor commutation switching on Bus 5 via `PQD_Notch_Bus5` with finite commutation resistance ($R_{comm} \in [10, 100]\,\Omega$).
 - **Key Metrics**:
@@ -177,9 +177,9 @@ data/ieee9bus_60hz/
 
 To ensure rigorous machine learning evaluation, dataset frames are partitioned by **continuous physical simulation trajectory groups**, not random sample-level shuffling:
 
-| Split | Trajectory Groups per Class | Frames per Class | Total Frames (8 Classes) | Overlap across Splits |
+| Split | Trajectory Groups (Total) | Frames per Class | Total Frames (8 Classes) | Overlap across Splits |
 |:---|:---:|:---:|:---:|:---:|
-| **Train** | 26 trajectories | 832 | 6,656 | **0 (Strictly Disjoint)** |
-| **Validation** | 5 trajectories | 160 | 1,280 | **0 (Strictly Disjoint)** |
-| **Test** | 5 trajectories | 160 | 1,280 | **0 (Strictly Disjoint)** |
-| **Total** | **36 trajectories** | **1,152** | **9,216** | **$\text{Train} \cap \text{Val} \cap \text{Test} = \emptyset$** |
+| **Train** | 204 trajectories | 770 (Normal) / 832 (Disturbances) | 6,594 | **0 (Strictly Disjoint)** |
+| **Validation** | 40 trajectories | 175 (Normal) / 160 (Disturbances) | 1,295 | **0 (Strictly Disjoint)** |
+| **Test** | 40 trajectories | 175 (Normal) / 160 (Disturbances) | 1,295 | **0 (Strictly Disjoint)** |
+| **Total** | **284 trajectories** | **1,120 (Normal) / 1,152 (Disturbances)** | **9,184** | **$\text{Train} \cap \text{Val} \cap \text{Test} = \emptyset$** |

@@ -32,7 +32,7 @@
 │  PHASE 3: Disturbance Mechanisms & Dataset Generation  │  [COMPLETE]
 │  • Gates 3A through 3X completed                       │
 │  • 8 physical classes (Normal + 7 disturbances)        │
-│  • 9,216 unique 200-ms frames (1,152 per class)        │
+│  • 9,184 unique 200-ms frames across 284 trajectories  │
 │  • Trajectory-grouped partitions (0 leakage)           │
 │  • Independent 16-domain physical audits (100% pass)   │
 └──────────────────────────┬─────────────────────────────┘
@@ -87,7 +87,7 @@
 
 ### Phase 3 — Disturbance Datasets & Independent Audits (`COMPLETE`)
 All 8 disturbance classes have completed physical simulation, dataset extraction, and independent audits:
-- [x] **Gate 3B / 3B.1 (Normal)**: 1,152 frames, steady-state load flow across 32 grid conditions.
+- [x] **Gate 3B / 3B.1 (Normal)**: 1,120 frames, steady-state load flow across 32 grid conditions.
 - [x] **Gate 3D / 3E / 3F (Voltage Sag)**: 1,152 frames, shunt fault switching on Bus 5 (`PQD_Fault_Sag`), depths 0.10–0.90 pu.
 - [x] **Gate 3G / 3H / 3I (Voltage Swell)**: 1,152 frames, capacitor bank energization (`PQD_Breaker_Swell`), magnitudes 1.10–1.80 pu.
 - [x] **Gate 3J / 3K / 3L (Voltage Interruption)**: 1,152 frames, series line breaker + feeder isolation (`PQD_Breaker_Interruption`), residual < 0.10 pu.
@@ -95,19 +95,19 @@ All 8 disturbance classes have completed physical simulation, dataset extraction
 - [x] **Gate 3P / 3Q / 3R (Voltage Flicker)**: 1,152 frames, sub-synchronous load modulation $1\text{--}25\,\text{Hz}$ (`PQD_Flicker_Mod`), depths 1.0–10.0%.
 - [x] **Gate 3S / 3T / 3U (Voltage Notch)**: 1,152 frames, thyristor bridge commutation switching (`PQD_Notch_Bus5`), widths 0.43–2.97 ms, depths 22.9–53.8%.
 - [x] **Gate 3V / 3W / 3X (Oscillatory Transient)**: 1,152 frames, capacitor energization ringing $250\text{--}300\,\text{Hz}$ (`PQD_Breaker_Transient`), peak excursion 0.13–0.41 pu.
-- [x] **Zero Trajectory Leakage**: Every dataset partitioned strictly by simulation trajectory (Train: 832, Val: 160, Test: 160 per class; Total: 6,656 / 1,280 / 1,280).
+- [x] **Zero Trajectory Leakage**: Every dataset partitioned strictly by simulation trajectory (Total: 6,594 Train / 1,295 Val / 1,295 Test across 284 trajectories, 9,184 total frames).
 - [x] **Complete Audits**: 16-domain independent audits passed for all classes with 100% physical validation pass rates.
 
 ### Phase 4 — Native 60-Hz Machine Learning Training (`PENDING`)
-- [ ] **Final Dataset Freeze**: Lock consolidated dataset checksums across all 9,216 frames.
-- [ ] **Data Preprocessing & Scaling**: Fit `StandardScaler` strictly on training set ($N = 6,656$), transform validation ($N = 1,280$) and test sets ($N = 1,280$).
+- [ ] **Final Dataset Freeze**: Lock consolidated dataset checksums across all 9,184 frames.
+- [ ] **Data Preprocessing & Scaling**: Fit `StandardScaler` strictly on training set ($N = 6,594$), transform validation ($N = 1,295$) and test sets ($N = 1,295$).
 - [ ] **Baseline Model Comparison**: Train and compare candidate architectures:
   - Multi-Layer Perceptron (MLP, 32 $\rightarrow$ 64 $\rightarrow$ 32 $\rightarrow$ 8)
   - Random Forest Classifier (100 trees)
   - 1D Convolutional Neural Network (raw waveform end-to-end baseline)
 - [ ] **Hyperparameter Optimization**: Systematic grid search over learning rates, batch sizes, weight decay, and dropout.
 - [ ] **Calibration & Temperature Scaling**: Optimize Platt scaling / temperature parameter to produce well-calibrated confidence probabilities.
-- [ ] **Independent Test Evaluation**: Evaluate on held-out test split ($N = 1,280$) across per-class precision, recall, F1, and confusion matrix.
+- [ ] **Independent Test Evaluation**: Evaluate on held-out test split ($N = 1,295$) across per-class precision, recall, F1, and confusion matrix.
 - [ ] **Firmware & C++ Export**: Export trained weights to `model_weights_32.json`, `model_weights_32.h` (C++ static arrays), and TFLite Micro flatbuffer.
 
 ### Phase 5 — Live Demonstration MVP (`PENDING`)

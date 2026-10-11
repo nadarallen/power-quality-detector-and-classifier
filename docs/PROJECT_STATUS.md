@@ -5,7 +5,7 @@
 **Project Phase**: Phase 3 (Disturbance Datasets & Physical Audits) — **COMPLETE**  
 **Next Phase**: Phase 4 (60-Hz Machine Learning Training & Model Selection) — **PENDING**  
 **Pristine Model Checksum Status**: **VERIFIED** (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`)  
-**Test Suite Status**: **300 passed**, 2 skipped, 0 failed  
+**Test Suite Status**: **322 passed**, 2 skipped, 0 failed  
 
 ---
 
@@ -77,7 +77,7 @@ The current project architecture follows an unbroken physical-to-digital chain o
 ### Readiness Status by Subsystem
 - **Simscape Electrical Model**: **COMPLETED** (Pristine reference preserved; working disturbance model equipped with all physical mechanisms).
 - **Physical Disturbance Generation**: **COMPLETED** (All 8 classes implemented, synthesized, and audited).
-- **Dataset Synthesis**: **COMPLETED** (9,216 total frames across 8 classes, 32 operating conditions, 0 leakage).
+- **Dataset Synthesis**: **COMPLETED** (9,184 total frames across 8 classes, 32 operating conditions, 0 leakage).
 - **Production DSP Engine**: **COMPLETED** (32 features, phase-aware orthogonal SNR, numerical parity $< 10^{-3}$).
 - **Three-Phase Event Engine**: **READY** (Unit and integration tested with 300 tests).
 - **REST Telemetry & Ingest Server**: **READY** (`server.py`, ThreadingHTTPServer, SSE endpoints operational).
@@ -140,21 +140,21 @@ The project has completed genuine physical electrical dataset generation for all
 
 | Class | Label Index | Unique Frames | Waveform Dimensions | Features File | Scenario Catalog | Partitioning (Train / Val / Test) | Audit Verdict |
 |:---|:---:|:---:|:---:|:---|:---|:---:|:---:|
-| **Normal** | 0 | 1,152 | (1152, 1000, 3) | `normal_features.csv` | `operating_conditions.json` | 832 / 160 / 160 | **PASS** (Gate 3B.1) |
-| **Sag** | 1 | 1,152 | (1152, 1000, 3) | `sag_features.csv` | `sag_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3F) |
-| **Swell** | 2 | 1,152 | (1152, 1000, 3) | `swell_features.csv` | `swell_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3I) |
-| **Interruption** | 3 | 1,152 | (1152, 1000, 3) | `interruption_features.csv` | `interruption_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3L) |
-| **Harmonics** | 4 | 1,152 | (1152, 1000, 3) | `harmonics_features.csv` | `harmonics_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3O) |
-| **Flicker** | 5 | 1,152 | (1152, 1000, 3) | `flicker_features.csv` | `flicker_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3R) |
-| **Notch** | 6 | 1,152 | (1152, 1000, 3) | `notch_features.csv` | `notch_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3U) |
+| **Flicker** | 0 | 1,152 | (1152, 1000, 3) | `flicker_features.csv` | `flicker_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3R) |
+| **Harmonics** | 1 | 1,152 | (1152, 1000, 3) | `harmonics_features.csv` | `harmonics_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3O) |
+| **Interruption** | 2 | 1,152 | (1152, 1000, 3) | `interruption_features.csv` | `interruption_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3L) |
+| **Normal** | 3 | 1,120 | (1120, 1000, 3) | `normal_features.csv` | `operating_conditions.json` | 770 / 175 / 175 | **PASS** (Gate 3B.1) |
+| **Notch** | 4 | 1,152 | (1152, 1000, 3) | `notch_features.csv` | `notch_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3U) |
+| **Sag** | 5 | 1,152 | (1152, 1000, 3) | `sag_features.csv` | `sag_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3F) |
+| **Swell** | 6 | 1,152 | (1152, 1000, 3) | `swell_features.csv` | `swell_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3I) |
 | **Transient** | 7 | 1,152 | (1152, 1000, 3) | `transient_features.csv` | `transient_scenarios.json` | 832 / 160 / 160 | **PASS** (Gate 3X) |
-| **Total** | — | **9,216** | — | — | — | **6,656 / 1,280 / 1,280** | **ALL PASS** |
+| **Total** | — | **9,184** | — | — | — | **6,594 / 1,295 / 1,295** | **ALL PASS** |
 
 ### Data Hygiene & Validation Highlights
 - **Ground-Truth Source**: 100% of labels originate from `SCENARIO_CONTROLLER`. Zero circular reliance on ML, DSP heuristics, or event thresholds.
 - **Trajectory Isolation**: Every class is partitioned strictly by continuous simulation trajectory groups. $\text{Train} \cap \text{Val} = \emptyset$, $\text{Train} \cap \text{Test} = \emptyset$, $\text{Val} \cap \text{Test} = \emptyset$ (zero data leakage).
 - **Grid Coverage**: All 32 operating conditions (generation dispatch and load levels) represented across all classes.
-- **Completeness**: Exactly 0 NaN, 0 Inf, and 0 duplicate waveform arrays across all 9,216 frames.
+- **Completeness**: Exactly 0 NaN, 0 Inf, and 0 duplicate waveform arrays across all 9,184 frames.
 
 ---
 
@@ -186,7 +186,7 @@ Retraining the neural network on the completed 60-Hz physical dataset is deferre
 To guarantee experimental integrity and reproducibility, the following artifacts remain under absolute global freeze:
 1. **Pristine Reference Model**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) must remain byte-for-byte identical.
 2. **Feature Contract**: The 32-feature extraction signature, feature ordering, and phase-aware SNR algorithm must not be modified.
-3. **Validated Datasets**: All 9,216 generated frames, features, and scenario catalogs under `data/ieee9bus_60hz/` are immutable.
+3. **Validated Datasets**: All 9,184 generated frames, features, and scenario catalogs under `data/ieee9bus_60hz/` are immutable.
 4. **No Premature ML Retraining**: No model training or weight adjustments are permitted until Phase 4 begins.
 5. **No Premature Live Controls**: Live demonstration controls and streaming dashboards are withheld until Phase 5.
 

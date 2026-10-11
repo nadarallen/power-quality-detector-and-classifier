@@ -25,8 +25,8 @@ power-quality-detector-and-classifier/
 │   └── IEEE_9bus_PQD_DISTURBANCES.slx # Working disturbance generation model (8 injection blocks)
 │
 ├── data/                          # Authoritative datasets and runtime storage
-│   ├── ieee9bus_60hz/             # 8 audited physical 60-Hz datasets (9,216 total multi-phase frames)
-│   │   ├── normal/                # 1,152 frames, 32 operating conditions
+│   ├── ieee9bus_60hz/             # 8 audited physical 60-Hz datasets (9,184 total multi-phase frames)
+│   │   ├── normal/                # 1,120 frames, 32 operating conditions
 │   │   ├── sag/                   # 1,152 frames, shunt fault switching
 │   │   ├── swell/                 # 1,152 frames, switched capacitor energization
 │   │   ├── interruption/          # 1,152 frames, series line breaker opening

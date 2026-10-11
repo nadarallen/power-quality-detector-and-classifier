@@ -34,22 +34,22 @@ When Phase 4 commences, neural network training will proceed through a strict 10
 ┌────────────────────────────────────────────────────────┐
 │  Step 1: Final Dataset Freeze & Checksum Lock          │
 │  • Verify SHA-256 hashes across all 8 classes          │
-│  • Lock 9,216 total frames (1,152 per class)           │
+│  • Lock 9,184 total frames (1,120 Norm / 1,152 others) │
 └──────────────────────────┬─────────────────────────────┘
                            │
                            ▼
 ┌────────────────────────────────────────────────────────┐
 │  Step 2: Trajectory-Grouped Partitioning               │
-│  • Train: 6,656 frames (26 trajectories x 8 classes)   │
-│  • Validation: 1,280 frames (5 trajectories x 8 classes)│
-│  • Test: 1,280 frames (5 trajectories x 8 classes)     │
+│  • Train: 6,594 frames across 204 trajectories         │
+│  • Validation: 1,295 frames across 40 trajectories     │
+│  • Test: 1,295 frames across 40 trajectories           │
 │  • Assert zero trajectory overlap across splits        │
 └──────────────────────────┬─────────────────────────────┘
                            │
                            ▼
 ┌────────────────────────────────────────────────────────┐
 │  Step 3: Train-Only Scaler Fitting                     │
-│  • Fit StandardScaler strictly on the 6,656 train rows │
+│  • Fit StandardScaler strictly on the 6,594 train rows │
 │  • Apply learned transform to Val and Test (0 leakage) │
 └──────────────────────────┬─────────────────────────────┘
                            │
@@ -87,7 +87,7 @@ When Phase 4 commences, neural network training will proceed through a strict 10
                            ▼
 ┌────────────────────────────────────────────────────────┐
 │  Step 8: Independent Held-Out Test Evaluation          │
-│  • Final inference on isolated 1,280 test frames       │
+│  • Final inference on isolated 1,295 test frames       │
 │  • Per-class precision, recall, F1, confusion matrix   │
 └──────────────────────────┬─────────────────────────────┘
                            │
