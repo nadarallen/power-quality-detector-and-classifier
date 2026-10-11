@@ -1,0 +1,201 @@
+{
+  "model_key": "random_forest",
+  "display_name": "Random Forest",
+  "experiment": "PHASE_4B",
+  "seed": 42,
+  "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+  "training_time_seconds": 0.177,
+  "hyperparameters": {
+    "n_estimators": 100,
+    "max_depth": 16,
+    "min_samples_split": 2,
+    "min_samples_leaf": 1,
+    "max_features": "sqrt",
+    "random_state": 42
+  },
+  "complexity": {
+    "type": "RandomForestClassifier",
+    "n_trees": 100,
+    "total_tree_nodes": 6884,
+    "parameter_count": 20652,
+    "notes": "100 decision trees, total 6884 nodes",
+    "model_file_size_kb": 894.0,
+    "model_file": "experiments/phase4b/models/random_forest.pkl"
+  },
+  "latency": {
+    "mean_latency_us": 14887.5,
+    "median_latency_us": 14694.0,
+    "p95_latency_us": 15411.91,
+    "p99_latency_us": 25503.4,
+    "std_latency_us": 1400.9,
+    "throughput_fps": 67.2
+  },
+  "train_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0
+  },
+  "validation_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "macro_precision": 1.0,
+    "macro_recall": 1.0
+  },
+  "per_class_report": {
+    "Flicker": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Harmonics": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Interruption": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Normal": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 175.0
+    },
+    "Notch": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Sag": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Swell": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Transient": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1295.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1295.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      175,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      160,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      160,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160
+    ]
+  ],
+  "confusion_matrix_classes": [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
+    "Normal",
+    "Notch",
+    "Sag",
+    "Swell",
+    "Transient"
+  ],
+  "weaknesses": []
+}

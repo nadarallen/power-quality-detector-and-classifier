@@ -1,0 +1,839 @@
+{
+  "manifest_version": "1.0.0",
+  "gate": "GATE_4A",
+  "freeze_status": "FROZEN_BASELINE",
+  "timestamp_utc": "2026-10-11T11:25:00Z",
+  "project": "Power Quality Disturbance Detector and Classifier",
+  "dataset_name": "IEEE_9BUS_60HZ_PQD_CANONICAL_V1",
+  "electrical_system": {
+    "network": "WSCC 3-Machine 9-Bus System",
+    "reference_model": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+    "reference_model_sha256": "5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D",
+    "observation_bus": "Bus 5 (230 kV nominal)",
+    "base_nominal_rms_voltage_pu": 0.5877,
+    "base_nominal_peak_voltage_pu": 0.8312,
+    "nominal_frequency_hz": 60.0,
+    "sampling_rate_hz": 5000.0,
+    "samples_per_frame": 1000,
+    "window_duration_ms": 200.0,
+    "cycles_per_frame": 12.0
+  },
+  "channel_contract": {
+    "stored_channels": "Three-phase voltage (Va, Vb, Vc at Bus 5)",
+    "stored_dimensions": [
+      1000,
+      3
+    ],
+    "channel_ordering": [
+      "Va (Phase A)",
+      "Vb (Phase B)",
+      "Vc (Phase C)"
+    ],
+    "current_channels_note": "Current waveforms are stored in NPZ for sag, swell, interruption, harmonics, flicker for physics inspection, but voltage is the canonical ML input"
+  },
+  "feature_contract": {
+    "dimension": 32,
+    "ordering": [
+      "rms_voltage",
+      "peak_voltage",
+      "crest_factor",
+      "thd",
+      "duration",
+      "dominant_freq",
+      "system_freq",
+      "snr",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "h7",
+      "h8",
+      "h9",
+      "h10",
+      "h11",
+      "h2_ratio",
+      "h3_ratio",
+      "h4_ratio",
+      "h5_ratio",
+      "h7_ratio",
+      "h9_ratio",
+      "h11_ratio",
+      "harmonic_energy",
+      "spectral_centroid",
+      "spectral_bandwidth",
+      "spectral_entropy",
+      "spectral_flatness",
+      "true_dominant_freq"
+    ],
+    "feature_descriptions": {
+      "rms_voltage": "True RMS voltage across 1000-sample window (pu)",
+      "peak_voltage": "Peak absolute voltage excursion in window (pu)",
+      "crest_factor": "Ratio of peak voltage to RMS voltage",
+      "thd": "Total harmonic distortion (%) via fundamental and odd harmonics H3, H5, H7",
+      "duration": "Duration of disturbance excursion (ms)",
+      "dominant_freq": "Nominal system fundamental frequency (Hz, 60.0 Hz)",
+      "system_freq": "Sub-sample zero-crossing interpolated frequency (Hz)",
+      "snr": "Signal-to-noise ratio (dB) via phase-aware orthogonal fundamental projection",
+      "h1": "Fundamental Goertzel harmonic magnitude (pu)",
+      "h2": "2nd harmonic Goertzel magnitude (120 Hz, pu)",
+      "h3": "3rd harmonic Goertzel magnitude (180 Hz, pu)",
+      "h4": "4th harmonic Goertzel magnitude (240 Hz, pu)",
+      "h5": "5th harmonic Goertzel magnitude (300 Hz, pu)",
+      "h6": "6th harmonic Goertzel magnitude (360 Hz, pu)",
+      "h7": "7th harmonic Goertzel magnitude (420 Hz, pu)",
+      "h8": "8th harmonic Goertzel magnitude (480 Hz, pu)",
+      "h9": "9th harmonic Goertzel magnitude (540 Hz, pu)",
+      "h10": "10th harmonic Goertzel magnitude (600 Hz, pu)",
+      "h11": "11th harmonic Goertzel magnitude (660 Hz, pu)",
+      "h2_ratio": "Ratio of H2 magnitude to H1",
+      "h3_ratio": "Ratio of H3 magnitude to H1",
+      "h4_ratio": "Ratio of H4 magnitude to H1",
+      "h5_ratio": "Ratio of H5 magnitude to H1",
+      "h7_ratio": "Ratio of H7 magnitude to H1",
+      "h9_ratio": "Ratio of H9 magnitude to H1",
+      "h11_ratio": "Ratio of H11 magnitude to H1",
+      "harmonic_energy": "Sum of squared higher harmonic magnitudes H2..H11",
+      "spectral_centroid": "Spectral mass center of FFT power spectrum (Hz)",
+      "spectral_bandwidth": "Spectral spread around centroid (Hz)",
+      "spectral_entropy": "Normalized Shannon entropy of power distribution",
+      "spectral_flatness": "Wiener entropy (geometric mean / arithmetic mean)",
+      "true_dominant_freq": "Peak spectral frequency bin from FFT (Hz)"
+    }
+  },
+  "preprocessing_contract": {
+    "scaler": "StandardScaler",
+    "formula": "z = (x - mean_train) / scale_train",
+    "fitting_rule": "MUST fit ONLY on the 6,594 training samples; NEVER fit on validation or test sets",
+    "target_classes": [
+      "Flicker",
+      "Harmonics",
+      "Interruption",
+      "Normal",
+      "Notch",
+      "Sag",
+      "Swell",
+      "Transient"
+    ],
+    "class_to_index": {
+      "Flicker": 0,
+      "Harmonics": 1,
+      "Interruption": 2,
+      "Normal": 3,
+      "Notch": 4,
+      "Sag": 5,
+      "Swell": 6,
+      "Transient": 7
+    }
+  },
+  "dataset_totals": {
+    "total_frames": 9184,
+    "total_trajectories": 284,
+    "train_frames": 6594,
+    "val_frames": 1295,
+    "test_frames": 1295,
+    "train_ratio": 0.7179878,
+    "val_ratio": 0.1410061,
+    "test_ratio": 0.1410061,
+    "class_count": 8,
+    "leakage_detected": false,
+    "nan_count": 0,
+    "inf_count": 0,
+    "duplicate_rows": 0
+  },
+  "classes": {
+    "normal": {
+      "canonical_name": "Normal",
+      "label_index": 3,
+      "total_frames": 1120,
+      "waveform_shape": [
+        1120,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 32,
+      "partitions": {
+        "train": {
+          "frames": 770,
+          "trajectories_count": 22,
+          "trajectories": [
+            "sim_01",
+            "sim_04",
+            "sim_05",
+            "sim_09",
+            "sim_10",
+            "sim_12",
+            "sim_13",
+            "sim_15",
+            "sim_17",
+            "sim_18",
+            "sim_19",
+            "sim_20",
+            "sim_21",
+            "sim_22",
+            "sim_25",
+            "sim_26",
+            "sim_27",
+            "sim_28",
+            "sim_29",
+            "sim_30",
+            "sim_31",
+            "sim_32"
+          ]
+        },
+        "validation": {
+          "frames": 175,
+          "trajectories_count": 5,
+          "trajectories": [
+            "sim_03",
+            "sim_07",
+            "sim_11",
+            "sim_16",
+            "sim_24"
+          ]
+        },
+        "test": {
+          "frames": 175,
+          "trajectories_count": 5,
+          "trajectories": [
+            "sim_02",
+            "sim_06",
+            "sim_08",
+            "sim_14",
+            "sim_23"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "normal_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/normal/normal_waveforms.npz",
+          "sha256": "0C63A2ACE6CA02C5F5948CD54D77A2A4AEAF3B006422728B7DA3CC23CC7009DA"
+        },
+        "features_csv": {
+          "filename": "normal_features.csv",
+          "rel_path": "data/ieee9bus_60hz/normal/normal_features.csv",
+          "sha256": "E649944B51453429B9935EC8ED45E2DEDFEAEBB2AAB774FB18DA67259EA649CC"
+        },
+        "metadata_json": {
+          "filename": "normal_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/normal/normal_dataset_metadata.json",
+          "sha256": "AC459FB22C9C4FAA2BDF9FB58DFED2611A38B7E3E5044FF77E26831D740F31C0"
+        }
+      }
+    },
+    "sag": {
+      "canonical_name": "Sag",
+      "label_index": 5,
+      "total_frames": 1152,
+      "waveform_shape": [
+        1152,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 36,
+      "partitions": {
+        "train": {
+          "frames": 832,
+          "trajectories_count": 26,
+          "trajectories": [
+            "sag_sim_01",
+            "sag_sim_04",
+            "sag_sim_05",
+            "sag_sim_07",
+            "sag_sim_08",
+            "sag_sim_10",
+            "sag_sim_12",
+            "sag_sim_13",
+            "sag_sim_15",
+            "sag_sim_16",
+            "sag_sim_17",
+            "sag_sim_18",
+            "sag_sim_19",
+            "sag_sim_20",
+            "sag_sim_23",
+            "sag_sim_24",
+            "sag_sim_25",
+            "sag_sim_26",
+            "sag_sim_27",
+            "sag_sim_29",
+            "sag_sim_31",
+            "sag_sim_32",
+            "sag_sim_33",
+            "sag_sim_34",
+            "sag_sim_35",
+            "sag_sim_36"
+          ]
+        },
+        "validation": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "sag_sim_03",
+            "sag_sim_09",
+            "sag_sim_14",
+            "sag_sim_22",
+            "sag_sim_28"
+          ]
+        },
+        "test": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "sag_sim_02",
+            "sag_sim_06",
+            "sag_sim_11",
+            "sag_sim_21",
+            "sag_sim_30"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "sag_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/sag/sag_waveforms.npz",
+          "sha256": "2186F152FB714D3EAFA317FB3C395944AD0799A5EBEBBE1A04446735FC4AD40F"
+        },
+        "features_csv": {
+          "filename": "sag_features.csv",
+          "rel_path": "data/ieee9bus_60hz/sag/sag_features.csv",
+          "sha256": "55C8FB355A87656A501DA287093C7E79203C4D065AE1044C04A82A82340B68E1"
+        },
+        "metadata_json": {
+          "filename": "sag_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/sag/sag_dataset_metadata.json",
+          "sha256": "8CB67EFEADC71ECAAFAE096C1AA2A6C950D42F87B90257A3B88DC78F75335934"
+        }
+      }
+    },
+    "swell": {
+      "canonical_name": "Swell",
+      "label_index": 6,
+      "total_frames": 1152,
+      "waveform_shape": [
+        1152,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 36,
+      "partitions": {
+        "train": {
+          "frames": 832,
+          "trajectories_count": 26,
+          "trajectories": [
+            "swell_sim_01",
+            "swell_sim_04",
+            "swell_sim_05",
+            "swell_sim_07",
+            "swell_sim_08",
+            "swell_sim_10",
+            "swell_sim_12",
+            "swell_sim_13",
+            "swell_sim_15",
+            "swell_sim_16",
+            "swell_sim_17",
+            "swell_sim_18",
+            "swell_sim_19",
+            "swell_sim_20",
+            "swell_sim_23",
+            "swell_sim_24",
+            "swell_sim_25",
+            "swell_sim_26",
+            "swell_sim_27",
+            "swell_sim_29",
+            "swell_sim_31",
+            "swell_sim_32",
+            "swell_sim_33",
+            "swell_sim_34",
+            "swell_sim_35",
+            "swell_sim_36"
+          ]
+        },
+        "validation": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "swell_sim_03",
+            "swell_sim_09",
+            "swell_sim_14",
+            "swell_sim_22",
+            "swell_sim_28"
+          ]
+        },
+        "test": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "swell_sim_02",
+            "swell_sim_06",
+            "swell_sim_11",
+            "swell_sim_21",
+            "swell_sim_30"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "swell_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/swell/swell_waveforms.npz",
+          "sha256": "609D8277736CDB198105E88938D49B39F08ADF8C3E1EFD542EEE827D0D45CF54"
+        },
+        "features_csv": {
+          "filename": "swell_features.csv",
+          "rel_path": "data/ieee9bus_60hz/swell/swell_features.csv",
+          "sha256": "C774D7CB338F5C74FE4B69FD9492D442768CAA643ABA226104AC5C1D6ADC89CC"
+        },
+        "metadata_json": {
+          "filename": "swell_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/swell/swell_dataset_metadata.json",
+          "sha256": "0B06E37365655F294DD7C01A9B3C832880B41EC9885A4AB76E22193015027E78"
+        }
+      }
+    },
+    "interruption": {
+      "canonical_name": "Interruption",
+      "label_index": 2,
+      "total_frames": 1152,
+      "waveform_shape": [
+        1152,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 36,
+      "partitions": {
+        "train": {
+          "frames": 832,
+          "trajectories_count": 26,
+          "trajectories": [
+            "int_sim_01",
+            "int_sim_04",
+            "int_sim_05",
+            "int_sim_07",
+            "int_sim_08",
+            "int_sim_10",
+            "int_sim_11",
+            "int_sim_12",
+            "int_sim_13",
+            "int_sim_14",
+            "int_sim_15",
+            "int_sim_16",
+            "int_sim_17",
+            "int_sim_20",
+            "int_sim_21",
+            "int_sim_22",
+            "int_sim_23",
+            "int_sim_26",
+            "int_sim_27",
+            "int_sim_28",
+            "int_sim_29",
+            "int_sim_30",
+            "int_sim_33",
+            "int_sim_34",
+            "int_sim_35",
+            "int_sim_36"
+          ]
+        },
+        "validation": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "int_sim_03",
+            "int_sim_09",
+            "int_sim_19",
+            "int_sim_25",
+            "int_sim_32"
+          ]
+        },
+        "test": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "int_sim_02",
+            "int_sim_06",
+            "int_sim_18",
+            "int_sim_24",
+            "int_sim_31"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "interruption_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/interruption/interruption_waveforms.npz",
+          "sha256": "57970958638AC83E4E1E91B4F8261242BF50043F5FE7EA821E05B8864B700130"
+        },
+        "features_csv": {
+          "filename": "interruption_features.csv",
+          "rel_path": "data/ieee9bus_60hz/interruption/interruption_features.csv",
+          "sha256": "EFB70703D280C0C89E6FB5806AFCD0758DA1AA41B86F453A888F68EF21CF80A5"
+        },
+        "metadata_json": {
+          "filename": "interruption_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/interruption/interruption_dataset_metadata.json",
+          "sha256": "FA611048423CDF0E95AC54D55D27A8652B575A2AFFA558B63BC0CE3D65F7B2DE"
+        }
+      }
+    },
+    "harmonics": {
+      "canonical_name": "Harmonics",
+      "label_index": 1,
+      "total_frames": 1152,
+      "waveform_shape": [
+        1152,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 36,
+      "partitions": {
+        "train": {
+          "frames": 832,
+          "trajectories_count": 26,
+          "trajectories": [
+            "har_sim_01",
+            "har_sim_04",
+            "har_sim_05",
+            "har_sim_07",
+            "har_sim_08",
+            "har_sim_10",
+            "har_sim_11",
+            "har_sim_12",
+            "har_sim_13",
+            "har_sim_14",
+            "har_sim_15",
+            "har_sim_16",
+            "har_sim_17",
+            "har_sim_20",
+            "har_sim_21",
+            "har_sim_22",
+            "har_sim_23",
+            "har_sim_26",
+            "har_sim_27",
+            "har_sim_28",
+            "har_sim_29",
+            "har_sim_30",
+            "har_sim_33",
+            "har_sim_34",
+            "har_sim_35",
+            "har_sim_36"
+          ]
+        },
+        "validation": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "har_sim_03",
+            "har_sim_09",
+            "har_sim_19",
+            "har_sim_25",
+            "har_sim_32"
+          ]
+        },
+        "test": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "har_sim_02",
+            "har_sim_06",
+            "har_sim_18",
+            "har_sim_24",
+            "har_sim_31"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "harmonics_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/harmonics/harmonics_waveforms.npz",
+          "sha256": "00CE2F0ED0CB9BA687E727ECF82C6CAA84F91F874A317634E99AD6F6586B4A27"
+        },
+        "features_csv": {
+          "filename": "harmonics_features.csv",
+          "rel_path": "data/ieee9bus_60hz/harmonics/harmonics_features.csv",
+          "sha256": "F541B388BF606F25B20F7ED8E457EF5C6542DC6E873D23B082D122BFF1600E41"
+        },
+        "metadata_json": {
+          "filename": "harmonics_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/harmonics/harmonics_dataset_metadata.json",
+          "sha256": "33CEECEED3D703B32F888E376B7E765C788E1CF23946DC8A7129381A7AE7D3BD"
+        }
+      }
+    },
+    "flicker": {
+      "canonical_name": "Flicker",
+      "label_index": 0,
+      "total_frames": 1152,
+      "waveform_shape": [
+        1152,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 36,
+      "partitions": {
+        "train": {
+          "frames": 832,
+          "trajectories_count": 26,
+          "trajectories": [
+            "flk_sim_01",
+            "flk_sim_04",
+            "flk_sim_05",
+            "flk_sim_07",
+            "flk_sim_08",
+            "flk_sim_10",
+            "flk_sim_11",
+            "flk_sim_12",
+            "flk_sim_13",
+            "flk_sim_14",
+            "flk_sim_15",
+            "flk_sim_16",
+            "flk_sim_17",
+            "flk_sim_20",
+            "flk_sim_21",
+            "flk_sim_22",
+            "flk_sim_23",
+            "flk_sim_26",
+            "flk_sim_27",
+            "flk_sim_28",
+            "flk_sim_29",
+            "flk_sim_30",
+            "flk_sim_33",
+            "flk_sim_34",
+            "flk_sim_35",
+            "flk_sim_36"
+          ]
+        },
+        "validation": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "flk_sim_03",
+            "flk_sim_09",
+            "flk_sim_19",
+            "flk_sim_25",
+            "flk_sim_32"
+          ]
+        },
+        "test": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "flk_sim_02",
+            "flk_sim_06",
+            "flk_sim_18",
+            "flk_sim_24",
+            "flk_sim_31"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "flicker_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/flicker/flicker_waveforms.npz",
+          "sha256": "A5ABAE764C923BCD223C2AC42FC7EDD836F93A9E12A8B6D24E304F38217E946B"
+        },
+        "features_csv": {
+          "filename": "flicker_features.csv",
+          "rel_path": "data/ieee9bus_60hz/flicker/flicker_features.csv",
+          "sha256": "D8A1C536CC23D41EA699221C6F60A0E9F436E7A46E9E5FAE702E2BEC17501E70"
+        },
+        "metadata_json": {
+          "filename": "flicker_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/flicker/flicker_dataset_metadata.json",
+          "sha256": "2C4DCBACAAE434538369D9D394BC4C68E6BF024E62F6422D029D76B2462EBC66"
+        }
+      }
+    },
+    "notch": {
+      "canonical_name": "Notch",
+      "label_index": 4,
+      "total_frames": 1152,
+      "waveform_shape": [
+        1152,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 36,
+      "partitions": {
+        "train": {
+          "frames": 832,
+          "trajectories_count": 26,
+          "trajectories": [
+            "not_sim_01",
+            "not_sim_04",
+            "not_sim_05",
+            "not_sim_07",
+            "not_sim_08",
+            "not_sim_10",
+            "not_sim_11",
+            "not_sim_12",
+            "not_sim_13",
+            "not_sim_14",
+            "not_sim_15",
+            "not_sim_16",
+            "not_sim_17",
+            "not_sim_20",
+            "not_sim_21",
+            "not_sim_22",
+            "not_sim_23",
+            "not_sim_26",
+            "not_sim_27",
+            "not_sim_28",
+            "not_sim_29",
+            "not_sim_30",
+            "not_sim_33",
+            "not_sim_34",
+            "not_sim_35",
+            "not_sim_36"
+          ]
+        },
+        "validation": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "not_sim_03",
+            "not_sim_09",
+            "not_sim_19",
+            "not_sim_25",
+            "not_sim_32"
+          ]
+        },
+        "test": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "not_sim_02",
+            "not_sim_06",
+            "not_sim_18",
+            "not_sim_24",
+            "not_sim_31"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "notch_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/notch/notch_waveforms.npz",
+          "sha256": "46250F10917A82FEE03C530AEED8F680E3EE9A17BA6FDFDF5A5136AE0EA15A76"
+        },
+        "features_csv": {
+          "filename": "notch_features.csv",
+          "rel_path": "data/ieee9bus_60hz/notch/notch_features.csv",
+          "sha256": "76F4B8722A6DDB9AB6461DBF10ABE8D24A2D6F06DA43784BC87B3E07A5201775"
+        },
+        "metadata_json": {
+          "filename": "notch_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/notch/notch_dataset_metadata.json",
+          "sha256": "1B0904A934E5C4C22039C60BD00121BCE5EC1B62A04FE09AA715FA52FF171CA4"
+        }
+      }
+    },
+    "transient": {
+      "canonical_name": "Transient",
+      "label_index": 7,
+      "total_frames": 1152,
+      "waveform_shape": [
+        1152,
+        1000,
+        3
+      ],
+      "waveform_dtype": "float32",
+      "total_trajectories": 36,
+      "partitions": {
+        "train": {
+          "frames": 832,
+          "trajectories_count": 26,
+          "trajectories": [
+            "tran_sim_01",
+            "tran_sim_02",
+            "tran_sim_03",
+            "tran_sim_04",
+            "tran_sim_05",
+            "tran_sim_06",
+            "tran_sim_07",
+            "tran_sim_08",
+            "tran_sim_09",
+            "tran_sim_10",
+            "tran_sim_11",
+            "tran_sim_12",
+            "tran_sim_13",
+            "tran_sim_14",
+            "tran_sim_15",
+            "tran_sim_16",
+            "tran_sim_17",
+            "tran_sim_18",
+            "tran_sim_19",
+            "tran_sim_20",
+            "tran_sim_21",
+            "tran_sim_22",
+            "tran_sim_23",
+            "tran_sim_24",
+            "tran_sim_25",
+            "tran_sim_26"
+          ]
+        },
+        "validation": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "tran_sim_27",
+            "tran_sim_28",
+            "tran_sim_29",
+            "tran_sim_30",
+            "tran_sim_31"
+          ]
+        },
+        "test": {
+          "frames": 160,
+          "trajectories_count": 5,
+          "trajectories": [
+            "tran_sim_32",
+            "tran_sim_33",
+            "tran_sim_34",
+            "tran_sim_35",
+            "tran_sim_36"
+          ]
+        }
+      },
+      "leakage_verified_zero": true,
+      "physical_validation_status": "PASS (100% verified)",
+      "files": {
+        "waveforms_npz": {
+          "filename": "transient_waveforms.npz",
+          "rel_path": "data/ieee9bus_60hz/transient/transient_waveforms.npz",
+          "sha256": "8176A39D3FC91764B674B3EBE0A01F2B87F182A99417E1490984648819A7AED2"
+        },
+        "features_csv": {
+          "filename": "transient_features.csv",
+          "rel_path": "data/ieee9bus_60hz/transient/transient_features.csv",
+          "sha256": "0C9CD9E594B3FCB6AE2836E3C1B4F4E3485891551A9CABDB40427D2C17FDD11A"
+        },
+        "metadata_json": {
+          "filename": "transient_dataset_metadata.json",
+          "rel_path": "data/ieee9bus_60hz/transient/transient_dataset_metadata.json",
+          "sha256": "0B88C294D655D44A6AE7A2FC2FFFB08106EE32401189D5AC6C2DF22FA61C67E2"
+        }
+      }
+    }
+  }
+}

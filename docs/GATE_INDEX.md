@@ -1,10 +1,10 @@
 # Comprehensive Project Gate Index
 
 **Document Reference**: `docs/GATE_INDEX.md`  
-**Date**: October 7, 2026  
+**Date**: October 11, 2026  
 **Status**: COMPLETE / VERIFIED  
-**Final Completed Gate**: `GATE 3X = PASS`  
-**Phase Status**: Phase 3 (Disturbance Generation, Dataset Synthesis & Independent Auditing) COMPLETE  
+**Final Completed Gate**: `GATE 4D = PASS`  
+**Phase Status**: Phase 4D (Locked Test Evaluation & Generalization Audit) COMPLETE  
 
 ---
 
@@ -44,7 +44,11 @@ This document establishes the single authoritative registry of all formal engine
 | **3U** | Voltage Notch Independent Dataset Audit | **PASS** | [`docs/GATE3U_NOTCH_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3U_NOTCH_DATASET_AUDIT.md) | `docs/gate3u_notch_quality_summary.json` | `tests/test_gate3u_notch_audit.py` | IEEE 519 commutation limits verified, 5 kHz resolution adequate, 0 leakage | Gate 3V |
 | **3V** | Oscillatory Transient Implementation | **PASS** | [`docs/GATE3V_TRANSIENT_IMPLEMENTATION.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3V_TRANSIENT_IMPLEMENTATION.md) | `scenarios/definitions/TRAN_0001_*.json` | `tests/test_gate3v_transient.py` | Capacitor-bank switching via `PQD_Breaker_Transient` + `PQD_RLC_Transient` | Gate 3W |
 | **3W** | Oscillatory Transient Dataset Generation | **PASS** | [`docs/GATE3W_TRANSIENT_DATASET_REPORT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3W_TRANSIENT_DATASET_REPORT.md) | `data/ieee9bus_60hz/transient/` (1,152 frames) | `tests/test_gate3w_transient_dataset.py` | 36 trajectories, peak excursion 0.13–0.41 pu, freq 250–299 Hz | Gate 3X |
-| **3X** | Oscillatory Transient Independent Dataset Audit | **PASS** | [`docs/GATE3X_TRANSIENT_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3X_TRANSIENT_DATASET_AUDIT.md) | `docs/gate3x_transient_quality_summary.json` | `tests/test_gate3x_transient_audit.py` | IEEE 1159 low-frequency oscillatory limits verified, 0 leakage, 100% pass | Phase 4 (ML) |
+| **3X** | Oscillatory Transient Independent Dataset Audit | **PASS** | [`docs/GATE3X_TRANSIENT_DATASET_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE3X_TRANSIENT_DATASET_AUDIT.md) | `docs/gate3x_transient_quality_summary.json` | `tests/test_gate3x_transient_audit.py` | IEEE 1159 low-frequency oscillatory limits verified, 0 leakage, 100% pass | Gate 4A |
+| **4A** | Final Dataset Freeze & ML Readiness Audit | **PASS** | [`docs/GATE4A_FINAL_DATASET_FREEZE_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE4A_FINAL_DATASET_FREEZE_AUDIT.md) | [`data/ieee9bus_60hz/dataset_manifest_v1.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz/dataset_manifest_v1.json) | `scripts/verify_dataset_freeze.py` | 9,184 frames, 32 features, 0 trajectory leakage verified, baseline frozen | Gate 4B |
+| **4B** | Leakage-Safe Baseline Model Comparison | **PASS** | [`docs/GATE4B_BASELINE_MODEL_COMPARISON.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE4B_BASELINE_MODEL_COMPARISON.md) | [`experiments/phase4b/baseline_comparison_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase4b/baseline_comparison_summary.json) | `experiments/phase4b/run_comparison.py` | 5 models benchmarked; Compact MLP recommended for firmware (196.7 us, 17.8 KB) | Phase 4C |
+| **4C** | 60 Hz MLP Training, Tuning & Upgrade Audit | **PASS** | [`docs/GATE4C_MLP_TUNING_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE4C_MLP_TUNING_AUDIT.md) | [`experiments/phase4c/models/candidate_mlp_weights.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase4c/models/candidate_mlp_weights.json) | `tests/test_phase4c_mlp.py` | Tuned MLP achieves 99.93% val macro F1; 0 Sag-to-Norm errors; 4,856 params (18.97 KB) | Phase 4D |
+| **4D** | Locked Test Evaluation & Generalization Audit | **PASS** | [`docs/GATE4D_LOCKED_TEST_EVALUATION.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/GATE4D_LOCKED_TEST_EVALUATION.md) | [`experiments/phase4d/test_metrics.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase4d/test_metrics.json) | `tests/test_phase4d_test_eval.py` | 1,295 test frames; 99.93% test macro F1; 0 Sag-to-Norm errors; 95% CI [99.65%, 100.00%] | Phase 4E |
 
 ---
 
@@ -52,7 +56,7 @@ This document establishes the single authoritative registry of all formal engine
 
 | Disturbance Class | Label Index | Total Frames | Trajectories | Train / Val / Test Frames | Sampling Rate | Primary Physical Mechanism |
 |:---|:---:|:---:|:---:|:---:|:---:|:---|
-| **Normal** | 0 | 1,152 | 32 conditions | 832 / 160 / 160 | 5,000 Hz | Steady-state load flow, 32 varied grid conditions |
+| **Normal** | 0 | 1,120 | 32 conditions | 770 / 175 / 175 | 5,000 Hz | Steady-state load flow, 32 varied grid conditions (35 windows/cond) |
 | **Sag** | 1 | 1,152 | 36 | 832 / 160 / 160 | 5,000 Hz | Bus 5 transmission shunt fault switching (`PQD_Fault_Sag`) |
 | **Swell** | 2 | 1,152 | 36 | 832 / 160 / 160 | 5,000 Hz | Shunt capacitor bank energization (`PQD_Breaker_Swell`) |
 | **Interruption** | 3 | 1,152 | 36 | 832 / 160 / 160 | 5,000 Hz | Series breaker opening + local feeder isolation (`PQD_Breaker_Interruption`) |
@@ -60,7 +64,7 @@ This document establishes the single authoritative registry of all formal engine
 | **Flicker** | 5 | 1,152 | 36 | 832 / 160 / 160 | 5,000 Hz | Sub-synchronous dynamic load modulation $1\text{--}25\,\text{Hz}$ (`PQD_Flicker_Mod`) |
 | **Notch** | 6 | 1,152 | 36 | 832 / 160 / 160 | 5,000 Hz | Power electronic converter commutation switching (`PQD_Notch_Bus5`) |
 | **Transient** | 7 | 1,152 | 36 | 832 / 160 / 160 | 5,000 Hz | Capacitor bank energization ringing $250\text{--}300\,\text{Hz}$ (`PQD_Breaker_Transient`) |
-| **Total** | — | **9,216** | — | **6,656 / 1,280 / 1,280** | — | **100% Genuine Physical Electrical Simulation** |
+| **Total** | — | **9,184** | **284** | **6,594 / 1,295 / 1,295** | — | **100% Genuine Physical Electrical Simulation (Frozen Baseline)** |
 
 ---
 

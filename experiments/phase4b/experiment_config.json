@@ -1,0 +1,24 @@
+{
+  "experiment": "PHASE_4B",
+  "seed": 42,
+  "dataset_manifest": "data/ieee9bus_60hz/dataset_manifest_v1.json",
+  "dataset_manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+  "feature_count": 32,
+  "classes": [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
+    "Normal",
+    "Notch",
+    "Sag",
+    "Swell",
+    "Transient"
+  ],
+  "models_evaluated": [
+    "logistic_regression",
+    "random_forest",
+    "svm_rbf",
+    "gradient_boosting",
+    "mlp_compact"
+  ]
+}

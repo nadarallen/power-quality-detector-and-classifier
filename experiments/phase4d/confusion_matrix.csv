@@ -1,0 +1,9 @@
+,Flicker,Harmonics,Interruption,Normal,Notch,Sag,Swell,Transient
+Flicker,160,0,0,0,0,0,0,0
+Harmonics,0,160,0,0,0,0,0,0
+Interruption,0,0,160,0,0,0,0,0
+Normal,0,0,0,174,0,1,0,0
+Notch,0,0,0,0,160,0,0,0
+Sag,0,0,0,0,0,160,0,0
+Swell,0,0,0,0,0,0,160,0
+Transient,0,0,0,0,0,0,0,160

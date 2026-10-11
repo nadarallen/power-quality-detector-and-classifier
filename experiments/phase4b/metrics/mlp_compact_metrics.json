@@ -1,0 +1,230 @@
+{
+  "model_key": "mlp_compact",
+  "display_name": "Compact MLP (32->64->32->8)",
+  "experiment": "PHASE_4B",
+  "seed": 42,
+  "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+  "training_time_seconds": 2.031,
+  "hyperparameters": {
+    "architecture": "32 -> 64 -> 32 -> 8",
+    "hidden_layer_sizes": [
+      64,
+      32
+    ],
+    "activation": "relu",
+    "solver": "adam",
+    "alpha": 0.0001,
+    "batch_size": 32,
+    "learning_rate_init": 0.001,
+    "max_iter": 500,
+    "early_stopping": true,
+    "random_state": 42
+  },
+  "complexity": {
+    "type": "MLPClassifier",
+    "parameter_count": 4456,
+    "architecture": [
+      32,
+      64,
+      32,
+      8
+    ],
+    "layer_shapes": [
+      "(32, 64)",
+      "(64, 32)",
+      "(32, 8)"
+    ],
+    "notes": "MLP: 32 -> 64 -> 32 -> 8 (4456 parameters)",
+    "model_file_size_kb": 114.03,
+    "model_file": "experiments/phase4b/models/mlp_compact.pkl"
+  },
+  "latency": {
+    "mean_latency_us": 196.72,
+    "median_latency_us": 187.6,
+    "p95_latency_us": 231.91,
+    "p99_latency_us": 344.91,
+    "std_latency_us": 38.63,
+    "throughput_fps": 5083.3
+  },
+  "train_metrics": {
+    "accuracy": 0.9998,
+    "macro_f1": 0.9998,
+    "weighted_f1": 0.9998
+  },
+  "validation_metrics": {
+    "accuracy": 0.9792,
+    "macro_f1": 0.9796,
+    "weighted_f1": 0.979,
+    "macro_precision": 0.9828,
+    "macro_recall": 0.979
+  },
+  "per_class_report": {
+    "Flicker": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Harmonics": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Interruption": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Normal": {
+      "precision": 0.87,
+      "recall": 0.9942857142857143,
+      "f1-score": 0.928,
+      "support": 175.0
+    },
+    "Notch": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Sag": {
+      "precision": 0.9925925925925926,
+      "recall": 0.8375,
+      "f1-score": 0.9084745762711864,
+      "support": 160.0
+    },
+    "Swell": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Transient": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "accuracy": 0.9791505791505791,
+    "macro avg": {
+      "precision": 0.9828240740740741,
+      "recall": 0.9789732142857143,
+      "f1-score": 0.9795593220338983,
+      "support": 1295.0
+    },
+    "weighted avg": {
+      "precision": 0.9815172315172315,
+      "recall": 0.9791505791505791,
+      "f1-score": 0.9789621098095674,
+      "support": 1295.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      174,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      160,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      26,
+      0,
+      134,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160
+    ]
+  ],
+  "confusion_matrix_classes": [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
+    "Normal",
+    "Notch",
+    "Sag",
+    "Swell",
+    "Transient"
+  ],
+  "weaknesses": [
+    {
+      "class": "Normal",
+      "recall": 0.9943,
+      "precision": 0.87,
+      "f1": 0.928
+    },
+    {
+      "class": "Sag",
+      "recall": 0.8375,
+      "precision": 0.9926,
+      "f1": 0.9085
+    }
+  ]
+}

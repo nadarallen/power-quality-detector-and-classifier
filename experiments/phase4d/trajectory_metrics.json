@@ -1,0 +1,282 @@
+{
+  "transient::tran_sim_35": {
+    "trajectory_id": "transient::tran_sim_35",
+    "class_name": "Transient",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "interruption::int_sim_31": {
+    "trajectory_id": "interruption::int_sim_31",
+    "class_name": "Interruption",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "sag::sag_sim_11": {
+    "trajectory_id": "sag::sag_sim_11",
+    "class_name": "Sag",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "flicker::flk_sim_02": {
+    "trajectory_id": "flicker::flk_sim_02",
+    "class_name": "Flicker",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "harmonics::har_sim_18": {
+    "trajectory_id": "harmonics::har_sim_18",
+    "class_name": "Harmonics",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "interruption::int_sim_18": {
+    "trajectory_id": "interruption::int_sim_18",
+    "class_name": "Interruption",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "swell::swell_sim_06": {
+    "trajectory_id": "swell::swell_sim_06",
+    "class_name": "Swell",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "transient::tran_sim_36": {
+    "trajectory_id": "transient::tran_sim_36",
+    "class_name": "Transient",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "notch::not_sim_31": {
+    "trajectory_id": "notch::not_sim_31",
+    "class_name": "Notch",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "harmonics::har_sim_06": {
+    "trajectory_id": "harmonics::har_sim_06",
+    "class_name": "Harmonics",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "harmonics::har_sim_02": {
+    "trajectory_id": "harmonics::har_sim_02",
+    "class_name": "Harmonics",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "normal::sim_06": {
+    "trajectory_id": "normal::sim_06",
+    "class_name": "Normal",
+    "total_frames": 35,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "flicker::flk_sim_31": {
+    "trajectory_id": "flicker::flk_sim_31",
+    "class_name": "Flicker",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "flicker::flk_sim_06": {
+    "trajectory_id": "flicker::flk_sim_06",
+    "class_name": "Flicker",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "harmonics::har_sim_24": {
+    "trajectory_id": "harmonics::har_sim_24",
+    "class_name": "Harmonics",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "notch::not_sim_06": {
+    "trajectory_id": "notch::not_sim_06",
+    "class_name": "Notch",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "swell::swell_sim_30": {
+    "trajectory_id": "swell::swell_sim_30",
+    "class_name": "Swell",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "normal::sim_08": {
+    "trajectory_id": "normal::sim_08",
+    "class_name": "Normal",
+    "total_frames": 35,
+    "accuracy": 0.9714,
+    "error_count": 1
+  },
+  "flicker::flk_sim_24": {
+    "trajectory_id": "flicker::flk_sim_24",
+    "class_name": "Flicker",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "normal::sim_23": {
+    "trajectory_id": "normal::sim_23",
+    "class_name": "Normal",
+    "total_frames": 35,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "sag::sag_sim_06": {
+    "trajectory_id": "sag::sag_sim_06",
+    "class_name": "Sag",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "interruption::int_sim_02": {
+    "trajectory_id": "interruption::int_sim_02",
+    "class_name": "Interruption",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "swell::swell_sim_11": {
+    "trajectory_id": "swell::swell_sim_11",
+    "class_name": "Swell",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "sag::sag_sim_02": {
+    "trajectory_id": "sag::sag_sim_02",
+    "class_name": "Sag",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "flicker::flk_sim_18": {
+    "trajectory_id": "flicker::flk_sim_18",
+    "class_name": "Flicker",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "interruption::int_sim_24": {
+    "trajectory_id": "interruption::int_sim_24",
+    "class_name": "Interruption",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "swell::swell_sim_02": {
+    "trajectory_id": "swell::swell_sim_02",
+    "class_name": "Swell",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "swell::swell_sim_21": {
+    "trajectory_id": "swell::swell_sim_21",
+    "class_name": "Swell",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "transient::tran_sim_32": {
+    "trajectory_id": "transient::tran_sim_32",
+    "class_name": "Transient",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "harmonics::har_sim_31": {
+    "trajectory_id": "harmonics::har_sim_31",
+    "class_name": "Harmonics",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "notch::not_sim_18": {
+    "trajectory_id": "notch::not_sim_18",
+    "class_name": "Notch",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "normal::sim_14": {
+    "trajectory_id": "normal::sim_14",
+    "class_name": "Normal",
+    "total_frames": 35,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "transient::tran_sim_34": {
+    "trajectory_id": "transient::tran_sim_34",
+    "class_name": "Transient",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "notch::not_sim_02": {
+    "trajectory_id": "notch::not_sim_02",
+    "class_name": "Notch",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "notch::not_sim_24": {
+    "trajectory_id": "notch::not_sim_24",
+    "class_name": "Notch",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "sag::sag_sim_30": {
+    "trajectory_id": "sag::sag_sim_30",
+    "class_name": "Sag",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "normal::sim_02": {
+    "trajectory_id": "normal::sim_02",
+    "class_name": "Normal",
+    "total_frames": 35,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "interruption::int_sim_06": {
+    "trajectory_id": "interruption::int_sim_06",
+    "class_name": "Interruption",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "transient::tran_sim_33": {
+    "trajectory_id": "transient::tran_sim_33",
+    "class_name": "Transient",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  },
+  "sag::sag_sim_21": {
+    "trajectory_id": "sag::sag_sim_21",
+    "class_name": "Sag",
+    "total_frames": 32,
+    "accuracy": 1.0,
+    "error_count": 0
+  }
+}

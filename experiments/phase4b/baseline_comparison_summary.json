@@ -1,0 +1,1147 @@
+{
+  "experiment_name": "PHASE_4B_BASELINE_MODEL_COMPARISON",
+  "timestamp_utc": "2026-10-11T11:33:01Z",
+  "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+  "seed": 42,
+  "partitions": {
+    "train_samples": 6594,
+    "val_samples": 1295,
+    "locked_test_samples_preserved": 1295
+  },
+  "models_summary": [
+    {
+      "Model": "Logistic Regression",
+      "Train Acc (%)": 98.67,
+      "Val Acc (%)": 97.53,
+      "Val Macro F1 (%)": 97.56,
+      "Val Weighted F1 (%)": 97.5,
+      "Train Time (s)": 0.14,
+      "Latency Mean (us)": 169.39,
+      "Latency Median (us)": 153.1,
+      "Model Size (KB)": 3.88,
+      "Parameters": 264,
+      "Weak Classes (<95% F1)": 2
+    },
+    {
+      "Model": "Random Forest",
+      "Train Acc (%)": 100.0,
+      "Val Acc (%)": 100.0,
+      "Val Macro F1 (%)": 100.0,
+      "Val Weighted F1 (%)": 100.0,
+      "Train Time (s)": 0.18,
+      "Latency Mean (us)": 14887.5,
+      "Latency Median (us)": 14694.0,
+      "Model Size (KB)": 894.0,
+      "Parameters": 20652,
+      "Weak Classes (<95% F1)": 0
+    },
+    {
+      "Model": "Support Vector Machine (RBF)",
+      "Train Acc (%)": 99.58,
+      "Val Acc (%)": 98.69,
+      "Val Macro F1 (%)": 98.72,
+      "Val Weighted F1 (%)": 98.68,
+      "Train Time (s)": 0.03,
+      "Latency Mean (us)": 204.48,
+      "Latency Median (us)": 178.8,
+      "Model Size (KB)": 109.7,
+      "Parameters": 13494,
+      "Weak Classes (<95% F1)": 2
+    },
+    {
+      "Model": "Gradient Boosting",
+      "Train Acc (%)": 100.0,
+      "Val Acc (%)": 97.53,
+      "Val Macro F1 (%)": 97.47,
+      "Val Weighted F1 (%)": 97.5,
+      "Train Time (s)": 21.97,
+      "Latency Mean (us)": 544.13,
+      "Latency Median (us)": 526.1,
+      "Model Size (KB)": 1093.81,
+      "Parameters": 39276,
+      "Weak Classes (<95% F1)": 2
+    },
+    {
+      "Model": "Compact MLP (32->64->32->8)",
+      "Train Acc (%)": 99.98,
+      "Val Acc (%)": 97.92,
+      "Val Macro F1 (%)": 97.96,
+      "Val Weighted F1 (%)": 97.9,
+      "Train Time (s)": 2.03,
+      "Latency Mean (us)": 196.72,
+      "Latency Median (us)": 187.6,
+      "Model Size (KB)": 114.03,
+      "Parameters": 4456,
+      "Weak Classes (<95% F1)": 2
+    }
+  ],
+  "detailed_results": {
+    "logistic_regression": {
+      "model_key": "logistic_regression",
+      "display_name": "Logistic Regression",
+      "experiment": "PHASE_4B",
+      "seed": 42,
+      "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+      "training_time_seconds": 0.137,
+      "hyperparameters": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "solver": "lbfgs",
+        "penalty": "l2",
+        "random_state": 42
+      },
+      "complexity": {
+        "type": "LogisticRegression",
+        "parameter_count": 264,
+        "notes": "Linear weights ((8, 32)) + biases ((8,))",
+        "model_file_size_kb": 3.88,
+        "model_file": "experiments/phase4b/models/logistic_regression.pkl"
+      },
+      "latency": {
+        "mean_latency_us": 169.39,
+        "median_latency_us": 153.1,
+        "p95_latency_us": 281.23,
+        "p99_latency_us": 398.43,
+        "std_latency_us": 50.6,
+        "throughput_fps": 5903.4
+      },
+      "train_metrics": {
+        "accuracy": 0.9867,
+        "macro_f1": 0.9863,
+        "weighted_f1": 0.9866
+      },
+      "validation_metrics": {
+        "accuracy": 0.9753,
+        "macro_f1": 0.9756,
+        "weighted_f1": 0.975,
+        "macro_precision": 0.9807,
+        "macro_recall": 0.975
+      },
+      "per_class_report": {
+        "Flicker": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Harmonics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Interruption": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Normal": {
+          "precision": 0.8454106280193237,
+          "recall": 1.0,
+          "f1-score": 0.9162303664921466,
+          "support": 175.0
+        },
+        "Notch": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Sag": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1-score": 0.8888888888888888,
+          "support": 160.0
+        },
+        "Swell": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Transient": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "accuracy": 0.9752895752895753,
+        "macro avg": {
+          "precision": 0.9806763285024155,
+          "recall": 0.975,
+          "f1-score": 0.9756399069226294,
+          "support": 1295.0
+        },
+        "weighted avg": {
+          "precision": 0.9791095443269356,
+          "recall": 0.9752895752895753,
+          "f1-score": 0.9749517655276817,
+          "support": 1295.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ],
+      "confusion_matrix_classes": [
+        "Flicker",
+        "Harmonics",
+        "Interruption",
+        "Normal",
+        "Notch",
+        "Sag",
+        "Swell",
+        "Transient"
+      ],
+      "weaknesses": [
+        {
+          "class": "Normal",
+          "recall": 1.0,
+          "precision": 0.8454,
+          "f1": 0.9162
+        },
+        {
+          "class": "Sag",
+          "recall": 0.8,
+          "precision": 1.0,
+          "f1": 0.8889
+        }
+      ]
+    },
+    "random_forest": {
+      "model_key": "random_forest",
+      "display_name": "Random Forest",
+      "experiment": "PHASE_4B",
+      "seed": 42,
+      "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+      "training_time_seconds": 0.177,
+      "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 16,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "max_features": "sqrt",
+        "random_state": 42
+      },
+      "complexity": {
+        "type": "RandomForestClassifier",
+        "n_trees": 100,
+        "total_tree_nodes": 6884,
+        "parameter_count": 20652,
+        "notes": "100 decision trees, total 6884 nodes",
+        "model_file_size_kb": 894.0,
+        "model_file": "experiments/phase4b/models/random_forest.pkl"
+      },
+      "latency": {
+        "mean_latency_us": 14887.5,
+        "median_latency_us": 14694.0,
+        "p95_latency_us": 15411.91,
+        "p99_latency_us": 25503.4,
+        "std_latency_us": 1400.9,
+        "throughput_fps": 67.2
+      },
+      "train_metrics": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0
+      },
+      "validation_metrics": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0
+      },
+      "per_class_report": {
+        "Flicker": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Harmonics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Interruption": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Normal": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 175.0
+        },
+        "Notch": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Sag": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Swell": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Transient": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 1295.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 1295.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ],
+      "confusion_matrix_classes": [
+        "Flicker",
+        "Harmonics",
+        "Interruption",
+        "Normal",
+        "Notch",
+        "Sag",
+        "Swell",
+        "Transient"
+      ],
+      "weaknesses": []
+    },
+    "svm_rbf": {
+      "model_key": "svm_rbf",
+      "display_name": "Support Vector Machine (RBF)",
+      "experiment": "PHASE_4B",
+      "seed": 42,
+      "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+      "training_time_seconds": 0.028,
+      "hyperparameters": {
+        "C": 10.0,
+        "kernel": "rbf",
+        "gamma": "scale",
+        "random_state": 42
+      },
+      "complexity": {
+        "type": "SVC",
+        "support_vectors_count": 346,
+        "parameter_count": 13494,
+        "notes": "346 support vectors x 32 features",
+        "model_file_size_kb": 109.7,
+        "model_file": "experiments/phase4b/models/svm_rbf.pkl"
+      },
+      "latency": {
+        "mean_latency_us": 204.48,
+        "median_latency_us": 178.8,
+        "p95_latency_us": 351.93,
+        "p99_latency_us": 491.74,
+        "std_latency_us": 66.78,
+        "throughput_fps": 4890.4
+      },
+      "train_metrics": {
+        "accuracy": 0.9958,
+        "macro_f1": 0.9956,
+        "weighted_f1": 0.9958
+      },
+      "validation_metrics": {
+        "accuracy": 0.9869,
+        "macro_f1": 0.9872,
+        "weighted_f1": 0.9868,
+        "macro_precision": 0.9889,
+        "macro_recall": 0.9867
+      },
+      "per_class_report": {
+        "Flicker": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Harmonics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Interruption": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Normal": {
+          "precision": 0.9114583333333334,
+          "recall": 1.0,
+          "f1-score": 0.9536784741144414,
+          "support": 175.0
+        },
+        "Notch": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Sag": {
+          "precision": 1.0,
+          "recall": 0.89375,
+          "f1-score": 0.9438943894389439,
+          "support": 160.0
+        },
+        "Swell": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Transient": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "accuracy": 0.9868725868725868,
+        "macro avg": {
+          "precision": 0.9889322916666667,
+          "recall": 0.98671875,
+          "f1-score": 0.9871966079441732,
+          "support": 1295.0
+        },
+        "weighted avg": {
+          "precision": 0.98803490990991,
+          "recall": 0.9868725868725868,
+          "f1-score": 0.9868083670117824,
+          "support": 1295.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          17,
+          0,
+          143,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ],
+      "confusion_matrix_classes": [
+        "Flicker",
+        "Harmonics",
+        "Interruption",
+        "Normal",
+        "Notch",
+        "Sag",
+        "Swell",
+        "Transient"
+      ],
+      "weaknesses": [
+        {
+          "class": "Normal",
+          "recall": 1.0,
+          "precision": 0.9115,
+          "f1": 0.9537
+        },
+        {
+          "class": "Sag",
+          "recall": 0.8938,
+          "precision": 1.0,
+          "f1": 0.9439
+        }
+      ]
+    },
+    "gradient_boosting": {
+      "model_key": "gradient_boosting",
+      "display_name": "Gradient Boosting",
+      "experiment": "PHASE_4B",
+      "seed": 42,
+      "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+      "training_time_seconds": 21.969,
+      "hyperparameters": {
+        "n_estimators": 100,
+        "learning_rate": 0.1,
+        "max_depth": 4,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "random_state": 42
+      },
+      "complexity": {
+        "type": "GradientBoostingClassifier",
+        "n_estimators": 100,
+        "total_tree_nodes": 13092,
+        "parameter_count": 39276,
+        "notes": "100 stages x 8 classes trees",
+        "model_file_size_kb": 1093.81,
+        "model_file": "experiments/phase4b/models/gradient_boosting.pkl"
+      },
+      "latency": {
+        "mean_latency_us": 544.13,
+        "median_latency_us": 526.1,
+        "p95_latency_us": 669.81,
+        "p99_latency_us": 852.57,
+        "std_latency_us": 67.83,
+        "throughput_fps": 1837.8
+      },
+      "train_metrics": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0
+      },
+      "validation_metrics": {
+        "accuracy": 0.9753,
+        "macro_f1": 0.9747,
+        "weighted_f1": 0.975,
+        "macro_precision": 0.9792,
+        "macro_recall": 0.975
+      },
+      "per_class_report": {
+        "Flicker": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1-score": 0.9090909090909091,
+          "support": 160.0
+        },
+        "Harmonics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Interruption": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Normal": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 175.0
+        },
+        "Notch": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Sag": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1-score": 0.8888888888888888,
+          "support": 160.0
+        },
+        "Swell": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Transient": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "accuracy": 0.9752895752895753,
+        "macro avg": {
+          "precision": 0.9791666666666667,
+          "recall": 0.975,
+          "f1-score": 0.9747474747474747,
+          "support": 1295.0
+        },
+        "weighted avg": {
+          "precision": 0.9794079794079795,
+          "recall": 0.9752895752895753,
+          "f1-score": 0.9750399750399751,
+          "support": 1295.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          32,
+          0,
+          0,
+          0,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ],
+      "confusion_matrix_classes": [
+        "Flicker",
+        "Harmonics",
+        "Interruption",
+        "Normal",
+        "Notch",
+        "Sag",
+        "Swell",
+        "Transient"
+      ],
+      "weaknesses": [
+        {
+          "class": "Flicker",
+          "recall": 1.0,
+          "precision": 0.8333,
+          "f1": 0.9091
+        },
+        {
+          "class": "Sag",
+          "recall": 0.8,
+          "precision": 1.0,
+          "f1": 0.8889
+        }
+      ]
+    },
+    "mlp_compact": {
+      "model_key": "mlp_compact",
+      "display_name": "Compact MLP (32->64->32->8)",
+      "experiment": "PHASE_4B",
+      "seed": 42,
+      "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+      "training_time_seconds": 2.031,
+      "hyperparameters": {
+        "architecture": "32 -> 64 -> 32 -> 8",
+        "hidden_layer_sizes": [
+          64,
+          32
+        ],
+        "activation": "relu",
+        "solver": "adam",
+        "alpha": 0.0001,
+        "batch_size": 32,
+        "learning_rate_init": 0.001,
+        "max_iter": 500,
+        "early_stopping": true,
+        "random_state": 42
+      },
+      "complexity": {
+        "type": "MLPClassifier",
+        "parameter_count": 4456,
+        "architecture": [
+          32,
+          64,
+          32,
+          8
+        ],
+        "layer_shapes": [
+          "(32, 64)",
+          "(64, 32)",
+          "(32, 8)"
+        ],
+        "notes": "MLP: 32 -> 64 -> 32 -> 8 (4456 parameters)",
+        "model_file_size_kb": 114.03,
+        "model_file": "experiments/phase4b/models/mlp_compact.pkl"
+      },
+      "latency": {
+        "mean_latency_us": 196.72,
+        "median_latency_us": 187.6,
+        "p95_latency_us": 231.91,
+        "p99_latency_us": 344.91,
+        "std_latency_us": 38.63,
+        "throughput_fps": 5083.3
+      },
+      "train_metrics": {
+        "accuracy": 0.9998,
+        "macro_f1": 0.9998,
+        "weighted_f1": 0.9998
+      },
+      "validation_metrics": {
+        "accuracy": 0.9792,
+        "macro_f1": 0.9796,
+        "weighted_f1": 0.979,
+        "macro_precision": 0.9828,
+        "macro_recall": 0.979
+      },
+      "per_class_report": {
+        "Flicker": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Harmonics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Interruption": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Normal": {
+          "precision": 0.87,
+          "recall": 0.9942857142857143,
+          "f1-score": 0.928,
+          "support": 175.0
+        },
+        "Notch": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Sag": {
+          "precision": 0.9925925925925926,
+          "recall": 0.8375,
+          "f1-score": 0.9084745762711864,
+          "support": 160.0
+        },
+        "Swell": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "Transient": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 160.0
+        },
+        "accuracy": 0.9791505791505791,
+        "macro avg": {
+          "precision": 0.9828240740740741,
+          "recall": 0.9789732142857143,
+          "f1-score": 0.9795593220338983,
+          "support": 1295.0
+        },
+        "weighted avg": {
+          "precision": 0.9815172315172315,
+          "recall": 0.9791505791505791,
+          "f1-score": 0.9789621098095674,
+          "support": 1295.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          26,
+          0,
+          134,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ],
+      "confusion_matrix_classes": [
+        "Flicker",
+        "Harmonics",
+        "Interruption",
+        "Normal",
+        "Notch",
+        "Sag",
+        "Swell",
+        "Transient"
+      ],
+      "weaknesses": [
+        {
+          "class": "Normal",
+          "recall": 0.9943,
+          "precision": 0.87,
+          "f1": 0.928
+        },
+        {
+          "class": "Sag",
+          "recall": 0.8375,
+          "precision": 0.9926,
+          "f1": 0.9085
+        }
+      ]
+    }
+  }
+}

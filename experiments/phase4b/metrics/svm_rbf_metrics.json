@@ -1,0 +1,211 @@
+{
+  "model_key": "svm_rbf",
+  "display_name": "Support Vector Machine (RBF)",
+  "experiment": "PHASE_4B",
+  "seed": 42,
+  "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+  "training_time_seconds": 0.028,
+  "hyperparameters": {
+    "C": 10.0,
+    "kernel": "rbf",
+    "gamma": "scale",
+    "random_state": 42
+  },
+  "complexity": {
+    "type": "SVC",
+    "support_vectors_count": 346,
+    "parameter_count": 13494,
+    "notes": "346 support vectors x 32 features",
+    "model_file_size_kb": 109.7,
+    "model_file": "experiments/phase4b/models/svm_rbf.pkl"
+  },
+  "latency": {
+    "mean_latency_us": 204.48,
+    "median_latency_us": 178.8,
+    "p95_latency_us": 351.93,
+    "p99_latency_us": 491.74,
+    "std_latency_us": 66.78,
+    "throughput_fps": 4890.4
+  },
+  "train_metrics": {
+    "accuracy": 0.9958,
+    "macro_f1": 0.9956,
+    "weighted_f1": 0.9958
+  },
+  "validation_metrics": {
+    "accuracy": 0.9869,
+    "macro_f1": 0.9872,
+    "weighted_f1": 0.9868,
+    "macro_precision": 0.9889,
+    "macro_recall": 0.9867
+  },
+  "per_class_report": {
+    "Flicker": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Harmonics": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Interruption": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Normal": {
+      "precision": 0.9114583333333334,
+      "recall": 1.0,
+      "f1-score": 0.9536784741144414,
+      "support": 175.0
+    },
+    "Notch": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Sag": {
+      "precision": 1.0,
+      "recall": 0.89375,
+      "f1-score": 0.9438943894389439,
+      "support": 160.0
+    },
+    "Swell": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Transient": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "accuracy": 0.9868725868725868,
+    "macro avg": {
+      "precision": 0.9889322916666667,
+      "recall": 0.98671875,
+      "f1-score": 0.9871966079441732,
+      "support": 1295.0
+    },
+    "weighted avg": {
+      "precision": 0.98803490990991,
+      "recall": 0.9868725868725868,
+      "f1-score": 0.9868083670117824,
+      "support": 1295.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      175,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      160,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      17,
+      0,
+      143,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160
+    ]
+  ],
+  "confusion_matrix_classes": [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
+    "Normal",
+    "Notch",
+    "Sag",
+    "Swell",
+    "Transient"
+  ],
+  "weaknesses": [
+    {
+      "class": "Normal",
+      "recall": 1.0,
+      "precision": 0.9115,
+      "f1": 0.9537
+    },
+    {
+      "class": "Sag",
+      "recall": 0.8938,
+      "precision": 1.0,
+      "f1": 0.9439
+    }
+  ]
+}

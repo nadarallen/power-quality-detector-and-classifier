@@ -1,0 +1,214 @@
+{
+  "model_key": "gradient_boosting",
+  "display_name": "Gradient Boosting",
+  "experiment": "PHASE_4B",
+  "seed": 42,
+  "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+  "training_time_seconds": 21.969,
+  "hyperparameters": {
+    "n_estimators": 100,
+    "learning_rate": 0.1,
+    "max_depth": 4,
+    "min_samples_split": 2,
+    "min_samples_leaf": 1,
+    "random_state": 42
+  },
+  "complexity": {
+    "type": "GradientBoostingClassifier",
+    "n_estimators": 100,
+    "total_tree_nodes": 13092,
+    "parameter_count": 39276,
+    "notes": "100 stages x 8 classes trees",
+    "model_file_size_kb": 1093.81,
+    "model_file": "experiments/phase4b/models/gradient_boosting.pkl"
+  },
+  "latency": {
+    "mean_latency_us": 544.13,
+    "median_latency_us": 526.1,
+    "p95_latency_us": 669.81,
+    "p99_latency_us": 852.57,
+    "std_latency_us": 67.83,
+    "throughput_fps": 1837.8
+  },
+  "train_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0
+  },
+  "validation_metrics": {
+    "accuracy": 0.9753,
+    "macro_f1": 0.9747,
+    "weighted_f1": 0.975,
+    "macro_precision": 0.9792,
+    "macro_recall": 0.975
+  },
+  "per_class_report": {
+    "Flicker": {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1-score": 0.9090909090909091,
+      "support": 160.0
+    },
+    "Harmonics": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Interruption": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Normal": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 175.0
+    },
+    "Notch": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Sag": {
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1-score": 0.8888888888888888,
+      "support": 160.0
+    },
+    "Swell": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "Transient": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 160.0
+    },
+    "accuracy": 0.9752895752895753,
+    "macro avg": {
+      "precision": 0.9791666666666667,
+      "recall": 0.975,
+      "f1-score": 0.9747474747474747,
+      "support": 1295.0
+    },
+    "weighted avg": {
+      "precision": 0.9794079794079795,
+      "recall": 0.9752895752895753,
+      "f1-score": 0.9750399750399751,
+      "support": 1295.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      160,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      175,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      160,
+      0,
+      0,
+      0
+    ],
+    [
+      32,
+      0,
+      0,
+      0,
+      0,
+      128,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      160
+    ]
+  ],
+  "confusion_matrix_classes": [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
+    "Normal",
+    "Notch",
+    "Sag",
+    "Swell",
+    "Transient"
+  ],
+  "weaknesses": [
+    {
+      "class": "Flicker",
+      "recall": 1.0,
+      "precision": 0.8333,
+      "f1": 0.9091
+    },
+    {
+      "class": "Sag",
+      "recall": 0.8,
+      "precision": 1.0,
+      "f1": 0.8889
+    }
+  ]
+}

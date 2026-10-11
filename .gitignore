@@ -44,11 +44,9 @@ data/waveforms/
 data/enhanced_splits/
 
 # Simulink compilation caches, autosaves & temporary models
-*.slxc
+
 *.autosave
 slprj/
 scripts/slprj/
 scratch/
 
-# Generated graph analysis tools
-graphify-out/

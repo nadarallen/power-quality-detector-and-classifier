@@ -1,0 +1,6701 @@
+{
+  "experiment": "PHASE_4C",
+  "timestamp_utc": "2026-10-11T11:56:41Z",
+  "manifest_sha256": "B4C7CCA746B69EE895BC6E7C68F2BE2F56700F3B9C1976BF0B674C4D292548F5",
+  "seeds_evaluated": [
+    42,
+    123,
+    456
+  ],
+  "total_runs": 54,
+  "total_experiment_duration_seconds": 123.83,
+  "best_candidate": {
+    "config_id": "mlp_64_32_16_lbfgs_alpha0.0001",
+    "architecture": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+    "hidden_layers": [
+      64,
+      32,
+      16
+    ],
+    "solver": "lbfgs",
+    "alpha": 0.0001,
+    "seed": 123,
+    "parameter_count": 4856,
+    "memory_footprint_fp32_kb": 18.969,
+    "validation_metrics": {
+      "accuracy": 0.9992,
+      "balanced_accuracy": 0.9993,
+      "macro_f1": 0.9993,
+      "weighted_f1": 0.9992,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 1,
+      "total_errors": 1
+    },
+    "per_class_f1": {
+      "Flicker": 1.0,
+      "Harmonics": 1.0,
+      "Interruption": 1.0,
+      "Normal": 0.9971,
+      "Notch": 1.0,
+      "Sag": 0.9969,
+      "Swell": 1.0,
+      "Transient": 1.0
+    },
+    "confusion_matrix": [
+      [
+        160,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        160,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        160,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        174,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        160,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        160,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        160,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        160
+      ]
+    ],
+    "latency": {
+      "mean_latency_us": 116.17,
+      "median_latency_us": 112.8,
+      "p95_latency_us": 127.13,
+      "p99_latency_us": 176.93,
+      "std_latency_us": 16.09,
+      "throughput_fps": 8607.8
+    },
+    "artifacts": {
+      "weights_json": "experiments/phase4c/models/candidate_mlp_weights.json",
+      "pipeline_pkl": "experiments/phase4c/models/candidate_mlp_pipeline.pkl",
+      "checksums": {
+        "candidate_mlp_pipeline_pkl": "11CDD7F82B5349C119A10C95DD6053F29CE7C455E835512EAB72A7BAED8E05BD",
+        "candidate_mlp_weights_json": "F0FEBD5B3829677AC0F2C13262CCCB5FF8947CDCB59596F5E4A8F2B6180C27C5",
+        "scaler_phase4c_pkl": "4C39B3EC2FEC422E11F4A02D0DB01FC7EAEE70FBB91A0AC8D705778171123723",
+        "scaler_phase4c_params_json": "76D0AD26E730D19776D20E70055CC6D490F2AAD4680BFD47DF0D95689888FC6D"
+      }
+    }
+  },
+  "all_configurations_summary": [
+    {
+      "Config ID": "mlp_32_16_lbfgs_alpha0.0001",
+      "Architecture": "mlp_32_16",
+      "Solver": "lbfgs",
+      "Alpha": 0.0001,
+      "Val Acc Mean (%)": 98.97,
+      "Val Macro F1 Mean (%)": 98.99,
+      "Val Macro F1 Std (%)": 1.17,
+      "Mean Sag->Norm Err": 10.7,
+      "Mean Norm->Sag Err": 2.3,
+      "Avg Fit Time (s)": 0.87
+    },
+    {
+      "Config ID": "mlp_32_16_lbfgs_alpha0.001",
+      "Architecture": "mlp_32_16",
+      "Solver": "lbfgs",
+      "Alpha": 0.001,
+      "Val Acc Mean (%)": 98.69,
+      "Val Macro F1 Mean (%)": 98.68,
+      "Val Macro F1 Std (%)": 1.25,
+      "Mean Sag->Norm Err": 4.7,
+      "Mean Norm->Sag Err": 1.7,
+      "Avg Fit Time (s)": 0.84
+    },
+    {
+      "Config ID": "mlp_32_16_lbfgs_alpha0.01",
+      "Architecture": "mlp_32_16",
+      "Solver": "lbfgs",
+      "Alpha": 0.01,
+      "Val Acc Mean (%)": 98.17,
+      "Val Macro F1 Mean (%)": 98.21,
+      "Val Macro F1 Std (%)": 0.31,
+      "Mean Sag->Norm Err": 22.0,
+      "Mean Norm->Sag Err": 1.7,
+      "Avg Fit Time (s)": 1.06
+    },
+    {
+      "Config ID": "mlp_32_16_adam_alpha0.0001",
+      "Architecture": "mlp_32_16",
+      "Solver": "adam",
+      "Alpha": 0.0001,
+      "Val Acc Mean (%)": 98.22,
+      "Val Macro F1 Mean (%)": 98.25,
+      "Val Macro F1 Std (%)": 1.03,
+      "Mean Sag->Norm Err": 21.3,
+      "Mean Norm->Sag Err": 1.7,
+      "Avg Fit Time (s)": 2.82
+    },
+    {
+      "Config ID": "mlp_32_16_adam_alpha0.001",
+      "Architecture": "mlp_32_16",
+      "Solver": "adam",
+      "Alpha": 0.001,
+      "Val Acc Mean (%)": 97.48,
+      "Val Macro F1 Mean (%)": 97.51,
+      "Val Macro F1 Std (%)": 0.07,
+      "Mean Sag->Norm Err": 32.0,
+      "Mean Norm->Sag Err": 0.7,
+      "Avg Fit Time (s)": 2.76
+    },
+    {
+      "Config ID": "mlp_32_16_adam_alpha0.01",
+      "Architecture": "mlp_32_16",
+      "Solver": "adam",
+      "Alpha": 0.01,
+      "Val Acc Mean (%)": 97.81,
+      "Val Macro F1 Mean (%)": 97.85,
+      "Val Macro F1 Std (%)": 0.4,
+      "Mean Sag->Norm Err": 27.0,
+      "Mean Norm->Sag Err": 1.3,
+      "Avg Fit Time (s)": 3.61
+    },
+    {
+      "Config ID": "mlp_64_32_lbfgs_alpha0.0001",
+      "Architecture": "mlp_64_32",
+      "Solver": "lbfgs",
+      "Alpha": 0.0001,
+      "Val Acc Mean (%)": 98.28,
+      "Val Macro F1 Mean (%)": 98.24,
+      "Val Macro F1 Std (%)": 1.19,
+      "Mean Sag->Norm Err": 0.0,
+      "Mean Norm->Sag Err": 1.0,
+      "Avg Fit Time (s)": 1.47
+    },
+    {
+      "Config ID": "mlp_64_32_lbfgs_alpha0.001",
+      "Architecture": "mlp_64_32",
+      "Solver": "lbfgs",
+      "Alpha": 0.001,
+      "Val Acc Mean (%)": 97.66,
+      "Val Macro F1 Mean (%)": 97.64,
+      "Val Macro F1 Std (%)": 1.75,
+      "Mean Sag->Norm Err": 5.0,
+      "Mean Norm->Sag Err": 1.3,
+      "Avg Fit Time (s)": 1.59
+    },
+    {
+      "Config ID": "mlp_64_32_lbfgs_alpha0.01",
+      "Architecture": "mlp_64_32",
+      "Solver": "lbfgs",
+      "Alpha": 0.01,
+      "Val Acc Mean (%)": 98.94,
+      "Val Macro F1 Mean (%)": 98.93,
+      "Val Macro F1 Std (%)": 1.14,
+      "Mean Sag->Norm Err": 0.0,
+      "Mean Norm->Sag Err": 2.0,
+      "Avg Fit Time (s)": 1.89
+    },
+    {
+      "Config ID": "mlp_64_32_adam_alpha0.0001",
+      "Architecture": "mlp_64_32",
+      "Solver": "adam",
+      "Alpha": 0.0001,
+      "Val Acc Mean (%)": 97.4,
+      "Val Macro F1 Mean (%)": 97.44,
+      "Val Macro F1 Std (%)": 0.03,
+      "Mean Sag->Norm Err": 32.0,
+      "Mean Norm->Sag Err": 1.7,
+      "Avg Fit Time (s)": 2.21
+    },
+    {
+      "Config ID": "mlp_64_32_adam_alpha0.001",
+      "Architecture": "mlp_64_32",
+      "Solver": "adam",
+      "Alpha": 0.001,
+      "Val Acc Mean (%)": 97.73,
+      "Val Macro F1 Mean (%)": 97.77,
+      "Val Macro F1 Std (%)": 0.22,
+      "Mean Sag->Norm Err": 28.3,
+      "Mean Norm->Sag Err": 1.0,
+      "Avg Fit Time (s)": 2.58
+    },
+    {
+      "Config ID": "mlp_64_32_adam_alpha0.01",
+      "Architecture": "mlp_64_32",
+      "Solver": "adam",
+      "Alpha": 0.01,
+      "Val Acc Mean (%)": 98.22,
+      "Val Macro F1 Mean (%)": 98.25,
+      "Val Macro F1 Std (%)": 1.08,
+      "Mean Sag->Norm Err": 21.3,
+      "Mean Norm->Sag Err": 1.7,
+      "Avg Fit Time (s)": 3.8
+    },
+    {
+      "Config ID": "mlp_64_32_16_lbfgs_alpha0.0001",
+      "Architecture": "mlp_64_32_16",
+      "Solver": "lbfgs",
+      "Alpha": 0.0001,
+      "Val Acc Mean (%)": 99.43,
+      "Val Macro F1 Mean (%)": 99.45,
+      "Val Macro F1 Std (%)": 0.62,
+      "Mean Sag->Norm Err": 6.0,
+      "Mean Norm->Sag Err": 1.3,
+      "Avg Fit Time (s)": 2.24
+    },
+    {
+      "Config ID": "mlp_64_32_16_lbfgs_alpha0.001",
+      "Architecture": "mlp_64_32_16",
+      "Solver": "lbfgs",
+      "Alpha": 0.001,
+      "Val Acc Mean (%)": 98.97,
+      "Val Macro F1 Mean (%)": 98.98,
+      "Val Macro F1 Std (%)": 0.35,
+      "Mean Sag->Norm Err": 6.3,
+      "Mean Norm->Sag Err": 2.3,
+      "Avg Fit Time (s)": 2.33
+    },
+    {
+      "Config ID": "mlp_64_32_16_lbfgs_alpha0.01",
+      "Architecture": "mlp_64_32_16",
+      "Solver": "lbfgs",
+      "Alpha": 0.01,
+      "Val Acc Mean (%)": 98.74,
+      "Val Macro F1 Mean (%)": 98.73,
+      "Val Macro F1 Std (%)": 1.58,
+      "Mean Sag->Norm Err": 4.0,
+      "Mean Norm->Sag Err": 1.7,
+      "Avg Fit Time (s)": 2.85
+    },
+    {
+      "Config ID": "mlp_64_32_16_adam_alpha0.0001",
+      "Architecture": "mlp_64_32_16",
+      "Solver": "adam",
+      "Alpha": 0.0001,
+      "Val Acc Mean (%)": 97.76,
+      "Val Macro F1 Mean (%)": 97.8,
+      "Val Macro F1 Std (%)": 0.44,
+      "Mean Sag->Norm Err": 27.3,
+      "Mean Norm->Sag Err": 1.7,
+      "Avg Fit Time (s)": 2.19
+    },
+    {
+      "Config ID": "mlp_64_32_16_adam_alpha0.001",
+      "Architecture": "mlp_64_32_16",
+      "Solver": "adam",
+      "Alpha": 0.001,
+      "Val Acc Mean (%)": 97.81,
+      "Val Macro F1 Mean (%)": 97.85,
+      "Val Macro F1 Std (%)": 0.46,
+      "Mean Sag->Norm Err": 27.0,
+      "Mean Norm->Sag Err": 1.3,
+      "Avg Fit Time (s)": 2.17
+    },
+    {
+      "Config ID": "mlp_64_32_16_adam_alpha0.01",
+      "Architecture": "mlp_64_32_16",
+      "Solver": "adam",
+      "Alpha": 0.01,
+      "Val Acc Mean (%)": 97.94,
+      "Val Macro F1 Mean (%)": 97.98,
+      "Val Macro F1 Std (%)": 0.58,
+      "Mean Sag->Norm Err": 25.7,
+      "Mean Norm->Sag Err": 1.0,
+      "Avg Fit Time (s)": 2.84
+    }
+  ],
+  "all_individual_runs": [
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.0001_seed42",
+      "config_id": "mlp_32_16_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 42,
+      "fit_time_seconds": 0.828,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.973,
+      "val_balanced_acc": 0.9729,
+      "val_macro_f1": 0.9734,
+      "val_weighted_f1": 0.9727,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 3,
+      "other_errors": 0,
+      "total_val_errors": 35,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9077,
+        "Notch": 1.0,
+        "Sag": 0.8797,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          172,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.0001_seed123",
+      "config_id": "mlp_32_16_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 123,
+      "fit_time_seconds": 0.955,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9977,
+      "val_balanced_acc": 0.9979,
+      "val_macro_f1": 0.9978,
+      "val_weighted_f1": 0.9977,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 1,
+      "total_val_errors": 3,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 0.9969,
+        "Interruption": 1.0,
+        "Normal": 0.9914,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          172,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.0001_seed456",
+      "config_id": "mlp_32_16_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 456,
+      "fit_time_seconds": 0.83,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9985,
+      "val_balanced_acc": 0.9986,
+      "val_macro_f1": 0.9985,
+      "val_weighted_f1": 0.9985,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 2,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.001_seed42",
+      "config_id": "mlp_32_16_lbfgs_alpha0.001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 42,
+      "fit_time_seconds": 0.81,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9699,
+      "val_balanced_acc": 0.9696,
+      "val_macro_f1": 0.9695,
+      "val_weighted_f1": 0.9696,
+      "sag_to_normal_errors": 6,
+      "normal_to_sag_errors": 1,
+      "other_errors": 32,
+      "total_val_errors": 39,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9803,
+        "Notch": 1.0,
+        "Sag": 0.9778,
+        "Swell": 0.8889,
+        "Transient": 0.9091
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          0,
+          154,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          128,
+          32
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.001_seed123",
+      "config_id": "mlp_32_16_lbfgs_alpha0.001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 123,
+      "fit_time_seconds": 0.769,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9985,
+      "val_balanced_acc": 0.9986,
+      "val_macro_f1": 0.9985,
+      "val_weighted_f1": 0.9985,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 2,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.001_seed456",
+      "config_id": "mlp_32_16_lbfgs_alpha0.001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 456,
+      "fit_time_seconds": 0.932,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9923,
+      "val_balanced_acc": 0.9923,
+      "val_macro_f1": 0.9925,
+      "val_weighted_f1": 0.9923,
+      "sag_to_normal_errors": 8,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 10,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9719,
+        "Notch": 1.0,
+        "Sag": 0.9682,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          8,
+          0,
+          152,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.01_seed42",
+      "config_id": "mlp_32_16_lbfgs_alpha0.01",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 42,
+      "fit_time_seconds": 1.275,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9799,
+      "val_balanced_acc": 0.9798,
+      "val_macro_f1": 0.9803,
+      "val_weighted_f1": 0.9798,
+      "sag_to_normal_errors": 25,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 26,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9305,
+        "Notch": 1.0,
+        "Sag": 0.9122,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          25,
+          0,
+          135,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.01_seed123",
+      "config_id": "mlp_32_16_lbfgs_alpha0.01",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 123,
+      "fit_time_seconds": 0.946,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9861,
+      "val_balanced_acc": 0.9861,
+      "val_macro_f1": 0.9865,
+      "val_weighted_f1": 0.986,
+      "sag_to_normal_errors": 16,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 18,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9505,
+        "Notch": 1.0,
+        "Sag": 0.9412,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          16,
+          0,
+          144,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_lbfgs_alpha0.01_seed456",
+      "config_id": "mlp_32_16_lbfgs_alpha0.01",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 456,
+      "fit_time_seconds": 0.947,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9792,
+      "val_balanced_acc": 0.979,
+      "val_macro_f1": 0.9796,
+      "val_weighted_f1": 0.979,
+      "sag_to_normal_errors": 25,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 27,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9276,
+        "Notch": 1.0,
+        "Sag": 0.9091,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          25,
+          0,
+          135,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.0001_seed42",
+      "config_id": "mlp_32_16_adam_alpha0.0001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 42,
+      "fit_time_seconds": 2.996,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.9749,
+      "val_weighted_f1": 0.9742,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9134,
+        "Notch": 1.0,
+        "Sag": 0.8858,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.0001_seed123",
+      "config_id": "mlp_32_16_adam_alpha0.0001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 123,
+      "fit_time_seconds": 2.394,
+      "parameter_count": 1720,
+      "train_acc": 0.9983,
+      "train_macro_f1": 0.9983,
+      "val_acc": 0.9969,
+      "val_balanced_acc": 0.9971,
+      "val_macro_f1": 0.997,
+      "val_weighted_f1": 0.9969,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 4,
+      "other_errors": 0,
+      "total_val_errors": 4,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9884,
+        "Notch": 1.0,
+        "Sag": 0.9877,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          171,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.0001_seed456",
+      "config_id": "mlp_32_16_adam_alpha0.0001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 456,
+      "fit_time_seconds": 3.058,
+      "parameter_count": 1720,
+      "train_acc": 0.9857,
+      "train_macro_f1": 0.9853,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.001_seed42",
+      "config_id": "mlp_32_16_adam_alpha0.001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 42,
+      "fit_time_seconds": 2.613,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9737,
+      "val_balanced_acc": 0.9736,
+      "val_macro_f1": 0.9742,
+      "val_weighted_f1": 0.9734,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 34,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9105,
+        "Notch": 1.0,
+        "Sag": 0.8828,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.001_seed123",
+      "config_id": "mlp_32_16_adam_alpha0.001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 123,
+      "fit_time_seconds": 2.882,
+      "parameter_count": 1720,
+      "train_acc": 0.9938,
+      "train_macro_f1": 0.9936,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.001_seed456",
+      "config_id": "mlp_32_16_adam_alpha0.001",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 456,
+      "fit_time_seconds": 2.791,
+      "parameter_count": 1720,
+      "train_acc": 0.9854,
+      "train_macro_f1": 0.985,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.01_seed42",
+      "config_id": "mlp_32_16_adam_alpha0.01",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 42,
+      "fit_time_seconds": 4.365,
+      "parameter_count": 1720,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.9751,
+      "val_macro_f1": 0.9757,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 30,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9153,
+        "Notch": 1.0,
+        "Sag": 0.8904,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30,
+          0,
+          130,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.01_seed123",
+      "config_id": "mlp_32_16_adam_alpha0.01",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 123,
+      "fit_time_seconds": 3.238,
+      "parameter_count": 1720,
+      "train_acc": 0.995,
+      "train_macro_f1": 0.9948,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_32_16_adam_alpha0.01_seed456",
+      "config_id": "mlp_32_16_adam_alpha0.01",
+      "architecture_key": "mlp_32_16",
+      "architecture_name": "Arch A: 32 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 456,
+      "fit_time_seconds": 3.222,
+      "parameter_count": 1720,
+      "train_acc": 0.9998,
+      "train_macro_f1": 0.9998,
+      "val_acc": 0.9838,
+      "val_balanced_acc": 0.9837,
+      "val_macro_f1": 0.9842,
+      "val_weighted_f1": 0.9837,
+      "sag_to_normal_errors": 19,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 21,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9428,
+        "Notch": 1.0,
+        "Sag": 0.9307,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          19,
+          0,
+          141,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.0001_seed42",
+      "config_id": "mlp_64_32_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 42,
+      "fit_time_seconds": 1.288,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.974,
+      "val_weighted_f1": 0.9743,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 1,
+      "other_errors": 32,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9971,
+        "Notch": 1.0,
+        "Sag": 0.9969,
+        "Swell": 0.8889,
+        "Transient": 0.9091
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          128,
+          32
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.0001_seed123",
+      "config_id": "mlp_64_32_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 123,
+      "fit_time_seconds": 1.715,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.974,
+      "val_weighted_f1": 0.9743,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 1,
+      "other_errors": 32,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 0.9091,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9971,
+        "Notch": 1.0,
+        "Sag": 0.8858,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          32,
+          0,
+          0,
+          0,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.0001_seed456",
+      "config_id": "mlp_64_32_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 456,
+      "fit_time_seconds": 1.392,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9992,
+      "val_balanced_acc": 0.9993,
+      "val_macro_f1": 0.9993,
+      "val_weighted_f1": 0.9992,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 1,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9971,
+        "Notch": 1.0,
+        "Sag": 0.9969,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.001_seed42",
+      "config_id": "mlp_64_32_lbfgs_alpha0.001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 42,
+      "fit_time_seconds": 1.177,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.973,
+      "val_balanced_acc": 0.9727,
+      "val_macro_f1": 0.9731,
+      "val_weighted_f1": 0.9729,
+      "sag_to_normal_errors": 15,
+      "normal_to_sag_errors": 1,
+      "other_errors": 19,
+      "total_val_errors": 35,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 0.944,
+        "Interruption": 1.0,
+        "Normal": 0.956,
+        "Notch": 0.9369,
+        "Sag": 0.9477,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          19,
+          0,
+          0,
+          141,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          15,
+          0,
+          145,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.001_seed123",
+      "config_id": "mlp_64_32_lbfgs_alpha0.001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 123,
+      "fit_time_seconds": 1.871,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9575,
+      "val_balanced_acc": 0.9572,
+      "val_macro_f1": 0.9568,
+      "val_weighted_f1": 0.9572,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 53,
+      "total_val_errors": 55,
+      "per_class_f1": {
+        "Flicker": 0.9275,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9091,
+        "Swell": 0.9041,
+        "Transient": 0.9195
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          25,
+          0,
+          0,
+          0,
+          0,
+          135,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          132,
+          28
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.001_seed456",
+      "config_id": "mlp_64_32_lbfgs_alpha0.001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 456,
+      "fit_time_seconds": 1.718,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9992,
+      "val_balanced_acc": 0.9993,
+      "val_macro_f1": 0.9993,
+      "val_weighted_f1": 0.9992,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 1,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9971,
+        "Notch": 1.0,
+        "Sag": 0.9969,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.01_seed42",
+      "config_id": "mlp_64_32_lbfgs_alpha0.01",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 42,
+      "fit_time_seconds": 1.366,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9737,
+      "val_balanced_acc": 0.9736,
+      "val_macro_f1": 0.9733,
+      "val_weighted_f1": 0.9735,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 32,
+      "total_val_errors": 34,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 0.8889,
+        "Transient": 0.9091
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          128,
+          32
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.01_seed123",
+      "config_id": "mlp_64_32_lbfgs_alpha0.01",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 123,
+      "fit_time_seconds": 2.402,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9961,
+      "val_balanced_acc": 0.9964,
+      "val_macro_f1": 0.9963,
+      "val_weighted_f1": 0.9961,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 3,
+      "total_val_errors": 5,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9855,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 0.9907
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          170,
+          0,
+          2,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_lbfgs_alpha0.01_seed456",
+      "config_id": "mlp_64_32_lbfgs_alpha0.01",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 456,
+      "fit_time_seconds": 1.908,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9985,
+      "val_balanced_acc": 0.9986,
+      "val_macro_f1": 0.9985,
+      "val_weighted_f1": 0.9985,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 2,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.0001_seed42",
+      "config_id": "mlp_64_32_adam_alpha0.0001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 42,
+      "fit_time_seconds": 1.973,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9737,
+      "val_balanced_acc": 0.9736,
+      "val_macro_f1": 0.9742,
+      "val_weighted_f1": 0.9734,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 34,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9105,
+        "Notch": 1.0,
+        "Sag": 0.8828,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.0001_seed123",
+      "config_id": "mlp_64_32_adam_alpha0.0001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 123,
+      "fit_time_seconds": 2.13,
+      "parameter_count": 4456,
+      "train_acc": 0.9995,
+      "train_macro_f1": 0.9995,
+      "val_acc": 0.9737,
+      "val_balanced_acc": 0.9736,
+      "val_macro_f1": 0.9742,
+      "val_weighted_f1": 0.9734,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 34,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9105,
+        "Notch": 1.0,
+        "Sag": 0.8828,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.0001_seed456",
+      "config_id": "mlp_64_32_adam_alpha0.0001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 456,
+      "fit_time_seconds": 2.52,
+      "parameter_count": 4456,
+      "train_acc": 0.9998,
+      "train_macro_f1": 0.9998,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.9749,
+      "val_weighted_f1": 0.9742,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9134,
+        "Notch": 1.0,
+        "Sag": 0.8858,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.001_seed42",
+      "config_id": "mlp_64_32_adam_alpha0.001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 42,
+      "fit_time_seconds": 2.018,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9776,
+      "val_balanced_acc": 0.9774,
+      "val_macro_f1": 0.978,
+      "val_weighted_f1": 0.9774,
+      "sag_to_normal_errors": 28,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 29,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9231,
+        "Notch": 1.0,
+        "Sag": 0.901,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          28,
+          0,
+          132,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.001_seed123",
+      "config_id": "mlp_64_32_adam_alpha0.001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 123,
+      "fit_time_seconds": 2.967,
+      "parameter_count": 4456,
+      "train_acc": 0.9998,
+      "train_macro_f1": 0.9998,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.9749,
+      "val_weighted_f1": 0.9742,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9134,
+        "Notch": 1.0,
+        "Sag": 0.8858,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.001_seed456",
+      "config_id": "mlp_64_32_adam_alpha0.001",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 456,
+      "fit_time_seconds": 2.74,
+      "parameter_count": 4456,
+      "train_acc": 0.9997,
+      "train_macro_f1": 0.9997,
+      "val_acc": 0.9799,
+      "val_balanced_acc": 0.9798,
+      "val_macro_f1": 0.9803,
+      "val_weighted_f1": 0.9798,
+      "sag_to_normal_errors": 25,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 26,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9305,
+        "Notch": 1.0,
+        "Sag": 0.9122,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          25,
+          0,
+          135,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.01_seed42",
+      "config_id": "mlp_64_32_adam_alpha0.01",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 42,
+      "fit_time_seconds": 5.535,
+      "parameter_count": 4456,
+      "train_acc": 0.9994,
+      "train_macro_f1": 0.9994,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.9749,
+      "val_weighted_f1": 0.9742,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9134,
+        "Notch": 1.0,
+        "Sag": 0.8858,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.01_seed123",
+      "config_id": "mlp_64_32_adam_alpha0.01",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 123,
+      "fit_time_seconds": 2.923,
+      "parameter_count": 4456,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.9749,
+      "val_weighted_f1": 0.9742,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9134,
+        "Notch": 1.0,
+        "Sag": 0.8858,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_adam_alpha0.01_seed456",
+      "config_id": "mlp_64_32_adam_alpha0.01",
+      "architecture_key": "mlp_64_32",
+      "architecture_name": "Arch B: 32 -> 64 -> 32 -> 8 (Baseline)",
+      "architecture_layers": [
+        64,
+        32
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 456,
+      "fit_time_seconds": 2.939,
+      "parameter_count": 4456,
+      "train_acc": 0.9992,
+      "train_macro_f1": 0.9992,
+      "val_acc": 0.9977,
+      "val_balanced_acc": 0.9979,
+      "val_macro_f1": 0.9978,
+      "val_weighted_f1": 0.9977,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 3,
+      "other_errors": 0,
+      "total_val_errors": 3,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9914,
+        "Notch": 1.0,
+        "Sag": 0.9907,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          172,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.0001_seed42",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 42,
+      "fit_time_seconds": 2.097,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9853,
+      "val_balanced_acc": 0.9853,
+      "val_macro_f1": 0.9857,
+      "val_weighted_f1": 0.9853,
+      "sag_to_normal_errors": 17,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 19,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9479,
+        "Notch": 1.0,
+        "Sag": 0.9377,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          17,
+          0,
+          143,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.0001_seed123",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 123,
+      "fit_time_seconds": 2.987,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9992,
+      "val_balanced_acc": 0.9993,
+      "val_macro_f1": 0.9993,
+      "val_weighted_f1": 0.9992,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 1,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9971,
+        "Notch": 1.0,
+        "Sag": 0.9969,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.0001_seed456",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.0001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.0001,
+      "seed": 456,
+      "fit_time_seconds": 1.638,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9985,
+      "val_balanced_acc": 0.9985,
+      "val_macro_f1": 0.9985,
+      "val_weighted_f1": 0.9985,
+      "sag_to_normal_errors": 1,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 2,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          159,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.001_seed42",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 42,
+      "fit_time_seconds": 2.61,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9846,
+      "val_balanced_acc": 0.9844,
+      "val_macro_f1": 0.9849,
+      "val_weighted_f1": 0.9845,
+      "sag_to_normal_errors": 19,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 20,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9457,
+        "Notch": 1.0,
+        "Sag": 0.9338,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          19,
+          0,
+          141,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.001_seed123",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 123,
+      "fit_time_seconds": 2.785,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9915,
+      "val_balanced_acc": 0.9917,
+      "val_macro_f1": 0.9916,
+      "val_weighted_f1": 0.9915,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 5,
+      "other_errors": 6,
+      "total_val_errors": 11,
+      "per_class_f1": {
+        "Flicker": 0.9809,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9855,
+        "Notch": 1.0,
+        "Sag": 0.9846,
+        "Swell": 0.9816,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          154,
+          0,
+          0,
+          0,
+          0,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          170,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.001_seed456",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "seed": 456,
+      "fit_time_seconds": 1.584,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9931,
+      "val_balanced_acc": 0.993,
+      "val_macro_f1": 0.993,
+      "val_weighted_f1": 0.993,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 1,
+      "other_errors": 8,
+      "total_val_errors": 9,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9971,
+        "Notch": 1.0,
+        "Sag": 0.9969,
+        "Swell": 0.9744,
+        "Transient": 0.9756
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          152,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.01_seed42",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.01",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 42,
+      "fit_time_seconds": 3.312,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9985,
+      "val_balanced_acc": 0.9986,
+      "val_macro_f1": 0.9985,
+      "val_weighted_f1": 0.9985,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 2,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.01_seed123",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.01",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 123,
+      "fit_time_seconds": 3.593,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9985,
+      "val_balanced_acc": 0.9986,
+      "val_macro_f1": 0.9985,
+      "val_weighted_f1": 0.9985,
+      "sag_to_normal_errors": 0,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 2,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9943,
+        "Notch": 1.0,
+        "Sag": 0.9938,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_lbfgs_alpha0.01_seed456",
+      "config_id": "mlp_64_32_16_lbfgs_alpha0.01",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "lbfgs",
+      "alpha": 0.01,
+      "seed": 456,
+      "fit_time_seconds": 1.65,
+      "parameter_count": 4856,
+      "train_acc": 1.0,
+      "train_macro_f1": 1.0,
+      "val_acc": 0.9653,
+      "val_balanced_acc": 0.9649,
+      "val_macro_f1": 0.965,
+      "val_weighted_f1": 0.965,
+      "sag_to_normal_errors": 12,
+      "normal_to_sag_errors": 1,
+      "other_errors": 32,
+      "total_val_errors": 45,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.964,
+        "Notch": 1.0,
+        "Sag": 0.9579,
+        "Swell": 0.8889,
+        "Transient": 0.9091
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          12,
+          0,
+          148,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          128,
+          32
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.0001_seed42",
+      "config_id": "mlp_64_32_16_adam_alpha0.0001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 42,
+      "fit_time_seconds": 2.558,
+      "parameter_count": 4856,
+      "train_acc": 0.9867,
+      "train_macro_f1": 0.9863,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.0001_seed123",
+      "config_id": "mlp_64_32_16_adam_alpha0.0001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 123,
+      "fit_time_seconds": 2.28,
+      "parameter_count": 4856,
+      "train_acc": 0.9997,
+      "train_macro_f1": 0.9997,
+      "val_acc": 0.9737,
+      "val_balanced_acc": 0.9736,
+      "val_macro_f1": 0.9742,
+      "val_weighted_f1": 0.9734,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 2,
+      "other_errors": 0,
+      "total_val_errors": 34,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9105,
+        "Notch": 1.0,
+        "Sag": 0.8828,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          173,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.0001_seed456",
+      "config_id": "mlp_64_32_16_adam_alpha0.0001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.0001,
+      "seed": 456,
+      "fit_time_seconds": 1.746,
+      "parameter_count": 4856,
+      "train_acc": 0.9994,
+      "train_macro_f1": 0.9994,
+      "val_acc": 0.9838,
+      "val_balanced_acc": 0.9838,
+      "val_macro_f1": 0.9842,
+      "val_weighted_f1": 0.9837,
+      "sag_to_normal_errors": 18,
+      "normal_to_sag_errors": 3,
+      "other_errors": 0,
+      "total_val_errors": 21,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9425,
+        "Notch": 1.0,
+        "Sag": 0.9311,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          172,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          18,
+          0,
+          142,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.001_seed42",
+      "config_id": "mlp_64_32_16_adam_alpha0.001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 42,
+      "fit_time_seconds": 2.216,
+      "parameter_count": 4856,
+      "train_acc": 0.9998,
+      "train_macro_f1": 0.9998,
+      "val_acc": 0.9745,
+      "val_balanced_acc": 0.9743,
+      "val_macro_f1": 0.9749,
+      "val_weighted_f1": 0.9742,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 1,
+      "other_errors": 0,
+      "total_val_errors": 33,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9134,
+        "Notch": 1.0,
+        "Sag": 0.8858,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          174,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.001_seed123",
+      "config_id": "mlp_64_32_16_adam_alpha0.001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 123,
+      "fit_time_seconds": 2.515,
+      "parameter_count": 4856,
+      "train_acc": 0.9757,
+      "train_macro_f1": 0.9747,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.001_seed456",
+      "config_id": "mlp_64_32_16_adam_alpha0.001",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.001,
+      "seed": 456,
+      "fit_time_seconds": 1.766,
+      "parameter_count": 4856,
+      "train_acc": 0.9985,
+      "train_macro_f1": 0.9984,
+      "val_acc": 0.9846,
+      "val_balanced_acc": 0.9846,
+      "val_macro_f1": 0.985,
+      "val_weighted_f1": 0.9845,
+      "sag_to_normal_errors": 17,
+      "normal_to_sag_errors": 3,
+      "other_errors": 0,
+      "total_val_errors": 20,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9451,
+        "Notch": 1.0,
+        "Sag": 0.9346,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          172,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          17,
+          0,
+          143,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.01_seed42",
+      "config_id": "mlp_64_32_16_adam_alpha0.01",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 42,
+      "fit_time_seconds": 3.277,
+      "parameter_count": 4856,
+      "train_acc": 0.9992,
+      "train_macro_f1": 0.9992,
+      "val_acc": 0.9876,
+      "val_balanced_acc": 0.9877,
+      "val_macro_f1": 0.988,
+      "val_weighted_f1": 0.9876,
+      "sag_to_normal_errors": 13,
+      "normal_to_sag_errors": 3,
+      "other_errors": 0,
+      "total_val_errors": 16,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9556,
+        "Notch": 1.0,
+        "Sag": 0.9484,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          172,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          13,
+          0,
+          147,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.01_seed123",
+      "config_id": "mlp_64_32_16_adam_alpha0.01",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 123,
+      "fit_time_seconds": 2.825,
+      "parameter_count": 4856,
+      "train_acc": 0.9977,
+      "train_macro_f1": 0.9977,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    },
+    {
+      "run_id": "mlp_64_32_16_adam_alpha0.01_seed456",
+      "config_id": "mlp_64_32_16_adam_alpha0.01",
+      "architecture_key": "mlp_64_32_16",
+      "architecture_name": "Arch C: 32 -> 64 -> 32 -> 16 -> 8",
+      "architecture_layers": [
+        64,
+        32,
+        16
+      ],
+      "solver": "adam",
+      "alpha": 0.01,
+      "seed": 456,
+      "fit_time_seconds": 2.414,
+      "parameter_count": 4856,
+      "train_acc": 0.9964,
+      "train_macro_f1": 0.9963,
+      "val_acc": 0.9753,
+      "val_balanced_acc": 0.975,
+      "val_macro_f1": 0.9756,
+      "val_weighted_f1": 0.975,
+      "sag_to_normal_errors": 32,
+      "normal_to_sag_errors": 0,
+      "other_errors": 0,
+      "total_val_errors": 32,
+      "per_class_f1": {
+        "Flicker": 1.0,
+        "Harmonics": 1.0,
+        "Interruption": 1.0,
+        "Normal": 0.9162,
+        "Notch": 1.0,
+        "Sag": 0.8889,
+        "Swell": 1.0,
+        "Transient": 1.0
+      },
+      "confusion_matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          32,
+          0,
+          128,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    }
+  ]
+}
