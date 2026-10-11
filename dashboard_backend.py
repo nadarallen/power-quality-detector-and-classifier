@@ -17,13 +17,13 @@ import numpy as np
 from dsp.enhanced_features import extract_enhanced_features
 
 CLASSES = [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
     "Normal",
+    "Notch",
     "Sag",
     "Swell",
-    "Interruption",
-    "Harmonics",
-    "Flicker",
-    "Notch",
     "Transient"
 ]
 
