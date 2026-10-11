@@ -40,13 +40,13 @@ ENV/
 # Temp & generated large artifacts
 temp_*.pkl
 *.npz
+!data/ieee9bus_60hz/**/*.npz
 data/waveforms/
 data/enhanced_splits/
 
 # Simulink compilation caches, autosaves & temporary models
-
 *.autosave
+*.slxc
 slprj/
 scripts/slprj/
 scratch/
-
