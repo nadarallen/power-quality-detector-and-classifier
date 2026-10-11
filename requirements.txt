@@ -1,0 +1,16 @@
+# Power Quality Detector and Classifier Dependencies
+# Core scientific stack
+numpy>=2.0.0
+scipy>=1.14.0
+pandas>=2.2.0
+scikit-learn>=1.5.0
+matplotlib>=3.8.0
+
+# Validation, testing and schema verification
+pytest>=8.0.0
+jsonschema>=4.20.0
+requests>=2.31.0
+
+# Interactive Research Dashboard
+streamlit>=1.35.0
+plotly>=5.20.0

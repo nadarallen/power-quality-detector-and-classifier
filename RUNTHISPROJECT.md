@@ -45,7 +45,28 @@ pytest -v
 
 ---
 
-### Workflow 2: Launch the REST Server & Laboratory Oscilloscope UI
+### Workflow 2: Launch the Interactive Research Dashboard
+
+Launch the Streamlit research platform to explore frozen IEEE 9-bus recorded experiments, view 3-phase waveforms, inspect 32-feature extractions, evaluate models, and view audit evidence:
+
+```bash
+streamlit run app.py
+```
+
+Then open your web browser to:
+```
+http://localhost:8501
+```
+
+**Features available on the research dashboard:**
+- **Mode A (Recorded Experiment Explorer):** Browse all 8 disturbance classes from the frozen 60 Hz IEEE 9-bus dataset, plot $V_A, V_B, V_C$ waveforms, compute and display 32 canonical features, and run inference using the frozen Phase 4C candidate MLP model. (Fully functional without MATLAB).
+- **Mode B (Simulink Live Experiment Runner):** Interface and parameter validation to initiate live electromagnetic simulations via MATLAB R2024b/R2025a when available.
+- **Model Comparison & Gate Evidence:** Benchmark results across five baseline architectures (Phase 4B) and independent locked test evaluations (Phase 4D).
+- **Feature Engineering & Explainability:** Mathematical explanations and definitions for the 32 physical and spectral descriptors codified in IEEE Std 1159 and IEEE Std 519.
+
+---
+
+### Workflow 3: Launch the REST Server & Laboratory Oscilloscope UI
 
 Start the lightweight REST & Server-Sent Events (SSE) telemetry server:
 
@@ -66,7 +87,7 @@ http://localhost:8500
 
 ---
 
-### Workflow 3: Run Simulink-to-Python Ingestion Bridge (Simulation Mode)
+### Workflow 4: Run Simulink-to-Python Ingestion Bridge (Simulation Mode)
 
 In MATLAB:
 ```matlab
