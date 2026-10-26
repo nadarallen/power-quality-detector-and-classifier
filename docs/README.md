@@ -57,6 +57,7 @@ Each completed engineering gate produced an immutable technical report, audit lo
 - **Phase 5A (Feature Audit & Multi-Model Research Design):** [PHASE5A_FEATURE_ANALYSIS_AND_COMPARISON_PLAN.md](PHASE5A_FEATURE_ANALYSIS_AND_COMPARISON_PLAN.md)
 - **Phase 5B (Simulation Matrix & Bounded Pilot Report):** [PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md](PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md)
 - **Phase 5B.1 (Pre-Bulk Physical Validation & Sampling Audit):** [PHASE5B1_PREBULK_ENGINEERING_AUDIT.md](PHASE5B1_PREBULK_ENGINEERING_AUDIT.md)
+- **Phase 5B.2 (Simulation Pipeline Remediation & Verification):** [PHASE5B2_SIMULATION_PIPELINE_REMEDIATION_REPORT.md](PHASE5B2_SIMULATION_PIPELINE_REMEDIATION_REPORT.md)
 - **Phase 5 Live Demonstration Specification:** [LIVE_MVP_PLAN.md](LIVE_MVP_PLAN.md)
 
 ---

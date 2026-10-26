@@ -1,0 +1,1062 @@
+{
+  "manifest_version": "2.0.0",
+  "phase": "Phase 5B.2 Remediation Pilot",
+  "total_remediation_pilots": 10,
+  "passed_count": 10,
+  "failed_count": 0,
+  "sampling_configurations": {
+    "high_rate": {
+      "fs_hz": 20000,
+      "samples_per_200ms": 4000,
+      "processing": "fixed-reference noise + ADC quant"
+    },
+    "canonical": {
+      "fs_hz": 5000,
+      "samples_per_200ms": 1000,
+      "filter": "8th-order Chebyshev Type I (fc=2.25 kHz)"
+    }
+  },
+  "sensor_noise_model": {
+    "type": "fixed_nominal_reference_awgn",
+    "v_nom_rms_pu": 0.5887019747712398,
+    "p_nominal_pu2": 0.3465700150995574
+  },
+  "adc_model": {
+    "type": "symmetric_bipolar",
+    "v_fs_pu": 1.8,
+    "supported_bits": [
+      12,
+      14
+    ]
+  },
+  "records": [
+    {
+      "remediation_pilot_id": 6,
+      "trajectory_id": "P5B2_FLI_0001_abc_c01_mil",
+      "class": "Flicker",
+      "label_idx": 0,
+      "operating_condition_id": 1,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "modulation_freq_hz": 8.8,
+        "modulation_depth": 0.04,
+        "modulation_phase_rad": 0.0,
+        "flicker_current_amps": 300.0
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 52.01114314162294,
+      "noise_measured_snr_20k_db": 51.973895180894814,
+      "solver_steps": 16558,
+      "solver_max_step_us": 25.000000000011124,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Flicker",
+        "affected_phases": [
+          "A",
+          "B",
+          "C"
+        ],
+        "phase_configuration": "three-phase",
+        "primary_phase": "A",
+        "dominant_freq_hz": 60.0,
+        "thd_percent": 0.11,
+        "primary_envelope_depth": 0.0444,
+        "primary_modulation_freq_hz": 9.0,
+        "primary_modulation_cycles": 1.8,
+        "gates": {
+          "FLK-01_depth_gt_0.02": true,
+          "FLK-02_depth_lt_0.15": true,
+          "FLK-03_freq_3_to_20Hz": true,
+          "FLK-04_anti_sag": true,
+          "FLK-05_anti_swell": true,
+          "FLK-06_thd_lt_3pct": true,
+          "FLK-07_cycles_ge_1.0": true,
+          "FLK-ANTI-INTERRUPT": true,
+          "FLK-FREQ_59.5_60.5": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_envelope": {
+          "A": {
+            "envelope_depth": 0.0444,
+            "envelope_freq_hz": 9.0,
+            "modulation_cycles": 1.8,
+            "env_mean": 0.8325,
+            "env_min": 0.7909,
+            "env_max": 0.8648
+          },
+          "B": {
+            "envelope_depth": 0.0423,
+            "envelope_freq_hz": 9.0,
+            "modulation_cycles": 1.8,
+            "env_mean": 0.8356,
+            "env_min": 0.7961,
+            "env_max": 0.8668
+          },
+          "C": {
+            "envelope_depth": 0.0439,
+            "envelope_freq_hz": 9.0,
+            "modulation_cycles": 1.8,
+            "env_mean": 0.8236,
+            "env_min": 0.7823,
+            "env_max": 0.8547
+          }
+        },
+        "per_phase_metrics": {
+          "A": {
+            "min_rms": 0.5572,
+            "max_rms": 0.6156,
+            "residual_ratio": 0.9465,
+            "event_ratio": 1.0457,
+            "duration_ms": 0.0
+          },
+          "B": {
+            "min_rms": 0.5595,
+            "max_rms": 0.6188,
+            "residual_ratio": 0.9505,
+            "event_ratio": 1.051,
+            "duration_ms": 0.0
+          },
+          "C": {
+            "min_rms": 0.5504,
+            "max_rms": 0.6094,
+            "residual_ratio": 0.9349,
+            "event_ratio": 1.0351,
+            "duration_ms": 0.0
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 150.0,
+        "hf_peak_magnitude_pu": 0.0011707545044329446
+      },
+      "features_summary": {
+        "rms_voltage": 0.588588,
+        "peak_voltage": 0.860669,
+        "thd": 0.1121,
+        "system_freq": 59.8233,
+        "vuf": null
+      },
+      "raw_mat_sha256": "457a1c4d704096c5b711fc99a2a58863ffd0f9f96ab3803cfdd10e4d10ff2471",
+      "processed_npz_sha256": "9b1a74f372269a83d6e038783b45ab62e73ed5c915581925e969939b855a386b",
+      "sim_wall_seconds": 2.7366786
+    },
+    {
+      "remediation_pilot_id": 5,
+      "trajectory_id": "P5B2_HAR_0019_abc_c01_mil",
+      "class": "Harmonics",
+      "label_idx": 1,
+      "operating_condition_id": 1,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "harmonic_orders": [
+          3,
+          5,
+          7
+        ],
+        "harmonic_currents_amps": {
+          "h3": 29.6,
+          "h5": 26.0,
+          "h7": 22.4
+        },
+        "harmonic_phases_rad": {
+          "h3": 0.44999999999999996,
+          "h5": 0.75,
+          "h7": 1.05
+        }
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 52.00102430267493,
+      "noise_measured_snr_20k_db": 52.03500199477604,
+      "solver_steps": 18605,
+      "solver_max_step_us": 25.000000000000718,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Harmonics",
+        "dominant_freq_hz": 60.0,
+        "thd_percent": 7.09,
+        "rms_voltage_pu": 0.5841,
+        "harmonic_mags_pu": {
+          "h1": 0.824,
+          "h2": 0.0001,
+          "h3": 0.0377,
+          "h5": 0.0242,
+          "h7": 0.0375,
+          "h9": 0.0,
+          "h11": 0.0
+        },
+        "harmonic_ratios": {
+          "h3_ratio": 0.0457,
+          "h5_ratio": 0.0294,
+          "h7_ratio": 0.0455
+        },
+        "gates": {
+          "HAR-01_freq_59.5_60.5": true,
+          "HAR-02_thd_gt_5pct": true,
+          "HAR-03_characteristic_harmonics": true,
+          "HAR-04_rms_range": true,
+          "HAR-05_anti_sag": true,
+          "HAR-06_anti_swell": true,
+          "HAR-07_continuous_duration": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_metrics": {
+          "A": {
+            "min_rms": 0.5815,
+            "max_rms": 0.5866,
+            "residual_ratio": 0.9877,
+            "event_ratio": 0.9965,
+            "duration_ms": 0.0
+          },
+          "B": {
+            "min_rms": 0.5838,
+            "max_rms": 0.5892,
+            "residual_ratio": 0.9917,
+            "event_ratio": 1.0009,
+            "duration_ms": 0.0
+          },
+          "C": {
+            "min_rms": 0.5745,
+            "max_rms": 0.5798,
+            "residual_ratio": 0.9759,
+            "event_ratio": 0.9849,
+            "duration_ms": 0.0
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 180.0,
+        "hf_peak_magnitude_pu": 0.037982581432366005
+      },
+      "features_summary": {
+        "rms_voltage": 0.584106,
+        "peak_voltage": 0.813428,
+        "thd": 7.0886,
+        "system_freq": 59.9995,
+        "vuf": null
+      },
+      "raw_mat_sha256": "695ccff09ef441994b67f10cd4a525346b90c41d157d1d81b3086ea3447a21a7",
+      "processed_npz_sha256": "5a6533329a1321eeb7e8eba31706ed6f19e18c7b5343c34114b0a84e96f822e0",
+      "sim_wall_seconds": 3.2814347
+    },
+    {
+      "remediation_pilot_id": 4,
+      "trajectory_id": "P5B2_INT_0037_abc_c01_mil",
+      "class": "Interruption",
+      "label_idx": 2,
+      "operating_condition_id": 1,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "duration_cycles": 4.2,
+        "duration_ms": 70.00000000000001,
+        "target_residual_pu": 0.0,
+        "onset_range_ms": [
+          20.0,
+          51.0
+        ]
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 52.18881854738769,
+      "noise_measured_snr_20k_db": 51.95564832373316,
+      "solver_steps": 16478,
+      "solver_max_step_us": 25.000000000000718,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Interruption",
+        "affected_phases": [
+          "A",
+          "B",
+          "C"
+        ],
+        "phase_configuration": "three-phase",
+        "primary_phase": "A",
+        "pre_event_nominal_rms": 0.5887,
+        "min_event_rms": 0.0012,
+        "residual_voltage_pu": 0.002,
+        "duration_ms": 68.8,
+        "start_time_s": 0.0454,
+        "end_time_s": 0.1142,
+        "gates": {
+          "INT-01_residual_lt_0.10": true,
+          "INT-02_residual_gt_0.0": true,
+          "INT-03_duration_ge_8.33ms": true,
+          "INT-04_recovery_confirmed": true,
+          "INT-05_pre_event_nominal": true,
+          "INT-06_freq_59.5_60.5": true,
+          "INT-ANTI-SWELL": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_metrics": {
+          "A": {
+            "min_rms": 0.0012,
+            "max_rms": 0.5854,
+            "residual_ratio": 0.002,
+            "event_ratio": 0.9944,
+            "duration_ms": 68.8
+          },
+          "B": {
+            "min_rms": 0.0013,
+            "max_rms": 0.5929,
+            "residual_ratio": 0.0021,
+            "event_ratio": 1.0071,
+            "duration_ms": 68.8
+          },
+          "C": {
+            "min_rms": 0.0014,
+            "max_rms": 0.579,
+            "residual_ratio": 0.0024,
+            "event_ratio": 0.9835,
+            "duration_ms": 74.0
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 150.0,
+        "hf_peak_magnitude_pu": 0.010681280035308173
+      },
+      "features_summary": {
+        "rms_voltage": 0.478999,
+        "peak_voltage": 0.82771,
+        "thd": 1.578,
+        "system_freq": 59.6584,
+        "vuf": null
+      },
+      "raw_mat_sha256": "5caa91c2537a4f18e85ca1062f0cedff62edd0875fd35a2506918c3429cd1085",
+      "processed_npz_sha256": "524efa82ff3d32fd9d83bed26d0e1ff0751c66346bafb4abf7907c3a8b42a5af",
+      "sim_wall_seconds": 2.8154925
+    },
+    {
+      "remediation_pilot_id": 1,
+      "trajectory_id": "P5B2_NOR_0055_abc_c01_bas",
+      "class": "Normal",
+      "label_idx": 3,
+      "operating_condition_id": 1,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "magnitude_pu": 1.0,
+        "duration_ms": 200.0
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 52.08649872029063,
+      "noise_measured_snr_20k_db": 51.96704934665714,
+      "solver_steps": 16146,
+      "solver_max_step_us": 25.000000000025004,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "status": "PASS",
+        "passed": true,
+        "physical_validation_passed": true,
+        "rms_voltage_pu": 0.582759,
+        "peak_voltage_pu": 0.826172,
+        "system_freq_hz": 60.0035,
+        "thd_percent": 0.0155,
+        "details": {
+          "mag_pass": true,
+          "freq_pass": true,
+          "thd_pass": true
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 3820.0,
+        "hf_peak_magnitude_pu": 0.0001122764084973455
+      },
+      "features_summary": {
+        "rms_voltage": 0.582759,
+        "peak_voltage": 0.826172,
+        "thd": 0.0155,
+        "system_freq": 60.0035,
+        "vuf": null
+      },
+      "raw_mat_sha256": "1080868060993314c1636ae809ed3313c8efab88ea5ac50d052e4bc1631eeaa3",
+      "processed_npz_sha256": "a9c220194d37a696d651e3c62c0bc282072212e42ff6d24bf4474c029c07d5ba",
+      "sim_wall_seconds": 11.4933091
+    },
+    {
+      "remediation_pilot_id": 7,
+      "trajectory_id": "P5B2_NOT_0073_abc_c01_mil",
+      "class": "Notch",
+      "label_idx": 4,
+      "operating_condition_id": 1,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "notch_width_us": 400.0,
+        "commutation_resistance_ohms": 100.0,
+        "notch_repetition_per_cycle": 1,
+        "phase_offset_ms": 3.0
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 51.91624462153048,
+      "noise_measured_snr_20k_db": 52.04814704577796,
+      "solver_steps": 18101,
+      "solver_max_step_us": 25.000000000025004,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Notch",
+        "affected_phases": [
+          "A",
+          "B",
+          "C"
+        ],
+        "phase_configuration": "three-phase",
+        "primary_phase": "B",
+        "primary_max_depth_pu": 0.6023,
+        "primary_mean_width_ms": 2.58,
+        "primary_notch_count": 24,
+        "primary_energy_ratio": 0.089788,
+        "dominant_freq_hz": 60.29,
+        "gates": {
+          "NOT-01_depth_ge_0.20": true,
+          "NOT-02_depth_le_0.85": true,
+          "NOT-03_width_subcycle": true,
+          "NOT-04_energy_ratio_elevated": true,
+          "NOT-05_periodicity_ok": true,
+          "NOT-06_rms_0.45_0.80": true,
+          "NOT-07_freq_59.5_60.5": true,
+          "ANTI_INTERRUPTION": true,
+          "ANTI_SWELL": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_notches": {
+          "A": {
+            "notch_count": 24,
+            "mean_width_ms": 1.91,
+            "min_width_ms": 1.0,
+            "max_width_ms": 3.0,
+            "mean_depth_pu": 0.2445,
+            "max_depth_pu": 0.2494,
+            "periodicity_ok": true,
+            "residual_energy_ratio": 0.055058
+          },
+          "B": {
+            "notch_count": 24,
+            "mean_width_ms": 2.58,
+            "min_width_ms": 2.0,
+            "max_width_ms": 3.2,
+            "mean_depth_pu": 0.4361,
+            "max_depth_pu": 0.6023,
+            "periodicity_ok": true,
+            "residual_energy_ratio": 0.089788
+          },
+          "C": {
+            "notch_count": 12,
+            "mean_width_ms": 0.63,
+            "min_width_ms": 0.6,
+            "max_width_ms": 0.8,
+            "mean_depth_pu": 0.3019,
+            "max_depth_pu": 0.316,
+            "periodicity_ok": true,
+            "residual_energy_ratio": 0.00731
+          }
+        },
+        "per_phase_rms": {
+          "A": {
+            "min_rms": 0.4365,
+            "max_rms": 0.5988,
+            "residual_ratio": 0.7414
+          },
+          "B": {
+            "min_rms": 0.3164,
+            "max_rms": 0.5505,
+            "residual_ratio": 0.5375
+          },
+          "C": {
+            "min_rms": 0.5485,
+            "max_rms": 0.5789,
+            "residual_ratio": 0.9318
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 240.0,
+        "hf_peak_magnitude_pu": 0.03089550944948411
+      },
+      "features_summary": {
+        "rms_voltage": 0.522842,
+        "peak_voltage": 0.862207,
+        "thd": 5.4581,
+        "system_freq": 60.2854,
+        "vuf": null
+      },
+      "raw_mat_sha256": "695ff876ebba866b0cebbe80c93d4665bc6913556039614f73a2eaf73f5e4273",
+      "processed_npz_sha256": "a9bceed3736f65c42bf5fe9e270c0d0701fd0be2072f87841da8574ce50b68bf",
+      "sim_wall_seconds": 3.0890504
+    },
+    {
+      "remediation_pilot_id": 8,
+      "trajectory_id": "P5B2_NOT_0090_a_c36_sev",
+      "class": "Notch",
+      "label_idx": 4,
+      "operating_condition_id": 36,
+      "condition_family": null,
+      "split": "challenge",
+      "parameters": {
+        "notch_width_us": 600.0,
+        "commutation_resistance_ohms": 160.0,
+        "notch_repetition_per_cycle": 2,
+        "phase_offset_ms": 6.0
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 52.02284037144839,
+      "noise_measured_snr_20k_db": 52.02948229610853,
+      "solver_steps": 18484,
+      "solver_max_step_us": 25.000000000011124,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Notch",
+        "affected_phases": [
+          "A"
+        ],
+        "phase_configuration": "single-phase",
+        "primary_phase": "A",
+        "primary_max_depth_pu": 0.5224,
+        "primary_mean_width_ms": 1.01,
+        "primary_notch_count": 49,
+        "primary_energy_ratio": 0.085943,
+        "dominant_freq_hz": 59.97,
+        "gates": {
+          "NOT-01_depth_ge_0.20": true,
+          "NOT-02_depth_le_0.85": true,
+          "NOT-03_width_subcycle": true,
+          "NOT-04_energy_ratio_elevated": true,
+          "NOT-05_periodicity_ok": true,
+          "NOT-06_rms_0.45_0.80": true,
+          "NOT-07_freq_59.5_60.5": true,
+          "ANTI_INTERRUPTION": true,
+          "ANTI_SWELL": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_notches": {
+          "A": {
+            "notch_count": 49,
+            "mean_width_ms": 1.01,
+            "min_width_ms": 0.4,
+            "max_width_ms": 1.6,
+            "mean_depth_pu": 0.3655,
+            "max_depth_pu": 0.5224,
+            "periodicity_ok": true,
+            "residual_energy_ratio": 0.085943
+          },
+          "B": {
+            "notch_count": 0,
+            "mean_width_ms": 0.0,
+            "min_width_ms": 0.0,
+            "max_width_ms": 0.0,
+            "mean_depth_pu": 0.0,
+            "max_depth_pu": 0.0,
+            "periodicity_ok": false,
+            "residual_energy_ratio": 0.00416
+          },
+          "C": {
+            "notch_count": 0,
+            "mean_width_ms": 0.0,
+            "min_width_ms": 0.0,
+            "max_width_ms": 0.0,
+            "mean_depth_pu": 0.0,
+            "max_depth_pu": 0.0,
+            "periodicity_ok": false,
+            "residual_energy_ratio": 0.004072
+          }
+        },
+        "per_phase_rms": {
+          "A": {
+            "min_rms": 0.4426,
+            "max_rms": 0.4543,
+            "residual_ratio": 0.7519
+          },
+          "B": {
+            "min_rms": 0.611,
+            "max_rms": 0.6167,
+            "residual_ratio": 1.0378
+          },
+          "C": {
+            "min_rms": 0.5908,
+            "max_rms": 0.5959,
+            "residual_ratio": 1.0035
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 180.0,
+        "hf_peak_magnitude_pu": 0.14824689397782592
+      },
+      "features_summary": {
+        "rms_voltage": 0.447395,
+        "peak_voltage": 0.847046,
+        "thd": 28.2205,
+        "system_freq": 59.9664,
+        "vuf": null
+      },
+      "raw_mat_sha256": "05bcbed98079a84e74c1e207c877e13e4fe5066569e1ce4bf865992406a6846d",
+      "processed_npz_sha256": "da88669260796afd62c695662114a4927f3795cbd2d7d29f98ea229ff87845ff",
+      "sim_wall_seconds": 3.0547327
+    },
+    {
+      "remediation_pilot_id": 2,
+      "trajectory_id": "P5B2_SAG_0091_abc_c01_mil",
+      "class": "Sag",
+      "label_idx": 5,
+      "operating_condition_id": 1,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "fault_resistance_ohms": 200.0,
+        "ground_resistance_ohms": 0.01,
+        "duration_cycles": 4.5,
+        "duration_ms": 75.0,
+        "onset_range_ms": [
+          20.0,
+          51.0
+        ]
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 51.984429507129704,
+      "noise_measured_snr_20k_db": 51.9997911101624,
+      "solver_steps": 18016,
+      "solver_max_step_us": 25.000000000004185,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Sag",
+        "affected_phases": [
+          "A",
+          "B",
+          "C"
+        ],
+        "phase_configuration": "three-phase",
+        "primary_phase": "B",
+        "pre_event_nominal_rms": 0.5887,
+        "min_event_rms": 0.3969,
+        "residual_voltage_pu": 0.6741,
+        "duration_ms": 80.8,
+        "start_time_s": 0.0388,
+        "end_time_s": 0.1196,
+        "gates": {
+          "SAG-01_residual_ge_0.10": true,
+          "SAG-02_residual_lt_0.90": true,
+          "SAG-03_duration_ge_8.33ms": true,
+          "SAG-04_full_rms_depressed": true,
+          "SAG-05_thd_lt_5pct": true,
+          "SAG-06_freq_59.5_60.5": true,
+          "SAG-ANTI-INTERRUPT": true,
+          "SAG-ANTI-SWELL": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_metrics": {
+          "A": {
+            "min_rms": 0.4366,
+            "max_rms": 0.5916,
+            "residual_ratio": 0.7417,
+            "duration_ms": 84.2
+          },
+          "B": {
+            "min_rms": 0.3969,
+            "max_rms": 0.5898,
+            "residual_ratio": 0.6741,
+            "duration_ms": 80.8
+          },
+          "C": {
+            "min_rms": 0.416,
+            "max_rms": 0.5839,
+            "residual_ratio": 0.7067,
+            "duration_ms": 81.0
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 150.0,
+        "hf_peak_magnitude_pu": 0.005910952227754879
+      },
+      "features_summary": {
+        "rms_voltage": 0.527819,
+        "peak_voltage": 0.826392,
+        "thd": 0.1785,
+        "system_freq": 59.9999,
+        "vuf": null
+      },
+      "raw_mat_sha256": "e5c25d0a136aaa4d4def0c2cda835886dbdb8d34dea25a36b1307f58a011c44c",
+      "processed_npz_sha256": "cf0d84f1195f9bba8123b2bd8a63ce9e0bef9affcafb2d6d7df7faac80d476e3",
+      "sim_wall_seconds": 3.3520313
+    },
+    {
+      "remediation_pilot_id": 3,
+      "trajectory_id": "P5B2_SWE_0110_abc_c02_mod",
+      "class": "Swell",
+      "label_idx": 6,
+      "operating_condition_id": 2,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "capacitive_power_mvar": 100.0,
+        "damping_power_kw": 100.0,
+        "duration_cycles": 4.8,
+        "duration_ms": 80.0,
+        "onset_range_ms": [
+          20.0,
+          51.0
+        ]
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 51.840985711632754,
+      "noise_measured_snr_20k_db": 52.040924997811516,
+      "solver_steps": 16370,
+      "solver_max_step_us": 25.000000000004185,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Swell",
+        "affected_phases": [
+          "A",
+          "B",
+          "C"
+        ],
+        "phase_configuration": "three-phase",
+        "primary_phase": "B",
+        "pre_event_nominal_rms": 0.5887,
+        "max_event_rms": 0.7887,
+        "swell_magnitude_pu": 1.3397,
+        "duration_ms": 83.8,
+        "start_time_s": 0.0448,
+        "end_time_s": 0.1286,
+        "gates": {
+          "SWL-01_magnitude_gt_1.10": true,
+          "SWL-02_magnitude_le_1.80": true,
+          "SWL-03_duration_ge_8.33ms": true,
+          "SWL-04_peak_elevated": true,
+          "SWL-05_crest_factor_valid": true,
+          "SWL-06_freq_59.5_60.5": true,
+          "SWL-07_thd_lt_5pct": true,
+          "SWL-ANTI-SAG": true,
+          "SWL-ANTI-INTERRUPT": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_metrics": {
+          "A": {
+            "min_rms": 0.5785,
+            "max_rms": 0.7721,
+            "residual_ratio": 0.9827,
+            "event_ratio": 1.3116,
+            "duration_ms": 89.8
+          },
+          "B": {
+            "min_rms": 0.5807,
+            "max_rms": 0.7887,
+            "residual_ratio": 0.9864,
+            "event_ratio": 1.3397,
+            "duration_ms": 83.8
+          },
+          "C": {
+            "min_rms": 0.5822,
+            "max_rms": 0.7704,
+            "residual_ratio": 0.9889,
+            "event_ratio": 1.3087,
+            "duration_ms": 82.2
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 160.0,
+        "hf_peak_magnitude_pu": 0.006912825591962902
+      },
+      "features_summary": {
+        "rms_voltage": 0.682312,
+        "peak_voltage": 1.094898,
+        "thd": 0.6266,
+        "system_freq": 60.0006,
+        "vuf": null
+      },
+      "raw_mat_sha256": "7354cb0e21af12b968643a77116eaa8d3c6541215be6c41446f9b615b8c0169d",
+      "processed_npz_sha256": "a1ea2d79c90a7870e8d9bd34ecfa64b3290493fabd94681c3bcbdce94f4b3aa9",
+      "sim_wall_seconds": 6.9963338
+    },
+    {
+      "remediation_pilot_id": 9,
+      "trajectory_id": "P5B2_TRA_0127_abc_c01_mil",
+      "class": "Transient",
+      "label_idx": 7,
+      "operating_condition_id": 1,
+      "condition_family": null,
+      "split": "train",
+      "parameters": {
+        "inductance_mh": 2.0,
+        "capacitance_uf": 8.0,
+        "damping_resistance_ohms": 0.8,
+        "target_osc_freq_hz": 1258.0,
+        "onset_ms": 105.0,
+        "duration_ms": 25.0
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 51.93708694470746,
+      "noise_measured_snr_20k_db": 51.97552161929611,
+      "solver_steps": 17046,
+      "solver_max_step_us": 25.000000000025004,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Transient",
+        "affected_phases": [
+          "A",
+          "B",
+          "C"
+        ],
+        "phase_configuration": "ABC",
+        "primary_phase": "B",
+        "peak_excursion_pu": 0.339,
+        "event_peak_pu": 1.1683,
+        "dominant_trans_freq_hz": 269.8,
+        "effective_duration_ms": 34.0,
+        "system_freq_hz": 60.0,
+        "gates": {
+          "TRN-01_peak_excursion_ge_0.12": true,
+          "TRN-02_dominant_freq_250_1500": true,
+          "TRN-03_duration_le_50ms": true,
+          "TRN-04_freq_59.5_60.5": true,
+          "TRN-05_baseline_0.50_0.70": true,
+          "ANTI_SAG": true,
+          "ANTI_INTERRUPTION": true,
+          "ANTI_SWELL": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_metrics": {
+          "A": {
+            "pre_rms": 0.567,
+            "pre_peak": 0.8242,
+            "event_rms": 0.7057,
+            "event_peak": 1.1441,
+            "post_rms": 0.5875,
+            "post_peak": 0.8271,
+            "peak_excursion_pu": 0.3199,
+            "dominant_trans_freq_hz": 266.1,
+            "effective_duration_ms": 27.8,
+            "peak_spectral_energy": 3.2054,
+            "min_half_cycle_rms": 0.5041,
+            "max_half_cycle_rms": 0.8154,
+            "is_affected": true
+          },
+          "B": {
+            "pre_rms": 0.5865,
+            "pre_peak": 0.8292,
+            "event_rms": 0.7039,
+            "event_peak": 1.1683,
+            "post_rms": 0.5858,
+            "post_peak": 0.8295,
+            "peak_excursion_pu": 0.339,
+            "dominant_trans_freq_hz": 269.8,
+            "effective_duration_ms": 34.0,
+            "peak_spectral_energy": 3.1232,
+            "min_half_cycle_rms": 0.5135,
+            "max_half_cycle_rms": 0.8155,
+            "is_affected": true
+          },
+          "C": {
+            "pre_rms": 0.5899,
+            "pre_peak": 0.8169,
+            "event_rms": 0.6951,
+            "event_peak": 1.1487,
+            "post_rms": 0.5703,
+            "post_peak": 0.8178,
+            "peak_excursion_pu": 0.3318,
+            "dominant_trans_freq_hz": 250.2,
+            "effective_duration_ms": 40.8,
+            "peak_spectral_energy": 1.5727,
+            "min_half_cycle_rms": 0.5281,
+            "max_half_cycle_rms": 0.8016,
+            "is_affected": true
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 160.0,
+        "hf_peak_magnitude_pu": 0.01049676250406418
+      },
+      "features_summary": {
+        "rms_voltage": 0.609472,
+        "peak_voltage": 1.144116,
+        "thd": 0.801,
+        "system_freq": 59.9978,
+        "vuf": null
+      },
+      "raw_mat_sha256": "f37511abb37d5ed05fdb994f099f9df94eecb321e4f526c531e391ef78d323f0",
+      "processed_npz_sha256": "93b5ea774aa460375916e5abfb755f9c471181ccd9988a94713cef6f51326777",
+      "sim_wall_seconds": 2.8154303
+    },
+    {
+      "remediation_pilot_id": 10,
+      "trajectory_id": "P5B2_TRA_0144_ab_c36_sev",
+      "class": "Transient",
+      "label_idx": 7,
+      "operating_condition_id": 36,
+      "condition_family": null,
+      "split": "challenge",
+      "parameters": {
+        "inductance_mh": 1.0,
+        "capacitance_uf": 5.2,
+        "damping_resistance_ohms": 0.4,
+        "target_osc_freq_hz": 2207.0,
+        "onset_ms": 115.0,
+        "duration_ms": 35.0
+      },
+      "sensor_noise_snr_db": 52.0,
+      "adc_resolution_bits": 14,
+      "adc_v_fs_pu": 1.8,
+      "adc_lsb_pu": 0.0002197265625,
+      "noise_theoretical_std_pu": 0.0014787525026307721,
+      "noise_measured_snr_5k_db": 52.02306701387403,
+      "noise_measured_snr_20k_db": 51.96272877772371,
+      "solver_steps": 17792,
+      "solver_max_step_us": 25.000000000025004,
+      "solver_min_step_us": 3.1554436208840472e-24,
+      "physical_validation_passed": true,
+      "physical_validation_result": {
+        "physical_validation_passed": true,
+        "class": "Transient",
+        "affected_phases": [
+          "A",
+          "B"
+        ],
+        "phase_configuration": "AB",
+        "primary_phase": "A",
+        "peak_excursion_pu": 0.2309,
+        "event_peak_pu": 1.0804,
+        "dominant_trans_freq_hz": 269.8,
+        "effective_duration_ms": 42.0,
+        "system_freq_hz": 59.97,
+        "gates": {
+          "TRN-01_peak_excursion_ge_0.12": true,
+          "TRN-02_dominant_freq_250_1500": true,
+          "TRN-03_duration_le_50ms": true,
+          "TRN-04_freq_59.5_60.5": true,
+          "TRN-05_baseline_0.50_0.70": true,
+          "ANTI_SAG": true,
+          "ANTI_INTERRUPTION": true,
+          "ANTI_SWELL": true,
+          "WAVEFORM_CONTINUITY": true
+        },
+        "per_phase_metrics": {
+          "A": {
+            "pre_rms": 0.5863,
+            "pre_peak": 0.8495,
+            "event_rms": 0.7204,
+            "event_peak": 1.0804,
+            "post_rms": 0.6128,
+            "post_peak": 1.0804,
+            "peak_excursion_pu": 0.2309,
+            "dominant_trans_freq_hz": 269.8,
+            "effective_duration_ms": 42.0,
+            "peak_spectral_energy": 3.2864,
+            "min_half_cycle_rms": 0.5503,
+            "max_half_cycle_rms": 0.766,
+            "is_affected": true
+          },
+          "B": {
+            "pre_rms": 0.6192,
+            "pre_peak": 0.8539,
+            "event_rms": 0.7108,
+            "event_peak": 1.0795,
+            "post_rms": 0.5974,
+            "post_peak": 0.8539,
+            "peak_excursion_pu": 0.2257,
+            "dominant_trans_freq_hz": 260.0,
+            "effective_duration_ms": 42.6,
+            "peak_spectral_energy": 1.8977,
+            "min_half_cycle_rms": 0.5766,
+            "max_half_cycle_rms": 0.7643,
+            "is_affected": true
+          },
+          "C": {
+            "pre_rms": 0.5896,
+            "pre_peak": 0.8407,
+            "event_rms": 0.597,
+            "event_peak": 0.8556,
+            "post_rms": 0.5924,
+            "post_peak": 0.8554,
+            "peak_excursion_pu": 0.0149,
+            "dominant_trans_freq_hz": 250.2,
+            "effective_duration_ms": 3.8,
+            "peak_spectral_energy": 0.8556,
+            "min_half_cycle_rms": 0.5676,
+            "max_half_cycle_rms": 0.6087,
+            "is_affected": false
+          }
+        }
+      },
+      "spectral_evaluation": {
+        "nyquist_limit_hz": 10000.0,
+        "hf_peak_frequency_hz": 150.0,
+        "hf_peak_magnitude_pu": 0.010817721608412071
+      },
+      "features_summary": {
+        "rms_voltage": 0.62904,
+        "peak_voltage": 1.080395,
+        "thd": 1.0189,
+        "system_freq": 59.9702,
+        "vuf": null
+      },
+      "raw_mat_sha256": "0881a43bdfc8264df89e3d7440be0e993917ecbdf76300d79692ffe604bc4c94",
+      "processed_npz_sha256": "06dc098ecf34af76c1e50bcd0ea87011c5360175ae53923cf9626a0f6db36c77",
+      "sim_wall_seconds": 2.7752716
+    }
+  ]
+}
