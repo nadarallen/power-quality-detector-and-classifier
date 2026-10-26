@@ -41,6 +41,7 @@ ENV/
 temp_*.pkl
 *.npz
 !data/ieee9bus_60hz/**/*.npz
+!data/ieee9bus_60hz_phase5b_pilot/**/*.npz
 data/waveforms/
 data/enhanced_splits/
 
