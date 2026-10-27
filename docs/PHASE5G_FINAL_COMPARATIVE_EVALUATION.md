@@ -2,8 +2,8 @@
 
 **Study:** IEEE 9-Bus WSCC Multi-Model Power Quality Comparative Research  
 **Branch:** `research/pq-comparative-lab`  
-**Experiment Directory:** [`experiments/phase5c/challenge_eval/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/challenge_eval/)  
-**Authoritative Results:** [`experiments/phase5c/challenge_eval/challenge_evaluation_results.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/challenge_eval/challenge_evaluation_results.json)  
+**Experiment Directory:** [`experiments/phase5c/challenge_eval/`](../experiments/phase5c/challenge_eval)  
+**Authoritative Results:** [`experiments/phase5c/challenge_eval/challenge_evaluation_results.json`](../experiments/phase5c/challenge_eval/challenge_evaluation_results.json)  
 **Date:** 2026-10-27  
 
 ---

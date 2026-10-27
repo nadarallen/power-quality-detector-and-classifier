@@ -2,8 +2,8 @@
 
 **Repository:** `https://github.com/nadarallen/power-quality-detector-and-classifier`  
 **Branch:** [`research/pq-comparative-lab`](https://github.com/nadarallen/power-quality-detector-and-classifier/tree/research/pq-comparative-lab)  
-**Primary Reference Audit:** [`docs/PHASE5B1_PREBULK_ENGINEERING_AUDIT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PHASE5B1_PREBULK_ENGINEERING_AUDIT.md)  
-**Historical Matrix & Pilot Baseline:** [`docs/PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md)  
+**Primary Reference Audit:** [`docs/PHASE5B1_PREBULK_ENGINEERING_AUDIT.md`](PHASE5B1_PREBULK_ENGINEERING_AUDIT.md)  
+**Historical Matrix & Pilot Baseline:** [`docs/PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md`](PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md)  
 **Date:** October 2026  
 **Status:** **PASSED — ALL REMEDIATION BLOCKERS RESOLVED — AUTHORIZED FOR PHASE 5C BULK GENERATION**
 
@@ -17,8 +17,8 @@ Phase 5B.2 executes the remediation plan mandated by the Phase 5B.1 Engineering 
 2. **Physically Grounded ADC Quantization:** Implemented a mathematically defined bipolar ADC model (`[-1.8 pu, +1.8 pu]`) supporting 12-bit and 14-bit depths with symmetric LSB stepping, midpoint rounding, rail saturation, and non-finite rejection.
 3. **Genuine Dual-Rate Simulation Acquisition:** Reconfigured the Simscape variable-step solver (`ode23tb`) with `MaxStep = 2.5e-5` ($25\ \mu\text{s}$), guaranteeing continuous time-series resolution suitable for both a 20 kHz high-resolution branch (4,000 samples) and a 5 kHz canonical branch (1,000 samples). Sliced canonical decimation incorporates a zero-phase 8th-order Chebyshev Type I anti-alias filter ($f_c = 2.25\text{ kHz}$) preserving $2.2\text{ kHz}$ transients ($< 0.10\text{ dB}$ loss) while suppressing out-of-band alias content ($> 60\text{ dB}$ at 3 kHz).
 4. **Complete 144-Trajectory Matrix with Quarantined Challenge Split:** Expanded the simulation matrix to exactly 144 trajectories across 36 operating conditions and 8 disturbance classes ($18\text{ trajectories/class} \times 32\text{ windows} = 4,608\text{ frames}$). Quarantined Operating Conditions 33–36 strictly to the Challenge partition (32 trajectories, 1,024 frames) with zero leakage to Train (80 trajectories, 2,560 frames) or Val (32 trajectories, 1,024 frames).
-5. **Remediation Pilot Execution & Physical Revalidation:** Successfully executed 10 targeted remediation trajectories into versioned directory [`data/ieee9bus_60hz_phase5b_pilot_v2/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5b_pilot_v2/). All 10 trajectories passed physical validation gates ($100\%$ gate pass rate, zero simulation failures).
-6. **Integrity Safeguards Preserved:** The pristine reference model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) matches its authoritative SHA-256 checksum (`5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d`), and all historical Phase 4A–4D and Phase 5B pilot datasets remain immutable.
+5. **Remediation Pilot Execution & Physical Revalidation:** Successfully executed 10 targeted remediation trajectories into versioned directory [`data/ieee9bus_60hz_phase5b_pilot_v2/`](../data/ieee9bus_60hz_phase5b_pilot_v2). All 10 trajectories passed physical validation gates ($100\%$ gate pass rate, zero simulation failures).
+6. **Integrity Safeguards Preserved:** The pristine reference model [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) matches its authoritative SHA-256 checksum (`5d833d8fdc5086b7bec437a30a7829b4ea6d1b9befa93df75e7ca0631beb084d`), and all historical Phase 4A–4D and Phase 5B pilot datasets remain immutable.
 
 ---
 
@@ -26,10 +26,10 @@ Phase 5B.2 executes the remediation plan mandated by the Phase 5B.1 Engineering 
 
 | Audit Finding (Phase 5B.1) | Engineering Root Cause | Remediation in Phase 5B.2 | Verification Method & Evidence | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **B1. Disturbed-Power Noise Coupling** | Noise variance scaled with $\text{mean}(v^2)$ of disturbed window, attenuating noise during deep sags and interruptions ($10\times$ lower noise). | Implemented `add_fixed_reference_sensor_noise` in [`pipeline/measurement_pipeline.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/pipeline/measurement_pipeline.py) using fixed $P_{\text{nom}} = 0.346567\text{ pu}^2$. | `TestFixedReferenceSensorNoise` passes; $\sigma = 0.001479\text{ pu}$ across Normal, Sag, Swell, Interruption. | **RESOLVED** |
+| **B1. Disturbed-Power Noise Coupling** | Noise variance scaled with $\text{mean}(v^2)$ of disturbed window, attenuating noise during deep sags and interruptions ($10\times$ lower noise). | Implemented `add_fixed_reference_sensor_noise` in [`pipeline/measurement_pipeline.py`](../pipeline/measurement_pipeline.py) using fixed $P_{\text{nom}} = 0.346567\text{ pu}^2$. | `TestFixedReferenceSensorNoise` passes; $\sigma = 0.001479\text{ pu}$ across Normal, Sag, Swell, Interruption. | **RESOLVED** |
 | **B2. Missing Physical ADC Quantization** | Bit depth was merely declared in metadata; signals were stored as double-precision floats. | Implemented `quantize_adc(v, bits, v_fs)` with bipolar LSB stepping, midpoint rounding, and rail saturation. | `TestADCQuantization` passes; 12-bit and 14-bit staircase and error bounds verified ($|e| \le q/2$). | **RESOLVED** |
 | **B3. Pseudo-Dual-Rate Resampling** | Existing pilot MAT files stored 5 kHz resampled signals; 20 kHz upsampling would lack physical sub-cycle fidelity. | Reconfigured Simulink runner with `MaxStep = 25 us`, logging continuous continuous time-series, and generating both 20 kHz and 5 kHz branches. | `TestDualRateDecimation` passes; 8th-order Chebyshev anti-alias filter verified; 4,000 pts @ 20 kHz and 1,000 pts @ 5 kHz verified. | **RESOLVED** |
-| **B4. Incomplete Matrix & Split Leakage** | Matrix had only 24 pilot rows and 17 conditions; Challenge conditions were not isolated at the operating condition level. | Created [`scenarios/phase5b2_simulation_matrix.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/scenarios/phase5b2_simulation_matrix.json) (144 trajectories, 36 conditions). Quarantined Conditions 33–36 to Challenge. | `TestPhase5B2MatrixIntegrity` passes; 18 trajs/class, 80/32/32 split, 0 leakage across partitions. | **RESOLVED** |
+| **B4. Incomplete Matrix & Split Leakage** | Matrix had only 24 pilot rows and 17 conditions; Challenge conditions were not isolated at the operating condition level. | Created [`scenarios/phase5b2_simulation_matrix.json`](../scenarios/phase5b2_simulation_matrix.json) (144 trajectories, 36 conditions). Quarantined Conditions 33–36 to Challenge. | `TestPhase5B2MatrixIntegrity` passes; 18 trajs/class, 80/32/32 split, 0 leakage across partitions. | **RESOLVED** |
 
 ---
 
@@ -68,7 +68,7 @@ To prove complete decoupling from disturbance severity, synthetic and simulated 
 
 The noise variance remains strictly constant across all disturbance classes.
 
-![Fixed-Reference Sensor Noise Validation](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/phase5b2_pilot/fixed_reference_sensor_noise_comparison.png)
+![Fixed-Reference Sensor Noise Validation](figures/phase5b2_pilot/fixed_reference_sensor_noise_comparison.png)
 
 ---
 
@@ -76,7 +76,7 @@ The noise variance remains strictly constant across all disturbance classes.
 
 ### 3.1 Converter Architecture and Scaling Convention
 
-The helper `quantize_adc(v, bits, v_fs)` in [`pipeline/measurement_pipeline.py`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/pipeline/measurement_pipeline.py) models a successive-approximation register (SAR) or sigma-delta analog-to-digital converter:
+The helper `quantize_adc(v, bits, v_fs)` in [`pipeline/measurement_pipeline.py`](../pipeline/measurement_pipeline.py) models a successive-approximation register (SAR) or sigma-delta analog-to-digital converter:
 
 1. **Full-Scale Voltage Range:** Symmetric bipolar input span $[-v_{\text{fs}}, +v_{\text{fs}}]$ where $v_{\text{fs}} = 1.80\text{ pu}$. This provides $\approx 53\%$ voltage headroom above nominal peak ($0.5887 \times \sqrt{2} = 0.8325\text{ pu}$) to accommodate Class 3 Swells ($1.80\text{ pu}$) and sub-cycle transient overshoots.
 2. **Supported Bit Depths:**
@@ -89,7 +89,7 @@ The helper `quantize_adc(v, bits, v_fs)` in [`pipeline/measurement_pipeline.py`]
    Inputs exceeding the rails saturate to the converter limits without rollover error.
 4. **Input Integrity:** Raises `ValueError` on non-finite values (`NaN`, `Inf`) and invalid full-scale or bit-depth arguments.
 
-![ADC Quantization 12-bit vs 14-bit](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/phase5b2_pilot/adc_quantization_12bit_vs_14bit.png)
+![ADC Quantization 12-bit vs 14-bit](figures/phase5b2_pilot/adc_quantization_12bit_vs_14bit.png)
 
 ---
 
@@ -144,7 +144,7 @@ Filter frequency response under forward-backward zero-phase operation:
 | **Commutation Notch** | $400\ \mu\text{s}$ width, 3 notches/cycle | **8 discrete samples** per notch. Clean rectangular commutation edges, depth accurately resolved to 0.48 pu. | **2 discrete samples** per notch. Notch appears as a smoothed triangular dip. Depth attenuated by $\approx 18\%$. | 20 kHz waveform is required for deep-learning representation of notch morphology. |
 | **High-Frequency Transient** | $L=0.5\text{ mH}, C=10\ \mu\text{F}$ ($\approx 2.25\text{ kHz}$) | **9 discrete samples** per oscillatory cycle. Damped oscillatory ringing captured continuously. | **2.2 discrete samples** per cycle. Approaching Nyquist limit; amplitude preserved by zero-phase filter, but temporal shape aliased to triangle. | 20 kHz branch preserves full transient envelope. |
 
-![Dual Rate Notch and Transient Comparison](file:///d:/my%20study/Project/power-quality-detector-and-classifier/docs/figures/phase5b2_pilot/dual_rate_notch_transient_comparison.png)
+![Dual Rate Notch and Transient Comparison](figures/phase5b2_pilot/dual_rate_notch_transient_comparison.png)
 
 ---
 
@@ -152,7 +152,7 @@ Filter frequency response under forward-backward zero-phase operation:
 
 ### 5.1 Dataset Scale and Sliding Window Extraction
 
-The complete matrix specification is finalized in [`scenarios/phase5b2_simulation_matrix.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/scenarios/phase5b2_simulation_matrix.json) and [`scenarios/phase5b2_simulation_matrix.csv`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/scenarios/phase5b2_simulation_matrix.csv):
+The complete matrix specification is finalized in [`scenarios/phase5b2_simulation_matrix.json`](../scenarios/phase5b2_simulation_matrix.json) and [`scenarios/phase5b2_simulation_matrix.csv`](../scenarios/phase5b2_simulation_matrix.csv):
 - Continuous trajectory duration: $0.380\text{ s}$ ($380\text{ ms}$).
 - Sliding window parameters: $200\text{ ms}$ window length, $5\text{ ms}$ stride ($25\text{ samples}$ @ 5 kHz, $100\text{ samples}$ @ 20 kHz).
 - Valid analysis windows per continuous trajectory:
@@ -190,7 +190,7 @@ The 36 operating conditions span 9 diverse operational families:
 
 ### 6.1 Pilot Scope and Configuration
 
-A targeted 10-trajectory remediation pilot was simulated and validated in [`data/ieee9bus_60hz_phase5b_pilot_v2/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5b_pilot_v2/):
+A targeted 10-trajectory remediation pilot was simulated and validated in [`data/ieee9bus_60hz_phase5b_pilot_v2/`](../data/ieee9bus_60hz_phase5b_pilot_v2):
 
 | Pilot ID | Trajectory ID | Class | Operating Condition | Phase | Noise SNR | ADC Bits | Physical Gate | Status |
 | :---: | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: |

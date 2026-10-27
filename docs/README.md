@@ -1,28 +1,31 @@
 # Power Quality Disturbance Documentation Index
 
 **Project Title:** AI-Based Real-Time Power Quality Disturbance Classification Using Machine Learning with IEEE 9-Bus Simulation  
-**Project Phase:** Phase 3 Complete (Eight Disturbance Classes Audited)  
+**Project Phase:** Phase 5 Complete (Multi-Model Comparative Research Study & Dashboard)  
 **Authoritative Frequency:** 60 Hz (WSCC Transmission Grid Standard)  
-**Authoritative Sampling Rate:** 5,000 Hz ($T_s = 200\ \mu\text{s}$, 1,000 samples per 200 ms frame)  
+**Authoritative Sampling Rates:** Dual-Rate: 20,000 Hz (Waveform Deep Learning) & 5,000 Hz ($T_s = 200\ \mu\text{s}$, $N = 1,000$, 32-Feature DSP Contract)  
 
 ---
 
 ## 1. Current Master Project Documentation
 
-These documents define the current authoritative architecture, contracts, procedures, and roadmap for the project:
+These documents define the current authoritative architecture, contracts, procedures, research findings, and roadmap for the project:
 
 | Document | Description | Key Focus Area |
 |---|---|---|
 | [PROJECT_STATUS.md](PROJECT_STATUS.md) | Single master human-readable project status document. | Lifecycle status, completed phases, strict freeze rules, and metrics. |
+| [guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md](guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md) | Practical beginner-friendly guide to inspecting and plotting pre-computed Sag and Swell MAT recordings in MATLAB. | MATLAB, Waveform Visualization, Sag, Swell. |
+| [audits/MARKDOWN_DOCUMENTATION_AUDIT.md](audits/MARKDOWN_DOCUMENTATION_AUDIT.md) | Comprehensive repository-wide audit of all 104 tracked Markdown documents. | Documentation Integrity, Link Validation, Scope Audit. |
+| [PHASE5_FINAL_RESEARCH_REPORT.md](PHASE5_FINAL_RESEARCH_REPORT.md) | Master scientific research report for Phase 5 comparative study. | Multi-Model Comparison, Deep Learning, Hybrid Synergy, Challenge Eval. |
 | [SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md) | Authoritative source-of-truth registry across all subsystems. | File paths, SHA-256 hashes, dataset directories, and contract owners. |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | End-to-end 7-subsystem engineering specification. | IEEE 9-bus physics, Bus 5 observation, 5 kHz DSP, event engine, and UI. |
-| [ROADMAP.md](ROADMAP.md) | Multi-phase engineering roadmap (Phases 1 through 6). | Phase 3 Complete, Phase 4 ML Next, Phase 5 Live MVP Future, Phase 6 HIL. |
+| [ROADMAP.md](ROADMAP.md) | Multi-phase engineering roadmap (Phases 1 through 6). | Phases 1–5 Complete, Phase 6 Planned Future Scope (Not Implemented). |
 | [DATASET.md](DATASET.md) | Comprehensive 8-class physical dataset documentation. | Physical mechanisms, parameter ranges, validation results, and SNR profiles. |
 | [STANDARDS_TRACEABILITY_INDEX.md](STANDARDS_TRACEABILITY_INDEX.md) | 5-tier standards provenance index. | Traceability across IEEE 1159, IEEE 519, IEEE 1453, and IEC 61000-4-30. |
 | [ML_READINESS.md](ML_READINESS.md) | 10-step Phase 4 machine learning retraining protocol. | Grouped splitting, scaler fitting, hyperparameter tuning, and export. |
 | [REPRODUCIBILITY.md](REPRODUCIBILITY.md) | Reproduction recipes, environment setup, and test guide. | Conda/Python requirements, MATLAB scripts, checksum verification, pytest. |
 | [LIVE_MVP_PLAN.md](LIVE_MVP_PLAN.md) | Planned architecture for Phase 5 live demonstration MVP. | MATLAB trigger API, Simulink disturbance rack, and streaming oscilloscope. |
-| [GATE_INDEX.md](GATE_INDEX.md) | Master gate verification matrix (Gates 1 to 3X). | Gate-by-gate pass criteria, artifacts, tests, and audit trail. |
+| [GATE_INDEX.md](GATE_INDEX.md) | Master gate verification matrix (Gates 1 to 4D). | Gate-by-gate pass criteria, artifacts, tests, and audit trail. |
 | [REPOSITORY_LEGACY_AUDIT.md](REPOSITORY_LEGACY_AUDIT.md) | Systematic component inventory and classification matrix. | Categorization of active, historical, supporting, and future extensions. |
 
 ---
@@ -71,6 +74,8 @@ Each completed engineering gate produced an immutable technical report, audit lo
 ## 3. Historical Archives & Future Extensions
 
 These documents preserve early exploratory benchmarks, academic proposals, and optional Phase 6 hardware feasibility studies:
+
+> **Phase 6 Scope Notice:** All Phase 6 hardware and embedded HIL documents represent early exploratory feasibility studies or future proposals. Phase 6 remains **Planned / Future Scope — Not Yet Implemented**. No firmware deployment, analog front-end hardware, or live utility grid connection has been implemented or authorized.
 
 - **Historical Hardware & HIL Feasibility (Phase 6):** [HARDWARE_EVALUATION.md](HARDWARE_EVALUATION.md), [HARDWARE_INTEGRATION.md](HARDWARE_INTEGRATION.md), [REAL_HARDWARE_VALIDATION.md](REAL_HARDWARE_VALIDATION.md), [LATENCY_BENCHMARK.md](LATENCY_BENCHMARK.md).
 - **Initial Academic Inception & Proposals:** [PQD_Project_Execution_Plan.md](../doc/PQD_Project_Execution_Plan.md), [system_design.md](../doc/system_design.md).

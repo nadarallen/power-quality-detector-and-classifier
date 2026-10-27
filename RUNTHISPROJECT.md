@@ -1,9 +1,9 @@
 # Project Quickstart & Execution Guide
 
 **Project Title:** AI-Based Real-Time Power Quality Disturbance Classification Using Machine Learning with IEEE 9-Bus Simulation  
-**Current Status:** Phase 3 Complete (Eight Disturbance Classes Audited)  
+**Current Status:** Phase 5 Complete (Multi-Model Comparative Research Study & Dashboard)  
 **Authoritative Frequency:** 60 Hz  
-**Authoritative Sampling Rate:** 5,000 Hz ($T_s = 200\ \mu\text{s}$, $N = 1,000$ samples per 200 ms frame)  
+**Authoritative Sampling Rate:** Dual-Rate: 20,000 Hz (Waveform Deep Learning) & 5,000 Hz ($T_s = 200\ \mu\text{s}$, $N = 1,000$, 32-Feature DSP Contract)  
 
 ---
 
@@ -39,7 +39,7 @@ pytest -v
 
 **Expected Result:**
 ```
-================= 300 passed, 2 skipped, 2 warnings in 7.80s ==================
+================= 358 passed, 2 skipped, 2 warnings in 11.61s ==================
 ```
 *(2 skipped tests correspond to GPU/CUDA acceleration checks on CPU-only machines).*
 
@@ -59,10 +59,14 @@ http://localhost:8501
 ```
 
 **Features available on the research dashboard:**
-- **Mode A (Recorded Experiment Explorer):** Browse all 8 disturbance classes from the frozen 60 Hz IEEE 9-bus dataset, plot $V_A, V_B, V_C$ waveforms, compute and display 32 canonical features, and run inference using the frozen Phase 4C candidate MLP model. (Fully functional without MATLAB).
-- **Mode B (Simulink Live Experiment Runner):** Interface and parameter validation to initiate live electromagnetic simulations via MATLAB R2024b/R2025a when available.
-- **Model Comparison & Gate Evidence:** Benchmark results across five baseline architectures (Phase 4B) and independent locked test evaluations (Phase 4D).
-- **Feature Engineering & Explainability:** Mathematical explanations and definitions for the 32 physical and spectral descriptors codified in IEEE Std 1159 and IEEE Std 519.
+- **Tab 1: Dataset Explorer & Dual-Rate Waveforms:** Compare 5 kHz canonical and 20 kHz high-resolution three-phase waveforms from the verified Phase 5C dataset, view harmonic FFT spectra, and inspect electrical metadata.
+- **Tab 2: Multi-Model Benchmark Comparison:** Compare validation and challenge metrics (Accuracy, Macro F1, Recall, Confusion Matrices) side-by-side across Classical ML, 1D-CNN, TCN, and HybridPQNet.
+- **Tab 3: Feature Analysis & Explainability:** Interactive 32-feature parameter table, permutation feature importances, functional group ablations, and SHAP attribution plots.
+- **Tab 4: Waveform Model Interpretation:** Temporal occlusion sensitivity curves ($t \in [40, 80]\text{ ms}$ onset impact), three-phase vs. single-phase synchrony ablation (-86.25% collapse on single phase), and sampling rate sensitivity.
+- **Tab 5: Quarantined Challenge Evaluation & Provenance:** Audit trail on held-out Conditions 33–36 with zero-leakage verification.
+- **Operational Modes:**
+  - *Mode A (Recorded Experiment Explorer):* Fully functional standalone without MATLAB or Simulink.
+  - *Mode B (Simulink Live Experiment Runner):* Optional execution hooks requiring local MATLAB R2024b/R2025a and Simscape Electrical (unverified in headless CI).
 
 ---
 
@@ -154,15 +158,15 @@ print(f"Orthogonal Projection SNR: {features['snr_db']:.2f} dB")
 - **Integrity Audit:** Reconciled in [docs/ARTIFACT_INTEGRITY_RECONCILIATION.md](docs/ARTIFACT_INTEGRITY_RECONCILIATION.md).
 - **Status:** **COMPLETE (Gates 4A–4D Passed)**.
 
-### Phase 5 (Future): Live Demonstration MVP
-- **Objective:** Interactive disturbance triggering via MATLAB API (`pqd.sag(...)`, `pqd.reset()`) and Simulink dashboard controls during continuous live simulation.
-- **Specification:** Detailed in [docs/LIVE_MVP_PLAN.md](docs/LIVE_MVP_PLAN.md).
-- **Status:** PENDING.
+### Phase 5 (Completed): Multi-Model Comparative Research Study & Dashboard
+- **Objective:** Comparative research study evaluating Classical ML (32 features), Raw-Waveform Deep Learning (1D-CNN, TCN), and Hybrid Representations (HybridPQNet) on IEEE 9-bus dual-rate waveforms (20 kHz & 5 kHz) across 144 core trajectories (4,608 frames).
+- **Findings:** HybridPQNet achieved 100.00% Macro F1 on quarantined challenge conditions (+11.08% over features alone, +9.13% over waveform alone). Three-phase synchrony confirmed essential (-86.25% collapse on single phase).
+- **Monograph:** Detailed in [docs/PHASE5_FINAL_RESEARCH_REPORT.md](docs/PHASE5_FINAL_RESEARCH_REPORT.md).
+- **Status:** **COMPLETE**.
 
-### Phase 6 (Optional Extension): Embedded ESP32 Hardware-in-the-Loop
-- **Objective:** Microcontroller ADC acquisition and on-device inference using TFLite-Micro on ESP32 hardware.
-- **Codebase:** Preserved in `firmware/` and `hardware/` with automated firmware parity tests in `tests/test_firmware_parity.py`.
-- **Status:** OPTIONAL FUTURE EXTENSION.
+### Phase 6 (Planned / Future Scope — Not Yet Implemented): Embedded Hardware-in-the-Loop
+- **Objective:** Microcontroller ADC acquisition, isolated analog front-end, and on-device inference using TFLite-Micro on physical hardware.
+- **Status:** **PLANNED / FUTURE SCOPE — NOT YET IMPLEMENTED** (No firmware deployment or live electrical grid connection has been implemented or authorized).
 
 ---
 
@@ -171,12 +175,15 @@ print(f"Orthogonal Projection SNR: {features['snr_db']:.2f} dB")
 For in-depth technical specifications, consult the master documentation:
 
 - [Documentation Index](docs/README.md)
-- [Reproducing Phase 4 on a Clean Clone](docs/REPRODUCING_PHASE4.md)
-- [Artifact Integrity Reconciliation Audit](docs/ARTIFACT_INTEGRITY_RECONCILIATION.md)
+- [MATLAB Sag & Swell Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md)
+- [Markdown Documentation Audit Report](docs/audits/MARKDOWN_DOCUMENTATION_AUDIT.md)
+- [Phase 5 Master Research Report](docs/PHASE5_FINAL_RESEARCH_REPORT.md)
+- [Phase 5C Dataset Freeze Audit](docs/PHASE5C_EXPANDED_DATASET_FREEZE_AUDIT.md)
+- [Phase 5D Classical ML & Feature Analysis](docs/PHASE5D_CLASSICAL_ML_AND_FEATURE_ANALYSIS.md)
+- [Phase 5E Waveform Deep Learning Report](docs/PHASE5E_WAVEFORM_DEEP_LEARNING.md)
+- [Phase 5F Hybrid Model Analysis](docs/PHASE5F_HYBRID_MODEL_ANALYSIS.md)
+- [Phase 5G One-Time Challenge Evaluation](docs/PHASE5G_FINAL_COMPARATIVE_EVALUATION.md)
 - [Master Project Status](docs/PROJECT_STATUS.md)
-- [Source of Truth Registry](docs/SOURCE_OF_TRUTH.md)
 - [Multi-Phase Roadmap](docs/ROADMAP.md)
-- [System Architecture](docs/ARCHITECTURE.md)
-- [Dataset Specification](docs/DATASET.md)
-- [Gate Registry (Gates 1–4D)](docs/GATE_INDEX.md)
+- [Reproducing Phase 4 on a Clean Clone](docs/REPRODUCING_PHASE4.md)
 - [Full Reproducibility Guide](docs/REPRODUCIBILITY.md)

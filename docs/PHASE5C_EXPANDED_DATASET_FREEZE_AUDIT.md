@@ -2,10 +2,10 @@
 
 **Study:** IEEE 9-Bus WSCC Multi-Model Power Quality Comparative Research  
 **Branch:** `research/pq-comparative-lab`  
-**Dataset Directory:** [`data/ieee9bus_60hz_phase5c/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5c/)  
-**Dataset Manifest:** [`data/ieee9bus_60hz_phase5c/dataset_manifest_v2.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5c/dataset_manifest_v2.json)  
-**Checksum Registry:** [`data/ieee9bus_60hz_phase5c/checksums_sha256.txt`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5c/checksums_sha256.txt)  
-**Failure Registry:** [`data/ieee9bus_60hz_phase5c/physical_validation_failures.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5c/physical_validation_failures.json)  
+**Dataset Directory:** [`data/ieee9bus_60hz_phase5c/`](../data/ieee9bus_60hz_phase5c)  
+**Dataset Manifest:** [`data/ieee9bus_60hz_phase5c/dataset_manifest_v2.json`](../data/ieee9bus_60hz_phase5c/dataset_manifest_v2.json)  
+**Checksum Registry:** [`data/ieee9bus_60hz_phase5c/checksums_sha256.txt`](../data/ieee9bus_60hz_phase5c/checksums_sha256.txt)  
+**Failure Registry:** [`data/ieee9bus_60hz_phase5c/physical_validation_failures.json`](../data/ieee9bus_60hz_phase5c/physical_validation_failures.json)  
 **Date:** 2026-10-27  
 
 ---
@@ -31,6 +31,14 @@ Dual-rate continuous representations (20 kHz high-resolution and 5 kHz canonical
 | Operating-Condition Leakage | Zero overlap across splits | 0 overlaps ($10\text{ Train} \cap 4\text{ Val} \cap 4\text{ Ch} = \emptyset$) | **PASS** |
 | Quarantined Challenge Conditions | Conditions 33, 34, 35, 36 isolated | Strictly quarantined | **PASS** |
 | Physical Validation Tracking | 118 Passed / 26 Flagged | Complete failure registry recorded | **PASS** |
+
+### 1.1 Matrix Architecture & Simulation Execution Distinction
+1. **Core Matrix vs. Extended Matrix Specification:**
+   - The simulation runner [`scripts/run_phase5c_bulk_simulation.m`](../scripts/run_phase5c_bulk_simulation.m) loads and executes the **144 core trajectories** defined in [`scenarios/phase5b2_simulation_matrix.json`](../scenarios/phase5b2_simulation_matrix.json), which produce the **4,608 frozen dataset frames** ($144 \times 32$).
+   - The 368-trajectory extended matrix in [`scenarios/phase5c_extended_matrix.json`](../scenarios/phase5c_extended_matrix.json) is a separate, versioned design specifying 224 supplementary scenarios across 40 operating conditions for future scaled research. The current frozen Phase 5C dataset is strictly grounded in the 144 core trajectories.
+2. **Initial Simulation Run vs. Verification/Reuse Execution:**
+   - The initial electromagnetic generation of the 144 continuous raw trajectories was executed in MATLAB R2025a (total simulation wall time: 408.26 s) and committed under commit `5d4cf51`.
+   - In subsequent verification runs, `run_phase5c_bulk_simulation()` inspects all 144 `.mat` files in `data/ieee9bus_60hz_phase5c/raw/`. Because all 144 files already exist with valid 7,601-point lengths in `V_cont_20k`, the runner skips re-simulation of each file (logging 144 checked, 0 newly simulated, 144 skipped in 2.09 s wall time with 0 failures). This verification run confirms artifact completeness and integrity without corrupting pre-existing data.
 
 ---
 
@@ -79,7 +87,7 @@ Every simulated trajectory underwent automated physical validation across its pa
    - **Mechanism:** Commutation notch under heavy load caused the full-frame RMS to dip below 0.45 pu.
    - **Failed Gates:** `NOT-06_rms_0.45_0.80`.
 
-Per Master Execution Prompt Part I §8, none of the flagged runs were silently dropped, relabeled, or threshold-weakened. They are fully recorded in [`physical_validation_failures.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5c/physical_validation_failures.json).
+Per Master Execution Prompt Part I §8, none of the flagged runs were silently dropped, relabeled, or threshold-weakened. They are fully recorded in [`physical_validation_failures.json`](../data/ieee9bus_60hz_phase5c/physical_validation_failures.json).
 
 ---
 

@@ -2,9 +2,9 @@
 
 **Study:** IEEE 9-Bus WSCC Multi-Model Power Quality Comparative Research  
 **Branch:** `research/pq-comparative-lab`  
-**Experiment Directory:** [`experiments/phase5c/deep_learning/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/deep_learning/)  
-**Summary Artifact:** [`experiments/phase5c/deep_learning/deep_learning_benchmark_summary.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/deep_learning/deep_learning_benchmark_summary.json)  
-**Normalization Parameters:** [`experiments/phase5c/deep_learning/deep_learning_norm_params.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/deep_learning/deep_learning_norm_params.json)  
+**Experiment Directory:** [`experiments/phase5c/deep_learning/`](../experiments/phase5c/deep_learning)  
+**Summary Artifact:** [`experiments/phase5c/deep_learning/deep_learning_benchmark_summary.json`](../experiments/phase5c/deep_learning/deep_learning_benchmark_summary.json)  
+**Normalization Parameters:** [`experiments/phase5c/deep_learning/deep_learning_norm_params.json`](../experiments/phase5c/deep_learning/deep_learning_norm_params.json)  
 **Date:** 2026-10-27  
 
 ---

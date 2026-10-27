@@ -2,9 +2,9 @@
 
 **Study:** IEEE 9-Bus WSCC Multi-Model Power Quality Comparative Research  
 **Branch:** `research/pq-comparative-lab`  
-**Experiment Directory:** [`experiments/phase5c/hybrid/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/hybrid/)  
-**Results Artifact:** [`experiments/phase5c/hybrid/hybrid_benchmark_results.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/hybrid/hybrid_benchmark_results.json)  
-**Model Checkpoint:** [`experiments/phase5c/hybrid/best_hybrid_model.pt`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/hybrid/best_hybrid_model.pt)  
+**Experiment Directory:** [`experiments/phase5c/hybrid/`](../experiments/phase5c/hybrid)  
+**Results Artifact:** [`experiments/phase5c/hybrid/hybrid_benchmark_results.json`](../experiments/phase5c/hybrid/hybrid_benchmark_results.json)  
+**Model Checkpoint:** [`experiments/phase5c/hybrid/best_hybrid_model.pt`](../experiments/phase5c/hybrid/best_hybrid_model.pt)  
 **Date:** 2026-10-27  
 
 ---

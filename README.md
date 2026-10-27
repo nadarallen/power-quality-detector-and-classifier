@@ -2,22 +2,38 @@
 
 > **Current Lifecycle Phase:** Phase 5 — Multi-Model Power Quality Comparative Research (**COMPLETE**)  
 > **Primary Research Branch:** `research/pq-comparative-lab`  
-> **Stable Baseline Branch:** `main` (Preserved intact)  
+> **Stable Baseline Branch:** `main` (Preserved intact at `8a4e567`)  
 >
 > [![Tests](https://img.shields.io/badge/tests-358%20passed-brightgreen.svg)](tests/)
 > [![Sampling](https://img.shields.io/badge/sampling-dual--rate%2020%20kHz%20%26%205%20kHz-blue.svg)](data/ieee9bus_60hz_phase5c/)
 > [![Grid](https://img.shields.io/badge/grid-WSCC%2060%20Hz%20IEEE%209--bus-orange.svg)](IEEE_9bus/)
 > [![Classes](https://img.shields.io/badge/classes-8%20disturbances%20audited-success.svg)](data/ieee9bus_60hz_phase5c/)
 > [![Phase 5](https://img.shields.io/badge/phase%205-COMPLETE%20(Comparative%20Research)-brightgreen.svg)](docs/PHASE5_FINAL_RESEARCH_REPORT.md)
-
+> [![Phase 6](https://img.shields.io/badge/phase%206-FUTURE%20SCOPE%20(Not%20Implemented)-lightgrey.svg)](docs/ROADMAP.md)
 
 ---
 
-## 1. Project Overview
+## Navigation & Quick Links
 
-This repository implements an end-to-end, scientifically validated, and standards-aligned system for simulating, detecting, extracting, and categorizing **Power Quality Disturbances (PQD)** in high-voltage electrical transmission grids.
+1. [Project Overview & Limitations](#1-project-overview--limitations)
+2. [Getting Started & Installation](#2-getting-started--installation)
+3. [Run or Inspect the Simulation Data](#3-run-or-inspect-the-simulation-data)
+4. [Visualize Sag and Swell in MATLAB](#4-visualize-sag-and-swell-in-matlab)
+5. [Explore the ML & Research Results](#5-explore-the-ml--research-results)
+6. [Run Tests and Reproduce Results](#6-run-tests-and-reproduce-results)
+7. [Research Status & Future Scope](#7-research-status--future-scope)
+8. [Comprehensive Documentation Index](#8-comprehensive-documentation-index)
 
-The primary architecture bridges an electromagnetic simulation of the **WSCC 3-Machine 9-Bus Network** (operating at $60.0\text{ Hz}$ in MATLAB/Simulink Simscape Electrical) to a high-performance Python Digital Signal Processing (DSP) and event detection pipeline. The pipeline ingests continuous three-phase voltages ($V_a, V_b, V_c$) sampled at $F_s = 5,000\text{ Hz}$ ($T_s = 200\ \mu\text{s}$, $N = 1,000$ discrete samples per 12-cycle analysis window), extracts a formal **32-feature mathematical contract**, tracks multi-phase disturbance lifecycles independently of machine learning, and dispatches real-time telemetry to an interactive laboratory dashboard.
+---
+
+## 1. Project Overview & Limitations
+
+This repository implements an end-to-end, scientifically validated, and standards-aligned research framework for simulating, detecting, extracting, and categorizing **Power Quality Disturbances (PQD)** in high-voltage electrical transmission systems.
+
+The primary architecture couples an electromagnetic transient simulation of the **WSCC 3-Machine 9-Bus Network** (operating at $60.0\text{ Hz}$ in MATLAB/Simulink Simscape Electrical) with a high-performance Python Digital Signal Processing (DSP) and machine learning pipeline. The project investigates:
+- **Which electrical features distinguish eight disturbance classes** (Normal, Sag, Swell, Interruption, Harmonics, Flicker, Notch, Transient).
+- **Comparative model performance:** Classical Machine Learning (32 features) vs. Raw-Waveform Deep Learning (1D-CNN, TCN) vs. Multi-Modal Representation Fusion (`HybridPQNet`).
+- **Dual-rate acquisition benefits:** Comparing 5 kHz canonical decimated waveforms against 20 kHz high-resolution representations for sub-cycle commutations and high-frequency oscillations.
 
 ```
 +-----------------------------------------------------------------------------+
@@ -28,264 +44,280 @@ The primary architecture bridges an electromagnetic simulation of the **WSCC 3-M
 |   |         IEEE 9-Bus WSCC Transmission Model (Simscape 60 Hz)         |   |
 |   |  - 3 Generators, 3 Transformers, 9 Transmission Buses, 3 Loads      |   |
 |   |  - Authoritative Observation Point: Bus 5 (230 kV Load Bus)         |   |
-|   |  - Working Disturbance Model: IEEE_9bus_PQD_DISTURBANCES.slx        |   |
+|   |  - Pristine Reference: IEEE_9bus_PQD_HIL_R2025a.slx (Frozen, R/O)   |   |
+|   |  - Working Model:      IEEE_9bus_PQD_DISTURBANCES.slx (7 blocks)    |   |
 |   +---------------------------------------------------------------------+   |
 |                                      |                                      |
-|                                      v  Bus 5 Vabc, Iabc                    |
+|                                      v  Bus 5 Vabc, Iabc (Continuous)       |
 |   +---------------------------------------------------------------------+   |
-|   |         MATLAB Acquisition & Resampling Bridge (5,000 Hz)           |   |
-|   |  - Continuous discrete representation (Ts = 200 us, N = 1000)       |   |
-|   |  - HTTP Streaming Ingestion Adapter (/api/simulink/ingest_chunk)     |   |
-|   +---------------------------------------------------------------------+   |
-|                                      |                                      |
-|                                      v  JSON / Binary POST                  |
-|   +---------------------------------------------------------------------+   |
-|   |         Production 32-Feature Python DSP Engine                     |   |
-|   |  - Goertzel Harmonic Filter Bank H1–H11 (60 Hz to 660 Hz)           |   |
-|   |  - Phase-Aware Orthogonal Projection SNR (Angle-Invariant)          |   |
-|   |  - Half-Cycle Sliding RMS & Statistical Moments (Skew/Kurt/Entropy) |   |
-|   |  - Mathematical Parity with MATLAB Verified (< 0.000050 tolerance)  |   |
+|   |         Dual-Rate Acquisition & Resampling Engine                   |   |
+|   |  - High-Rate Branch:  20 kHz (4,000 samples / 200 ms, Ts = 50 us)   |   |
+|   |  - Canonical Branch:  5 kHz (1,000 samples / 200 ms, Ts = 200 us)   |   |
+|   |  - Zero-phase 8th-order Chebyshev Type I anti-alias filter          |   |
+|   |  - Fixed-reference sensor noise (52, 46, 40 dB) & bipolar ADC       |   |
 |   +---------------------------------------------------------------------+   |
 |                                      |                                      |
-|                                      v  32-Dimensional Feature Vector       |
+|                                      v  Dual-Rate Waveforms & Features      |
 |   +---------------------------------------------------------------------+   |
-|   |         Three-Phase Event Engine & ML Classifier                    |   |
-|   |  - Ground Truth derived strictly from Physical Scenario Controllers |   |
-|   |  - Independent Physical Rule Engine (IEEE 1159 / IEEE 519)          |   |
-|   |  - Legacy 50-Hz Weights Frozen (flags MODEL_DOMAIN_MISMATCH)        |   |
-|   |  - SQLite Event Persistence (data/pq_events.db)                     |   |
+|   |         Production 32-Feature DSP Engine & Event Processor          |   |
+|   |  - H1–H11 Goertzel Bank, Orthogonal SNR, Half-Cycle Sliding RMS     |   |
+|   |  - Constant feature identification (dominant_freq, true_freq)       |   |
+|   |  - Numerical parity with MATLAB verified (< 0.000050 tolerance)     |   |
 |   +---------------------------------------------------------------------+   |
 |                                      |                                      |
-|                                      v  Server-Sent Events (SSE)            |
+|                                      v  Multi-Modal Tensors & Features      |
 |   +---------------------------------------------------------------------+   |
-|   |         Live Telemetry & Laboratory Oscilloscope UI                 |   |
-|   |  - CRT Oscilloscope (3-Phase Real-Time Waveforms)                   |   |
-|   |  - FFT Spectrum Analyzer & Harmonic THD Bargraph                    |   |
-|   |  - 32-Feature Parameter Matrix & Classification Telemetry           |   |
+|   |         Multi-Model Machine Learning Benchmark                      |   |
+|   |  - Track A: Classical ML (MLP, RF, ExtraTrees, SVM, HGB, LogReg)    |   |
+|   |  - Track B: Raw Waveform DL (Compact 1D-CNN, Temporal ConvNet)      |   |
+|   |  - Track C: Hybrid Representation (HybridPQNet: Waveform + Features)|   |
+|   |  - Quarantined Challenge Partition (Conditions 33–36, 0 Leakage)    |   |
+|   +---------------------------------------------------------------------+   |
+|                                      |                                      |
+|                                      v  Interactive Telemetry & Plots       |
+|   +---------------------------------------------------------------------+   |
+|   |         Interactive Research Platform (app.py)                      |   |
+|   |  - Tab 1: Dataset Explorer & Dual-Rate Waveform Visualizer          |   |
+|   |  - Tab 2: Model Comparison (Classical vs DL vs Hybrid)              |   |
+|   |  - Tab 3: Feature Analysis, Permutation Importance & SHAP           |   |
+|   |  - Tab 4: Waveform Occlusion Sensitivity & 3-Phase Synchrony Ablation|  |
+|   |  - Tab 5: Quarantined Challenge Evaluation & Provenance             |   |
 |   +---------------------------------------------------------------------+   |
 |                                                                             |
 +-----------------------------------------------------------------------------+
 ```
 
----
-
-## 2. Completed Disturbance Datasets (Phase 3)
-
-The project has completed physical electromagnetic modeling, dataset generation, feature extraction, and independent scientific audits across all **8 disturbance classes** under `data/ieee9bus_60hz/`, authoritatively codified in [`data/ieee9bus_60hz/dataset_manifest_v1.json`](data/ieee9bus_60hz/dataset_manifest_v1.json):
-
-| Class | Label Index | Frames | Trajectories | Physical Switching Mechanism | Key Physical Metric | Gate Status |
-|---|:---:|:---:|:---:|---|---|:---:|
-| **Flicker** | 0 | 1,152 | 36 | Sub-synchronous dynamic load modulation (`PQD_Flicker_Mod`) | $f_m \in [1, 25]\text{ Hz}$, depth $1.0\%\text{--}10.0\%$ | **PASS** (Gate 3R) |
-| **Harmonics** | 1 | 1,152 | 36 | Non-linear load current injection (`PQD_Harm_Inj`) | Orders $H_2\text{--}H_{11}$, $\text{THD} = 5.1\%\text{--}19.8\%$ | **PASS** (Gate 3O) |
-| **Interruption** | 2 | 1,152 | 36 | Series line breaker opening (`PQD_Breaker_Interruption`) | Residual $< 0.10\text{ pu}$ (mean $0.008\text{ pu}$) | **PASS** (Gate 3L) |
-| **Normal** | 3 | 1,120 | 32 | Steady-state load flow (32 operating conditions) | $\text{RMS} = 0.589\text{ pu}, \text{THD} = 0.35\%$ | **PASS** (Gate 3B.1) |
-| **Notch** | 4 | 1,152 | 36 | Commutation short-circuit switching (`PQD_Notch_Bus5`) | Width $100\text{--}900\ \mu\text{s}$, depth $20\%\text{--}70\%$ | **PASS** (Gate 3U) |
-| **Sag** | 5 | 1,152 | 36 | Transmission shunt fault switching (`PQD_Fault_Sag`) | Residual $0.10\text{--}0.90\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3F) |
-| **Swell** | 6 | 1,152 | 36 | Shunt capacitor bank energization (`PQD_Breaker_Swell`) | Magnitude $1.10\text{--}1.80\text{ pu}$, $16.7\text{--}120\text{ ms}$ | **PASS** (Gate 3I) |
-| **Transient** | 7 | 1,152 | 36 | High-frequency RLC energization (`PQD_Breaker_Transient`) | Oscillation $300\text{--}2,200\text{ Hz}$, peak $1.2\text{--}1.9\text{ pu}$ | **PASS** (Gate 3X) |
-
-**Total Dataset Size:** Exactly **9,184 multi-phase frames across 284 independent simulation trajectories** (Train: 6,594 frames / 71.80%, Validation: 1,295 frames / 14.10%, Locked Test: 1,295 frames / 14.10%) with **zero inter-trajectory leakage**.
+### Research Scope & Limitations
+- **Electromagnetic Simulation Domain:** All training, validation, and challenge datasets originate from high-fidelity Simscape Electrical simulations on the IEEE 9-bus transmission benchmark. Performance results do not represent physical substation PMU deployments on real-world utility networks.
+- **Base Grid Frequency:** The network benchmark operates at $60.0\text{ Hz}$. The constant feature audit established that `dominant_freq` and `true_dominant_freq` remain invariant at 60.0 Hz under transmission bus loading; conclusions do not imply wide-range frequency tracking under islanded microgrid deviations ($\pm 5\text{ Hz}$).
+- **Single-Phase Commutation Shunt:** The simulated Notch mechanism employs a commutation short-circuit switching surrogate, which captures the electrical commutation notch morphology without modeling an entire 6-pulse thyristor bridge converter.
+- **Phase 6 Firmware & Hardware Deployment:** Microcontroller firmware (`firmware/`), analog front-end schematics (`hardware/`), and physical HIL deployment remain strictly **Planned / Future Scope — Not Yet Implemented**.
 
 ---
 
-## 3. Strict Engineering Freeze Rules & Architectural Invariants
+## 2. Getting Started & Installation
 
-1. **Pristine Reference Model Freeze:**  
-   `IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx` is frozen as the uncorrupted reference benchmark (SHA-256: `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`). All disturbance injection subsystems reside exclusively in `IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx`.
-2. **Ground-Truth Decoupling Rule:**  
-   Ground-truth class labels originate strictly from **physical scenario controllers and simulation metadata**—never from machine learning predictions.
-3. **Legacy ML Weights Preservation:**  
-   The legacy 50-Hz runtime weights (`ml/models/model_weights_32.json`, SHA-256: `BE9BDBC3641F...`) remain frozen for historical backwards compatibility. Phase 4 produced the verified 60-Hz production candidate MLP (`experiments/phase4c/models/candidate_mlp_pipeline.pkl`, 99.92% locked test accuracy, 99.93% macro F1).
-4. **Authoritative 60-Hz / 5-kHz Sampling Contract:**  
-   All feature definitions, FFT harmonic bins, and sliding RMS algorithms are strictly locked to $f_0 = 60.0\text{ Hz}$, $F_s = 5,000\text{ Hz}$, and $N = 1,000$ samples (200 ms).
+### Prerequisites
+- **Python:** 3.10, 3.12, or 3.14 (tested on x86_64 Windows & Linux).
+- **MATLAB / Simulink (Optional):** MATLAB R2024b or R2025a with Simscape Electrical is only required if generating new physical simulations. All pre-generated datasets, models, and dashboard features run 100% standalone in Python without MATLAB.
+
+### Setup Instructions
+```bash
+# 1. Clone the repository on the primary research branch
+git clone -b research/pq-comparative-lab https://github.com/nadarallen/power-quality-detector-and-classifier.git
+cd power-quality-detector-and-classifier
+
+# 2. Pull Git LFS objects (retrieves the 131.65 MB 20 kHz waveform archive)
+git lfs pull
+
+# 3. Create and activate a Python virtual environment
+python -m venv venv
+# On Windows:
+.\venv\Scripts\activate
+# On Linux/macOS:
+source venv/bin/activate
+
+# 4. Install base and research dependencies
+pip install -r requirements.txt
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+```
 
 ---
 
-## 4. Multi-Phase Engineering Roadmap
+## 3. Run or Inspect the Simulation Data
+
+### Available Pre-Computed Datasets
+The repository bundles two authoritative, cryptographically verified datasets:
+
+| Dataset | Location | Manifest | Trajectories | Total Frames | Sampling Rates | Audit Report |
+|---|---|---|:---:|:---:|---|---|
+| **Historical Baseline (Phase 3–4)** | `data/ieee9bus_60hz/` | `dataset_manifest_v1.json` | 284 | 9,184 | 5 kHz (1,000 pts/window) | [docs/DATASET.md](docs/DATASET.md) |
+| **Expanded Dual-Rate (Phase 5C)** | `data/ieee9bus_60hz_phase5c/` | `dataset_manifest_v2.json` | 144 | 4,608 | Dual-Rate: 20 kHz & 5 kHz | [docs/PHASE5C_EXPANDED_DATASET_FREEZE_AUDIT.md](docs/PHASE5C_EXPANDED_DATASET_FREEZE_AUDIT.md) |
+
+### Simulation Matrix & Runner Distinction
+It is critical to distinguish between the core simulation matrix, the extended matrix design, and the execution caching behavior:
+1. **Core Matrix vs. Extended Matrix Design:**
+   - **Core Matrix:** [`scenarios/phase5b2_simulation_matrix.json`](scenarios/phase5b2_simulation_matrix.json) defines the **144 core trajectories** (18 per class) executed to produce the **4,608 frozen Phase 5C frames**.
+   - **Extended Matrix:** [`scenarios/phase5c_extended_matrix.json`](scenarios/phase5c_extended_matrix.json) is a separate, versioned specification defining 368 independent trajectories across 40 operating conditions (224 supplementary scenarios) intended for future scaled extensions. The current runner specifically simulates the 144 core trajectories.
+2. **Initial Simulation Generation vs. Verification/Reuse Run:**
+   - The initial electromagnetic generation of the 144 continuous raw trajectories was executed in MATLAB R2025a (wall time: 408.26 s) and committed under commit `5d4cf51`.
+   - The runner [`scripts/run_phase5c_bulk_simulation.m`](scripts/run_phase5c_bulk_simulation.m) includes a validation check: if a target `.mat` file exists and has 7,601 rows in `V_cont_20k`, it skips simulation. In subsequent verification runs, `run_phase5c_bulk_simulation()` safely skips all 144 pre-existing files in ~2.09 s with 0 failures, verifying dataset integrity without modifying existing data.
+
+---
+
+## 4. Visualize Sag and Swell in MATLAB
+
+For a complete, beginner-friendly walkthrough on inspecting and plotting pre-computed Voltage Sag and Swell waveforms in MATLAB, consult:
+
+👉 **[MATLAB Voltage Sag & Swell Waveform Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md)**
+
+### Quick MATLAB Inspection Snippet
+```matlab
+% Set repository root
+projectRoot = 'D:\my study\Project\power-quality-detector-and-classifier';
+rawDir = fullfile(projectRoot, 'data', 'ieee9bus_60hz_phase5c', 'raw');
+
+% Load pre-computed Voltage Sag recording
+sagData = load(fullfile(rawDir, 'P5B2_SAG_0091_abc_c01_mil.mat'));
+
+% Plot 3-phase voltage at 20 kHz (7,601 samples across 380 ms)
+figure('Color', 'w');
+plot(sagData.t_grid_20k * 1000, sagData.V_cont_20k, 'LineWidth', 1.2);
+grid on; xlabel('Time (ms)'); ylabel('Voltage (pu line-to-neutral)');
+title('Bus 5 Three-Phase Voltage During Voltage Sag');
+legend({'Phase A', 'Phase B', 'Phase C'});
+```
+
+---
+
+## 5. Explore the ML & Research Results
+
+### Launch the Interactive Research Dashboard
+The project includes a standalone Streamlit research lab (`app.py`):
+
+```bash
+# Launch the dashboard
+streamlit run app.py
+```
+Open your browser to `http://localhost:8501`.
+
+### Operational Modes & Research Tabs
+- **Mode A: Recorded Research Explorer (Zero MATLAB Requirement — FULLY VERIFIED):**  
+  Fully functional offline without MATLAB. Loads pre-computed waveforms, features, and model weights directly.
+  - **Tab 1: Dataset Explorer & Dual-Rate Waveforms:** Compare 5 kHz and 20 kHz representations, compute FFT spectra, and inspect scenario metadata.
+  - **Tab 2: Multi-Model Benchmark Comparison:** Side-by-side performance across Classical ML, 1D-CNN, TCN, and `HybridPQNet`.
+  - **Tab 3: Feature Analysis & Explainability:** Permutation importance ranking, 5 functional group ablations, and SHAP attribution plots.
+  - **Tab 4: Waveform Model Interpretation:** Temporal occlusion sensitivity curves and 3-phase synchrony ablation.
+  - **Tab 5: Quarantined Challenge Evaluation:** Audited evaluation on held-out Conditions 33–36 with zero leakage.
+- **Mode B: Simulink Live Experiment Runner (SCRIPT HOOKS IMPLEMENTED — RUNTIME EXECUTION UNVERIFIED / OPTIONAL):**  
+  Provides UI hooks to parameterize live disturbance injections and trigger MATLAB/Simulink. *Note: Live MATLAB execution is marked UNVERIFIED / NOT TESTED in headless automated environments due to external MATLAB license requirements.*
+
+### Summary of Key Benchmark Findings
+
+| Model Family | Candidate Architecture | Validation Accuracy | Validation Macro F1 | Quarantined Challenge Accuracy | Quarantined Challenge Macro F1 | Generalization Gap ($\Delta\text{F1}$) |
+|---|---|:---:|:---:|:---:|:---:|:---:|
+| **Classical ML** (32 Features) | Multi-Layer Perceptron (MLP) | 93.26% | 92.60% | 90.62% | 90.92% | -1.68% |
+| **Raw Waveform DL** (20 kHz 3-Phase) | Temporal ConvNet (TCN) | 93.75% | 93.70% | 90.92% | 90.83% | -2.87% |
+| **Hybrid Representation** | **`HybridPQNet`** | **100.00%** | **100.00%** | **100.00%** | **100.00%** | **0.00%** |
+
+- **Representation Complementarity:** `HybridPQNet` achieved a **+11.08% F1 gain over features alone** and a **+9.13% gain over waveform alone**.
+- **Three-Phase Synchrony:** Single-phase processing collapsed performance from **90.16% F1 to 3.91% F1 (-86.25% collapse)**, proving that concurrent cross-phase differential reference is vital.
+- **Sub-Cycle Resolution:** 20 kHz sampling resolved 8 discrete samples per 400 $\mu$s notch, allowing deep learning models to classify 100% of notch windows without ambiguity.
+
+---
+
+## 6. Run Tests and Reproduce Results
+
+### Automated Regression Test Suite
+The complete test suite contains **360 collected tests**, all passing except 2 conditionally skipped GPU checks:
+
+```bash
+# Run the full regression test suite (excluding slow synthesis tests)
+pytest tests/ -v -m "not slow"
+```
+
+**Verified Test Result:**
+```
+================= 358 passed, 2 skipped, 2 warnings in 11.61s ==================
+```
+
+### Breakdown of Test Suites
+- **Gate 3D–3X (Physical Disturbance Acceptance):** 180 tests across all 8 disturbance classes.
+- **DSP Engine, SNR Invariants & Pipeline:** 120 tests verifying numerical parity (< 0.000050) and phase-angle invariance.
+- **Model Checksums, Invariants & Anti-Leakage:** 43 tests verifying frozen artifact hashes and partition isolation.
+- **Phase 5 Interactive Dashboard Backend:** 6 tests verifying manifest loading, dual-rate slicing, and result aggregation.
+- **Phase 5C Multi-Model Research Pipeline:** 9 tests verifying dual-rate array shapes, zero operating-condition leakage, and model inference.
+
+---
+
+## 7. Research Status & Future Scope
+
+### Multi-Phase Lifecycle Status
 
 ```
   [PHASE 1: ELECTRICAL FOUNDATION] ----------------------> COMPLETE (Gate 3A)
   [PHASE 2: 60-HZ DSP & INTEGRATION BRIDGE] --------------> COMPLETE (Gates 3B, 3C)
   [PHASE 3: PHYSICAL 8-CLASS DATASET & QUALITY AUDITS] --> COMPLETE (Gates 3D - 3X)
   [PHASE 4: PROPER 60-HZ MACHINE LEARNING TRAINING] -----> COMPLETE (Gates 4A - 4D)
-  [PHASE 5: LIVE SIMULINK DEMONSTRATION MVP] ------------> FUTURE
-  [PHASE 6: EMBEDDED ESP32 HIL EXTENSION] ---------------> FUTURE / OPTIONAL
+  [PHASE 5: MULTI-MODEL COMPARATIVE RESEARCH & DEMO] ----> COMPLETE (Phases 5A - 5G)
+  [PHASE 6: EMBEDDED ESP32 HIL EXTENSION] ---------------> FUTURE SCOPE — NOT IMPLEMENTED
 ```
 
-- **Phase 4 (Proper 60-Hz ML):** COMPLETE. Trajectory-grouped dataset splitting (zero leakage), train-only scaler fitting, multi-model benchmarking (5 classifiers), hyperparameter tuning, and independent evaluation on locked test partition (99.92% accuracy, 99.93% macro F1).
-- **Phase 5 (Live Demo MVP):** Derivative live Simulink model (`IEEE_9bus_PQD_LIVE_DEMO.slx`), programmatic MATLAB trigger API (`pqd.sag(...)`, etc.), Simulink interactive controls, and streaming CRT dashboard.
-- **Phase 6 (Embedded HIL Extension):** Microcontroller ADC sampling and firmware inference on ESP32 hardware.
+### Phase 6: Planned / Future Scope — Not Yet Implemented
+Phase 6 represents future research extensions that have **not been implemented or authorized**. The active production and research scope of this repository is complete through Phase 5.
+- **1. Embedded Edge Inference:** Flash optimized C++ weights or TFLite Micro flatbuffers to microcontroller targets (e.g., ESP32-WROOM-32) and benchmark execution latency.
+- **2. Safe Isolated Electrical Front-End:** Design and build galvanic isolation (optocouplers, Zener clamping, fast-blow fusing, and relay disconnection) between high-voltage transducers and ADC inputs.
+- **3. Real-Time Hardware-in-the-Loop (HIL):** Couple real-time simulator DAC output channels directly to external hardware ADC pins.
+- **4. Physical Hardware Validation:** Benchmark classification reliability, clock drift, thermal stability, and memory footprint on physical embedded devices.
 
 ---
 
-## 5. Repository Directory Structure
+## 8. Comprehensive Documentation Index
 
-```
-power-quality-detector-and-classifier/
-├── README.md                      # Primary project overview and architectural status
-├── RUNTHISPROJECT.md              # Developer quickstart and execution instructions
-├── CHANGELOG.md                   # Formal chronological engineering record
-├── .gitignore                     # Git hygiene and artifact exclusion rules
-├── app.py                         # Interactive Streamlit research dashboard
-├── dashboard_backend.py           # Backend helpers for waveform loading & inference
-├── requirements.txt               # Complete Python dependencies
-├── server.py                      # REST & SSE Telemetry server (port 8500)
-├── app_frontend.py                # Alternative dashboard UI launcher
-│
-├── IEEE_9bus/                     # Power system simulation models (MATLAB/Simulink R2025a)
-│   ├── IEEE_9bus_PQD_HIL_R2025a.slx  # Pristine frozen reference baseline (SHA-256 verified)
-│   ├── IEEE_9bus_PQD_DISTURBANCES.slx # Working disturbance model (7 active injection blocks)
-│   ├── Original9bus.slx           # Preserved baseline variant
-│   └── jailib.slx                 # Preserved library model
-│
-├── docs/                          # Comprehensive technical documentation & audits
-│   ├── README.md                  # Documentation navigation index
-│   ├── PROJECT_STATUS.md          # Master single human-readable project status
-│   ├── ARTIFACT_INTEGRITY_RECONCILIATION.md # Checksum reconciliation & parity audit
-│   ├── REPRODUCING_PHASE4.md      # Clean-clone reproduction protocol
-│   ├── SOURCE_OF_TRUTH.md         # Authoritative file and contract registry
-│   ├── ARCHITECTURE.md            # 7-subsystem engineering specification
-│   ├── ROADMAP.md                 # Multi-phase roadmap (Phases 1 through 6)
-│   ├── DATASET.md                 # 8-class physical dataset specification
-│   ├── STANDARDS_TRACEABILITY_INDEX.md # Standards mapping (IEEE 1159, 519, 1453)
-│   ├── ML_READINESS.md            # 10-step protocol for Phase 4 ML training
-│   ├── REPRODUCIBILITY.md         # Environment setup and reproduction recipes
-│   ├── LIVE_MVP_PLAN.md           # Phase 5 live demonstration specification
-│   ├── GATE_INDEX.md              # Gate verification matrix (Gates 1 to 4D)
-│   ├── REPOSITORY_LEGACY_AUDIT.md # Component classification and legacy audit
-│   └── GATE3A to GATE4D reports   # Immutable gate reports and quality summaries
-│
-├── data/
-│   ├── ieee9bus_60hz/             # Authoritative 8-class 60-Hz physical datasets
-│   │   ├── dataset_manifest_v1.json # Cryptographically frozen manifest (SHA-256 verified)
-│   │   ├── normal/                # 1,120 frames, 32 operating conditions (.npz, .csv)
-│   │   ├── sag/                   # 1,152 frames, shunt fault switching (.npz, .csv)
-│   │   ├── swell/                 # 1,152 frames, capacitor energization (.npz, .csv)
-│   │   ├── interruption/          # 1,152 frames, line breaker opening (.npz, .csv)
-│   │   ├── harmonics/             # 1,152 frames, non-linear load injection (.npz, .csv)
-│   │   ├── flicker/               # 1,152 frames, sub-synchronous modulation (.npz, .csv)
-│   │   ├── notch/                 # 1,152 frames, commutation short-circuits (.npz, .csv)
-│   │   └── transient/             # 1,152 frames, high-frequency RLC switching (.npz, .csv)
-│   └── pq_events.db               # SQLite database for event persistence
-│
-├── dsp/                           # Digital Signal Processing subsystem
-│   ├── enhanced_features.py       # Authoritative 32-feature extraction engine
-│   ├── waveform_generator.py      # IEEE 1159 / 519 synthetic disturbance generator
-│   ├── waveform_frame.py          # Multi-channel waveform container & NaN guards
-│   ├── standards_detector.py      # Independent IEEE physical rule engine
-│   ├── phase_processor.py         # Multi-phase sliding window processor
-│   ├── ring_buffer.py             # Circular streaming acquisition buffer (5 kHz)
-│   └── acquisition_adapter.py     # Streaming adapters (Simulink, Simulation, Mock)
-│
-├── experiments/                   # Controlled ML experiment tracking & frozen models
-│   ├── phase4b/                   # 5-baseline classifier comparison metrics & models
-│   ├── phase4c/models/            # Frozen candidate MLP pipeline (StandardScaler + MLP)
-│   └── phase4d/                   # Independent locked test partition evaluation metrics
-│
-├── pipeline/                      # Ingestion and validation pipelines
-│   ├── realtime_pipeline.py       # Core streaming ingestion & telemetry engine
-│   └── disturbance_validator.py   # Ground-truth physical rule validator (8 classes)
-│
-├── scenarios/                     # Ground-truth scenario controller definitions
-│   └── definitions/               # JSON scenario specs (SAG, SWELL, INT, HAR, etc.)
-│
-├── integration/                   # Simulation-to-Python integration bridge
-│   └── matlab/                    # Streaming & auto-ingestion MATLAB scripts
-│
-├── ml/                            # Machine learning models and training scripts
-│   └── models/
-│       └── model_weights_32.json  # Preserved legacy 50-Hz baseline weights
-│
-├── scripts/                       # Dataset generators, validators, and audit scripts
-│   ├── generate_ieee_waveform_graphs.py # Publication-quality standards-annotated waveform generator
-│   └── verify_dataset_freeze.py   # Cryptographic dataset manifest auditor
-├── tests/                         # Complete automated test suite (322 passed)
-├── web/                           # Live laboratory oscilloscope dashboard UI
-│
-├── firmware/                      # Optional Phase 6 ESP32 C++ firmware (PlatformIO)
-├── hardware/                      # Optional Phase 6 analog front-end schematics
-├── firebase/                      # Optional cloud telemetry bridge
-└── mobile_app/                    # Optional mobile telemetry viewer
-```
+All project-authored Markdown documents are indexed below by category:
 
----
+### A. Demonstration Guides & Audit Reports
+- [MATLAB Voltage Sag & Swell Waveform Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md) — Beginner-friendly guide to inspecting and plotting pre-computed MAT recordings.
+- [Repository-Wide Markdown Documentation Audit Report](docs/audits/MARKDOWN_DOCUMENTATION_AUDIT.md) — Complete audit of all 104 tracked Markdown documents.
+- [Docs Directory Navigation Index](docs/README.md) — Technical documentation directory overview.
+- [Project Changelog](CHANGELOG.md) — Chronological engineering log and historical phase milestones.
+- [Artifact Integrity Reconciliation Audit](docs/ARTIFACT_INTEGRITY_RECONCILIATION.md) — Checksum reconciliation and parity audit.
+- [Repository Legacy Component Audit](docs/REPOSITORY_LEGACY_AUDIT.md) — Systematic component classification and archival registry.
+- [Repository Component Readiness Audit](docs/REPOSITORY_COMPONENT_AUDIT.md) — Comprehensive subsystem classification and inventory.
+- [Repository Deep Clean Report](docs/REPOSITORY_DEEP_CLEAN_REPORT.md) — Structural reorganization and file cleanup record.
+- [Repository Modernization Report](docs/REPOSITORY_MODERNIZATION_REPORT.md) — Transition from exploratory prototypes to authoritative 60-Hz architecture.
 
-## 6. Interactive Power Quality Research Dashboard
+### B. Master Scientific Research Reports (Phase 5)
+- [Phase 5 Master Research Report](docs/PHASE5_FINAL_RESEARCH_REPORT.md) — Comprehensive comparative research monograph.
+- [Phase 5A: Feature Analysis & Multi-Model Research Design](docs/PHASE5A_FEATURE_ANALYSIS_AND_COMPARISON_PLAN.md) — Initial feature audit and design.
+- [Phase 5B: Simulation Matrix & Bounded Pilot Report](docs/PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md) — Pilot matrix and preliminary validation.
+- [Phase 5B.1: Pre-Bulk Physical Validation & Sampling Audit](docs/PHASE5B1_PREBULK_ENGINEERING_AUDIT.md) — Physical audit of noise, ADC, and solver timesteps.
+- [Phase 5B.2: Simulation Pipeline Remediation Report](docs/PHASE5B2_SIMULATION_PIPELINE_REMEDIATION_REPORT.md) — Pipeline fixes for fixed-reference noise and dual-rate logging.
+- [Phase 5C: Expanded Dataset Freeze Audit](docs/PHASE5C_EXPANDED_DATASET_FREEZE_AUDIT.md) — Verification of 144 trajectories, 4,608 frames, and zero leakage.
+- [Phase 5D: Classical ML Benchmark & Feature Analysis](docs/PHASE5D_CLASSICAL_ML_AND_FEATURE_ANALYSIS.md) — Benchmark of 6 classifiers, feature importance, and 5 group ablations.
+- [Phase 5E: Waveform Deep Learning (1D-CNN & TCN)](docs/PHASE5E_WAVEFORM_DEEP_LEARNING.md) — Raw waveform models, temporal occlusion, and 3-phase synchrony.
+- [Phase 5F: Hybrid Model Analysis](docs/PHASE5F_HYBRID_MODEL_ANALYSIS.md) — Multi-modal representation fusion and synergy analysis.
+- [Phase 5G: Final Comparative & Challenge Evaluation](docs/PHASE5G_FINAL_COMPARATIVE_EVALUATION.md) — One-time evaluation on quarantined Conditions 33–36.
 
-The repository includes a modern, interactive Streamlit research platform ([`app.py`](app.py)) demonstrating power-quality disturbance detection and classification across two operational modes:
+### C. System Architecture, Specifications & Roadmaps
+- [Master Project Status](docs/PROJECT_STATUS.md) — Authoritative single-point human-readable project status.
+- [Multi-Phase Roadmap](docs/ROADMAP.md) — Chronological phase lifecycle from Phase 1 through Phase 6.
+- [System Architecture](docs/ARCHITECTURE.md) — Seven-subsystem technical specification.
+- [Authoritative Source of Truth](docs/SOURCE_OF_TRUTH.md) — Cryptographic checksums and authoritative contract definitions.
+- [Standards Traceability Index](docs/STANDARDS_TRACEABILITY_INDEX.md) — Traceability across IEEE 1159, IEEE 519, IEEE 1453, and IEC 61000-4-30.
+- [Dataset Specification](docs/DATASET.md) — Comprehensive physical dataset documentation.
+- [Acquisition Requirements](docs/ACQUISITION_REQUIREMENTS.md) & [Acquisition Format](docs/ACQUISITION_FORMAT.md) — Signal logging and sampling parameters.
+- [Gate Index (Gates 1–4D)](docs/GATE_INDEX.md) — Verification criteria for historical project gates.
+- [Final Repository Structure](docs/FINAL_REPOSITORY_STRUCTURE.md) — File layout and ownership mapping.
 
-```bash
-# Launch the interactive research dashboard
-streamlit run app.py
-```
+### D. Reproduction & Operational Guides
+- [Project Quickstart & Execution Guide](RUNTHISPROJECT.md) — Developer quickstart and verified workflows.
+- [Reproducing Phase 4 on a Clean Clone](docs/REPRODUCING_PHASE4.md) — Reproduction recipes for historical 60-Hz ML models.
+- [Full Reproducibility Guide](docs/REPRODUCIBILITY.md) — Environment setup, dependency matrices, and test instructions.
+- [Live MVP Plan](docs/LIVE_MVP_PLAN.md) — Interactive live demonstration architecture.
+- [Live Operation Manual](docs/LIVE_OPERATION.md) — Real-time telemetry server operations.
+- [Simulink Integration Guide](docs/SIMULINK_INTEGRATION.md) & [Integration Plan](docs/SIMULINK_INTEGRATION_PLAN.md) — MATLAB bridge architecture.
+- [Simulink ML Model Contract](docs/SIMULINK_ML_MODEL_CONTRACT.md) — Interface contract between Simulink and Python DSP.
+- [Simulink-Python Feature Validation](docs/SIMULINK_PYTHON_FEATURE_VALIDATION.md) — Feature parity audit between MATLAB and Python.
 
-### Operational Modes:
-- **Mode A: Recorded Experiment Explorer (Zero MATLAB Requirement — FULLY VERIFIED):**  
-  Browse and visualize 3-phase waveforms ($V_A, V_B, V_C$) across all 8 classes from the frozen 60 Hz IEEE 9-bus dataset. Computes instantaneous 32-feature vectors in real time, runs inference with the frozen Phase 4C candidate MLP model, and displays prediction confidence distributions and softmax probability charts. Operates 100% standalone without requiring MATLAB or Simscape.
-- **Mode B: Simulink Live Experiment Runner (SCRIPT HOOKS IMPLEMENTED — RUNTIME EXECUTION UNVERIFIED / NOT TESTED):**  
-  Provides parameter validation and execution hooks for researchers with MATLAB R2024b/R2025a and Simscape Electrical to parameterize live disturbance injections (duration, fault resistance, affected phases) and invoke [`scripts/run_disturbance_simulation.m`](scripts/run_disturbance_simulation.m). *Note: While the model topology, injection blocks, and runner scripts have passed static dependency audits, full end-to-end live MATLAB execution is marked as UNVERIFIED / NOT TESTED in automated CI environments due to external MATLAB license and headless execution constraints.*
-- **Model Comparison & Audit Evidence:**  
-  Displays quantitative benchmark tables from Phase 4B (Logistic Regression, Random Forest, SVM-RBF, Gradient Boosting, Compact MLP), latency-vs-accuracy trade-offs, and independent confusion matrices on the locked Phase 4D test partition (1,295 frames, 99.92% accuracy, 99.93% macro F1).
-- **Feature Engineering & Explainability:**  
-  Provides full mathematical descriptions and IEEE standard mappings for all 32 time-domain, Goertzel harmonic, harmonic ratio, and FFT spectral moments.
+### E. Historical Engineering Gate Reports (Phases 1–4)
+- **Normal Operation:** [Gate 3B Report](docs/GATE3B_NORMAL_DATASET_AUDIT.md) | [Gate 3B.1 Quality Audit](docs/GATE3B1_NORMAL_DATASET_QUALITY_AUDIT.md) | [Gate 3B Spec](docs/GATE3B_NORMAL_DATASET_SPEC.md) | [SNR Propagation](docs/GATE3B1_SNR_DATASET_PROPAGATION.md) | [Gate 3B.1 Traceability](docs/GATE3B1_STANDARDS_TRACEABILITY.md)
+- **Disturbance Specification:** [Gate 3C Spec](docs/GATE3C_DISTURBANCE_SPECIFICATION.md) | [Gate 3C Traceability](docs/GATE3C_STANDARDS_TRACEABILITY.md) | [Gate 3C Plan](docs/GATE3C_VALIDATION_PLAN.md)
+- **Voltage Sag:** [Gate 3D Implementation](docs/GATE3D_SAG_IMPLEMENTATION.md) | [Gate 3E Report](docs/GATE3E_SAG_DATASET_REPORT.md) | [Gate 3F Audit](docs/GATE3F_SAG_DATASET_AUDIT.md)
+- **Voltage Swell:** [Gate 3G Implementation](docs/GATE3G_SWELL_IMPLEMENTATION.md) | [Gate 3H Report](docs/GATE3H_SWELL_DATASET_REPORT.md) | [Gate 3I Audit](docs/GATE3I_SWELL_DATASET_AUDIT.md)
+- **Voltage Interruption:** [Gate 3J Implementation](docs/GATE3J_INTERRUPTION_IMPLEMENTATION.md) | [Gate 3K Report](docs/GATE3K_INTERRUPTION_DATASET_REPORT.md) | [Gate 3L Audit](docs/GATE3L_INTERRUPTION_DATASET_AUDIT.md)
+- **Harmonics:** [Gate 3M Implementation](docs/GATE3M_HARMONICS_IMPLEMENTATION.md) | [Gate 3N Report](docs/GATE3N_HARMONICS_DATASET_REPORT.md) | [Gate 3O Audit](docs/GATE3O_HARMONICS_DATASET_AUDIT.md)
+- **Voltage Flicker:** [Gate 3P Implementation](docs/GATE3P_FLICKER_IMPLEMENTATION.md) | [Gate 3Q Report](docs/GATE3Q_FLICKER_DATASET_REPORT.md) | [Gate 3R Audit](docs/GATE3R_FLICKER_DATASET_AUDIT.md)
+- **Voltage Notch:** [Gate 3S Implementation](docs/GATE3S_NOTCH_IMPLEMENTATION.md) | [Gate 3T Report](docs/GATE3T_NOTCH_DATASET_REPORT.md) | [Gate 3U Audit](docs/GATE3U_NOTCH_DATASET_AUDIT.md)
+- **Oscillatory Transient:** [Gate 3V Implementation](docs/GATE3V_TRANSIENT_IMPLEMENTATION.md) | [Gate 3W Report](docs/GATE3W_TRANSIENT_DATASET_REPORT.md) | [Gate 3X Audit](docs/GATE3X_TRANSIENT_DATASET_AUDIT.md)
+- **Phase 4 ML Gates:** [Gate 4A Dataset Freeze](docs/GATE4A_FINAL_DATASET_FREEZE_AUDIT.md) | [Gate 4B Baseline Models](docs/GATE4B_BASELINE_MODEL_COMPARISON.md) | [Gate 4C MLP Tuning](docs/GATE4C_MLP_TUNING_AUDIT.md) | [Gate 4D Locked Test](docs/GATE4D_LOCKED_TEST_EVALUATION.md)
+- **Historical Audits:** [60-Hz Compatibility Audit](docs/GATE2_60HZ_COMPATIBILITY_AUDIT.md) | [Gate 3 Training Audit](docs/GATE3_DATASET_TRAINING_AUDIT.md) | [IEEE 9-Bus Model Audit](docs/IEEE9BUS_MODEL_AUDIT.md) | [IEEE Alignment Audit](docs/IEEE_ALIGNMENT_AUDIT.md) | [Waveform Standard Audit](docs/WAVEFORM_STANDARD_AUDIT.md) | [Data Leakage Audit](docs/DATA_LEAKAGE_AUDIT.md) | [Dataset Generation Audit](docs/DATASET_GENERATION_AUDIT.md) | [Dataset Specification](docs/DATASET_SPECIFICATION.md) | [Dataset Audit](docs/DATASET_AUDIT.md) | [Integration Audit](docs/INTEGRATION.md) | [Integration Regression Report](docs/INTEGRATION_REGRESSION_REPORT.md) | [ML Readiness Audit](docs/ML_READINESS.md) | [Audit Status Matrix](docs/AUDIT_STATUS.md) | [Project Audit Record](docs/PROJECT_AUDIT.md) | [Project State Baseline](docs/PROJECT_STATE.md)
 
----
-
-## 7. Standards-Annotated Waveform Visualizations (IEEE Std 1159 & IEEE Std 519)
-
-Publication-ready, physical standards-annotated waveform plots can be generated via [`scripts/generate_ieee_waveform_graphs.py`](scripts/generate_ieee_waveform_graphs.py):
-
-```bash
-# Generate high-resolution waveform graphs and 8-panel comparison overview
-python scripts/generate_ieee_waveform_graphs.py
-```
-
-Each generated figure features a three-panel comparative layout:
-1. **Top Panel:** Pure nominal reference sinusoid $v(t) = V_m \sin(2\pi f_0 t)$ ($f_0 = 60.0\text{ Hz}$).
-2. **Middle Panel:** Disturbed waveform synthesized according to physical equations.
-3. **Bottom Panel:** Comparative overlay with shaded disturbance regions and exact engineering parameter callouts.
-
-> **Note on Parameter Specifications**: The numerical values listed below (e.g., sag depth $0.45\text{ pu}$, swell magnitude $1.45\text{ pu}$, transient oscillation $550\text{ Hz}$, flicker modulation $8.0\text{ Hz}$) represent **curated, standards-aligned simulation and demonstration parameters** selected for clean visual contrast and benchmark reproducibility. They fall within the allowable classification envelopes defined by IEEE Std 1159, IEEE Std 519, and IEEE Std 1453, but are illustrative design settings rather than singular numerical mandates of those standards.
-
-### Curated Disturbance Parameter Specifications:
-- **Voltage Sag (IEEE 1159):** Remaining magnitude $0.45\text{ pu}$, duration $4.0\text{ cycles}$ ($66.7\text{ ms}$), onset $t = 30.0\text{ ms}$.
-- **Voltage Swell (IEEE 1159):** Elevated magnitude $1.45\text{ pu}$, duration $4.0\text{ cycles}$ ($66.7\text{ ms}$), onset $t = 30.0\text{ ms}$.
-- **Voltage Interruption (IEEE 1159):** Residual magnitude $0.03\text{ pu}$, duration $5.0\text{ cycles}$ ($83.3\text{ ms}$), onset $t = 30.0\text{ ms}$.
-- **Harmonics (IEEE 519):** Odd integer orders ($H_3 = 0.12\text{ pu}$, $H_5 = 0.07\text{ pu}$, $H_7 = 0.04\text{ pu}$), $\text{THD} = 14.46\%$.
-- **Oscillatory Transient (IEEE 1159):** Oscillation frequency $f_{\text{trans}} = 550.0\text{ Hz}$, peak addition $0.85\text{ pu}$, decay $\tau = 5.0\text{ ms}$, onset $t = 65.0\text{ ms}$.
-- **Voltage Flicker (IEEE 1453):** Sub-synchronous modulation frequency $f_m = 8.0\text{ Hz}$, modulation depth $8.0\%$.
-- **Voltage Notch (IEEE 519):** Commutation notch depth $0.45\text{ pu}$, notch width $0.035\times 2\pi\text{ rad}$ ($583\ \mu\text{s}$).
-
----
-
-## 8. Verification & Performance Boundaries
-
-The complete test suite verifies mathematical parity, signal processing invariants, physical disturbance generation, model inference, and dashboard backend services:
-
-```bash
-# Run the full project test suite
-pytest -v
-```
-
-**Test Execution Results:**
-- **Total Tests:** 324
-- **Passed:** 322
-- **Skipped:** 2 (CUDA acceleration conditionally skipped on CPU environments)
-- **Failed:** 0
-- **Execution Time:** ~13.5 seconds
-
-> **Scope of Validation & Performance Claims**:
-> - **Evaluation Domain**: Model generalization metrics (99.92% accuracy, 99.93% macro F1) are measured on the trajectory-disjoint held-out test partition (1,295 frames across 40 unseen trajectories) of the simulated WSCC 9-bus grid model. While robust to unseen network operating points within the physical simulation envelope, these results reflect electromagnetic simulations and have not yet been evaluated on real-world utility physical grid substation PMU recordings.
-> - **Inference Latency**: Benchmarked single-sample CPU latency (~190 µs) measures pure Python/x86 forward-pass evaluation of the 32-feature vector on host hardware. It does not include network round-trip time, hardware-in-the-loop streaming delays, or microcontroller clock constraints (addressed separately in Phase 6).
-
----
-
-## 9. Documentation Quick Links
-
-- [Documentation Landing Page](docs/README.md)
-- [Reproducing Phase 4 on a Clean Clone](docs/REPRODUCING_PHASE4.md)
-- [Artifact Integrity Reconciliation Audit](docs/ARTIFACT_INTEGRITY_RECONCILIATION.md)
-- [Master Project Status](docs/PROJECT_STATUS.md)
-- [Authoritative Source of Truth](docs/SOURCE_OF_TRUTH.md)
-- [Gate Verification Matrix (Gates 1–4D)](docs/GATE_INDEX.md)
-- [Developer Quickstart & Execution Guide](RUNTHISPROJECT.md)
+### F. Historical Inception & Future Extension Scaffolding
+- [Academic Project Execution Plan (Historical)](doc/PQD_Project_Execution_Plan.md) & [Early System Design](doc/system_design.md).
+- [Academic Paper Draft](docs/paper_draft.md).
+- [Hardware Evaluation (Phase 6 Scaffolding)](docs/HARDWARE_EVALUATION.md) & [Hardware Integration](docs/HARDWARE_INTEGRATION.md).
+- [Real Hardware Validation Protocol (Phase 6)](docs/REAL_HARDWARE_VALIDATION.md) & [Latency Benchmarks](docs/LATENCY_BENCHMARK.md).
+- [Hardware Safety Checklist](hardware/safety_checklist.md).
+- [ESP32 Embedded HIL Guide (Phase 6 Scaffolding)](future/esp32-hil/README.md) & [Future Extensions Index](future/README.md).
+- [Subsystem READMEs: DSP](dsp/README.md) | [ML](ml/README.md) | [Scenarios](scenarios/README.md) | [Scripts](scripts/README.md) | [Tests](tests/README.md) | [Integration](integration/matlab/README.md) | [Mobile App (Future)](mobile_app/README_MOBILE.md) | [Baseline Experiments](experiments/baseline/README.md) | [Classical Experiments](experiments/classical_benchmark/README.md).

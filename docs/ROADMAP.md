@@ -39,29 +39,32 @@
                            │
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  PHASE 4: 60-Hz Machine Learning Training & Evaluation │  [PENDING]
+│  PHASE 4: 60-Hz Machine Learning Training & Evaluation │  [COMPLETE - HISTORICAL]
 │  • Global dataset freeze & feature scaling             │
 │  • Multi-model baseline comparison (MLP, RF, 1D-CNN)   │
 │  • Hyperparameter tuning & cross-entropy training      │
-│  • Independent test set evaluation & calibration       │
-│  • Model export (JSON, C++ header, TFLite Micro)       │
+│  • Independent test set evaluation (99.92% Acc)        │
+│  • Historical models preserved under global freeze     │
 └──────────────────────────┬─────────────────────────────┘
                            │
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  PHASE 5: Live Interactive Demonstration MVP           │  [PENDING]
-│  • Demo derivative Simulink model & PQD Rack           │
-│  • Interactive PQD Controller & MATLAB trigger         │
-│  • Sliding ring buffer & continuous streaming bridge   │
-│  • Live CRT oscilloscope & web telemetry dashboard     │
+│  PHASE 5: Multi-Model Comparative Research & Dashboard │  [COMPLETE]
+│  • Dual-rate simulation acquisition (20 kHz & 5 kHz)   │
+│  • 144 core trajectories (4,608 frames Phase 5C)       │
+│  • Classical ML vs. 1D-CNN vs. TCN vs. HybridPQNet     │
+│  • Feature explainability & group ablations            │
+│  • One-time quarantined challenge evaluation           │
+│  • Interactive research comparison dashboard           │
 └──────────────────────────┬─────────────────────────────┘
                            │
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  PHASE 6: Optional Hardware-in-the-Loop & Deployment   │  [PLANNED]
-│  • ESP32 microcontroller edge inference                │
-│  • High-voltage safety front-end & hardware DAQ        │
-│  • Embedded latency benchmarks & field validation      │
+│  PHASE 6: Embedded Hardware-in-the-Loop & Deployment   │  [FUTURE SCOPE - NOT IMPLEMENTED]
+│  • Microcontroller edge inference (ESP32)              │
+│  • Isolated high-voltage acquisition front-end         │
+│  • Real-time HIL loop with hardware DAC/ADC            │
+│  • Physical grid deployment & latency validation       │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -121,7 +124,11 @@ All 8 disturbance classes have completed physical simulation, dataset extraction
 - [x] **Demonstration Dashboard Integration**: Integrated 5-tab Phase 5 Comparative Research Explorer into `app.py` and `dashboard_backend.py` with standalone recorded mode.
 - [x] **Master Scientific Research Report**: Published comprehensive research monograph in `docs/PHASE5_FINAL_RESEARCH_REPORT.md`.
 
-### Phase 6 — Optional Hardware-in-the-Loop & Advanced Deployment (`PLANNED`)
-- [ ] **ESP32 Edge Deployment**: Flash exported C++ MLP weights to ESP32 microcontroller and verify embedded execution latency ($< 35\,\text{ms}$).
-- [ ] **Analog Safety Front-End**: Interface physical voltage transducers with ESP32 ADC channels.
-- [ ] **Full HIL Closed Loop**: Drive hardware ADC inputs from real-time simulator DAC outputs and stream classification results over UART/WiFi.
+### Phase 6 — Planned / Future Scope — Not Yet Implemented
+> **Phase 6 Status Notice:** Phase 6 represents future research extensions that have **not been implemented or authorized**. The active production and research scope of this repository is complete through Phase 5. No firmware deployment, physical hardware front-end, or live utility grid connection has been executed.
+
+Planned future objectives (for future work proposals):
+- [ ] **1. Embedded or Edge-Device Inference:** Flash optimized C++ MLP weights or TFLite Micro flatbuffers to microcontroller targets (e.g., ESP32-WROOM-32) and measure real-time forward-pass latency ($< 35\,\text{ms}$).
+- [ ] **2. Safe Isolated Electrical Front-End:** Design, build, and laboratory-certify galvanic isolation (PC817 optocouplers, 3.3V Zener clamping, fast-blow fusing, and relay disconnection) between high-voltage transducer outputs and microcontroller ADC inputs.
+- [ ] **3. Real-Time Hardware-in-the-Loop (HIL) Integration:** Couple real-time simulator DAC output channels directly to external hardware ADC pins to validate closed-loop detection latencies under dynamic grid conditions.
+- [ ] **4. Physical Hardware Latency & Reliability Evaluation:** Benchmark edge classification reliability, clock drift, thermal stability, and memory footprint on physical embedded devices.

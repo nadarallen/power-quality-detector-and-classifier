@@ -5,7 +5,7 @@
 **Repository:** `https://github.com/nadarallen/power-quality-detector-and-classifier`  
 **Development Branch:** `research/pq-comparative-lab`  
 **Stable Demonstration Baseline:** `main` (Preserved intact)  
-**Authoritative Dataset:** [`data/ieee9bus_60hz_phase5c/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5c/)  
+**Authoritative Dataset:** [`data/ieee9bus_60hz_phase5c/`](../data/ieee9bus_60hz_phase5c)  
 **Date of Completion:** 2026-10-27  
 
 ---
@@ -52,6 +52,10 @@ Partitions:
   - Val:       1,024 frames (32 trajectories, 4 conditions)
   - Challenge: 1,024 frames (32 trajectories, 4 held-out stress conditions)
 ```
+
+> **Simulation Matrix & Execution Clarifications:**
+> 1. **Core 144 Matrix vs. 368 Extended Matrix:** The simulation runner [`scripts/run_phase5c_bulk_simulation.m`](../scripts/run_phase5c_bulk_simulation.m) loads and simulates the 144 core trajectories from [`scenarios/phase5b2_simulation_matrix.json`](../scenarios/phase5b2_simulation_matrix.json) ($144 \times 32 = 4,608$ frames). The 368-trajectory extended matrix ([`scenarios/phase5c_extended_matrix.json`](../scenarios/phase5c_extended_matrix.json)) specifies a versioned, forward-looking extension with 224 supplementary scenarios across 40 operating conditions for future scaled research.
+> 2. **Initial Bulk Generation vs. Verification/Reuse Run:** The continuous 144 raw trajectories were generated in an initial simulation run in MATLAB R2025a (wall time: 408.26 s) and committed under commit `5d4cf51`. A subsequent verification run of `run_phase5c_bulk_simulation()` inspected existing `.mat` files, validated their 7,601-point lengths, and safely skipped re-simulation across all 144 files in 2.09 s wall time with 0 failures, verifying dataset completeness without overwriting valid data.
 
 ### Physical Disturbance Mechanisms
 1. **Normal (Index 3):** Unperturbed steady-state operation across diverse active/reactive load balances and generation dispatches ($V_{\text{rms}} \in [0.555, 0.635]\text{ pu}$, $\text{THD} < 0.09\%$).
@@ -133,7 +137,7 @@ The controlled comparison in Track C provides unambiguous empirical evidence:
 
 Automated physical validation across all 144 trajectories revealed:
 - **118 Trajectories (81.9%):** Passed all IEEE 1159 physical criteria.
-- **26 Trajectories (18.1%):** Flagged in the failure registry [`physical_validation_failures.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/data/ieee9bus_60hz_phase5c/physical_validation_failures.json).
+- **26 Trajectories (18.1%):** Flagged in the failure registry [`physical_validation_failures.json`](../data/ieee9bus_60hz_phase5c/physical_validation_failures.json).
 
 ### Critical Physical Insights:
 - **Operating-Point Voltage Shifts:** In light loading (Cond 2) or renewable redispatch (Cond 33), power flow naturally shifts bus voltage to 1.07 pu. Disturbance validators assuming a rigid 1.0 pu baseline generate false anti-swell or anti-sag alarms. Adaptive baseline tracking relative to pre-event operating conditions is essential.
@@ -177,3 +181,4 @@ All research outputs, scripts, frozen datasets, model checkpoints, and documenta
 | Clean-clone setup and dashboard launch | PASS/FAIL | **PASS** |
 | Research branch pushed | Commit hash | Dedicated research branch `research/pq-comparative-lab` |
 | Main branch preserved | Confirmed state | Stable baseline intact |
+| Phase 6 embedded HIL deployment | Scope Status | **PLANNED / FUTURE SCOPE — NOT YET IMPLEMENTED** |

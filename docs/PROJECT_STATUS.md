@@ -57,8 +57,8 @@ The current project architecture follows an unbroken physical-to-digital chain o
                            │
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  F. Machine Learning Classification                    │  [PENDING - Phase 4]
-│     (Legacy 50-Hz MLP evaluated as OUT_OF_DOMAIN)      │
+│  F. Machine Learning Classification                    │  [COMPLETED]
+│     (Historical 60-Hz MLP & Phase 5 Multi-Model Suite) │
 └──────────────────────────┬─────────────────────────────┘
                            │
                            ▼
@@ -69,20 +69,21 @@ The current project architecture follows an unbroken physical-to-digital chain o
                            │
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  H. Telemetry, Event Store & Live MVP UI               │  [PENDING - Phase 5]
-│     (SSE streaming, CRT scope overlay, dashboard)      │
+│  H. Telemetry, Event Store & Research Dashboard UI     │  [COMPLETED]
+│     (Mode A Recorded Verified; Mode B Live Unverified) │
 └────────────────────────────────────────────────────────┘
 ```
 
 ### Readiness Status by Subsystem
 - **Simscape Electrical Model**: **COMPLETED** (Pristine reference preserved; working disturbance model equipped with all physical mechanisms).
 - **Physical Disturbance Generation**: **COMPLETED** (All 8 classes implemented, synthesized, and audited).
-- **Dataset Synthesis**: **COMPLETED** (9,184 total frames across 8 classes, 32 operating conditions, 0 leakage).
+- **Dataset Synthesis**: **COMPLETED** (9,184 historical frames across 8 classes, 32 operating conditions; 4,608 Phase 5C dual-rate frames).
 - **Production DSP Engine**: **COMPLETED** (32 features, phase-aware orthogonal SNR, numerical parity $< 10^{-3}$).
-- **Three-Phase Event Engine**: **READY** (Unit and integration tested with 300 tests).
+- **Three-Phase Event Engine**: **READY** (Unit and integration tested with 358 tests).
 - **REST Telemetry & Ingest Server**: **READY** (`server.py`, ThreadingHTTPServer, SSE endpoints operational).
-- **Machine Learning (60-Hz Native)**: **PENDING** (To be trained in Phase 4 under strict protocol).
-- **Live Interactive Demonstration MVP**: **PENDING** (Interactive controller and real-time dashboard planned for Phase 5).
+- **Machine Learning (60-Hz Native)**: **COMPLETED** (Historical Phase 4 baselines and Phase 5 comparative models completed).
+- **Interactive Research Dashboard**: **COMPLETED** (Mode A recorded-data mode verified standalone; Mode B live Simulink runner unverified / optional).
+- **Phase 6 Embedded / HIL Deployment**: **PLANNED / FUTURE SCOPE — NOT YET IMPLEMENTED** (Hardware front-end and firmware inference remain future scope).
 
 ---
 
@@ -186,9 +187,9 @@ Retraining the neural network on the completed 60-Hz physical dataset is deferre
 To guarantee experimental integrity and reproducibility, the following artifacts remain under absolute global freeze:
 1. **Pristine Reference Model**: [`IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx`](../IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx) must remain byte-for-byte identical.
 2. **Feature Contract**: The 32-feature extraction signature, feature ordering, and phase-aware SNR algorithm must not be modified.
-3. **Validated Datasets**: All 9,184 generated frames, features, and scenario catalogs under `data/ieee9bus_60hz/` are immutable.
-4. **No Premature ML Retraining**: No model training or weight adjustments are permitted until Phase 4 begins.
-5. **No Premature Live Controls**: Live demonstration controls and streaming dashboards are withheld until Phase 5.
+3. **Validated Historical Datasets**: All 9,184 generated frames, features, and scenario catalogs under `data/ieee9bus_60hz/` are immutable historical baselines.
+4. **Phase 5C Dataset Freeze**: All 4,608 dual-rate frames and manifest under `data/ieee9bus_60hz_phase5c/` are frozen and verified.
+5. **Phase 6 Scope Isolation**: Phase 6 embedded firmware, hardware interfaces, and HIL deployments remain strictly future scope; no firmware deployment or live electrical grid connection is authorized.
 
 ---
 
@@ -224,5 +225,6 @@ PHASE 4 (ML)    = COMPLETE (Historical Baseline Models & Tests)
 PHASE 5 (RES)   = COMPLETE (Expanded Matrix, Dual-Rate Waveforms,
                             Classical ML, 1D-CNN, TCN, HybridPQNet,
                             Explainability Lab, Challenge Evaluation)
+PHASE 6 (HIL)   = PLANNED / FUTURE SCOPE — NOT YET IMPLEMENTED
 ============================================================
 ```

@@ -2,10 +2,10 @@
 
 **Study:** IEEE 9-Bus WSCC Multi-Model Power Quality Comparative Research  
 **Branch:** `research/pq-comparative-lab`  
-**Experiment Directory:** [`experiments/phase5c/classical/`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/classical/)  
-**Metrics Artifact:** [`experiments/phase5c/classical/classical_benchmark_metrics.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/classical/classical_benchmark_metrics.json)  
-**Ablation Artifact:** [`experiments/phase5c/classical/feature_ablation_results.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/classical/feature_ablation_results.json)  
-**Permutation Importance:** [`experiments/phase5c/classical/permutation_importance.json`](file:///d:/my%20study/Project/power-quality-detector-and-classifier/experiments/phase5c/classical/permutation_importance.json)  
+**Experiment Directory:** [`experiments/phase5c/classical/`](../experiments/phase5c/classical)  
+**Metrics Artifact:** [`experiments/phase5c/classical/classical_benchmark_metrics.json`](../experiments/phase5c/classical/classical_benchmark_metrics.json)  
+**Ablation Artifact:** [`experiments/phase5c/classical/feature_ablation_results.json`](../experiments/phase5c/classical/feature_ablation_results.json)  
+**Permutation Importance:** [`experiments/phase5c/classical/permutation_importance.json`](../experiments/phase5c/classical/permutation_importance.json)  
 **Date:** 2026-10-27  
 
 ---
