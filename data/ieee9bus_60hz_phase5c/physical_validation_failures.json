@@ -1,0 +1,1875 @@
+[
+  {
+    "trajectory_id": "P5B2_FLI_0002_ab_c02_mod",
+    "class": "Flicker",
+    "operating_condition_id": 2,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Flicker",
+      "affected_phases": [
+        "A",
+        "B"
+      ],
+      "phase_configuration": "phase-to-phase",
+      "primary_phase": "B",
+      "dominant_freq_hz": 60.0,
+      "thd_percent": 0.02,
+      "primary_envelope_depth": 0.0601,
+      "primary_modulation_freq_hz": 10.0,
+      "primary_modulation_cycles": 2.0,
+      "gates": {
+        "FLK-01_depth_gt_0.02": true,
+        "FLK-02_depth_lt_0.15": true,
+        "FLK-03_freq_3_to_20Hz": true,
+        "FLK-04_anti_sag": true,
+        "FLK-05_anti_swell": false,
+        "FLK-06_thd_lt_3pct": true,
+        "FLK-07_cycles_ge_1.0": true,
+        "FLK-ANTI-INTERRUPT": true,
+        "FLK-FREQ_59.5_60.5": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_envelope": {
+        "A": {
+          "envelope_depth": 0.0537,
+          "envelope_freq_hz": 9.5,
+          "modulation_cycles": 1.9,
+          "env_mean": 0.9024,
+          "env_min": 0.8392,
+          "env_max": 0.936
+        },
+        "B": {
+          "envelope_depth": 0.0601,
+          "envelope_freq_hz": 10.0,
+          "modulation_cycles": 2.0,
+          "env_mean": 0.9058,
+          "env_min": 0.8433,
+          "env_max": 0.9522
+        },
+        "C": {
+          "envelope_depth": 0.0092,
+          "envelope_freq_hz": 10.0,
+          "modulation_cycles": 2.0,
+          "env_mean": 0.8794,
+          "env_min": 0.8716,
+          "env_max": 0.8878
+        }
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5843,
+          "max_rms": 0.6736,
+          "residual_ratio": 0.9925,
+          "event_ratio": 1.1443,
+          "duration_ms": 151.2
+        },
+        "B": {
+          "min_rms": 0.5889,
+          "max_rms": 0.6804,
+          "residual_ratio": 1.0004,
+          "event_ratio": 1.1558,
+          "duration_ms": 148.6
+        },
+        "C": {
+          "min_rms": 0.6164,
+          "max_rms": 0.6278,
+          "residual_ratio": 1.0471,
+          "event_ratio": 1.0665,
+          "duration_ms": 0.0
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_FLI_0003_abc_c03_sev",
+    "class": "Flicker",
+    "operating_condition_id": 3,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Flicker",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "C",
+      "dominant_freq_hz": 60.0,
+      "thd_percent": 0.35,
+      "primary_envelope_depth": 0.0619,
+      "primary_modulation_freq_hz": 7.0,
+      "primary_modulation_cycles": 1.4,
+      "gates": {
+        "FLK-01_depth_gt_0.02": true,
+        "FLK-02_depth_lt_0.15": true,
+        "FLK-03_freq_3_to_20Hz": true,
+        "FLK-04_anti_sag": true,
+        "FLK-05_anti_swell": false,
+        "FLK-06_thd_lt_3pct": true,
+        "FLK-07_cycles_ge_1.0": true,
+        "FLK-ANTI-INTERRUPT": true,
+        "FLK-FREQ_59.5_60.5": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_envelope": {
+        "A": {
+          "envelope_depth": 0.05,
+          "envelope_freq_hz": 7.0,
+          "modulation_cycles": 1.4,
+          "env_mean": 0.8864,
+          "env_min": 0.8334,
+          "env_max": 0.922
+        },
+        "B": {
+          "envelope_depth": 0.0521,
+          "envelope_freq_hz": 7.0,
+          "modulation_cycles": 1.4,
+          "env_mean": 0.8897,
+          "env_min": 0.836,
+          "env_max": 0.9287
+        },
+        "C": {
+          "envelope_depth": 0.0619,
+          "envelope_freq_hz": 7.0,
+          "modulation_cycles": 1.4,
+          "env_mean": 0.8803,
+          "env_min": 0.8234,
+          "env_max": 0.9323
+        }
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5857,
+          "max_rms": 0.656,
+          "residual_ratio": 0.995,
+          "event_ratio": 1.1143,
+          "duration_ms": 26.8
+        },
+        "B": {
+          "min_rms": 0.5871,
+          "max_rms": 0.6596,
+          "residual_ratio": 0.9973,
+          "event_ratio": 1.1205,
+          "duration_ms": 35.2
+        },
+        "C": {
+          "min_rms": 0.5797,
+          "max_rms": 0.6524,
+          "residual_ratio": 0.9847,
+          "event_ratio": 1.1082,
+          "duration_ms": 18.0
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_FLI_0005_a_c05_mod",
+    "class": "Flicker",
+    "operating_condition_id": 5,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Flicker",
+      "affected_phases": [
+        "A",
+        "C"
+      ],
+      "phase_configuration": "phase-to-phase",
+      "primary_phase": "A",
+      "dominant_freq_hz": 60.0,
+      "thd_percent": 0.02,
+      "primary_envelope_depth": 0.0721,
+      "primary_modulation_freq_hz": 15.0,
+      "primary_modulation_cycles": 3.0,
+      "gates": {
+        "FLK-01_depth_gt_0.02": true,
+        "FLK-02_depth_lt_0.15": true,
+        "FLK-03_freq_3_to_20Hz": true,
+        "FLK-04_anti_sag": false,
+        "FLK-05_anti_swell": true,
+        "FLK-06_thd_lt_3pct": true,
+        "FLK-07_cycles_ge_1.0": true,
+        "FLK-ANTI-INTERRUPT": true,
+        "FLK-FREQ_59.5_60.5": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_envelope": {
+        "A": {
+          "envelope_depth": 0.0721,
+          "envelope_freq_hz": 15.0,
+          "modulation_cycles": 3.0,
+          "env_mean": 0.8176,
+          "env_min": 0.7486,
+          "env_max": 0.8665
+        },
+        "B": {
+          "envelope_depth": 0.0154,
+          "envelope_freq_hz": 15.0,
+          "modulation_cycles": 3.0,
+          "env_mean": 0.8061,
+          "env_min": 0.7942,
+          "env_max": 0.8191
+        },
+        "C": {
+          "envelope_depth": 0.0208,
+          "envelope_freq_hz": 15.5,
+          "modulation_cycles": 3.1,
+          "env_mean": 0.7943,
+          "env_min": 0.7772,
+          "env_max": 0.8102
+        }
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.517,
+          "max_rms": 0.6261,
+          "residual_ratio": 0.8782,
+          "event_ratio": 1.0636,
+          "duration_ms": 136.4
+        },
+        "B": {
+          "min_rms": 0.5618,
+          "max_rms": 0.579,
+          "residual_ratio": 0.9544,
+          "event_ratio": 0.9836,
+          "duration_ms": 0.0
+        },
+        "C": {
+          "min_rms": 0.5498,
+          "max_rms": 0.5725,
+          "residual_ratio": 0.9339,
+          "event_ratio": 0.9725,
+          "duration_ms": 0.0
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_FLI_0008_ab_c08_mod",
+    "class": "Flicker",
+    "operating_condition_id": 8,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Flicker",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "B",
+      "dominant_freq_hz": 60.0,
+      "thd_percent": 0.29,
+      "primary_envelope_depth": 0.0615,
+      "primary_modulation_freq_hz": 6.5,
+      "primary_modulation_cycles": 1.3,
+      "gates": {
+        "FLK-01_depth_gt_0.02": true,
+        "FLK-02_depth_lt_0.15": true,
+        "FLK-03_freq_3_to_20Hz": true,
+        "FLK-04_anti_sag": true,
+        "FLK-05_anti_swell": false,
+        "FLK-06_thd_lt_3pct": true,
+        "FLK-07_cycles_ge_1.0": true,
+        "FLK-ANTI-INTERRUPT": true,
+        "FLK-FREQ_59.5_60.5": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_envelope": {
+        "A": {
+          "envelope_depth": 0.0512,
+          "envelope_freq_hz": 7.0,
+          "modulation_cycles": 1.4,
+          "env_mean": 0.9028,
+          "env_min": 0.8498,
+          "env_max": 0.9423
+        },
+        "B": {
+          "envelope_depth": 0.0615,
+          "envelope_freq_hz": 6.5,
+          "modulation_cycles": 1.3,
+          "env_mean": 0.9032,
+          "env_min": 0.8542,
+          "env_max": 0.9652
+        },
+        "C": {
+          "envelope_depth": 0.0227,
+          "envelope_freq_hz": 6.0,
+          "modulation_cycles": 1.2,
+          "env_mean": 0.8754,
+          "env_min": 0.856,
+          "env_max": 0.8958
+        }
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.6027,
+          "max_rms": 0.6614,
+          "residual_ratio": 1.0237,
+          "event_ratio": 1.1235,
+          "duration_ms": 186.6
+        },
+        "B": {
+          "min_rms": 0.6058,
+          "max_rms": 0.6745,
+          "residual_ratio": 1.029,
+          "event_ratio": 1.1457,
+          "duration_ms": 168.4
+        },
+        "C": {
+          "min_rms": 0.6119,
+          "max_rms": 0.6255,
+          "residual_ratio": 1.0394,
+          "event_ratio": 1.0625,
+          "duration_ms": 0.0
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_FLI_0009_abc_c10_sev",
+    "class": "Flicker",
+    "operating_condition_id": 10,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Flicker",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "C",
+      "dominant_freq_hz": 60.0,
+      "thd_percent": 0.31,
+      "primary_envelope_depth": 0.0806,
+      "primary_modulation_freq_hz": 12.0,
+      "primary_modulation_cycles": 2.4,
+      "gates": {
+        "FLK-01_depth_gt_0.02": true,
+        "FLK-02_depth_lt_0.15": true,
+        "FLK-03_freq_3_to_20Hz": true,
+        "FLK-04_anti_sag": false,
+        "FLK-05_anti_swell": true,
+        "FLK-06_thd_lt_3pct": true,
+        "FLK-07_cycles_ge_1.0": true,
+        "FLK-ANTI-INTERRUPT": true,
+        "FLK-FREQ_59.5_60.5": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_envelope": {
+        "A": {
+          "envelope_depth": 0.0679,
+          "envelope_freq_hz": 12.0,
+          "modulation_cycles": 2.4,
+          "env_mean": 0.8047,
+          "env_min": 0.7395,
+          "env_max": 0.8488
+        },
+        "B": {
+          "envelope_depth": 0.0739,
+          "envelope_freq_hz": 12.0,
+          "modulation_cycles": 2.4,
+          "env_mean": 0.8078,
+          "env_min": 0.7363,
+          "env_max": 0.8557
+        },
+        "C": {
+          "envelope_depth": 0.0806,
+          "envelope_freq_hz": 12.0,
+          "modulation_cycles": 2.4,
+          "env_mean": 0.7954,
+          "env_min": 0.7139,
+          "env_max": 0.8421
+        }
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5107,
+          "max_rms": 0.6098,
+          "residual_ratio": 0.8675,
+          "event_ratio": 1.0359,
+          "duration_ms": 94.6
+        },
+        "B": {
+          "min_rms": 0.5128,
+          "max_rms": 0.6128,
+          "residual_ratio": 0.871,
+          "event_ratio": 1.0409,
+          "duration_ms": 168.8
+        },
+        "C": {
+          "min_rms": 0.5064,
+          "max_rms": 0.6023,
+          "residual_ratio": 0.8603,
+          "event_ratio": 1.0231,
+          "duration_ms": 168.6
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_FLI_0012_abc_c11_sev",
+    "class": "Flicker",
+    "operating_condition_id": 11,
+    "split": "val",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Flicker",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "dominant_freq_hz": 60.0,
+      "thd_percent": 0.04,
+      "primary_envelope_depth": 0.0793,
+      "primary_modulation_freq_hz": 10.0,
+      "primary_modulation_cycles": 2.0,
+      "gates": {
+        "FLK-01_depth_gt_0.02": true,
+        "FLK-02_depth_lt_0.15": true,
+        "FLK-03_freq_3_to_20Hz": true,
+        "FLK-04_anti_sag": true,
+        "FLK-05_anti_swell": false,
+        "FLK-06_thd_lt_3pct": true,
+        "FLK-07_cycles_ge_1.0": true,
+        "FLK-ANTI-INTERRUPT": true,
+        "FLK-FREQ_59.5_60.5": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_envelope": {
+        "A": {
+          "envelope_depth": 0.0793,
+          "envelope_freq_hz": 10.0,
+          "modulation_cycles": 2.0,
+          "env_mean": 0.8746,
+          "env_min": 0.7923,
+          "env_max": 0.931
+        },
+        "B": {
+          "envelope_depth": 0.0789,
+          "envelope_freq_hz": 10.0,
+          "modulation_cycles": 2.0,
+          "env_mean": 0.8777,
+          "env_min": 0.7958,
+          "env_max": 0.9343
+        },
+        "C": {
+          "envelope_depth": 0.0782,
+          "envelope_freq_hz": 10.0,
+          "modulation_cycles": 2.0,
+          "env_mean": 0.868,
+          "env_min": 0.788,
+          "env_max": 0.9237
+        }
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5581,
+          "max_rms": 0.6584,
+          "residual_ratio": 0.9481,
+          "event_ratio": 1.1185,
+          "duration_ms": 126.4
+        },
+        "B": {
+          "min_rms": 0.5597,
+          "max_rms": 0.6617,
+          "residual_ratio": 0.9507,
+          "event_ratio": 1.124,
+          "duration_ms": 127.2
+        },
+        "C": {
+          "min_rms": 0.5559,
+          "max_rms": 0.6554,
+          "residual_ratio": 0.9442,
+          "event_ratio": 1.1132,
+          "duration_ms": 117.2
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_FLI_0015_abc_c33_sev",
+    "class": "Flicker",
+    "operating_condition_id": 33,
+    "split": "challenge",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Flicker",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "C",
+      "dominant_freq_hz": 60.0,
+      "thd_percent": 0.02,
+      "primary_envelope_depth": 0.0844,
+      "primary_modulation_freq_hz": 15.0,
+      "primary_modulation_cycles": 3.0,
+      "gates": {
+        "FLK-01_depth_gt_0.02": true,
+        "FLK-02_depth_lt_0.15": true,
+        "FLK-03_freq_3_to_20Hz": true,
+        "FLK-04_anti_sag": true,
+        "FLK-05_anti_swell": false,
+        "FLK-06_thd_lt_3pct": true,
+        "FLK-07_cycles_ge_1.0": true,
+        "FLK-ANTI-INTERRUPT": true,
+        "FLK-FREQ_59.5_60.5": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_envelope": {
+        "A": {
+          "envelope_depth": 0.082,
+          "envelope_freq_hz": 15.0,
+          "modulation_cycles": 3.0,
+          "env_mean": 0.8902,
+          "env_min": 0.8012,
+          "env_max": 0.9472
+        },
+        "B": {
+          "envelope_depth": 0.0839,
+          "envelope_freq_hz": 15.0,
+          "modulation_cycles": 3.0,
+          "env_mean": 0.8935,
+          "env_min": 0.8019,
+          "env_max": 0.9517
+        },
+        "C": {
+          "envelope_depth": 0.0844,
+          "envelope_freq_hz": 15.0,
+          "modulation_cycles": 3.0,
+          "env_mean": 0.8842,
+          "env_min": 0.7923,
+          "env_max": 0.9416
+        }
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5496,
+          "max_rms": 0.6877,
+          "residual_ratio": 0.9335,
+          "event_ratio": 1.1681,
+          "duration_ms": 162.2
+        },
+        "B": {
+          "min_rms": 0.5536,
+          "max_rms": 0.6917,
+          "residual_ratio": 0.9403,
+          "event_ratio": 1.1749,
+          "duration_ms": 161.4
+        },
+        "C": {
+          "min_rms": 0.5478,
+          "max_rms": 0.6843,
+          "residual_ratio": 0.9306,
+          "event_ratio": 1.1625,
+          "duration_ms": 159.2
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_NOT_0076_abc_c04_mil",
+    "class": "Notch",
+    "operating_condition_id": 4,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Notch",
+      "affected_phases": [
+        "B",
+        "C"
+      ],
+      "phase_configuration": "phase-to-phase",
+      "primary_phase": "B",
+      "primary_max_depth_pu": 0.547,
+      "primary_mean_width_ms": 1.02,
+      "primary_notch_count": 24,
+      "primary_energy_ratio": 0.063647,
+      "dominant_freq_hz": 59.99,
+      "gates": {
+        "NOT-01_depth_ge_0.20": true,
+        "NOT-02_depth_le_0.85": true,
+        "NOT-03_width_subcycle": true,
+        "NOT-04_energy_ratio_elevated": true,
+        "NOT-05_periodicity_ok": true,
+        "NOT-06_rms_0.45_0.80": false,
+        "NOT-07_freq_59.5_60.5": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_notches": {
+        "A": {
+          "notch_count": 0,
+          "mean_width_ms": 0.0,
+          "min_width_ms": 0.0,
+          "max_width_ms": 0.0,
+          "mean_depth_pu": 0.0,
+          "max_depth_pu": 0.0,
+          "periodicity_ok": false,
+          "residual_energy_ratio": 0.012856
+        },
+        "B": {
+          "notch_count": 24,
+          "mean_width_ms": 1.02,
+          "min_width_ms": 0.8,
+          "max_width_ms": 1.2,
+          "mean_depth_pu": 0.4906,
+          "max_depth_pu": 0.547,
+          "periodicity_ok": true,
+          "residual_energy_ratio": 0.063647
+        },
+        "C": {
+          "notch_count": 24,
+          "mean_width_ms": 0.5,
+          "min_width_ms": 0.4,
+          "max_width_ms": 0.6,
+          "mean_depth_pu": 0.279,
+          "max_depth_pu": 0.308,
+          "periodicity_ok": true,
+          "residual_energy_ratio": 0.012307
+        }
+      },
+      "per_phase_rms": {
+        "A": {
+          "min_rms": 0.4709,
+          "max_rms": 0.4777,
+          "residual_ratio": 0.7999
+        },
+        "B": {
+          "min_rms": 0.3035,
+          "max_rms": 0.3121,
+          "residual_ratio": 0.5156
+        },
+        "C": {
+          "min_rms": 0.563,
+          "max_rms": 0.5707,
+          "residual_ratio": 0.9564
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_NOT_0082_abc_c12_mil",
+    "class": "Notch",
+    "operating_condition_id": 12,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Notch",
+      "affected_phases": [
+        "B",
+        "C"
+      ],
+      "phase_configuration": "phase-to-phase",
+      "primary_phase": "B",
+      "primary_max_depth_pu": 0.5237,
+      "primary_mean_width_ms": 1.07,
+      "primary_notch_count": 24,
+      "primary_energy_ratio": 0.061355,
+      "dominant_freq_hz": 60.0,
+      "gates": {
+        "NOT-01_depth_ge_0.20": true,
+        "NOT-02_depth_le_0.85": true,
+        "NOT-03_width_subcycle": true,
+        "NOT-04_energy_ratio_elevated": true,
+        "NOT-05_periodicity_ok": true,
+        "NOT-06_rms_0.45_0.80": false,
+        "NOT-07_freq_59.5_60.5": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_notches": {
+        "A": {
+          "notch_count": 0,
+          "mean_width_ms": 0.0,
+          "min_width_ms": 0.0,
+          "max_width_ms": 0.0,
+          "mean_depth_pu": 0.0,
+          "max_depth_pu": 0.0,
+          "periodicity_ok": false,
+          "residual_energy_ratio": 0.012425
+        },
+        "B": {
+          "notch_count": 24,
+          "mean_width_ms": 1.07,
+          "min_width_ms": 1.0,
+          "max_width_ms": 1.2,
+          "mean_depth_pu": 0.4862,
+          "max_depth_pu": 0.5237,
+          "periodicity_ok": true,
+          "residual_energy_ratio": 0.061355
+        },
+        "C": {
+          "notch_count": 24,
+          "mean_width_ms": 0.59,
+          "min_width_ms": 0.4,
+          "max_width_ms": 0.6,
+          "mean_depth_pu": 0.2987,
+          "max_depth_pu": 0.3152,
+          "periodicity_ok": true,
+          "residual_energy_ratio": 0.014169
+        }
+      },
+      "per_phase_rms": {
+        "A": {
+          "min_rms": 0.4479,
+          "max_rms": 0.452,
+          "residual_ratio": 0.7608
+        },
+        "B": {
+          "min_rms": 0.293,
+          "max_rms": 0.2991,
+          "residual_ratio": 0.4977
+        },
+        "C": {
+          "min_rms": 0.5293,
+          "max_rms": 0.5348,
+          "residual_ratio": 0.8992
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_NOT_0088_abc_c34_mil",
+    "class": "Notch",
+    "operating_condition_id": 34,
+    "split": "challenge",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Notch",
+      "affected_phases": [
+        "B",
+        "C"
+      ],
+      "phase_configuration": "phase-to-phase",
+      "primary_phase": "B",
+      "primary_max_depth_pu": 0.5518,
+      "primary_mean_width_ms": 1.03,
+      "primary_notch_count": 24,
+      "primary_energy_ratio": 0.061701,
+      "dominant_freq_hz": 59.99,
+      "gates": {
+        "NOT-01_depth_ge_0.20": true,
+        "NOT-02_depth_le_0.85": true,
+        "NOT-03_width_subcycle": true,
+        "NOT-04_energy_ratio_elevated": true,
+        "NOT-05_periodicity_ok": true,
+        "NOT-06_rms_0.45_0.80": false,
+        "NOT-07_freq_59.5_60.5": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_notches": {
+        "A": {
+          "notch_count": 0,
+          "mean_width_ms": 0.0,
+          "min_width_ms": 0.0,
+          "max_width_ms": 0.0,
+          "mean_depth_pu": 0.0,
+          "max_depth_pu": 0.0,
+          "periodicity_ok": false,
+          "residual_energy_ratio": 0.012238
+        },
+        "B": {
+          "notch_count": 24,
+          "mean_width_ms": 1.03,
+          "min_width_ms": 0.8,
+          "max_width_ms": 1.2,
+          "mean_depth_pu": 0.488,
+          "max_depth_pu": 0.5518,
+          "periodicity_ok": true,
+          "residual_energy_ratio": 0.061701
+        },
+        "C": {
+          "notch_count": 24,
+          "mean_width_ms": 0.53,
+          "min_width_ms": 0.4,
+          "max_width_ms": 0.6,
+          "mean_depth_pu": 0.2922,
+          "max_depth_pu": 0.3197,
+          "periodicity_ok": true,
+          "residual_energy_ratio": 0.01346
+        }
+      },
+      "per_phase_rms": {
+        "A": {
+          "min_rms": 0.4592,
+          "max_rms": 0.4671,
+          "residual_ratio": 0.78
+        },
+        "B": {
+          "min_rms": 0.2994,
+          "max_rms": 0.3083,
+          "residual_ratio": 0.5086
+        },
+        "C": {
+          "min_rms": 0.5465,
+          "max_rms": 0.5557,
+          "residual_ratio": 0.9283
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0109_abc_c01_mil",
+    "class": "Swell",
+    "operating_condition_id": 1,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.4197,
+      "swell_magnitude_pu": 2.4116,
+      "duration_ms": 154.2,
+      "start_time_s": 0.0416,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": false,
+        "SWL-07_thd_lt_5pct": true,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.546,
+          "max_rms": 1.4197,
+          "residual_ratio": 0.9275,
+          "event_ratio": 2.4116,
+          "duration_ms": 154.2
+        },
+        "B": {
+          "min_rms": 0.5418,
+          "max_rms": 0.9122,
+          "residual_ratio": 0.9203,
+          "event_ratio": 1.5495,
+          "duration_ms": 154.4
+        },
+        "C": {
+          "min_rms": 0.5459,
+          "max_rms": 0.8992,
+          "residual_ratio": 0.9273,
+          "event_ratio": 1.5274,
+          "duration_ms": 150.8
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0114_abc_c06_sev",
+    "class": "Swell",
+    "operating_condition_id": 6,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.2988,
+      "swell_magnitude_pu": 2.2062,
+      "duration_ms": 162.6,
+      "start_time_s": 0.0332,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": false,
+        "SWL-07_thd_lt_5pct": true,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5007,
+          "max_rms": 1.2988,
+          "residual_ratio": 0.8506,
+          "event_ratio": 2.2062,
+          "duration_ms": 162.6
+        },
+        "B": {
+          "min_rms": 0.5075,
+          "max_rms": 0.8904,
+          "residual_ratio": 0.8621,
+          "event_ratio": 1.5125,
+          "duration_ms": 162.8
+        },
+        "C": {
+          "min_rms": 0.5026,
+          "max_rms": 0.9002,
+          "residual_ratio": 0.8538,
+          "event_ratio": 1.5291,
+          "duration_ms": 160.4
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0115_abc_c07_mil",
+    "class": "Swell",
+    "operating_condition_id": 7,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.2017,
+      "swell_magnitude_pu": 2.0412,
+      "duration_ms": 162.6,
+      "start_time_s": 0.0332,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": false,
+        "SWL-07_thd_lt_5pct": true,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5188,
+          "max_rms": 1.2017,
+          "residual_ratio": 0.8813,
+          "event_ratio": 2.0412,
+          "duration_ms": 162.6
+        },
+        "B": {
+          "min_rms": 0.5126,
+          "max_rms": 0.7673,
+          "residual_ratio": 0.8708,
+          "event_ratio": 1.3034,
+          "duration_ms": 162.6
+        },
+        "C": {
+          "min_rms": 0.5171,
+          "max_rms": 0.7688,
+          "residual_ratio": 0.8783,
+          "event_ratio": 1.306,
+          "duration_ms": 160.6
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0117_abc_c10_sev",
+    "class": "Swell",
+    "operating_condition_id": 10,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "B",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 0.7333,
+      "swell_magnitude_pu": 1.2456,
+      "duration_ms": 90.0,
+      "start_time_s": 0.033,
+      "end_time_s": 0.123,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": true,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": true,
+        "SWL-07_thd_lt_5pct": true,
+        "SWL-ANTI-SAG": false,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.4963,
+          "max_rms": 0.7196,
+          "residual_ratio": 0.8431,
+          "event_ratio": 1.2223,
+          "duration_ms": 92.6
+        },
+        "B": {
+          "min_rms": 0.5045,
+          "max_rms": 0.7333,
+          "residual_ratio": 0.8569,
+          "event_ratio": 1.2456,
+          "duration_ms": 90.0
+        },
+        "C": {
+          "min_rms": 0.4986,
+          "max_rms": 0.7115,
+          "residual_ratio": 0.8469,
+          "event_ratio": 1.2086,
+          "duration_ms": 85.2
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0119_abc_c09_mod",
+    "class": "Swell",
+    "operating_condition_id": 9,
+    "split": "val",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.7999,
+      "swell_magnitude_pu": 3.0574,
+      "duration_ms": 162.6,
+      "start_time_s": 0.0332,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": true,
+        "SWL-07_thd_lt_5pct": false,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5048,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.8575,
+          "event_ratio": 3.0574,
+          "duration_ms": 162.6
+        },
+        "B": {
+          "min_rms": 0.5118,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.8694,
+          "event_ratio": 3.0574,
+          "duration_ms": 162.8
+        },
+        "C": {
+          "min_rms": 0.5102,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.8667,
+          "event_ratio": 3.0574,
+          "duration_ms": 160.4
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0120_abc_c11_sev",
+    "class": "Swell",
+    "operating_condition_id": 11,
+    "split": "val",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.797,
+      "swell_magnitude_pu": 3.0525,
+      "duration_ms": 156.8,
+      "start_time_s": 0.039,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": false,
+        "SWL-07_thd_lt_5pct": false,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5343,
+          "max_rms": 1.797,
+          "residual_ratio": 0.9075,
+          "event_ratio": 3.0525,
+          "duration_ms": 156.8
+        },
+        "B": {
+          "min_rms": 0.5472,
+          "max_rms": 1.4021,
+          "residual_ratio": 0.9296,
+          "event_ratio": 2.3817,
+          "duration_ms": 154.6
+        },
+        "C": {
+          "min_rms": 0.5415,
+          "max_rms": 1.4448,
+          "residual_ratio": 0.9198,
+          "event_ratio": 2.4542,
+          "duration_ms": 152.8
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0123_abc_c33_sev",
+    "class": "Swell",
+    "operating_condition_id": 33,
+    "split": "challenge",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.7999,
+      "swell_magnitude_pu": 3.0574,
+      "duration_ms": 157.8,
+      "start_time_s": 0.038,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": false,
+        "SWL-07_thd_lt_5pct": false,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5432,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.9227,
+          "event_ratio": 3.0574,
+          "duration_ms": 157.8
+        },
+        "B": {
+          "min_rms": 0.5567,
+          "max_rms": 1.7725,
+          "residual_ratio": 0.9456,
+          "event_ratio": 3.0109,
+          "duration_ms": 154.6
+        },
+        "C": {
+          "min_rms": 0.5507,
+          "max_rms": 1.7792,
+          "residual_ratio": 0.9354,
+          "event_ratio": 3.0222,
+          "duration_ms": 155.0
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0124_abc_c34_mil",
+    "class": "Swell",
+    "operating_condition_id": 34,
+    "split": "challenge",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.4406,
+      "swell_magnitude_pu": 2.4471,
+      "duration_ms": 154.2,
+      "start_time_s": 0.0416,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": false,
+        "SWL-07_thd_lt_5pct": true,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5471,
+          "max_rms": 1.4406,
+          "residual_ratio": 0.9293,
+          "event_ratio": 2.4471,
+          "duration_ms": 154.2
+        },
+        "B": {
+          "min_rms": 0.5433,
+          "max_rms": 0.8817,
+          "residual_ratio": 0.9229,
+          "event_ratio": 1.4978,
+          "duration_ms": 154.4
+        },
+        "C": {
+          "min_rms": 0.5468,
+          "max_rms": 0.8831,
+          "residual_ratio": 0.9288,
+          "event_ratio": 1.5001,
+          "duration_ms": 150.8
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0125_abc_c35_mod",
+    "class": "Swell",
+    "operating_condition_id": 35,
+    "split": "challenge",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "B",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.7999,
+      "swell_magnitude_pu": 3.0574,
+      "duration_ms": 162.4,
+      "start_time_s": 0.0334,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": true,
+        "SWL-07_thd_lt_5pct": true,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.519,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.8816,
+          "event_ratio": 3.0574,
+          "duration_ms": 162.0
+        },
+        "B": {
+          "min_rms": 0.5248,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.8914,
+          "event_ratio": 3.0574,
+          "duration_ms": 162.4
+        },
+        "C": {
+          "min_rms": 0.5251,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.892,
+          "event_ratio": 3.0574,
+          "duration_ms": 159.0
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_SWE_0126_abc_c36_sev",
+    "class": "Swell",
+    "operating_condition_id": 36,
+    "split": "challenge",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Swell",
+      "affected_phases": [
+        "A",
+        "B",
+        "C"
+      ],
+      "phase_configuration": "three-phase",
+      "primary_phase": "A",
+      "pre_event_nominal_rms": 0.5887,
+      "max_event_rms": 1.7999,
+      "swell_magnitude_pu": 3.0574,
+      "duration_ms": 157.0,
+      "start_time_s": 0.0388,
+      "end_time_s": 0.1958,
+      "gates": {
+        "SWL-01_magnitude_gt_1.10": true,
+        "SWL-02_magnitude_le_1.80": false,
+        "SWL-03_duration_ge_8.33ms": true,
+        "SWL-04_peak_elevated": true,
+        "SWL-05_crest_factor_valid": true,
+        "SWL-06_freq_59.5_60.5": false,
+        "SWL-07_thd_lt_5pct": false,
+        "SWL-ANTI-SAG": true,
+        "SWL-ANTI-INTERRUPT": true,
+        "WAVEFORM_CONTINUITY": false
+      },
+      "per_phase_metrics": {
+        "A": {
+          "min_rms": 0.5351,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.909,
+          "event_ratio": 3.0574,
+          "duration_ms": 157.0
+        },
+        "B": {
+          "min_rms": 0.5424,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.9214,
+          "event_ratio": 3.0574,
+          "duration_ms": 154.6
+        },
+        "C": {
+          "min_rms": 0.5375,
+          "max_rms": 1.7999,
+          "residual_ratio": 0.9131,
+          "event_ratio": 3.0574,
+          "duration_ms": 152.0
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_TRA_0128_a_c02_mod",
+    "class": "Transient",
+    "operating_condition_id": 2,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Transient",
+      "affected_phases": [
+        "A"
+      ],
+      "phase_configuration": "A",
+      "primary_phase": "C",
+      "peak_excursion_pu": 0.0079,
+      "event_peak_pu": 0.8895,
+      "dominant_trans_freq_hz": 279.5,
+      "effective_duration_ms": 0.0,
+      "system_freq_hz": 60.0,
+      "gates": {
+        "TRN-01_peak_excursion_ge_0.12": false,
+        "TRN-02_dominant_freq_250_1500": true,
+        "TRN-03_duration_le_50ms": true,
+        "TRN-04_freq_59.5_60.5": true,
+        "TRN-05_baseline_0.50_0.70": true,
+        "ANTI_SAG": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_metrics": {
+        "A": {
+          "pre_rms": 0.6502,
+          "pre_peak": 1.1281,
+          "event_rms": 0.7145,
+          "event_peak": 1.1184,
+          "post_rms": 0.6298,
+          "post_peak": 0.8881,
+          "peak_excursion_pu": -0.0097,
+          "dominant_trans_freq_hz": 279.5,
+          "effective_duration_ms": 44.0,
+          "peak_spectral_energy": 1.0336,
+          "min_half_cycle_rms": 0.5917,
+          "max_half_cycle_rms": 0.8003,
+          "is_affected": true
+        },
+        "B": {
+          "pre_rms": 0.6411,
+          "pre_peak": 0.9229,
+          "event_rms": 0.6235,
+          "event_peak": 0.8952,
+          "post_rms": 0.6245,
+          "post_peak": 0.8921,
+          "peak_excursion_pu": -0.0277,
+          "dominant_trans_freq_hz": 282.0,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.1072,
+          "min_half_cycle_rms": 0.6244,
+          "max_half_cycle_rms": 0.6394,
+          "is_affected": false
+        },
+        "C": {
+          "pre_rms": 0.6128,
+          "pre_peak": 0.8815,
+          "event_rms": 0.6354,
+          "event_peak": 0.8895,
+          "post_rms": 0.6219,
+          "post_peak": 0.8813,
+          "peak_excursion_pu": 0.0079,
+          "dominant_trans_freq_hz": 279.5,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.1197,
+          "min_half_cycle_rms": 0.6078,
+          "max_half_cycle_rms": 0.6251,
+          "is_affected": false
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_TRA_0131_a_c05_mod",
+    "class": "Transient",
+    "operating_condition_id": 5,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Transient",
+      "affected_phases": [
+        "A"
+      ],
+      "phase_configuration": "A",
+      "primary_phase": "C",
+      "peak_excursion_pu": 0.0057,
+      "event_peak_pu": 0.8002,
+      "dominant_trans_freq_hz": 275.9,
+      "effective_duration_ms": 0.0,
+      "system_freq_hz": 60.0,
+      "gates": {
+        "TRN-01_peak_excursion_ge_0.12": false,
+        "TRN-02_dominant_freq_250_1500": true,
+        "TRN-03_duration_le_50ms": true,
+        "TRN-04_freq_59.5_60.5": true,
+        "TRN-05_baseline_0.50_0.70": true,
+        "ANTI_SAG": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_metrics": {
+        "A": {
+          "pre_rms": 0.5834,
+          "pre_peak": 0.9859,
+          "event_rms": 0.6371,
+          "event_peak": 0.9828,
+          "post_rms": 0.5718,
+          "post_peak": 0.8057,
+          "peak_excursion_pu": -0.0031,
+          "dominant_trans_freq_hz": 277.1,
+          "effective_duration_ms": 42.8,
+          "peak_spectral_energy": 0.7983,
+          "min_half_cycle_rms": 0.5403,
+          "max_half_cycle_rms": 0.6999,
+          "is_affected": true
+        },
+        "B": {
+          "pre_rms": 0.5819,
+          "pre_peak": 0.8332,
+          "event_rms": 0.5631,
+          "event_peak": 0.8097,
+          "post_rms": 0.5671,
+          "post_peak": 0.8093,
+          "peak_excursion_pu": -0.0235,
+          "dominant_trans_freq_hz": 313.7,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.104,
+          "min_half_cycle_rms": 0.5673,
+          "max_half_cycle_rms": 0.5791,
+          "is_affected": false
+        },
+        "C": {
+          "pre_rms": 0.5546,
+          "pre_peak": 0.7945,
+          "event_rms": 0.5736,
+          "event_peak": 0.8002,
+          "post_rms": 0.5607,
+          "post_peak": 0.7965,
+          "peak_excursion_pu": 0.0057,
+          "dominant_trans_freq_hz": 275.9,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.125,
+          "min_half_cycle_rms": 0.5499,
+          "max_half_cycle_rms": 0.5639,
+          "is_affected": false
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_TRA_0134_a_c08_mod",
+    "class": "Transient",
+    "operating_condition_id": 8,
+    "split": "train",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Transient",
+      "affected_phases": [
+        "A"
+      ],
+      "phase_configuration": "A",
+      "primary_phase": "C",
+      "peak_excursion_pu": 0.0215,
+      "event_peak_pu": 0.8998,
+      "dominant_trans_freq_hz": 1739.5,
+      "effective_duration_ms": 0.0,
+      "system_freq_hz": 60.0,
+      "gates": {
+        "TRN-01_peak_excursion_ge_0.12": false,
+        "TRN-02_dominant_freq_250_1500": false,
+        "TRN-03_duration_le_50ms": true,
+        "TRN-04_freq_59.5_60.5": true,
+        "TRN-05_baseline_0.50_0.70": true,
+        "ANTI_SAG": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_metrics": {
+        "A": {
+          "pre_rms": 0.6393,
+          "pre_peak": 1.0938,
+          "event_rms": 0.7102,
+          "event_peak": 1.103,
+          "post_rms": 0.6296,
+          "post_peak": 0.9004,
+          "peak_excursion_pu": 0.0092,
+          "dominant_trans_freq_hz": 277.1,
+          "effective_duration_ms": 44.4,
+          "peak_spectral_energy": 0.95,
+          "min_half_cycle_rms": 0.5919,
+          "max_half_cycle_rms": 0.781,
+          "is_affected": true
+        },
+        "B": {
+          "pre_rms": 0.6414,
+          "pre_peak": 0.922,
+          "event_rms": 0.6197,
+          "event_peak": 0.8978,
+          "post_rms": 0.6254,
+          "post_peak": 0.8996,
+          "peak_excursion_pu": -0.0242,
+          "dominant_trans_freq_hz": 321.0,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.2631,
+          "min_half_cycle_rms": 0.6243,
+          "max_half_cycle_rms": 0.6381,
+          "is_affected": false
+        },
+        "C": {
+          "pre_rms": 0.6122,
+          "pre_peak": 0.8782,
+          "event_rms": 0.6325,
+          "event_peak": 0.8998,
+          "post_rms": 0.6178,
+          "post_peak": 0.8835,
+          "peak_excursion_pu": 0.0215,
+          "dominant_trans_freq_hz": 1739.5,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.2387,
+          "min_half_cycle_rms": 0.6032,
+          "max_half_cycle_rms": 0.6234,
+          "is_affected": false
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_TRA_0137_a_c09_mod",
+    "class": "Transient",
+    "operating_condition_id": 9,
+    "split": "val",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Transient",
+      "affected_phases": [
+        "A"
+      ],
+      "phase_configuration": "A",
+      "primary_phase": "C",
+      "peak_excursion_pu": 0.0066,
+      "event_peak_pu": 0.7868,
+      "dominant_trans_freq_hz": 318.6,
+      "effective_duration_ms": 0.0,
+      "system_freq_hz": 60.0,
+      "gates": {
+        "TRN-01_peak_excursion_ge_0.12": false,
+        "TRN-02_dominant_freq_250_1500": true,
+        "TRN-03_duration_le_50ms": true,
+        "TRN-04_freq_59.5_60.5": true,
+        "TRN-05_baseline_0.50_0.70": true,
+        "ANTI_SAG": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_metrics": {
+        "A": {
+          "pre_rms": 0.5761,
+          "pre_peak": 0.974,
+          "event_rms": 0.625,
+          "event_peak": 0.9692,
+          "post_rms": 0.5613,
+          "post_peak": 0.7912,
+          "peak_excursion_pu": -0.0048,
+          "dominant_trans_freq_hz": 278.3,
+          "effective_duration_ms": 42.6,
+          "peak_spectral_energy": 0.7908,
+          "min_half_cycle_rms": 0.5303,
+          "max_half_cycle_rms": 0.6911,
+          "is_affected": true
+        },
+        "B": {
+          "pre_rms": 0.5711,
+          "pre_peak": 0.8145,
+          "event_rms": 0.5542,
+          "event_peak": 0.7963,
+          "post_rms": 0.5564,
+          "post_peak": 0.7932,
+          "peak_excursion_pu": -0.0182,
+          "dominant_trans_freq_hz": 277.1,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.1114,
+          "min_half_cycle_rms": 0.5563,
+          "max_half_cycle_rms": 0.5685,
+          "is_affected": false
+        },
+        "C": {
+          "pre_rms": 0.544,
+          "pre_peak": 0.7802,
+          "event_rms": 0.5635,
+          "event_peak": 0.7868,
+          "post_rms": 0.5513,
+          "post_peak": 0.782,
+          "peak_excursion_pu": 0.0066,
+          "dominant_trans_freq_hz": 318.6,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.1198,
+          "min_half_cycle_rms": 0.5402,
+          "max_half_cycle_rms": 0.5539,
+          "is_affected": false
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_TRA_0140_a_c17_mod",
+    "class": "Transient",
+    "operating_condition_id": 17,
+    "split": "val",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Transient",
+      "affected_phases": [
+        "A"
+      ],
+      "phase_configuration": "A",
+      "primary_phase": "C",
+      "peak_excursion_pu": 0.0068,
+      "event_peak_pu": 0.8227,
+      "dominant_trans_freq_hz": 283.2,
+      "effective_duration_ms": 0.0,
+      "system_freq_hz": 60.0,
+      "gates": {
+        "TRN-01_peak_excursion_ge_0.12": false,
+        "TRN-02_dominant_freq_250_1500": true,
+        "TRN-03_duration_le_50ms": true,
+        "TRN-04_freq_59.5_60.5": true,
+        "TRN-05_baseline_0.50_0.70": true,
+        "ANTI_SAG": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_metrics": {
+        "A": {
+          "pre_rms": 0.5994,
+          "pre_peak": 1.0187,
+          "event_rms": 0.6561,
+          "event_peak": 1.0147,
+          "post_rms": 0.5865,
+          "post_peak": 0.8262,
+          "peak_excursion_pu": -0.004,
+          "dominant_trans_freq_hz": 278.3,
+          "effective_duration_ms": 43.6,
+          "peak_spectral_energy": 0.8619,
+          "min_half_cycle_rms": 0.5531,
+          "max_half_cycle_rms": 0.7238,
+          "is_affected": true
+        },
+        "B": {
+          "pre_rms": 0.5968,
+          "pre_peak": 0.8554,
+          "event_rms": 0.5782,
+          "event_peak": 0.8336,
+          "post_rms": 0.5814,
+          "post_peak": 0.829,
+          "peak_excursion_pu": -0.0218,
+          "dominant_trans_freq_hz": 313.7,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.1054,
+          "min_half_cycle_rms": 0.5814,
+          "max_half_cycle_rms": 0.5942,
+          "is_affected": false
+        },
+        "C": {
+          "pre_rms": 0.5689,
+          "pre_peak": 0.8158,
+          "event_rms": 0.589,
+          "event_peak": 0.8227,
+          "post_rms": 0.5756,
+          "post_peak": 0.8169,
+          "peak_excursion_pu": 0.0068,
+          "dominant_trans_freq_hz": 283.2,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.0926,
+          "min_half_cycle_rms": 0.5639,
+          "max_half_cycle_rms": 0.5792,
+          "is_affected": false
+        }
+      }
+    }
+  },
+  {
+    "trajectory_id": "P5B2_TRA_0143_a_c35_mod",
+    "class": "Transient",
+    "operating_condition_id": 35,
+    "split": "challenge",
+    "validation_result": {
+      "physical_validation_passed": false,
+      "class": "Transient",
+      "affected_phases": [
+        "A"
+      ],
+      "phase_configuration": "A",
+      "primary_phase": "C",
+      "peak_excursion_pu": 0.0046,
+      "event_peak_pu": 0.8141,
+      "dominant_trans_freq_hz": 278.3,
+      "effective_duration_ms": 0.0,
+      "system_freq_hz": 60.0,
+      "gates": {
+        "TRN-01_peak_excursion_ge_0.12": false,
+        "TRN-02_dominant_freq_250_1500": true,
+        "TRN-03_duration_le_50ms": true,
+        "TRN-04_freq_59.5_60.5": true,
+        "TRN-05_baseline_0.50_0.70": true,
+        "ANTI_SAG": true,
+        "ANTI_INTERRUPTION": true,
+        "ANTI_SWELL": true,
+        "WAVEFORM_CONTINUITY": true
+      },
+      "per_phase_metrics": {
+        "A": {
+          "pre_rms": 0.5894,
+          "pre_peak": 0.996,
+          "event_rms": 0.6438,
+          "event_peak": 0.9945,
+          "post_rms": 0.5779,
+          "post_peak": 0.815,
+          "peak_excursion_pu": -0.0015,
+          "dominant_trans_freq_hz": 278.3,
+          "effective_duration_ms": 43.4,
+          "peak_spectral_energy": 0.8269,
+          "min_half_cycle_rms": 0.5464,
+          "max_half_cycle_rms": 0.708,
+          "is_affected": true
+        },
+        "B": {
+          "pre_rms": 0.5881,
+          "pre_peak": 0.8407,
+          "event_rms": 0.5697,
+          "event_peak": 0.8194,
+          "post_rms": 0.5728,
+          "post_peak": 0.8169,
+          "peak_excursion_pu": -0.0213,
+          "dominant_trans_freq_hz": 278.3,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.0926,
+          "min_half_cycle_rms": 0.5737,
+          "max_half_cycle_rms": 0.5847,
+          "is_affected": false
+        },
+        "C": {
+          "pre_rms": 0.565,
+          "pre_peak": 0.8095,
+          "event_rms": 0.5842,
+          "event_peak": 0.8141,
+          "post_rms": 0.5709,
+          "post_peak": 0.8101,
+          "peak_excursion_pu": 0.0046,
+          "dominant_trans_freq_hz": 278.3,
+          "effective_duration_ms": 0.0,
+          "peak_spectral_energy": 0.1274,
+          "min_half_cycle_rms": 0.5606,
+          "max_half_cycle_rms": 0.5746,
+          "is_affected": false
+        }
+      }
+    }
+  }
+]

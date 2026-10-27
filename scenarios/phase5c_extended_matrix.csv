@@ -1,0 +1,369 @@
+trajectory_id,matrix_index,core_or_supplementary,class,label_idx,operating_condition_id,operating_condition_name,operating_condition_family,phase,severity,split,sensor_noise_snr_db,adc_bits,expected_windows_count
+P5B2_FLI_0001_abc_c01_mil,1,core,Flicker,0,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_FLI_0002_ab_c02_mod,2,core,Flicker,0,2,Light Load 85%,Family A (Nominal & Scaling),AB,Moderate,train,52.0,14,32
+P5B2_FLI_0003_abc_c03_sev,3,core,Flicker,0,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5B2_FLI_0004_abc_c04_mil,4,core,Flicker,0,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5B2_FLI_0005_a_c05_mod,5,core,Flicker,0,5,Heavy Load 105%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5B2_FLI_0006_abc_c06_sev,6,core,Flicker,0,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5B2_FLI_0007_abc_c07_mil,7,core,Flicker,0,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_FLI_0008_ab_c08_mod,8,core,Flicker,0,8,High PF (0.98 lag),Family B (PF & Local Load),AB,Moderate,train,40.0,14,32
+P5B2_FLI_0009_abc_c10_sev,9,core,Flicker,0,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Severe,train,52.0,12,32
+P5B2_FLI_0010_abc_c12_mil,10,core,Flicker,0,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5B2_FLI_0011_a_c09_mod,11,core,Flicker,0,9,Low PF (0.85 lag),Family B (PF & Local Load),A,Moderate,val,52.0,14,32
+P5B2_FLI_0012_abc_c11_sev,12,core,Flicker,0,11,Bus 5 Light Local Load,Family B (PF & Local Load),ABC,Severe,val,40.0,12,32
+P5B2_FLI_0013_abc_c14_mil,13,core,Flicker,0,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Mild,val,52.0,14,32
+P5B2_FLI_0014_ab_c17_mod,14,core,Flicker,0,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),AB,Moderate,val,52.0,14,32
+P5B2_FLI_0015_abc_c33_sev,15,core,Flicker,0,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),ABC,Severe,challenge,52.0,12,32
+P5B2_FLI_0016_abc_c34_mil,16,core,Flicker,0,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),ABC,Mild,challenge,40.0,14,32
+P5B2_FLI_0017_a_c35_mod,17,core,Flicker,0,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),A,Moderate,challenge,52.0,14,32
+P5B2_FLI_0018_abc_c36_sev,18,core,Flicker,0,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),ABC,Severe,challenge,52.0,12,32
+P5B2_HAR_0019_abc_c01_mil,19,core,Harmonics,1,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_HAR_0020_a_c02_mod,20,core,Harmonics,1,2,Light Load 85%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5B2_HAR_0021_abc_c03_sev,21,core,Harmonics,1,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5B2_HAR_0022_a_c04_mil,22,core,Harmonics,1,4,Normal Load 95%,Family A (Nominal & Scaling),A,Mild,train,40.0,14,32
+P5B2_HAR_0023_abc_c05_mod,23,core,Harmonics,1,5,Heavy Load 105%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,14,32
+P5B2_HAR_0024_a_c06_sev,24,core,Harmonics,1,6,Heavy Load 110%,Family A (Nominal & Scaling),A,Severe,train,52.0,12,32
+P5B2_HAR_0025_abc_c07_mil,25,core,Harmonics,1,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_HAR_0026_a_c08_mod,26,core,Harmonics,1,8,High PF (0.98 lag),Family B (PF & Local Load),A,Moderate,train,40.0,14,32
+P5B2_HAR_0027_abc_c10_sev,27,core,Harmonics,1,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Severe,train,52.0,12,32
+P5B2_HAR_0028_a_c12_mil,28,core,Harmonics,1,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),A,Mild,train,52.0,14,32
+P5B2_HAR_0029_abc_c09_mod,29,core,Harmonics,1,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Moderate,val,52.0,14,32
+P5B2_HAR_0030_a_c11_sev,30,core,Harmonics,1,11,Bus 5 Light Local Load,Family B (PF & Local Load),A,Severe,val,40.0,12,32
+P5B2_HAR_0031_abc_c14_mil,31,core,Harmonics,1,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Mild,val,52.0,14,32
+P5B2_HAR_0032_a_c17_mod,32,core,Harmonics,1,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),A,Moderate,val,52.0,14,32
+P5B2_HAR_0033_abc_c33_sev,33,core,Harmonics,1,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),ABC,Severe,challenge,52.0,12,32
+P5B2_HAR_0034_a_c34_mil,34,core,Harmonics,1,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),A,Mild,challenge,40.0,14,32
+P5B2_HAR_0035_abc_c35_mod,35,core,Harmonics,1,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),ABC,Moderate,challenge,52.0,14,32
+P5B2_HAR_0036_a_c36_sev,36,core,Harmonics,1,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),A,Severe,challenge,52.0,12,32
+P5B2_INT_0037_abc_c01_mil,37,core,Interruption,2,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_INT_0038_a_c02_mod,38,core,Interruption,2,2,Light Load 85%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5B2_INT_0039_ab_c03_sev,39,core,Interruption,2,3,Light Load 90%,Family A (Nominal & Scaling),AB,Severe,train,52.0,12,32
+P5B2_INT_0040_b_c04_mil,40,core,Interruption,2,4,Normal Load 95%,Family A (Nominal & Scaling),B,Mild,train,40.0,14,32
+P5B2_INT_0041_bc_c05_mod,41,core,Interruption,2,5,Heavy Load 105%,Family A (Nominal & Scaling),BC,Moderate,train,52.0,14,32
+P5B2_INT_0042_c_c06_sev,42,core,Interruption,2,6,Heavy Load 110%,Family A (Nominal & Scaling),C,Severe,train,52.0,12,32
+P5B2_INT_0043_ca_c07_mil,43,core,Interruption,2,7,Peak Load 115%,Family A (Nominal & Scaling),CA,Mild,train,52.0,14,32
+P5B2_INT_0044_abc_c08_mod,44,core,Interruption,2,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Moderate,train,40.0,14,32
+P5B2_INT_0045_a_c10_sev,45,core,Interruption,2,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),A,Severe,train,52.0,12,32
+P5B2_INT_0046_ab_c12_mil,46,core,Interruption,2,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),AB,Mild,train,52.0,14,32
+P5B2_INT_0047_b_c09_mod,47,core,Interruption,2,9,Low PF (0.85 lag),Family B (PF & Local Load),B,Moderate,val,52.0,14,32
+P5B2_INT_0048_bc_c11_sev,48,core,Interruption,2,11,Bus 5 Light Local Load,Family B (PF & Local Load),BC,Severe,val,40.0,12,32
+P5B2_INT_0049_c_c14_mil,49,core,Interruption,2,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),C,Mild,val,52.0,14,32
+P5B2_INT_0050_ca_c17_mod,50,core,Interruption,2,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),CA,Moderate,val,52.0,14,32
+P5B2_INT_0051_abc_c33_sev,51,core,Interruption,2,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),ABC,Severe,challenge,52.0,12,32
+P5B2_INT_0052_a_c34_mil,52,core,Interruption,2,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),A,Mild,challenge,40.0,14,32
+P5B2_INT_0053_ab_c35_mod,53,core,Interruption,2,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),AB,Moderate,challenge,52.0,14,32
+P5B2_INT_0054_b_c36_sev,54,core,Interruption,2,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),B,Severe,challenge,52.0,12,32
+P5B2_NOR_0055_abc_c01_bas,55,core,Normal,3,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,14,32
+P5B2_NOR_0056_abc_c02_bas,56,core,Normal,3,2,Light Load 85%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,14,32
+P5B2_NOR_0057_abc_c03_bas,57,core,Normal,3,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,12,32
+P5B2_NOR_0058_abc_c04_bas,58,core,Normal,3,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Baseline,train,40.0,14,32
+P5B2_NOR_0059_abc_c05_bas,59,core,Normal,3,5,Heavy Load 105%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,14,32
+P5B2_NOR_0060_abc_c06_bas,60,core,Normal,3,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,12,32
+P5B2_NOR_0061_abc_c07_bas,61,core,Normal,3,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,14,32
+P5B2_NOR_0062_abc_c08_bas,62,core,Normal,3,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Baseline,train,40.0,14,32
+P5B2_NOR_0063_abc_c10_bas,63,core,Normal,3,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Baseline,train,52.0,12,32
+P5B2_NOR_0064_abc_c12_bas,64,core,Normal,3,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Baseline,train,52.0,14,32
+P5B2_NOR_0065_abc_c09_bas,65,core,Normal,3,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Baseline,val,52.0,14,32
+P5B2_NOR_0066_abc_c11_bas,66,core,Normal,3,11,Bus 5 Light Local Load,Family B (PF & Local Load),ABC,Baseline,val,40.0,12,32
+P5B2_NOR_0067_abc_c14_bas,67,core,Normal,3,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Baseline,val,52.0,14,32
+P5B2_NOR_0068_abc_c17_bas,68,core,Normal,3,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Baseline,val,52.0,14,32
+P5B2_NOR_0069_abc_c33_bas,69,core,Normal,3,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),ABC,Baseline,challenge,52.0,12,32
+P5B2_NOR_0070_abc_c34_bas,70,core,Normal,3,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),ABC,Baseline,challenge,40.0,14,32
+P5B2_NOR_0071_abc_c35_bas,71,core,Normal,3,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),ABC,Baseline,challenge,52.0,14,32
+P5B2_NOR_0072_abc_c36_bas,72,core,Normal,3,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),ABC,Baseline,challenge,52.0,12,32
+P5B2_NOT_0073_abc_c01_mil,73,core,Notch,4,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_NOT_0074_ab_c02_mod,74,core,Notch,4,2,Light Load 85%,Family A (Nominal & Scaling),AB,Moderate,train,52.0,14,32
+P5B2_NOT_0075_a_c03_sev,75,core,Notch,4,3,Light Load 90%,Family A (Nominal & Scaling),A,Severe,train,52.0,12,32
+P5B2_NOT_0076_abc_c04_mil,76,core,Notch,4,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5B2_NOT_0077_ab_c05_mod,77,core,Notch,4,5,Heavy Load 105%,Family A (Nominal & Scaling),AB,Moderate,train,52.0,14,32
+P5B2_NOT_0078_a_c06_sev,78,core,Notch,4,6,Heavy Load 110%,Family A (Nominal & Scaling),A,Severe,train,52.0,12,32
+P5B2_NOT_0079_abc_c07_mil,79,core,Notch,4,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_NOT_0080_ab_c08_mod,80,core,Notch,4,8,High PF (0.98 lag),Family B (PF & Local Load),AB,Moderate,train,40.0,14,32
+P5B2_NOT_0081_a_c10_sev,81,core,Notch,4,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),A,Severe,train,52.0,12,32
+P5B2_NOT_0082_abc_c12_mil,82,core,Notch,4,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5B2_NOT_0083_ab_c09_mod,83,core,Notch,4,9,Low PF (0.85 lag),Family B (PF & Local Load),AB,Moderate,val,52.0,14,32
+P5B2_NOT_0084_a_c11_sev,84,core,Notch,4,11,Bus 5 Light Local Load,Family B (PF & Local Load),A,Severe,val,40.0,12,32
+P5B2_NOT_0085_abc_c14_mil,85,core,Notch,4,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Mild,val,52.0,14,32
+P5B2_NOT_0086_ab_c17_mod,86,core,Notch,4,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),AB,Moderate,val,52.0,14,32
+P5B2_NOT_0087_a_c33_sev,87,core,Notch,4,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),A,Severe,challenge,52.0,12,32
+P5B2_NOT_0088_abc_c34_mil,88,core,Notch,4,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),ABC,Mild,challenge,40.0,14,32
+P5B2_NOT_0089_ab_c35_mod,89,core,Notch,4,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),AB,Moderate,challenge,52.0,14,32
+P5B2_NOT_0090_a_c36_sev,90,core,Notch,4,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),A,Severe,challenge,52.0,12,32
+P5B2_SAG_0091_abc_c01_mil,91,core,Sag,5,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_SAG_0092_a_c02_mod,92,core,Sag,5,2,Light Load 85%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5B2_SAG_0093_ab_c03_sev,93,core,Sag,5,3,Light Load 90%,Family A (Nominal & Scaling),AB,Severe,train,52.0,12,32
+P5B2_SAG_0094_b_c04_mil,94,core,Sag,5,4,Normal Load 95%,Family A (Nominal & Scaling),B,Mild,train,40.0,14,32
+P5B2_SAG_0095_bc_c05_mod,95,core,Sag,5,5,Heavy Load 105%,Family A (Nominal & Scaling),BC,Moderate,train,52.0,14,32
+P5B2_SAG_0096_c_c06_sev,96,core,Sag,5,6,Heavy Load 110%,Family A (Nominal & Scaling),C,Severe,train,52.0,12,32
+P5B2_SAG_0097_ca_c07_mil,97,core,Sag,5,7,Peak Load 115%,Family A (Nominal & Scaling),CA,Mild,train,52.0,14,32
+P5B2_SAG_0098_abc_c08_mod,98,core,Sag,5,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Moderate,train,40.0,14,32
+P5B2_SAG_0099_a_c10_sev,99,core,Sag,5,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),A,Severe,train,52.0,12,32
+P5B2_SAG_0100_ab_c12_mil,100,core,Sag,5,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),AB,Mild,train,52.0,14,32
+P5B2_SAG_0101_b_c09_mod,101,core,Sag,5,9,Low PF (0.85 lag),Family B (PF & Local Load),B,Moderate,val,52.0,14,32
+P5B2_SAG_0102_bc_c11_sev,102,core,Sag,5,11,Bus 5 Light Local Load,Family B (PF & Local Load),BC,Severe,val,40.0,12,32
+P5B2_SAG_0103_c_c14_mil,103,core,Sag,5,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),C,Mild,val,52.0,14,32
+P5B2_SAG_0104_ca_c17_mod,104,core,Sag,5,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),CA,Moderate,val,52.0,14,32
+P5B2_SAG_0105_abc_c33_sev,105,core,Sag,5,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),ABC,Severe,challenge,52.0,12,32
+P5B2_SAG_0106_a_c34_mil,106,core,Sag,5,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),A,Mild,challenge,40.0,14,32
+P5B2_SAG_0107_ab_c35_mod,107,core,Sag,5,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),AB,Moderate,challenge,52.0,14,32
+P5B2_SAG_0108_b_c36_sev,108,core,Sag,5,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),B,Severe,challenge,52.0,12,32
+P5B2_SWE_0109_abc_c01_mil,109,core,Swell,6,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_SWE_0110_abc_c02_mod,110,core,Swell,6,2,Light Load 85%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,14,32
+P5B2_SWE_0111_abc_c03_sev,111,core,Swell,6,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5B2_SWE_0112_abc_c04_mil,112,core,Swell,6,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5B2_SWE_0113_abc_c05_mod,113,core,Swell,6,5,Heavy Load 105%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,14,32
+P5B2_SWE_0114_abc_c06_sev,114,core,Swell,6,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5B2_SWE_0115_abc_c07_mil,115,core,Swell,6,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_SWE_0116_abc_c08_mod,116,core,Swell,6,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Moderate,train,40.0,14,32
+P5B2_SWE_0117_abc_c10_sev,117,core,Swell,6,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Severe,train,52.0,12,32
+P5B2_SWE_0118_abc_c12_mil,118,core,Swell,6,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5B2_SWE_0119_abc_c09_mod,119,core,Swell,6,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Moderate,val,52.0,14,32
+P5B2_SWE_0120_abc_c11_sev,120,core,Swell,6,11,Bus 5 Light Local Load,Family B (PF & Local Load),ABC,Severe,val,40.0,12,32
+P5B2_SWE_0121_abc_c14_mil,121,core,Swell,6,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Mild,val,52.0,14,32
+P5B2_SWE_0122_abc_c17_mod,122,core,Swell,6,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Moderate,val,52.0,14,32
+P5B2_SWE_0123_abc_c33_sev,123,core,Swell,6,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),ABC,Severe,challenge,52.0,12,32
+P5B2_SWE_0124_abc_c34_mil,124,core,Swell,6,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),ABC,Mild,challenge,40.0,14,32
+P5B2_SWE_0125_abc_c35_mod,125,core,Swell,6,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),ABC,Moderate,challenge,52.0,14,32
+P5B2_SWE_0126_abc_c36_sev,126,core,Swell,6,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),ABC,Severe,challenge,52.0,12,32
+P5B2_TRA_0127_abc_c01_mil,127,core,Transient,7,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_TRA_0128_a_c02_mod,128,core,Transient,7,2,Light Load 85%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5B2_TRA_0129_ab_c03_sev,129,core,Transient,7,3,Light Load 90%,Family A (Nominal & Scaling),AB,Severe,train,52.0,12,32
+P5B2_TRA_0130_abc_c04_mil,130,core,Transient,7,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5B2_TRA_0131_a_c05_mod,131,core,Transient,7,5,Heavy Load 105%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5B2_TRA_0132_ab_c06_sev,132,core,Transient,7,6,Heavy Load 110%,Family A (Nominal & Scaling),AB,Severe,train,52.0,12,32
+P5B2_TRA_0133_abc_c07_mil,133,core,Transient,7,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Mild,train,52.0,14,32
+P5B2_TRA_0134_a_c08_mod,134,core,Transient,7,8,High PF (0.98 lag),Family B (PF & Local Load),A,Moderate,train,40.0,14,32
+P5B2_TRA_0135_ab_c10_sev,135,core,Transient,7,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),AB,Severe,train,52.0,12,32
+P5B2_TRA_0136_abc_c12_mil,136,core,Transient,7,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5B2_TRA_0137_a_c09_mod,137,core,Transient,7,9,Low PF (0.85 lag),Family B (PF & Local Load),A,Moderate,val,52.0,14,32
+P5B2_TRA_0138_ab_c11_sev,138,core,Transient,7,11,Bus 5 Light Local Load,Family B (PF & Local Load),AB,Severe,val,40.0,12,32
+P5B2_TRA_0139_abc_c14_mil,139,core,Transient,7,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Mild,val,52.0,14,32
+P5B2_TRA_0140_a_c17_mod,140,core,Transient,7,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),A,Moderate,val,52.0,14,32
+P5B2_TRA_0141_ab_c33_sev,141,core,Transient,7,33,Renewable Inverter Penetration,Family F (Renewable Redispatch [CHALLENGE]),AB,Severe,challenge,52.0,12,32
+P5B2_TRA_0142_abc_c34_mil,142,core,Transient,7,34,Severe Reactive Imbalance,Family G (Cross-Bus Reactive Imbalance [CHALLENGE]),ABC,Mild,challenge,40.0,14,32
+P5B2_TRA_0143_a_c35_mod,143,core,Transient,7,35,Asymmetric Substation Loading,Family H (Asymmetric Substation Loading [CHALLENGE]),A,Moderate,challenge,52.0,14,32
+P5B2_TRA_0144_ab_c36_sev,144,core,Transient,7,36,Stressed Transmission Import,Family I (Stressed Transmission Import [CHALLENGE]),AB,Severe,challenge,52.0,12,32
+P5C_FLI_0145_s01_tr_c01,145,supplementary,Flicker,0,1,Nominal Baseline,Family A (Nominal & Scaling),AB,Moderate,train,52.0,14,32
+P5C_FLI_0146_s02_tr_c02,146,supplementary,Flicker,0,2,Light Load 85%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5C_FLI_0147_s03_tr_c03,147,supplementary,Flicker,0,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5C_FLI_0148_s04_tr_c04,148,supplementary,Flicker,0,4,Normal Load 95%,Family A (Nominal & Scaling),A,Moderate,train,52.0,12,32
+P5C_FLI_0149_s05_tr_c05,149,supplementary,Flicker,0,5,Heavy Load 105%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,14,32
+P5C_FLI_0150_s06_tr_c06,150,supplementary,Flicker,0,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Mild,train,46.0,12,32
+P5C_FLI_0151_s07_tr_c07,151,supplementary,Flicker,0,7,Peak Load 115%,Family A (Nominal & Scaling),AB,Moderate,train,52.0,14,32
+P5C_FLI_0152_s08_tr_c08,152,supplementary,Flicker,0,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Severe,train,52.0,12,32
+P5C_FLI_0153_s09_tr_c09,153,supplementary,Flicker,0,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Mild,train,40.0,14,32
+P5C_FLI_0154_s10_tr_c10,154,supplementary,Flicker,0,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Mild,train,52.0,12,32
+P5C_FLI_0155_s11_tr_c11,155,supplementary,Flicker,0,11,Bus 5 Light Local Load,Family B (PF & Local Load),AB,Moderate,train,52.0,14,32
+P5C_FLI_0156_s12_tr_c12,156,supplementary,Flicker,0,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Severe,train,46.0,12,32
+P5C_FLI_0157_s13_tr_c13,157,supplementary,Flicker,0,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5C_FLI_0158_s14_tr_c14,158,supplementary,Flicker,0,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),A,Moderate,train,52.0,12,32
+P5C_FLI_0159_s15_tr_c15,159,supplementary,Flicker,0,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),ABC,Severe,train,40.0,14,32
+P5C_FLI_0160_s16_tr_c16,160,supplementary,Flicker,0,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Mild,train,52.0,12,32
+P5C_FLI_0161_s17_tr_c17,161,supplementary,Flicker,0,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),AB,Moderate,train,52.0,14,32
+P5C_FLI_0162_s18_tr_c18,162,supplementary,Flicker,0,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),ABC,Severe,train,46.0,12,32
+P5C_FLI_0163_s19_tr_c19,163,supplementary,Flicker,0,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),ABC,Mild,train,52.0,14,32
+P5C_FLI_0164_s20_tr_c20,164,supplementary,Flicker,0,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Mild,train,52.0,12,32
+P5C_FLI_0165_s01_va_c25,165,supplementary,Flicker,0,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),ABC,Severe,val,52.0,14,32
+P5C_FLI_0166_s02_va_c26,166,supplementary,Flicker,0,26,Combined: Light Load + High V,Family D (Voltage & Frequency),ABC,Mild,val,46.0,12,32
+P5C_FLI_0167_s03_va_c27,167,supplementary,Flicker,0,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),AB,Moderate,val,52.0,14,32
+P5C_FLI_0168_s04_va_c28,168,supplementary,Flicker,0,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),A,Moderate,val,46.0,12,32
+P5C_FLI_0169_s01_ch_c37,169,supplementary,Flicker,0,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),ABC,Mild,challenge,52.0,14,32
+P5C_FLI_0170_s02_ch_c38,170,supplementary,Flicker,0,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),A,Moderate,challenge,40.0,12,32
+P5C_FLI_0171_s03_ch_c39,171,supplementary,Flicker,0,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),ABC,Severe,challenge,52.0,14,32
+P5C_FLI_0172_s04_ch_c40,172,supplementary,Flicker,0,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),ABC,Severe,challenge,40.0,12,32
+P5C_HAR_0173_s01_tr_c01,173,supplementary,Harmonics,1,1,Nominal Baseline,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5C_HAR_0174_s02_tr_c02,174,supplementary,Harmonics,1,2,Light Load 85%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5C_HAR_0175_s03_tr_c03,175,supplementary,Harmonics,1,3,Light Load 90%,Family A (Nominal & Scaling),A,Mild,train,40.0,14,32
+P5C_HAR_0176_s04_tr_c04,176,supplementary,Harmonics,1,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,12,32
+P5C_HAR_0177_s05_tr_c05,177,supplementary,Harmonics,1,5,Heavy Load 105%,Family A (Nominal & Scaling),A,Severe,train,52.0,14,32
+P5C_HAR_0178_s06_tr_c06,178,supplementary,Harmonics,1,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Mild,train,46.0,12,32
+P5C_HAR_0179_s07_tr_c07,179,supplementary,Harmonics,1,7,Peak Load 115%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5C_HAR_0180_s08_tr_c08,180,supplementary,Harmonics,1,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Severe,train,52.0,12,32
+P5C_HAR_0181_s09_tr_c09,181,supplementary,Harmonics,1,9,Low PF (0.85 lag),Family B (PF & Local Load),A,Mild,train,40.0,14,32
+P5C_HAR_0182_s10_tr_c10,182,supplementary,Harmonics,1,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Mild,train,52.0,12,32
+P5C_HAR_0183_s11_tr_c11,183,supplementary,Harmonics,1,11,Bus 5 Light Local Load,Family B (PF & Local Load),A,Moderate,train,52.0,14,32
+P5C_HAR_0184_s12_tr_c12,184,supplementary,Harmonics,1,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Severe,train,46.0,12,32
+P5C_HAR_0185_s13_tr_c13,185,supplementary,Harmonics,1,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),A,Mild,train,52.0,14,32
+P5C_HAR_0186_s14_tr_c14,186,supplementary,Harmonics,1,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Moderate,train,52.0,12,32
+P5C_HAR_0187_s15_tr_c15,187,supplementary,Harmonics,1,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),A,Severe,train,40.0,14,32
+P5C_HAR_0188_s16_tr_c16,188,supplementary,Harmonics,1,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Mild,train,52.0,12,32
+P5C_HAR_0189_s17_tr_c17,189,supplementary,Harmonics,1,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),A,Moderate,train,52.0,14,32
+P5C_HAR_0190_s18_tr_c18,190,supplementary,Harmonics,1,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),ABC,Severe,train,46.0,12,32
+P5C_HAR_0191_s19_tr_c19,191,supplementary,Harmonics,1,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),A,Mild,train,52.0,14,32
+P5C_HAR_0192_s20_tr_c20,192,supplementary,Harmonics,1,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Mild,train,52.0,12,32
+P5C_HAR_0193_s01_va_c25,193,supplementary,Harmonics,1,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),A,Severe,val,52.0,14,32
+P5C_HAR_0194_s02_va_c26,194,supplementary,Harmonics,1,26,Combined: Light Load + High V,Family D (Voltage & Frequency),ABC,Mild,val,46.0,12,32
+P5C_HAR_0195_s03_va_c27,195,supplementary,Harmonics,1,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),A,Moderate,val,52.0,14,32
+P5C_HAR_0196_s04_va_c28,196,supplementary,Harmonics,1,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),ABC,Moderate,val,46.0,12,32
+P5C_HAR_0197_s01_ch_c37,197,supplementary,Harmonics,1,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),A,Mild,challenge,52.0,14,32
+P5C_HAR_0198_s02_ch_c38,198,supplementary,Harmonics,1,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),ABC,Moderate,challenge,40.0,12,32
+P5C_HAR_0199_s03_ch_c39,199,supplementary,Harmonics,1,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),A,Severe,challenge,52.0,14,32
+P5C_HAR_0200_s04_ch_c40,200,supplementary,Harmonics,1,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),ABC,Severe,challenge,40.0,12,32
+P5C_INT_0201_s01_tr_c01,201,supplementary,Interruption,2,1,Nominal Baseline,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5C_INT_0202_s02_tr_c02,202,supplementary,Interruption,2,2,Light Load 85%,Family A (Nominal & Scaling),AB,Severe,train,52.0,12,32
+P5C_INT_0203_s03_tr_c03,203,supplementary,Interruption,2,3,Light Load 90%,Family A (Nominal & Scaling),B,Mild,train,40.0,14,32
+P5C_INT_0204_s04_tr_c04,204,supplementary,Interruption,2,4,Normal Load 95%,Family A (Nominal & Scaling),BC,Moderate,train,52.0,12,32
+P5C_INT_0205_s05_tr_c05,205,supplementary,Interruption,2,5,Heavy Load 105%,Family A (Nominal & Scaling),C,Severe,train,52.0,14,32
+P5C_INT_0206_s06_tr_c06,206,supplementary,Interruption,2,6,Heavy Load 110%,Family A (Nominal & Scaling),CA,Mild,train,46.0,12,32
+P5C_INT_0207_s07_tr_c07,207,supplementary,Interruption,2,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,14,32
+P5C_INT_0208_s08_tr_c08,208,supplementary,Interruption,2,8,High PF (0.98 lag),Family B (PF & Local Load),A,Severe,train,52.0,12,32
+P5C_INT_0209_s09_tr_c09,209,supplementary,Interruption,2,9,Low PF (0.85 lag),Family B (PF & Local Load),AB,Mild,train,40.0,14,32
+P5C_INT_0210_s10_tr_c10,210,supplementary,Interruption,2,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Mild,train,52.0,12,32
+P5C_INT_0211_s11_tr_c11,211,supplementary,Interruption,2,11,Bus 5 Light Local Load,Family B (PF & Local Load),A,Moderate,train,52.0,14,32
+P5C_INT_0212_s12_tr_c12,212,supplementary,Interruption,2,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),AB,Severe,train,46.0,12,32
+P5C_INT_0213_s13_tr_c13,213,supplementary,Interruption,2,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),B,Mild,train,52.0,14,32
+P5C_INT_0214_s14_tr_c14,214,supplementary,Interruption,2,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),BC,Moderate,train,52.0,12,32
+P5C_INT_0215_s15_tr_c15,215,supplementary,Interruption,2,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),C,Severe,train,40.0,14,32
+P5C_INT_0216_s16_tr_c16,216,supplementary,Interruption,2,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),CA,Mild,train,52.0,12,32
+P5C_INT_0217_s17_tr_c17,217,supplementary,Interruption,2,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Moderate,train,52.0,14,32
+P5C_INT_0218_s18_tr_c18,218,supplementary,Interruption,2,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),A,Severe,train,46.0,12,32
+P5C_INT_0219_s19_tr_c19,219,supplementary,Interruption,2,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),AB,Mild,train,52.0,14,32
+P5C_INT_0220_s20_tr_c20,220,supplementary,Interruption,2,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Mild,train,52.0,12,32
+P5C_INT_0221_s01_va_c25,221,supplementary,Interruption,2,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),BC,Severe,val,52.0,14,32
+P5C_INT_0222_s02_va_c26,222,supplementary,Interruption,2,26,Combined: Light Load + High V,Family D (Voltage & Frequency),C,Mild,val,46.0,12,32
+P5C_INT_0223_s03_va_c27,223,supplementary,Interruption,2,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),CA,Moderate,val,52.0,14,32
+P5C_INT_0224_s04_va_c28,224,supplementary,Interruption,2,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),B,Moderate,val,46.0,12,32
+P5C_INT_0225_s01_ch_c37,225,supplementary,Interruption,2,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),A,Mild,challenge,52.0,14,32
+P5C_INT_0226_s02_ch_c38,226,supplementary,Interruption,2,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),AB,Moderate,challenge,40.0,12,32
+P5C_INT_0227_s03_ch_c39,227,supplementary,Interruption,2,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),B,Severe,challenge,52.0,14,32
+P5C_INT_0228_s04_ch_c40,228,supplementary,Interruption,2,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),ABC,Severe,challenge,40.0,12,32
+P5C_NOR_0229_s01_tr_c01,229,supplementary,Normal,3,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,14,32
+P5C_NOR_0230_s02_tr_c02,230,supplementary,Normal,3,2,Light Load 85%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,12,32
+P5C_NOR_0231_s03_tr_c03,231,supplementary,Normal,3,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Baseline,train,40.0,14,32
+P5C_NOR_0232_s04_tr_c04,232,supplementary,Normal,3,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,12,32
+P5C_NOR_0233_s05_tr_c05,233,supplementary,Normal,3,5,Heavy Load 105%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,14,32
+P5C_NOR_0234_s06_tr_c06,234,supplementary,Normal,3,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Baseline,train,46.0,12,32
+P5C_NOR_0235_s07_tr_c07,235,supplementary,Normal,3,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Baseline,train,52.0,14,32
+P5C_NOR_0236_s08_tr_c08,236,supplementary,Normal,3,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Baseline,train,52.0,12,32
+P5C_NOR_0237_s09_tr_c09,237,supplementary,Normal,3,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Baseline,train,40.0,14,32
+P5C_NOR_0238_s10_tr_c10,238,supplementary,Normal,3,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Baseline,train,52.0,12,32
+P5C_NOR_0239_s11_tr_c11,239,supplementary,Normal,3,11,Bus 5 Light Local Load,Family B (PF & Local Load),ABC,Baseline,train,52.0,14,32
+P5C_NOR_0240_s12_tr_c12,240,supplementary,Normal,3,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Baseline,train,46.0,12,32
+P5C_NOR_0241_s13_tr_c13,241,supplementary,Normal,3,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),ABC,Baseline,train,52.0,14,32
+P5C_NOR_0242_s14_tr_c14,242,supplementary,Normal,3,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Baseline,train,52.0,12,32
+P5C_NOR_0243_s15_tr_c15,243,supplementary,Normal,3,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),ABC,Baseline,train,40.0,14,32
+P5C_NOR_0244_s16_tr_c16,244,supplementary,Normal,3,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Baseline,train,52.0,12,32
+P5C_NOR_0245_s17_tr_c17,245,supplementary,Normal,3,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Baseline,train,52.0,14,32
+P5C_NOR_0246_s18_tr_c18,246,supplementary,Normal,3,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),ABC,Baseline,train,46.0,12,32
+P5C_NOR_0247_s19_tr_c19,247,supplementary,Normal,3,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),ABC,Baseline,train,52.0,14,32
+P5C_NOR_0248_s20_tr_c20,248,supplementary,Normal,3,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Baseline,train,52.0,12,32
+P5C_NOR_0249_s01_va_c25,249,supplementary,Normal,3,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),ABC,Baseline,val,52.0,14,32
+P5C_NOR_0250_s02_va_c26,250,supplementary,Normal,3,26,Combined: Light Load + High V,Family D (Voltage & Frequency),ABC,Baseline,val,46.0,12,32
+P5C_NOR_0251_s03_va_c27,251,supplementary,Normal,3,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),ABC,Baseline,val,52.0,14,32
+P5C_NOR_0252_s04_va_c28,252,supplementary,Normal,3,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),ABC,Baseline,val,46.0,12,32
+P5C_NOR_0253_s01_ch_c37,253,supplementary,Normal,3,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),ABC,Baseline,challenge,52.0,14,32
+P5C_NOR_0254_s02_ch_c38,254,supplementary,Normal,3,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),ABC,Baseline,challenge,40.0,12,32
+P5C_NOR_0255_s03_ch_c39,255,supplementary,Normal,3,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),ABC,Baseline,challenge,52.0,14,32
+P5C_NOR_0256_s04_ch_c40,256,supplementary,Normal,3,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),ABC,Baseline,challenge,40.0,12,32
+P5C_NOT_0257_s01_tr_c01,257,supplementary,Notch,4,1,Nominal Baseline,Family A (Nominal & Scaling),AB,Moderate,train,52.0,14,32
+P5C_NOT_0258_s02_tr_c02,258,supplementary,Notch,4,2,Light Load 85%,Family A (Nominal & Scaling),A,Severe,train,52.0,12,32
+P5C_NOT_0259_s03_tr_c03,259,supplementary,Notch,4,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5C_NOT_0260_s04_tr_c04,260,supplementary,Notch,4,4,Normal Load 95%,Family A (Nominal & Scaling),AB,Moderate,train,52.0,12,32
+P5C_NOT_0261_s05_tr_c05,261,supplementary,Notch,4,5,Heavy Load 105%,Family A (Nominal & Scaling),A,Severe,train,52.0,14,32
+P5C_NOT_0262_s06_tr_c06,262,supplementary,Notch,4,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Mild,train,46.0,12,32
+P5C_NOT_0263_s07_tr_c07,263,supplementary,Notch,4,7,Peak Load 115%,Family A (Nominal & Scaling),AB,Moderate,train,52.0,14,32
+P5C_NOT_0264_s08_tr_c08,264,supplementary,Notch,4,8,High PF (0.98 lag),Family B (PF & Local Load),A,Severe,train,52.0,12,32
+P5C_NOT_0265_s09_tr_c09,265,supplementary,Notch,4,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Mild,train,40.0,14,32
+P5C_NOT_0266_s10_tr_c10,266,supplementary,Notch,4,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Mild,train,52.0,12,32
+P5C_NOT_0267_s11_tr_c11,267,supplementary,Notch,4,11,Bus 5 Light Local Load,Family B (PF & Local Load),AB,Moderate,train,52.0,14,32
+P5C_NOT_0268_s12_tr_c12,268,supplementary,Notch,4,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),A,Severe,train,46.0,12,32
+P5C_NOT_0269_s13_tr_c13,269,supplementary,Notch,4,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5C_NOT_0270_s14_tr_c14,270,supplementary,Notch,4,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),AB,Moderate,train,52.0,12,32
+P5C_NOT_0271_s15_tr_c15,271,supplementary,Notch,4,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),A,Severe,train,40.0,14,32
+P5C_NOT_0272_s16_tr_c16,272,supplementary,Notch,4,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Mild,train,52.0,12,32
+P5C_NOT_0273_s17_tr_c17,273,supplementary,Notch,4,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),AB,Moderate,train,52.0,14,32
+P5C_NOT_0274_s18_tr_c18,274,supplementary,Notch,4,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),A,Severe,train,46.0,12,32
+P5C_NOT_0275_s19_tr_c19,275,supplementary,Notch,4,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),ABC,Mild,train,52.0,14,32
+P5C_NOT_0276_s20_tr_c20,276,supplementary,Notch,4,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Mild,train,52.0,12,32
+P5C_NOT_0277_s01_va_c25,277,supplementary,Notch,4,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),A,Severe,val,52.0,14,32
+P5C_NOT_0278_s02_va_c26,278,supplementary,Notch,4,26,Combined: Light Load + High V,Family D (Voltage & Frequency),ABC,Mild,val,46.0,12,32
+P5C_NOT_0279_s03_va_c27,279,supplementary,Notch,4,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),AB,Moderate,val,52.0,14,32
+P5C_NOT_0280_s04_va_c28,280,supplementary,Notch,4,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),AB,Moderate,val,46.0,12,32
+P5C_NOT_0281_s01_ch_c37,281,supplementary,Notch,4,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),ABC,Mild,challenge,52.0,14,32
+P5C_NOT_0282_s02_ch_c38,282,supplementary,Notch,4,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),AB,Moderate,challenge,40.0,12,32
+P5C_NOT_0283_s03_ch_c39,283,supplementary,Notch,4,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),A,Severe,challenge,52.0,14,32
+P5C_NOT_0284_s04_ch_c40,284,supplementary,Notch,4,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),A,Severe,challenge,40.0,12,32
+P5C_SAG_0285_s01_tr_c01,285,supplementary,Sag,5,1,Nominal Baseline,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5C_SAG_0286_s02_tr_c02,286,supplementary,Sag,5,2,Light Load 85%,Family A (Nominal & Scaling),AB,Severe,train,52.0,12,32
+P5C_SAG_0287_s03_tr_c03,287,supplementary,Sag,5,3,Light Load 90%,Family A (Nominal & Scaling),B,Mild,train,40.0,14,32
+P5C_SAG_0288_s04_tr_c04,288,supplementary,Sag,5,4,Normal Load 95%,Family A (Nominal & Scaling),BC,Moderate,train,52.0,12,32
+P5C_SAG_0289_s05_tr_c05,289,supplementary,Sag,5,5,Heavy Load 105%,Family A (Nominal & Scaling),C,Severe,train,52.0,14,32
+P5C_SAG_0290_s06_tr_c06,290,supplementary,Sag,5,6,Heavy Load 110%,Family A (Nominal & Scaling),CA,Mild,train,46.0,12,32
+P5C_SAG_0291_s07_tr_c07,291,supplementary,Sag,5,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,14,32
+P5C_SAG_0292_s08_tr_c08,292,supplementary,Sag,5,8,High PF (0.98 lag),Family B (PF & Local Load),A,Severe,train,52.0,12,32
+P5C_SAG_0293_s09_tr_c09,293,supplementary,Sag,5,9,Low PF (0.85 lag),Family B (PF & Local Load),AB,Mild,train,40.0,14,32
+P5C_SAG_0294_s10_tr_c10,294,supplementary,Sag,5,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Mild,train,52.0,12,32
+P5C_SAG_0295_s11_tr_c11,295,supplementary,Sag,5,11,Bus 5 Light Local Load,Family B (PF & Local Load),A,Moderate,train,52.0,14,32
+P5C_SAG_0296_s12_tr_c12,296,supplementary,Sag,5,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),AB,Severe,train,46.0,12,32
+P5C_SAG_0297_s13_tr_c13,297,supplementary,Sag,5,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),B,Mild,train,52.0,14,32
+P5C_SAG_0298_s14_tr_c14,298,supplementary,Sag,5,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),BC,Moderate,train,52.0,12,32
+P5C_SAG_0299_s15_tr_c15,299,supplementary,Sag,5,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),C,Severe,train,40.0,14,32
+P5C_SAG_0300_s16_tr_c16,300,supplementary,Sag,5,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),CA,Mild,train,52.0,12,32
+P5C_SAG_0301_s17_tr_c17,301,supplementary,Sag,5,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Moderate,train,52.0,14,32
+P5C_SAG_0302_s18_tr_c18,302,supplementary,Sag,5,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),A,Severe,train,46.0,12,32
+P5C_SAG_0303_s19_tr_c19,303,supplementary,Sag,5,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),AB,Mild,train,52.0,14,32
+P5C_SAG_0304_s20_tr_c20,304,supplementary,Sag,5,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Mild,train,52.0,12,32
+P5C_SAG_0305_s01_va_c25,305,supplementary,Sag,5,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),BC,Severe,val,52.0,14,32
+P5C_SAG_0306_s02_va_c26,306,supplementary,Sag,5,26,Combined: Light Load + High V,Family D (Voltage & Frequency),C,Mild,val,46.0,12,32
+P5C_SAG_0307_s03_va_c27,307,supplementary,Sag,5,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),CA,Moderate,val,52.0,14,32
+P5C_SAG_0308_s04_va_c28,308,supplementary,Sag,5,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),B,Moderate,val,46.0,12,32
+P5C_SAG_0309_s01_ch_c37,309,supplementary,Sag,5,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),A,Mild,challenge,52.0,14,32
+P5C_SAG_0310_s02_ch_c38,310,supplementary,Sag,5,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),AB,Moderate,challenge,40.0,12,32
+P5C_SAG_0311_s03_ch_c39,311,supplementary,Sag,5,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),B,Severe,challenge,52.0,14,32
+P5C_SAG_0312_s04_ch_c40,312,supplementary,Sag,5,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),ABC,Severe,challenge,40.0,12,32
+P5C_SWE_0313_s01_tr_c01,313,supplementary,Swell,6,1,Nominal Baseline,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,14,32
+P5C_SWE_0314_s02_tr_c02,314,supplementary,Swell,6,2,Light Load 85%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,12,32
+P5C_SWE_0315_s03_tr_c03,315,supplementary,Swell,6,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5C_SWE_0316_s04_tr_c04,316,supplementary,Swell,6,4,Normal Load 95%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,12,32
+P5C_SWE_0317_s05_tr_c05,317,supplementary,Swell,6,5,Heavy Load 105%,Family A (Nominal & Scaling),ABC,Severe,train,52.0,14,32
+P5C_SWE_0318_s06_tr_c06,318,supplementary,Swell,6,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Mild,train,46.0,12,32
+P5C_SWE_0319_s07_tr_c07,319,supplementary,Swell,6,7,Peak Load 115%,Family A (Nominal & Scaling),ABC,Moderate,train,52.0,14,32
+P5C_SWE_0320_s08_tr_c08,320,supplementary,Swell,6,8,High PF (0.98 lag),Family B (PF & Local Load),ABC,Severe,train,52.0,12,32
+P5C_SWE_0321_s09_tr_c09,321,supplementary,Swell,6,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Mild,train,40.0,14,32
+P5C_SWE_0322_s10_tr_c10,322,supplementary,Swell,6,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Mild,train,52.0,12,32
+P5C_SWE_0323_s11_tr_c11,323,supplementary,Swell,6,11,Bus 5 Light Local Load,Family B (PF & Local Load),ABC,Moderate,train,52.0,14,32
+P5C_SWE_0324_s12_tr_c12,324,supplementary,Swell,6,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),ABC,Severe,train,46.0,12,32
+P5C_SWE_0325_s13_tr_c13,325,supplementary,Swell,6,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5C_SWE_0326_s14_tr_c14,326,supplementary,Swell,6,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),ABC,Moderate,train,52.0,12,32
+P5C_SWE_0327_s15_tr_c15,327,supplementary,Swell,6,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),ABC,Severe,train,40.0,14,32
+P5C_SWE_0328_s16_tr_c16,328,supplementary,Swell,6,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Mild,train,52.0,12,32
+P5C_SWE_0329_s17_tr_c17,329,supplementary,Swell,6,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Moderate,train,52.0,14,32
+P5C_SWE_0330_s18_tr_c18,330,supplementary,Swell,6,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),ABC,Severe,train,46.0,12,32
+P5C_SWE_0331_s19_tr_c19,331,supplementary,Swell,6,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),ABC,Mild,train,52.0,14,32
+P5C_SWE_0332_s20_tr_c20,332,supplementary,Swell,6,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Mild,train,52.0,12,32
+P5C_SWE_0333_s01_va_c25,333,supplementary,Swell,6,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),ABC,Severe,val,52.0,14,32
+P5C_SWE_0334_s02_va_c26,334,supplementary,Swell,6,26,Combined: Light Load + High V,Family D (Voltage & Frequency),ABC,Mild,val,46.0,12,32
+P5C_SWE_0335_s03_va_c27,335,supplementary,Swell,6,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),ABC,Moderate,val,52.0,14,32
+P5C_SWE_0336_s04_va_c28,336,supplementary,Swell,6,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),ABC,Moderate,val,46.0,12,32
+P5C_SWE_0337_s01_ch_c37,337,supplementary,Swell,6,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),ABC,Mild,challenge,52.0,14,32
+P5C_SWE_0338_s02_ch_c38,338,supplementary,Swell,6,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),ABC,Moderate,challenge,40.0,12,32
+P5C_SWE_0339_s03_ch_c39,339,supplementary,Swell,6,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),ABC,Severe,challenge,52.0,14,32
+P5C_SWE_0340_s04_ch_c40,340,supplementary,Swell,6,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),ABC,Severe,challenge,40.0,12,32
+P5C_TRA_0341_s01_tr_c01,341,supplementary,Transient,7,1,Nominal Baseline,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5C_TRA_0342_s02_tr_c02,342,supplementary,Transient,7,2,Light Load 85%,Family A (Nominal & Scaling),AB,Severe,train,52.0,12,32
+P5C_TRA_0343_s03_tr_c03,343,supplementary,Transient,7,3,Light Load 90%,Family A (Nominal & Scaling),ABC,Mild,train,40.0,14,32
+P5C_TRA_0344_s04_tr_c04,344,supplementary,Transient,7,4,Normal Load 95%,Family A (Nominal & Scaling),A,Moderate,train,52.0,12,32
+P5C_TRA_0345_s05_tr_c05,345,supplementary,Transient,7,5,Heavy Load 105%,Family A (Nominal & Scaling),AB,Severe,train,52.0,14,32
+P5C_TRA_0346_s06_tr_c06,346,supplementary,Transient,7,6,Heavy Load 110%,Family A (Nominal & Scaling),ABC,Mild,train,46.0,12,32
+P5C_TRA_0347_s07_tr_c07,347,supplementary,Transient,7,7,Peak Load 115%,Family A (Nominal & Scaling),A,Moderate,train,52.0,14,32
+P5C_TRA_0348_s08_tr_c08,348,supplementary,Transient,7,8,High PF (0.98 lag),Family B (PF & Local Load),AB,Severe,train,52.0,12,32
+P5C_TRA_0349_s09_tr_c09,349,supplementary,Transient,7,9,Low PF (0.85 lag),Family B (PF & Local Load),ABC,Mild,train,40.0,14,32
+P5C_TRA_0350_s10_tr_c10,350,supplementary,Transient,7,10,Bus 5 Heavy Local Load,Family B (PF & Local Load),ABC,Mild,train,52.0,12,32
+P5C_TRA_0351_s11_tr_c11,351,supplementary,Transient,7,11,Bus 5 Light Local Load,Family B (PF & Local Load),A,Moderate,train,52.0,14,32
+P5C_TRA_0352_s12_tr_c12,352,supplementary,Transient,7,12,Bus 6 Remote Heavy Load,Family B (PF & Local Load),AB,Severe,train,46.0,12,32
+P5C_TRA_0353_s13_tr_c13,353,supplementary,Transient,7,13,Bus 8 Remote Heavy Load,Family B (PF & Local Load),ABC,Mild,train,52.0,14,32
+P5C_TRA_0354_s14_tr_c14,354,supplementary,Transient,7,14,Cross-Bus Diversity A,Family C (Diversity & Redispatch),A,Moderate,train,52.0,12,32
+P5C_TRA_0355_s15_tr_c15,355,supplementary,Transient,7,15,Cross-Bus Diversity B,Family C (Diversity & Redispatch),AB,Severe,train,40.0,14,32
+P5C_TRA_0356_s16_tr_c16,356,supplementary,Transient,7,16,Gen 2 Heavy Dispatch,Family C (Diversity & Redispatch),ABC,Mild,train,52.0,12,32
+P5C_TRA_0357_s17_tr_c17,357,supplementary,Transient,7,17,Gen 3 Heavy Dispatch,Family C (Diversity & Redispatch),A,Moderate,train,52.0,14,32
+P5C_TRA_0358_s18_tr_c18,358,supplementary,Transient,7,18,High Voltage Schedule (+2%),Family D (Voltage & Frequency),AB,Severe,train,46.0,12,32
+P5C_TRA_0359_s19_tr_c19,359,supplementary,Transient,7,19,Low Voltage Schedule (-2%),Family D (Voltage & Frequency),ABC,Mild,train,52.0,14,32
+P5C_TRA_0360_s20_tr_c20,360,supplementary,Transient,7,20,"Gen 2 High V, Gen 3 Low V",Family D (Voltage & Frequency),ABC,Mild,train,52.0,12,32
+P5C_TRA_0361_s01_va_c25,361,supplementary,Transient,7,25,Freq Deadband +0.03 Hz (60.03),Family D (Voltage & Frequency),AB,Severe,val,52.0,14,32
+P5C_TRA_0362_s02_va_c26,362,supplementary,Transient,7,26,Combined: Light Load + High V,Family D (Voltage & Frequency),ABC,Mild,val,46.0,12,32
+P5C_TRA_0363_s03_va_c27,363,supplementary,Transient,7,27,Combined: Heavy Load + Low V,Family D (Voltage & Frequency),A,Moderate,val,52.0,14,32
+P5C_TRA_0364_s04_va_c28,364,supplementary,Transient,7,28,Combined: Heavy Load + 59.97 Hz,Family E (Historical Combined),A,Moderate,val,46.0,12,32
+P5C_TRA_0365_s01_ch_c37,365,supplementary,Transient,7,37,High Wind Intermittent Fluctuation,Family J (Renewable Intermittency [CHALLENGE]),ABC,Mild,challenge,52.0,14,32
+P5C_TRA_0366_s02_ch_c38,366,supplementary,Transient,7,38,Stressed Industrial Induction Dynamic Load,Family K (Dynamic Industrial Impedance [CHALLENGE]),A,Moderate,challenge,40.0,12,32
+P5C_TRA_0367_s03_ch_c39,367,supplementary,Transient,7,39,High Solar Reverse Feeder Injection,Family L (Reverse Active Flow [CHALLENGE]),AB,Severe,challenge,52.0,14,32
+P5C_TRA_0368_s04_ch_c40,368,supplementary,Transient,7,40,Extreme Substation Reactive Deficit,Family M (Severe Reactive Deficit [CHALLENGE]),AB,Severe,challenge,40.0,12,32

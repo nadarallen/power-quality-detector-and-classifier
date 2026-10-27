@@ -43,6 +43,7 @@ temp_*.pkl
 !data/ieee9bus_60hz/**/*.npz
 !data/ieee9bus_60hz_phase5b_pilot/**/*.npz
 !data/ieee9bus_60hz_phase5b_pilot_v2/**/*.npz
+!data/ieee9bus_60hz_phase5c/**/*.npz
 data/waveforms/
 data/enhanced_splits/
 
