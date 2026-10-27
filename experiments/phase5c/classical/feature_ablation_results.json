@@ -1,0 +1,74 @@
+{
+  "Amplitude & Shape": {
+    "ablated_features": [
+      "rms_voltage",
+      "peak_voltage",
+      "crest_factor",
+      "duration"
+    ],
+    "remaining_features_count": 28,
+    "val_accuracy": 0.875,
+    "val_macro_f1": 0.8695436507936507,
+    "delta_macro_f1": -0.056491718155225135
+  },
+  "Harmonics & Ratios": {
+    "ablated_features": [
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "h7",
+      "h8",
+      "h9",
+      "h10",
+      "h11",
+      "h2_ratio",
+      "h3_ratio",
+      "h4_ratio",
+      "h5_ratio",
+      "h7_ratio",
+      "h9_ratio",
+      "h11_ratio",
+      "harmonic_energy"
+    ],
+    "remaining_features_count": 13,
+    "val_accuracy": 0.9375,
+    "val_macro_f1": 0.9305555555555556,
+    "delta_macro_f1": 0.004520186606679744
+  },
+  "Spectral Characteristics": {
+    "ablated_features": [
+      "spectral_centroid",
+      "spectral_bandwidth",
+      "spectral_entropy",
+      "spectral_flatness"
+    ],
+    "remaining_features_count": 28,
+    "val_accuracy": 0.9150390625,
+    "val_macro_f1": 0.9105933222049674,
+    "delta_macro_f1": -0.015442046743908477
+  },
+  "Frequency Characteristics": {
+    "ablated_features": [
+      "dominant_freq",
+      "system_freq",
+      "true_dominant_freq"
+    ],
+    "remaining_features_count": 29,
+    "val_accuracy": 0.9189453125,
+    "val_macro_f1": 0.9152086368376351,
+    "delta_macro_f1": -0.010826732111240744
+  },
+  "Signal Quality": {
+    "ablated_features": [
+      "thd",
+      "snr"
+    ],
+    "remaining_features_count": 30,
+    "val_accuracy": 0.87890625,
+    "val_macro_f1": 0.8720206607445853,
+    "delta_macro_f1": -0.05401470820429055
+  }
+}

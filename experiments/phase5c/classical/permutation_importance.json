@@ -1,0 +1,130 @@
+{
+  "rms_voltage": {
+    "mean_importance": 0.07470422420843564,
+    "std_importance": 0.007454623514602401
+  },
+  "peak_voltage": {
+    "mean_importance": 0.04734193759335884,
+    "std_importance": 0.0033657131069495493
+  },
+  "crest_factor": {
+    "mean_importance": 0.12363413546821364,
+    "std_importance": 0.006298276039168014
+  },
+  "thd": {
+    "mean_importance": 0.02340227527230283,
+    "std_importance": 0.0053043134446989085
+  },
+  "duration": {
+    "mean_importance": 0.20358769681054203,
+    "std_importance": 0.005176405812497979
+  },
+  "dominant_freq": {
+    "mean_importance": 0.0,
+    "std_importance": 0.0
+  },
+  "system_freq": {
+    "mean_importance": 0.00966877789274404,
+    "std_importance": 0.0032960501378901086
+  },
+  "snr": {
+    "mean_importance": 0.39042914885475416,
+    "std_importance": 0.005243666715119013
+  },
+  "h1": {
+    "mean_importance": 0.0212348673887351,
+    "std_importance": 0.005547879592953434
+  },
+  "h2": {
+    "mean_importance": 0.015557275392219572,
+    "std_importance": 0.003358045396621102
+  },
+  "h3": {
+    "mean_importance": 0.014475929662884612,
+    "std_importance": 0.004087925516795595
+  },
+  "h4": {
+    "mean_importance": 0.008426590753719054,
+    "std_importance": 0.0033477277604464506
+  },
+  "h5": {
+    "mean_importance": 0.03537497524752781,
+    "std_importance": 0.004659804425777617
+  },
+  "h6": {
+    "mean_importance": 0.007264039753854345,
+    "std_importance": 0.0032602187762093486
+  },
+  "h7": {
+    "mean_importance": 0.016768750732717018,
+    "std_importance": 0.0034037269831766535
+  },
+  "h8": {
+    "mean_importance": 0.043495768083789924,
+    "std_importance": 0.005217789458113926
+  },
+  "h9": {
+    "mean_importance": 0.02089945802860955,
+    "std_importance": 0.00392227460195525
+  },
+  "h10": {
+    "mean_importance": -0.0013051349117377598,
+    "std_importance": 0.0013408983990658397
+  },
+  "h11": {
+    "mean_importance": 0.029683766784481036,
+    "std_importance": 0.0037242868606950363
+  },
+  "h2_ratio": {
+    "mean_importance": 0.007802789266028787,
+    "std_importance": 0.0027218414148239916
+  },
+  "h3_ratio": {
+    "mean_importance": 0.011434659249273638,
+    "std_importance": 0.00405711497001642
+  },
+  "h4_ratio": {
+    "mean_importance": 0.01229033034720206,
+    "std_importance": 0.004848443020416203
+  },
+  "h5_ratio": {
+    "mean_importance": 0.002357836854451778,
+    "std_importance": 0.002223352948927447
+  },
+  "h7_ratio": {
+    "mean_importance": 0.02968753145290127,
+    "std_importance": 0.004024557693908736
+  },
+  "h9_ratio": {
+    "mean_importance": 0.02834162686994899,
+    "std_importance": 0.0035655939650498427
+  },
+  "h11_ratio": {
+    "mean_importance": 0.03398752641563616,
+    "std_importance": 0.0036758370906450418
+  },
+  "harmonic_energy": {
+    "mean_importance": 0.02343155836402615,
+    "std_importance": 0.0044169459604524305
+  },
+  "spectral_centroid": {
+    "mean_importance": 0.06559390815795954,
+    "std_importance": 0.004120597938141918
+  },
+  "spectral_bandwidth": {
+    "mean_importance": 0.04933681399012687,
+    "std_importance": 0.005771502880105424
+  },
+  "spectral_entropy": {
+    "mean_importance": 0.03638361383642084,
+    "std_importance": 0.004326943874551549
+  },
+  "spectral_flatness": {
+    "mean_importance": 0.06267440716753785,
+    "std_importance": 0.0033716755569227273
+  },
+  "true_dominant_freq": {
+    "mean_importance": 0.0,
+    "std_importance": 0.0
+  }
+}
