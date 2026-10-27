@@ -1,0 +1,2464 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  28 OCT 2026 03:06
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./main.tex
+(main.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count275
+\c@chapter=\count276
+\c@section=\count277
+\c@subsection=\count278
+\c@subsubsection=\count279
+\c@paragraph=\count280
+\c@subparagraph=\count281
+\c@figure=\count282
+\c@table=\count283
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
+\@mathmargin=\skip51
+
+For additional information on amsmath, use the `?' option.
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen149
+))
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen150
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count284
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count285
+\leftroot@=\count286
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count287
+\DOTSCASE@=\count288
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen151
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count289
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count290
+\dotsspace@=\muskip17
+\c@parentequation=\count291
+\dspbrk@lvl=\count292
+\tag@help=\toks20
+\row@=\count293
+\column@=\count294
+\maxfields@=\count295
+\andhelp@=\toks21
+\eqnshift@=\dimen152
+\alignsep@=\dimen153
+\tagshift@=\dimen154
+\tagwidth@=\dimen155
+\totwidth@=\dimen156
+\lineht@=\dimen157
+\@envbody=\toks22
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.st
+y
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks24
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen158
+\Gin@req@width=\dimen159
+) (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count296
+\float@exts=\toks25
+\float@box=\box55
+\@float@everytoks=\toks26
+\@floatcapt=\box56
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2026/03/07 v6.0 Page Geometry
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count297
+\Gm@cntv=\count298
+\c@Gm@tempcnt=\count299
+\Gm@bindingoffset=\dimen160
+\Gm@wd@mp=\dimen161
+\Gm@odd@mp=\dimen162
+\Gm@even@mp=\dimen163
+\Gm@layoutwidth=\dimen164
+\Gm@layoutheight=\dimen165
+\Gm@layouthoffset=\dimen166
+\Gm@layoutvoffset=\dimen167
+\Gm@dimlist=\toks27
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen168
+\captionmargin=\dimen169
+\caption@leftmargin=\dimen170
+\caption@rightmargin=\dimen171
+\caption@width=\dimen172
+\caption@indent=\dimen173
+\caption@parindent=\dimen174
+\caption@hangindent=\dimen175
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count300
+\c@continuedfloat=\count301
+Package caption Info: float package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count302
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count303
+) (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen176
+\lightrulewidth=\dimen177
+\cmidrulewidth=\dimen178
+\belowrulesep=\dimen179
+\belowbottomsep=\dimen180
+\aboverulesep=\dimen181
+\abovetopsep=\dimen182
+\cmidrulesep=\dimen183
+\cmidrulekern=\dimen184
+\defaultaddspace=\dimen185
+\@cmidla=\count304
+\@cmidlb=\count305
+\@aboverulesep=\dimen186
+\@belowrulesep=\dimen187
+\@thisruleclass=\count306
+\@lastruleclass=\count307
+\@thisrulewidth=\dimen188
+) (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen189
+\ar@mcellbox=\box57
+\extrarowheight=\dimen190
+\NC@list=\toks28
+\extratabsurround=\skip54
+\backup@length=\skip55
+\ar@cellbox=\box58
+)
+\TX@col@width=\dimen191
+\TX@old@table=\dimen192
+\TX@old@col=\dimen193
+\TX@target=\dimen194
+\TX@delta=\dimen195
+\TX@cols=\count308
+\TX@ftn=\toks29
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
+\lst@mode=\count309
+\lst@gtempboxa=\box59
+\lst@token=\toks30
+\lst@length=\count310
+\lst@currlwidth=\dimen196
+\lst@column=\count311
+\lst@pos=\count312
+\lst@lostspace=\dimen197
+\lst@width=\dimen198
+\lst@newlines=\count313
+\lst@lineno=\count314
+\lst@maxwidth=\dimen199
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty
+File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
+\c@lstnumber=\count315
+\lst@skipnumbers=\count316
+\lst@framebox=\box60
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
+File: listings.cfg 2025/11/14 1.11b listings configuration
+))
+Package: listings 2025/11/14 1.11b (Carsten Heinz)
+==> First Aid for listings.sty no longer applied!
+    Expected:
+        2024/09/23 1.10c (Carsten Heinz)
+    but found:
+        2025/11/14 1.11b (Carsten Heinz)
+    so I'm assuming it got fixed.
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count317
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count318
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen256
+\Hy@linkcounter=\count319
+\Hy@pagecounter=\count320
+ (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count321
+ (C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 4066.
+Package hyperref Info: Hyper figures OFF on input line 4195.
+Package hyperref Info: Link nesting OFF on input line 4200.
+Package hyperref Info: Hyper index ON on input line 4203.
+Package hyperref Info: Plain pages OFF on input line 4210.
+Package hyperref Info: Backreferencing OFF on input line 4215.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4462.
+\c@Hy@tempcnt=\count322
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4801.
+\XeTeXLinkMargin=\dimen257
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count323
+\Field@Width=\dimen258
+\Fld@charsize=\dimen259
+Package hyperref Info: Hyper figures OFF on input line 6078.
+Package hyperref Info: Link nesting OFF on input line 6083.
+Package hyperref Info: Hyper index ON on input line 6086.
+Package hyperref Info: backreferencing OFF on input line 6093.
+Package hyperref Info: Link coloring ON on input line 6096.
+Package hyperref Info: Link coloring with OCG OFF on input line 6103.
+Package hyperref Info: PDF/A mode OFF on input line 6108.
+\Hy@abspage=\count324
+\c@Item=\count325
+\c@Hfootnote=\count326
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
+\Fld@listcount=\count327
+\c@bookmark@seq@number=\count328
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+84.
+)
+\Hy@SectionHShift=\skip56
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/cite\cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count329
+) (main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count330
+\scratchdimen=\dimen260
+\scratchbox=\box61
+\nofMPsegments=\count331
+\nofMParguments=\count332
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count333
+\MPscratchDim=\dimen261
+\MPnumerator=\count334
+\makeMPintoPDFobject=\count335
+\everyMPtoPDFconversion=\toks32
+)
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\c@lstlisting=\count336
+Package hyperref Info: Link coloring ON on input line 48.
+(main.out) (main.out)
+\@outlinefile=\write3
+\openout3 = `main.out'.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 70.
+
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 70.
+
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+<logo.png, id=251, 277.035pt x 275.22826pt>
+File: logo.png Graphic file (type png)
+<use logo.png>
+Package pdftex.def Info: logo.png  used on input line 87.
+(pdftex.def)             Requested size: 102.43008pt x 101.76146pt.
+
+[1
+
+{C:/Users/Allen/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./logo.png>]
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.139 \clearpage
+                 [1
+
+]
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.173 \clearpage
+                 [2
+
+]
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.221 \clearpage
+                 [3
+
+]
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.235 \clearpage
+                 [4
+
+]
+Overfull \hbox (2.79681pt too wide) in paragraph at lines 255--256
+\OT1/cmr/m/n/12 frames across 144 in-de-pen-dent con-tin-u-ous tra-jec-to-ries)
+ con-firm that while clas-si-cal feature-
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.256 \clearpage
+                 [5
+
+]
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.256 \clearpage
+                 [6] (main.toc
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.28 ...assification Matrix}{15}{subsection.3.3.3}
+                                                  % [7
+
+
+]
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.62 ...onclusion and Future Scope}{45}{chapter.8}
+                                                  % [8])
+\tf@toc=\write4
+\openout4 = `main.toc'.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.260 \clearpage
+                 [9] (main.lof
+Overfull \hbox (27.798pt too wide) in paragraph at lines 11--11
+ \OT1/cmr/m/n/12 ac-tive sim-u-la-tion con-fig-u-ra-tion, show-ing the red/oran
+ge high-lighted disturbance- 
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.16 ...t-fault recovery.}}{30}{figure.caption.21}
+                                                  % [10
+
+
+]
+Overfull \hbox (1.1395pt too wide) in paragraph at lines 21--21
+ [][] [][][]\OT1/cmr/m/n/12 Multi-model bench-mark com-par-i-son show-ing Val-i
+-da-tion Macro F1 vs. One- 
+ []
+
+)
+\tf@lof=\write5
+\openout5 = `main.lof'.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.262 \clearpage
+                 [11] (main.lot)
+\tf@lot=\write6
+\openout6 = `main.lot'.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.264 \clearpage
+                 [12
+
+
+]
+Chapter 1.
+[1
+
+
+] [2] [3]
+Overfull \hbox (118.31981pt too wide) detected at line 307
+[][][]\OML/cmm/m/it/12 y \OMS/cmsy/m/n/12 2 C \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/1
+2 f[]g
+ []
+
+[4]
+Chapter 2.
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|\OT1/cmr/bx/n/12 Typical
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|\OT1/cmr/bx/n/12 Voltage
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OT1/cmr/bx/n/12 Mag-ni-
+ []
+
+
+Overfull \hbox (2.21143pt too wide) in paragraph at lines 350--350
+[]|\OT1/cmr/m/n/12 Continuous| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 90 \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OML/cmm/m/it/12 V[] \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Overfull \hbox (40.39853pt too wide) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 5[]1[]$| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 10 \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OML/cmm/m/it/12 V[] <
+ []
+
+
+Overfull \hbox (40.39853pt too wide) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 5[]1[]$| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 1\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 10 \OML/cmm/m/it/12 <
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OML/cmm/m/it/12 V[] \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Overfull \hbox (40.39853pt too wide) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 5[]1[]$| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|$\OML/cmm/m/it/12 V[] <
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|\OT1/cmr/m/n/12 Steady-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 90 \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OML/cmm/m/it/12 V[] \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Overfull \hbox (7.03777pt too wide) in paragraph at lines 350--350
+[]|\OT1/cmr/m/n/12 Intermittent| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 90 \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OML/cmm/m/it/12 V[] \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|\OT1/cmr/m/n/12 Steady-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OT1/cmr/m/n/12 state /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|$\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 90 \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+\OML/cmm/m/it/12 V[] \OMS/cmsy/m/n/12 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
+[]|\OT1/cmr/m/n/12 Sub-cycle
+ []
+
+[5
+
+] [6]
+Overfull \hbox (7.79494pt too wide) in paragraph at lines 362--362
+[]\OT1/cmr/bx/n/14.4 Fourier Synchro-Squeezing Trans-form and En-sem-ble Meth-
+ []
+
+
+Overfull \hbox (7.4899pt too wide) in paragraph at lines 363--364
+\OT1/cmr/m/n/12 Support Vec-tor Ma-chine (SVM), Ran-dom For-est (RF), Gra-di-en
+t Boost-ing Ma-chine (GBM),
+ []
+
+
+Underfull \hbox (badness 1917) in paragraph at lines 385--385
+[]|\OT1/cmr/bx/n/10.95 Signal Rep-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/bx/n/10.95 Reported
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/bx/n/10.95 Identified
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 95.6% on
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 Sensitive to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/m/n/10.95 grid load-ing;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/m/n/10.95 single-phase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 Mathematical
+ []
+
+
+Underfull \hbox (badness 3657) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 99.95% (Syn-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 No net-work
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/m/n/10.95 physics;
+ []
+
+
+Underfull \hbox (badness 7613) in paragraph at lines 385--385
+\OT1/cmr/m/n/10.95 noise-free as-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 FSST Time-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 Gradient
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/m/n/10.95 High com-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/m/n/10.95 pu-ta-tional
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/m/n/10.95 la-tency; 4
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/bx/n/10.95 Dual-rate
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 Wave-forms
+ []
+
+
+Overfull \hbox (8.13228pt too wide) in paragraph at lines 385--385
+[]|\OT1/cmr/bx/n/10.95 HybridPQNet
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 (CNN +
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 Dense Fu-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/bx/n/10.95 100.00%
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 (Val &
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\OT1/cmr/bx/n/10.95 Addresses
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 three-phase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 un-bal-ance,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 sub-cycle
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 tran-sients,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 and zero-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\OT1/cmr/bx/n/10.95 leakage
+ []
+
+[7] [8]
+Chapter 3.
+<block diagram_1.png, id=528, 840.741pt x 182.48175pt>
+File: block diagram_1.png Graphic file (type png)
+<use block diagram_1.png>
+Package pdftex.def Info: block diagram_1.png  used on input line 401.
+(pdftex.def)             Requested size: 430.31812pt x 93.40137pt.
+[9
+
+ <./block diagram_1.png>]
+<step1_3.png, id=538, 847.36575pt x 233.07076pt>
+File: step1_3.png Graphic file (type png)
+<use step1_3.png>
+Package pdftex.def Info: step1_3.png  used on input line 418.
+(pdftex.def)             Requested size: 430.31812pt x 118.36305pt.
+<step4_6.png, id=539, 847.36575pt x 230.0595pt>
+File: step4_6.png Graphic file (type png)
+<use step4_6.png>
+Package pdftex.def Info: step4_6.png  used on input line 425.
+(pdftex.def)             Requested size: 430.31812pt x 116.83382pt.
+ [10 <./step1_3.png> <./step4_6.png>]
+Overfull \hbox (2.54237pt too wide) in paragraph at lines 442--443
+[]\OT1/cmr/bx/n/12 Transient: \OT1/cmr/m/n/12 High-frequency ca-pac-i-tor switc
+h-ing with damped RLC res-o-nance ($\OML/cmm/m/it/12 f[] \OMS/cmsy/m/n/12 2
+ []
+
+[11] [12]
+Overfull \hbox (2.47783pt too wide) in paragraph at lines 471--471
+[]\OT1/cmr/bx/n/17.28 Standards Trace-abil-ity and Project-Specific Clas-
+ []
+
+[13]
+Underfull \hbox (badness 2368) in paragraph at lines 514--514
+[]|\OT1/cmr/bx/n/10.95 50 Hz Stan-dards
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 514--514
+\OT1/cmr/bx/n/10.95 Ex-am-ple (\OT1/cmr/bx/it/10.95 IEEE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 514--514
+\OT1/cmr/bx/n/10.95 Im-ple-men-ta-tion
+ []
+
+
+Overfull \hbox (11.62651pt too wide) in paragraph at lines 514--514
+[]|$\OT1/cmr/m/n/10.95 2[]10[](40[]200[])$| 
+ []
+
+
+Overfull \hbox (30.57564pt too wide) in paragraph at lines 514--514
+[]|$[]$| 
+ []
+
+[14]
+Overfull \hbox (27.26837pt too wide) in paragraph at lines 518--519
+\OT1/cmr/m/it/12 IEEE Stan-dards.docx\OT1/cmr/m/n/12 , rig-or-ously adapted and
+ rec-on-ciled against the ac-tual MAT-LAB/Simulink
+ []
+
+
+Overfull \hbox (12.0573pt too wide) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Disturbance
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Applicable
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 Stan-dard /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Standard-
+ []
+
+
+Underfull \hbox (badness 6658) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Project Sim-u-la-
+ []
+
+
+Underfull \hbox (badness 1910) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 tion & Gen-er-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Signal-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 Processing &
+ []
+
+
+Underfull \hbox (badness 3668) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Project Im-ple-
+ []
+
+
+Underfull \hbox (badness 2020) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 men-ta-tion Sta-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Normal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 Op-er-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 1159-2019
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Nominal steady-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 state si-nu-soid;
+ []
+
+
+Underfull \hbox (badness 2707) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 90 \OMS/cmsy/m/n/8 ^^T \OML/cmm
+/m/it/8 V[] \OMS/cmsy/m/n/8 ^^T
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Unperturbed
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 WSCC 9-bus
+ []
+
+
+Underfull \hbox (badness 3386) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 power flow across
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 10 gen-er-a-tor/load
+ []
+
+
+Underfull \hbox (badness 5681) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 tion, zero-crossing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 3-phase un-bal-ance
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Fully Im-ple-
+ []
+
+
+Underfull \hbox (badness 1661) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 mented. \OT1/cmr/m/n/8 1,120
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 576 frames in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Voltage
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Temporary re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 duc-tion in RMS
+ []
+
+
+Underfull \hbox (badness 3690) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 volt-age: $0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 10 \OMS/cmsy/m/n/8 ^
+^T
+ []
+
+
+Underfull \hbox (badness 3612) in paragraph at lines 545--545
+\OML/cmm/m/it/8 V[] < \OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 90[]$;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 in-stan-ta-neous:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 5[]30[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ($8\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 33[]500[]$ at
+ []
+
+
+Underfull \hbox (badness 1939) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ($\OML/cmm/m/it/8 R[] \OMS/cmsy/m/n/8 2 \OT1/cmr/m/n/8 [1\OML/cm
+m/m/it/8 ; \OT1/cmr/m/n/8 30] 
+$,
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 545--545
+\OML/cmm/m/it/8 R[] \OMS/cmsy/m/n/8 2 \OT1/cmr/m/n/8 [0\OML/cmm/m/it/8 :\OT1/cm
+r/m/n/8 1\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 5] 
+$);
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Sliding 200 ms
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 win-dow RMS
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ($\OML/cmm/m/it/8 V[]$\OT1/cmr/m/n/8 ), du-ra-tion
+ []
+
+
+Underfull \hbox (badness 4899) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ($\OML/cmm/m/it/8 T[]$\OT1/cmr/m/n/8 ), and crest
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 fac-tor ($\OML/cmm/m/it/8 CF \OT1/cmr/m/n/8 =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Fully Im-ple-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 mented. \OT1/cmr/m/n/8 18
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 con-tin-u-ous tra-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 jec-to-ries, 576
+ []
+
+
+Underfull \hbox (badness 2671) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 resid-ual $\OML/cmm/m/it/8 V[] \OMS/cmsy/m/n/8 2
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Voltage
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Temporary in-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 crease in RMS
+ []
+
+
+Underfull \hbox (badness 3690) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 volt-age: $1\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 10 \OML/cmm/m/it/8 <
+
+ []
+
+
+Underfull \hbox (badness 5519) in paragraph at lines 545--545
+\OML/cmm/m/it/8 V[] \OMS/cmsy/m/n/8 ^^T \OT1/cmr/m/n/8 1\OML/cmm/m/it/8 :\OT1/c
+mr/m/n/8 80[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 in-stan-ta-neous
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ($0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 5[]30[]$);
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 mo-men-tary:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 1\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 10[]1\OML/cmm/m/it/8 :\OT1/cmr/
+m/n/8 40[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Shunt ca-pac-i-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 tor en-er-giza-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 at Bus 5 via
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmtt/m/n/8 PQD[]Breaker[]Swell
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ($\OML/cmm/m/it/8 Q[] \OT1/cmr/m/n/8 =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 90[]150[]$);
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 du-ra-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Windowed RMS,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 du-ra-tion, crest
+ []
+
+
+Underfull \hbox (badness 5403) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 fac-tor, and post-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 clearing tran-sient
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Fully Im-ple-
+ []
+
+
+Underfull \hbox (badness 6927) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 mented. \OT1/cmr/m/n/8 576
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 due to snub-ber
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 trapped-charge
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Voltage
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 In-ter-rup-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Supply col-lapse:
+ []
+
+
+Underfull \hbox (badness 3612) in paragraph at lines 545--545
+\OML/cmm/m/it/8 V[] < \OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 10[]$;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 mo-men-tary:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 5[]3[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Series cir-cuit
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 breaker open-
+ []
+
+
+Overfull \hbox (28.00522pt too wide) in paragraph at lines 545--545
+\OT1/cmtt/m/n/8 PQD[]Breaker[]Interruption\OT1/cmr/m/n/8 ;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 du-ra-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Windowed RMS
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OML/cmm/m/it/8 < \OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 1[]$ du-ra-
+ []
+
+
+Underfull \hbox (badness 4060) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 tion track-ing and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 or-thog-o-nal SNR
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Fully Im-ple-
+ []
+
+
+Underfull \hbox (badness 6927) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 mented. \OT1/cmr/m/n/8 576
+ []
+
+
+Underfull \hbox (badness 2503) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 frames. Bus 5
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 volt-age col-lapses
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 be-low $0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 05[]$
+ []
+
+
+Overfull \hbox (6.0739pt too wide) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Harmonics| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 1159-2019
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Waveform dis-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 tor-tion with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 integer-multiple
+ []
+
+
+Underfull \hbox (badness 1072) in paragraph at lines 545--545
+[] \OML/cmm/m/it/8 > \OT1/cmr/m/n/8 5%$ is a
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Controlled non-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 in-jec-tion at Bus
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 5 span-ning odd
+ []
+
+
+Underfull \hbox (badness 4940) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 or-ders: H3 (180
+ []
+
+
+Underfull \hbox (badness 1939) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 H7 (420 Hz), H9
+ []
+
+
+Underfull \hbox (badness 1895) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Goertzel al-go-rithm
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Fully Im-ple-
+ []
+
+
+Underfull \hbox (badness 6927) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 mented. \OT1/cmr/m/n/8 576
+ []
+
+
+Underfull \hbox (badness 4084) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 frames. Model
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 eval-u-ates Go-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ertzel har-monic
+ []
+
+
+Overfull \hbox (6.61282pt too wide) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Oscillatory
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 Tran-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 1159-2019
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 (Cat-e-gory
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Low-frequency os-
+ []
+
+
+Underfull \hbox (badness 5667) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 cil-la-tory tran-sient:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 spec-tral con-tent
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 3[]50[]$; peak
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 High-frequency
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ca-pac-i-tor switch-
+ []
+
+
+Underfull \hbox (badness 5741) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ing with damped
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 RLC res-o-nance
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 [1\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 2\OML/cmm/m/it/8 ; \OT1/cmr/m/
+n/8 2\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 2][]$,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 damp-ing time
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Orthogonal pro-jec-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 dis-crim-i-na-tor),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 crest fac-tor, du-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ra-tion, spec-tral
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 flat-ness, and 20
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Fully Im-ple-
+ []
+
+
+Underfull \hbox (badness 6927) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 mented. \OT1/cmr/m/n/8 576
+ []
+
+
+Underfull \hbox (badness 2269) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 frames. 5 kHz
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 dec-i-ma-tion im-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 poses 2.5 kHz
+ []
+
+
+Underfull \hbox (badness 1590) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 kHz branch cap-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Voltage
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 1159-2019
+ []
+
+
+Underfull \hbox (badness 1097) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Voltage fluc-tu-a-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 with mod-u-la-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 True as-sess-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 4-15 flick-er-me-ter
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Low-frequency
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 si-nu-soidal sub-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 band am-pli-tude
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 u-la-tion depth
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Sub-band en-ve-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 lope ex-trac-tion,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 sub-sample zero-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 crossing track-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Simplified ML
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 Proxy Im-ple-
+ []
+
+
+Underfull \hbox (badness 5908) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ML clas-si-fi-ca-tion
+ []
+
+
+Underfull \hbox (badness 2426) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 me-ter as-sess-ment
+ []
+
+
+Underfull \hbox (badness 1107) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 is de-mar-cated as
+ []
+
+
+Overfull \hbox (19.1029pt too wide) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Commutation
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 IEEE Std
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Periodic sub-cycle
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 due to con-verter
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 com-mu-ta-tion; no
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 sin-gle uni-ver-sal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 IEEE nu-mer-i-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/m/n/8 Periodic sub-cycle
+ []
+
+
+Underfull \hbox (badness 6510) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 volt-age notch in-
+ []
+
+
+Underfull \hbox (badness 6110) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 jec-tion via timed
+ []
+
+
+Underfull \hbox (badness 2080) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 ence er-ror against
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 base-line si-nu-soid,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 con-vo-lu-tional fea-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+[]|\OT1/cmr/bx/n/8 Fully Im-ple-
+ []
+
+
+Underfull \hbox (badness 6927) in paragraph at lines 545--545
+\OT1/cmr/bx/n/8 mented. \OT1/cmr/m/n/8 576
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
+\OT1/cmr/m/n/8 dis-crete sam-ples
+ []
+
+[15]
+Overfull \vbox (38.93494pt too high) has occurred while \output is active []
+
+
+[16]
+
+LaTeX Warning: Reference `sec:simulink_clean' on page 17 undefined on input lin
+e 551.
+
+
+LaTeX Warning: Reference `sec:dataset_freeze' on page 17 undefined on input lin
+e 554.
+
+
+LaTeX Warning: Reference `sec:hybrid_breakthrough' on page 17 undefined on inpu
+t line 555.
+
+
+Overfull \hbox (7.43611pt too wide) in paragraph at lines 555--556
+[]\OT1/cmr/bx/n/12 Machine-Learning Eval-u-a-tion: \OT1/cmr/m/n/12 Con-nect-ing
+ these phys-i-cal de-scrip-tors to machine-
+ []
+
+
+Overfull \hbox (1.94646pt too wide) in paragraph at lines 555--556
+\OT1/cmr/m/n/12 learning mod-els ex-plains why the multi-modal \OT1/cmr/bx/n/12
+ Hy-brid-PQNet \OT1/cmr/m/n/12 (Sec-tion []) achieves
+ []
+
+[17]
+Chapter 4.
+<original_9bus_baseline_model.png, id=612, 1228.59pt x 942.52126pt>
+File: original_9bus_baseline_model.png Graphic file (type png)
+<use original_9bus_baseline_model.png>
+Package pdftex.def Info: original_9bus_baseline_model.png  used on input line 5
+75.
+(pdftex.def)             Requested size: 385.02547pt x 295.3713pt.
+[18
+
+]
+<circuit1_fault_injection_model.png, id=619, 1228.59pt x 1153.30875pt>
+File: circuit1_fault_injection_model.png Graphic file (type png)
+<use circuit1_fault_injection_model.png>
+Package pdftex.def Info: circuit1_fault_injection_model.png  used on input line
+ 585.
+(pdftex.def)             Requested size: 385.02547pt x 361.42879pt.
+ [19 <./original_9bus_baseline_model.png (PNG copy)>]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 593.
+
+Overfull \hbox (5.14679pt too wide) in paragraph at lines 593--594
+\OT1/cmr/m/n/12 Con-tains all ac-tive dis-tur-bance in-jec-tion blocks, pro-gra
+mmable break-ers, fault blocks,
+ []
+
+
+Overfull \hbox (28.12581pt too wide) in paragraph at lines 594--595
+[]\OT1/cmr/bx/n/12 Protected Pris-tine Ref-er-ence Model (\OT1/cmtt/m/n/12 IEEE
+[]9bus/IEEE[]9bus[]PQD[]HIL[]R2025a.slx\OT1/cmr/bx/n/12 ):
+ []
+
+
+Overfull \hbox (25.77866pt too wide) detected at line 597
+[][][][][]
+ []
+
+[20 <./circuit1_fault_injection_model.png (PNG copy)>]
+Overfull \hbox (78.96515pt too wide) in paragraph at lines 604--605
+[]\OT1/cmr/m/n/12 In con-trast, Fig-ure [][]4.4[][] il-lus-trates the work-ing 
+dis-tur-bance model (\OT1/cmtt/m/n/12 IEEE[]9bus[]PQD[]DISTURBANCES.slx\OT1/cmr
+/m/n/12 )
+ []
+
+<simulink_model_clean.png, id=634, 1126.2075pt x 840.89156pt>
+File: simulink_model_clean.png Graphic file (type png)
+<use simulink_model_clean.png>
+Package pdftex.def Info: simulink_model_clean.png  used on input line 608.
+(pdftex.def)             Requested size: 443.9066pt x 331.44923pt.
+[21]
+<simulink_fault_annotated.png, id=640, 1473.505pt x 783.92876pt>
+File: simulink_fault_annotated.png Graphic file (type png)
+<use simulink_fault_annotated.png>
+Package pdftex.def Info: simulink_fault_annotated.png  used on input line 615.
+(pdftex.def)             Requested size: 443.9066pt x 236.1613pt.
+ [22 <./simulink_model_clean.png> <./simulink_fault_annotated.png>]
+Overfull \hbox (8.6708pt too wide) in paragraph at lines 626--627
+[]\OT1/cmr/bx/n/12 Voltage Swell Mech-a-nism: \OT1/cmr/m/n/12 A three-phase shu
+nt ca-pac-i-tor bank ($\OML/cmm/m/it/12 Q[] \OT1/cmr/m/n/12 = 120[]$)
+ []
+
+
+Overfull \hbox (54.23347pt too wide) in paragraph at lines 630--631
+\OT1/cmr/m/n/12 are di-rectly grounded in the Phase 5C con-tin-u-ous record-ing
+s in \OT1/cmtt/m/n/12 data/ieee9bus[]60hz[]phase5c/raw/\OT1/cmr/m/n/12 : 
+ []
+
+(C:\Users\Allen\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 635.
+
+Overfull \hbox (26.93121pt too wide) in paragraph at lines 636--637
+[][][][] 
+ []
+
+
+Overfull \hbox (26.93121pt too wide) in paragraph at lines 639--641
+[][][][] 
+ []
+
+[23]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 643.
+ [24] [25]
+Overfull \hbox (26.93121pt too wide) in paragraph at lines 745--746
+[][][][] 
+ []
+
+[26]
+Overfull \hbox (26.93121pt too wide) in paragraph at lines 748--750
+[][][][] 
+ []
+
+
+Overfull \hbox (60.19481pt too wide) in paragraph at lines 764--766
+\OT1/cmr/bx/n/12 Understanding Gen-er-a-tion vs. Ver-i-fi-ca-tion Ex-e-cu-tion:
+ \OT1/cmr/m/n/12 When \OT1/cmtt/m/n/12 run[]phase5c[]bulk[]simulation
+ []
+
+
+Overfull \hbox (183.9077pt too wide) in paragraph at lines 764--766
+\OT1/cmr/m/n/12 is called with no ar-gu-ments, it pro-cesses the 144 core tra-j
+ec-to-ries spec-i-fied in \OT1/cmtt/m/n/12 scenarios/phase5b2[]simulation[]matr
+ix.json\OT1/cmr/m/n/12 .
+ []
+
+
+Overfull \hbox (163.17256pt too wide) in paragraph at lines 764--766
+\OT1/cmr/m/n/12 Be-fore run-ning any Simulink model, the script checks whether 
+\OT1/cmtt/m/n/12 data/ieee9bus[]60hz[]phase5c/raw/<trajectory[]id>.mat
+ []
+
+[27]
+<sag_waveform.png, id=798, 867.24pt x 650.43pt>
+File: sag_waveform.png Graphic file (type png)
+<use sag_waveform.png>
+Package pdftex.def Info: sag_waveform.png  used on input line 774.
+(pdftex.def)             Requested size: 416.72963pt x 312.55022pt.
+<swell_waveform.png, id=799, 867.24pt x 650.43pt>
+File: swell_waveform.png Graphic file (type png)
+<use swell_waveform.png>
+Package pdftex.def Info: swell_waveform.png  used on input line 781.
+(pdftex.def)             Requested size: 416.72963pt x 312.55022pt.
+ [28 <./sag_waveform.png>]
+<sag_swell_current_waveforms.png, id=805, 722.7pt x 433.62pt>
+File: sag_swell_current_waveforms.png Graphic file (type png)
+<use sag_swell_current_waveforms.png>
+Package pdftex.def Info: sag_swell_current_waveforms.png  used on input line 78
+8.
+(pdftex.def)             Requested size: 430.31812pt x 258.18906pt.
+<scope_interruption_sag_sequence.png, id=806, 1214.5375pt x 858.20625pt>
+File: scope_interruption_sag_sequence.png Graphic file (type png)
+<use scope_interruption_sag_sequence.png>
+Package pdftex.def Info: scope_interruption_sag_sequence.png  used on input lin
+e 795.
+(pdftex.def)             Requested size: 430.31812pt x 304.05643pt.
+ [29 <./swell_waveform.png> <./sag_swell_current_waveforms.png>]
+<scope_multichannel_disturbances.png, id=813, 1606.0pt x 849.1725pt>
+File: scope_multichannel_disturbances.png Graphic file (type png)
+<use scope_multichannel_disturbances.png>
+Package pdftex.def Info: scope_multichannel_disturbances.png  used on input lin
+e 802.
+(pdftex.def)             Requested size: 416.72963pt x 220.3391pt.
+ [30 <./scope_interruption_sag_sequence.png (PNG copy)> <./scope_multichannel_d
+isturbances.png>] [31]
+Chapter 5.
+
+Overfull \hbox (28.30786pt too wide) in paragraph at lines 817--817
+[]\OT1/cmr/bx/n/17.28 Historical Base-line vs. Ex-panded Phase 5C Datasets 
+ []
+
+<all_waveforms_comparison.png, id=827, 1156.32pt x 1011.78pt>
+File: all_waveforms_comparison.png Graphic file (type png)
+<use all_waveforms_comparison.png>
+Package pdftex.def Info: all_waveforms_comparison.png  used on input line 824.
+(pdftex.def)             Requested size: 443.9066pt x 388.4172pt.
+[32
+
+]
+Overfull \hbox (41.38863pt too wide) in paragraph at lines 840--841
+\OT1/cmr/m/n/12 tra-jec-tory con-tam-i-na-tion con-firmed in [\OT1/cmtt/m/n/12 
+data/ieee9bus[]60hz/dataset[]manifest[]v1.json\OT1/cmr/m/n/12 ]. 
+ []
+
+[33 <./all_waveforms_comparison.png>]
+Overfull \hbox (0.76901pt too wide) in paragraph at lines 855--856
+[]\OT1/cmr/bx/n/12 Validation Par-ti-tion: \OT1/cmr/m/n/12 32 tra-jec-to-ries $
+\OMS/cmsy/m/n/12 ^^B$ \OT1/cmr/m/n/12 32 win-dows = 1,024 frames (22.22%),
+ []
+
+
+Overfull \hbox (152.02264pt too wide) in paragraph at lines 862--863
+\OT1/cmr/m/n/12 sim-u-lated to pro-duce the 4,608 frozen frames. The 368-scenar
+io file [\OT1/cmtt/m/n/12 scenarios/phase5c[]extended[]matrix.json\OT1/cmr/m/n/
+12 ]
+ []
+
+
+Overfull \hbox (103.06676pt too wide) in paragraph at lines 863--864
+\OT1/cmr/m/n/12 ted un-der com-mit \OT1/cmtt/m/n/12 5d4cf51\OT1/cmr/m/n/12 . In
+ sub-se-quent ver-i-fi-ca-tion runs, \OT1/cmtt/m/n/12 scripts/run[]phase5c[]bul
+k[]simulation.m
+ []
+
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 910--910
+[]|\OT1/cmr/m/n/10.95 Nominal sys-tem fun-da-men-tal fre-quency track-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 910--910
+[]|\OT1/cmr/m/n/10.95 Spectral spread around cen-troid:
+ []
+
+[35] [36]
+Chapter 6.
+
+Overfull \hbox (12.38307pt too wide) in paragraph at lines 928--929
+\OT1/cmr/m/n/12 Six clas-si-cal clas-si-fiers were trained strictly on the 32-f
+eature con-tract us-ing \OT1/cmtt/m/n/12 StandardScaler
+ []
+
+
+Overfull \hbox (22.92296pt too wide) in paragraph at lines 945--945
+[]|\OT1/cmr/bx/n/12 Validation
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 945--945
+\OT1/cmr/bx/n/12 Ac-cu-
+ []
+
+
+Overfull \hbox (16.11046pt too wide) in paragraph at lines 945--945
+[]|\OT1/cmr/bx/n/12 Balanced
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 945--945
+\OT1/cmr/bx/n/12 Ac-cu-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 945--945
+\OT1/cmr/bx/n/12 F1
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 945--945
+\OT1/cmr/bx/n/12 Pre-ci-
+ []
+
+
+Overfull \hbox (4.47852pt too wide) in paragraph at lines 945--945
+[]|\OT1/cmr/bx/n/12 93.26%| 
+ []
+
+
+Overfull \hbox (4.47852pt too wide) in paragraph at lines 945--945
+[]|\OT1/cmr/bx/n/12 93.26%| 
+ []
+
+
+Overfull \hbox (4.47852pt too wide) in paragraph at lines 945--945
+[]|\OT1/cmr/bx/n/12 92.60%| 
+ []
+
+
+Overfull \hbox (4.47852pt too wide) in paragraph at lines 945--945
+[]|\OT1/cmr/bx/n/12 93.30%| 
+ []
+
+
+Overfull \hbox (4.47852pt too wide) in paragraph at lines 945--945
+[]|\OT1/cmr/bx/n/12 93.26%| 
+ []
+
+<feature_importance.png, id=857, 578.16pt x 361.35pt>
+File: feature_importance.png Graphic file (type png)
+<use feature_importance.png>
+Package pdftex.def Info: feature_importance.png  used on input line 953.
+(pdftex.def)             Requested size: 398.61395pt x 249.13327pt.
+[37
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+[]|\OT1/cmr/bx/n/12 Val Macro
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+[]|\OT1/cmr/m/n/12 4 (\OT1/cmtt/m/n/12 rms\OT1/cmr/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+\OT1/cmtt/m/n/12 peak\OT1/cmr/m/n/12 , \OT1/cmtt/m/n/12 crest\OT1/cmr/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+[]|\OT1/cmr/m/n/12 4 (\OT1/cmtt/m/n/12 centroid\OT1/cmr/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+\OT1/cmtt/m/n/12 bandwidth\OT1/cmr/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+\OT1/cmtt/m/n/12 entropy\OT1/cmr/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+[]|\OT1/cmr/m/n/12 3 (\OT1/cmtt/m/n/12 dominant\OT1/cmr/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+\OT1/cmtt/m/n/12 system\OT1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (6.41565pt too wide) in paragraph at lines 976--976
+\OT1/cmtt/m/n/12 true[]dominant\OT1/cmr/m/n/12 )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 976--976
+[]|\OT1/cmr/m/n/12 19 (H1..H11,
+ []
+
+[38 <./feature_importance.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1002
+[]|\OT1/cmr/bx/n/12 Sampling
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1002
+[]|\OT1/cmr/bx/n/12 Input
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1002
+[]|\OT1/cmr/bx/n/12 Val
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1002
+\OT1/cmr/bx/n/12 Macro
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+[]|\OT1/cmr/bx/n/12 Input
+ []
+
+
+Overfull \hbox (0.72026pt too wide) in paragraph at lines 1024--1024
+\OT1/cmr/bx/n/12 Modal-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+[]|\OT1/cmr/bx/n/12 Input
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/bx/n/12 Di-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/bx/n/12 men-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+[]|\OT1/cmr/m/n/12 32
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/m/n/12 Canon-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/m/n/12 i-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/m/n/12 Fea-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+[]|\OT1/cmr/m/n/12 3-Phase
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 1024--1024
+\OT1/cmr/m/n/12 20 kHz
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/m/n/12 Wave-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+[]|\OT1/cmtt/m/n/12 [3,
+ []
+
+
+Overfull \hbox (18.03275pt too wide) in paragraph at lines 1024--1024
+[]|\OT1/cmr/bx/n/12 Waveform
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/bx/n/12 (20k)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmr/bx/n/12 + 32
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+[]|\OT1/cmtt/m/n/12 [3,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1024
+\OT1/cmtt/m/n/12 4000]
+ []
+
+[39]
+Overfull \hbox (6.91586pt too wide) in paragraph at lines 1048--1048
+[]|\OT1/cmr/bx/n/12 Challenge
+ []
+
+
+Overfull \hbox (6.91586pt too wide) in paragraph at lines 1048--1048
+[]|\OT1/cmr/bx/n/12 Challenge
+ []
+
+
+Overfull \hbox (34.85336pt too wide) in paragraph at lines 1048--1048
+[]|\OT1/cmr/bx/n/12 Generalization
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1048--1048
+[]|\OT1/cmr/bx/n/12 0.00%
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1048--1048
+\OT1/cmr/bx/n/12 (Per-
+ []
+
+<model_comparison.png, id=879, 794.97pt x 397.485pt>
+File: model_comparison.png Graphic file (type png)
+<use model_comparison.png>
+Package pdftex.def Info: model_comparison.png  used on input line 1053.
+(pdftex.def)             Requested size: 443.9066pt x 221.9593pt.
+[40]
+<confusion_matrix.png, id=884, 578.16pt x 433.62pt>
+File: confusion_matrix.png Graphic file (type png)
+<use confusion_matrix.png>
+Package pdftex.def Info: confusion_matrix.png  used on input line 1060.
+(pdftex.def)             Requested size: 339.72592pt x 254.79478pt.
+ [41 <./model_comparison.png> <./confusion_matrix.png>]
+<dashboard_screenshot.png, id=893, 1927.2pt x 914.41624pt>
+File: dashboard_screenshot.png Graphic file (type png)
+<use dashboard_screenshot.png>
+Package pdftex.def Info: dashboard_screenshot.png  used on input line 1077.
+(pdftex.def)             Requested size: 443.9066pt x 210.61827pt.
+ [42 <./dashboard_screenshot.png (PNG copy)>]
+Chapter 7.
+
+Overfull \hbox (2.48463pt too wide) in paragraph at lines 1098--1099
+[]\OT1/cmr/bx/n/12 Operating-Point Sen-si-tiv-ity: \OT1/cmr/m/n/12 Au-to-mated 
+val-i-da-tion flagged 26 tra-jec-to-ries where
+ []
+
+[43
+
+] [44]
+Chapter 8.
+[45
+
+] [46]
+Underfull \hbox (badness 1394) in paragraph at lines 1136--1137
+\OT1/cmr/m/it/12 Std 519-2022 (Re-vi-sion of IEEE Std 519-2014)\OT1/cmr/m/n/12 
+, pp. 1--31, May 2022, doi:
+ []
+
+[47
+
+] [48] (main.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 16E292572B3D044A2F7DB8F667317598;17485.
+ ) 
+Here is how much of TeX's memory you used:
+ 15285 strings out of 467871
+ 235802 string characters out of 5418375
+ 1282711 words of memory out of 5000000
+ 43658 multiletter control sequences out of 15000+600000
+ 640112 words of font info for 87 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 75i,15n,79p,1202b,2594s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Allen\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1200.pk><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmbx12.pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/Allen/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Allen/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Allen/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Use
+rs/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb
+><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
+mmi8.pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
+nts/cm/cmr10.pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmr12.pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmr6.pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Allen/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Allen/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Allen/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Alle
+n/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/U
+sers/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.
+pfb><C:/Users/Allen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmtt8.pfb>
+Output written on main.pdf (61 pages, 8873292 bytes).
+PDF statistics:
+ 1091 PDF objects out of 1200 (max. 8388607)
+ 325 named destinations out of 1000 (max. 500000)
+ 587 words of extra memory for PDF output out of 10000 (max. 10000000)
+
