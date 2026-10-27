@@ -334,7 +334,8 @@ Power quality disturbances are governed internationally by two primary IEEE stan
 \centering
 \caption{IEEE Std 1159-2019 Disturbance Classification Criteria}
 \label{tab:ieee1159_definitions}
-\begin{tabularx}{\textwidth}{lXXl}
+\small
+\begin{tabularx}{\textwidth}{p{3.2cm}p{3.0cm}p{3.6cm}X}
 \toprule
 \textbf{Disturbance Class} & \textbf{Typical Duration} & \textbf{Voltage Magnitude (pu)} & \textbf{Spectral / Waveform Signature} \\
 \midrule
@@ -521,8 +522,10 @@ Table \ref{tab:classification_matrix} incorporates the complete power-quality di
 \centering
 \caption{Power Quality Disturbance Standards Criteria vs. Implemented Project Specifications}
 \label{tab:classification_matrix}
-\scriptsize
-\begin{tabularx}{\textwidth}{p{1.4cm}p{1.8cm}p{2.6cm}p{2.6cm}p{2.6cm}p{2.4cm}}
+\tiny
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{p{1.7cm}p{1.6cm}p{2.5cm}p{2.7cm}p{2.7cm}p{2.4cm}}
 \toprule
 \textbf{Disturbance Class} & \textbf{Applicable Standard / Ref.} & \textbf{Standard-Derived Classification Criteria} & \textbf{Project Simulation \& Generation Method} & \textbf{Signal-Processing \& Analysis Method} & \textbf{Project Implementation Status \& Scope} \\
 \midrule
@@ -540,7 +543,7 @@ Table \ref{tab:classification_matrix} incorporates the complete power-quality di
 \addlinespace
 \textbf{Voltage Flicker} & IEEE Std 1159-2019 + IEEE Std 1453-2022 & Voltage fluctuation with modulation frequency $<25\text{ Hz}$. True assessment requires IEC 61000-4-15 flickermeter ($P_{st}/P_{lt}$). & Low-frequency sinusoidal sub-band amplitude modulation ($f_m \in [3.0, 20.0]\text{ Hz}$, modulation depth $2.0\%\text{--}12.0\%$). & Sub-band envelope extraction, sub-sample zero-crossing tracking (\texttt{system\_freq}), and spectral entropy. & \textbf{Simplified ML Proxy Implemented.} 200 ms frame serves as an ML classification proxy; full flickermeter assessment is demarcated as future scope. \\
 \addlinespace
-\textbf{Commutation Notch} & IEEE Std 1159-2019 & Periodic sub-cycle voltage depressions due to converter commutation; no single universal IEEE numerical threshold. & Periodic sub-cycle voltage notch injection via timed switching thyristors (width $200\text{--}500\ \mu\text{s}$, 2 to 6 notches per cycle). & Time-domain difference error against baseline sinusoid, crest factor, and 20 kHz raw waveform convolutional feature extraction. & \textbf{Fully Implemented.} 576 frames. 20 kHz sampling yields 8 discrete samples per $400\ \mu\text{s}$ notch vs. only 2 samples at 5 kHz. \\
+\textbf{Commutation\newline Notch} & IEEE Std 1159-2019 & Periodic sub-cycle voltage depressions due to converter commutation; no single universal IEEE numerical threshold. & Periodic sub-cycle voltage notch injection via timed switching thyristors (width $200\text{--}500\ \mu\text{s}$, 2 to 6 notches per cycle). & Time-domain difference error against baseline sinusoid, crest factor, and 20 kHz raw waveform convolutional feature extraction. & \textbf{Fully Implemented.} 576 frames. 20 kHz sampling yields 8 discrete samples per $400\ \mu\text{s}$ notch vs. only 2 samples at 5 kHz. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -1013,13 +1016,14 @@ Table \ref{tab:hybrid_results} presents the controlled comparison across three a
 \centering
 \caption{Controlled Multi-Modal Representation Comparison (Validation Partition)}
 \label{tab:hybrid_results}
-\begin{tabularx}{\textwidth}{lXXll}
+\small
+\begin{tabularx}{\textwidth}{p{4.2cm}p{3.8cm}p{2.8cm}cc}
 \toprule
-\textbf{Model Representation} & \textbf{Input Modality} & \textbf{Input Dimensions} & \textbf{Val Macro F1} & \textbf{$\Delta$ vs Hybrid} \\
+\textbf{Model Representation} & \textbf{Input Modality} & \textbf{Input Shape} & \textbf{Val Macro F1} & \textbf{$\Delta$ vs Hybrid} \\
 \midrule
 Features Only (MLP) & 32 Canonical Features & \texttt{[32]} & 88.92\% & -11.08\% \\
 Waveform Only (1D CNN) & 3-Phase 20 kHz Waveform & \texttt{[3, 4000]} & 90.87\% & -9.13\% \\
-\textbf{HybridPQNet (Fusion)} & \textbf{Waveform (20k) + 32 Feats} & \textbf{\texttt{[3, 4000] + [32]}} & \textbf{100.00\%} & \textbf{Baseline (Best)} \\
+\textbf{HybridPQNet} & \textbf{Waveform (20k) + 32 Feats} & \textbf{\texttt{[3, 4000] + [32]}} & \textbf{100.00\%} & \textbf{Baseline} \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -1031,11 +1035,13 @@ Table \ref{tab:challenge_results} and Figure \ref{fig:model_comp} summarize the 
 \centering
 \caption{Final Benchmark Comparison: Validation vs. One-Time Challenge Partition}
 \label{tab:challenge_results}
-\begin{tabularx}{\textwidth}{lXXXXX}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{p{3.8cm}ccccc}
 \toprule
-\textbf{Model} & \textbf{Val Acc} & \textbf{Val F1} & \textbf{Challenge Acc} & \textbf{Challenge F1} & \textbf{Generalization Gap} \\
+\textbf{Model} & \textbf{Val Acc} & \textbf{Val F1} & \textbf{Challenge Acc} & \textbf{Challenge F1} & \textbf{Gen. Gap} \\
 \midrule
-\textbf{HybridPQNet} & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{0.00\% (Perfect)} \\
+\textbf{HybridPQNet} & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{0.00\%} \\
 TCN (20 kHz) & 93.75\% & 93.70\% & 90.92\% & 90.83\% & -2.87\% \\
 MLP (32 Features) & 93.26\% & 92.60\% & 90.62\% & 90.92\% & -1.68\% \\
 SVM (RBF) & 91.80\% & 91.45\% & 89.45\% & 89.15\% & -2.30\% \\
