@@ -14,7 +14,7 @@ These documents define the current authoritative architecture, contracts, proced
 | Document | Description | Key Focus Area |
 |---|---|---|
 | [PROJECT_STATUS.md](PROJECT_STATUS.md) | Single master human-readable project status document. | Lifecycle status, completed phases, strict freeze rules, and metrics. |
-| [guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md](guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md) | Practical beginner-friendly guide to inspecting and plotting pre-computed Sag and Swell MAT recordings in MATLAB. | MATLAB, Waveform Visualization, Sag, Swell. |
+| [guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md](guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md) | Copy-paste MATLAB tutorial to load and visualize pre-computed Sag and Swell simulation recordings. | MATLAB, Waveform Visualization, Sag, Swell. |
 | [audits/MARKDOWN_DOCUMENTATION_AUDIT.md](audits/MARKDOWN_DOCUMENTATION_AUDIT.md) | Comprehensive repository-wide audit of all 104 tracked Markdown documents. | Documentation Integrity, Link Validation, Scope Audit. |
 | [PHASE5_FINAL_RESEARCH_REPORT.md](PHASE5_FINAL_RESEARCH_REPORT.md) | Master scientific research report for Phase 5 comparative study. | Multi-Model Comparison, Deep Learning, Hybrid Synergy, Challenge Eval. |
 | [SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md) | Authoritative source-of-truth registry across all subsystems. | File paths, SHA-256 hashes, dataset directories, and contract owners. |

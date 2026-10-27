@@ -18,7 +18,7 @@
 1. [Project Overview & Limitations](#1-project-overview--limitations)
 2. [Getting Started & Installation](#2-getting-started--installation)
 3. [Run or Inspect the Simulation Data](#3-run-or-inspect-the-simulation-data)
-4. [Visualize Sag and Swell in MATLAB](#4-visualize-sag-and-swell-in-matlab)
+4. [Simulation Visualization: Visualize Sag and Swell in MATLAB](#4-simulation-visualization-visualize-sag-and-swell-in-matlab)
 5. [Explore the ML & Research Results](#5-explore-the-ml--research-results)
 6. [Run Tests and Reproduce Results](#6-run-tests-and-reproduce-results)
 7. [Research Status & Future Scope](#7-research-status--future-scope)
@@ -145,28 +145,20 @@ It is critical to distinguish between the core simulation matrix, the extended m
 
 ---
 
-## 4. Visualize Sag and Swell in MATLAB
+## 4. Simulation Visualization: Visualize Sag and Swell in MATLAB
 
-For a complete, beginner-friendly walkthrough on inspecting and plotting pre-computed Voltage Sag and Swell waveforms in MATLAB, consult:
+For a beginner-friendly, copy-paste MATLAB tutorial for visualizing existing Sag and Swell simulation recordings without running Simulink or creating separate `.m` scripts, consult:
 
 👉 **[MATLAB Voltage Sag & Swell Waveform Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md)**
 
-### Quick MATLAB Inspection Snippet
-```matlab
-% Set repository root
-projectRoot = 'D:\my study\Project\power-quality-detector-and-classifier';
-rawDir = fullfile(projectRoot, 'data', 'ieee9bus_60hz_phase5c', 'raw');
+The guide provides five self-contained MATLAB command blocks (`Block A` through `Block E`) designed to be copied and pasted directly into the MATLAB Command Window in order:
+- **Block A:** Configures repository paths and verifies that pre-recorded MAT files exist.
+- **Block B:** Inspects variable headers (`whos('-file', ...)`), loads recordings, displays scenario metadata, and runs sanity checks (dimensions, 0 NaNs, 0 Infs).
+- **Block C:** Renders **Figure 1** with two vertically stacked panels comparing three-phase Sag and Swell voltage waveforms with shaded disturbance intervals and pre-/during-/post-disturbance annotations.
+- **Block D:** Renders **Figure 2** with two vertically stacked panels comparing three-phase transmission line currents for Sag and Swell after verifying current data validity.
+- **Block E:** Programmatically verifies sample counts (7,601 at 20 kHz; 1,901 at 5 kHz), sampling intervals ($\Delta t = 50\ \mu\text{s}$ and $200\ \mu\text{s}$), sampling rates, durations ($0.38\text{ s}$), and disturbance timing.
 
-% Load pre-computed Voltage Sag recording
-sagData = load(fullfile(rawDir, 'P5B2_SAG_0091_abc_c01_mil.mat'));
-
-% Plot 3-phase voltage at 20 kHz (7,601 samples across 380 ms)
-figure('Color', 'w');
-plot(sagData.t_grid_20k * 1000, sagData.V_cont_20k, 'LineWidth', 1.2);
-grid on; xlabel('Time (ms)'); ylabel('Voltage (pu line-to-neutral)');
-title('Bus 5 Three-Phase Voltage During Voltage Sag');
-legend({'Phase A', 'Phase B', 'Phase C'});
-```
+The guide also provides complete instructions on using MATLAB interactive tools (zoom, pan, data cursor tips) and exporting publication-quality figures (`exportgraphics`).
 
 ---
 
@@ -257,7 +249,7 @@ Phase 6 represents future research extensions that have **not been implemented o
 All project-authored Markdown documents are indexed below by category:
 
 ### A. Demonstration Guides & Audit Reports
-- [MATLAB Voltage Sag & Swell Waveform Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md) — Beginner-friendly guide to inspecting and plotting pre-computed MAT recordings.
+- [MATLAB Voltage Sag & Swell Waveform Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md) — Copy-paste MATLAB tutorial for inspecting and visualizing existing Sag and Swell simulation recordings.
 - [Repository-Wide Markdown Documentation Audit Report](docs/audits/MARKDOWN_DOCUMENTATION_AUDIT.md) — Complete audit of all 104 tracked Markdown documents.
 - [Docs Directory Navigation Index](docs/README.md) — Technical documentation directory overview.
 - [Project Changelog](CHANGELOG.md) — Chronological engineering log and historical phase milestones.

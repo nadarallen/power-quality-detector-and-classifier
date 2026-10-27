@@ -4,7 +4,7 @@
 **Date of Audit:** October 27, 2026  
 **Auditor:** Automated Engineering Intelligence / Project Antigravity  
 **Git Branch:** `research/pq-comparative-lab`  
-**Current HEAD Commit:** `3004a6d` (Verified)  
+**Current HEAD Commit:** `3c8b4e6` (Verified)  
 **Protected Reference Model:** `IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx` (SHA-256: `5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D` — **VERIFIED UNCHANGED**)  
 **Protected Main Branch:** `main` (Commit `8a4e567cc8ac82fc998d8a7cb105c10b4413129e` — **VERIFIED UNTOUCHED**)  
 **Audit Scope:** All 104 project-authored tracked Markdown (`.md`) files across repository root, `docs/`, `doc/`, `dsp/`, `scenarios/`, `scripts/`, `ml/`, `experiments/`, `future/`, and `tests/`.
@@ -143,7 +143,7 @@ pytest tests/ -v -m "not slow"
    - Status: **Verified untouched; no merge, rebase, or modification performed.**
 3. **Primary Research Branch:**
    - Branch: `research/pq-comparative-lab`
-   - HEAD Commit: `3004a6d`
+   - HEAD Commit: `3c8b4e6`
 
 ---
 
