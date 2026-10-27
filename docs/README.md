@@ -54,10 +54,16 @@ Each completed engineering gate produced an immutable technical report, audit lo
 - **Clean-Clone Reproduction Guide:** [REPRODUCING_PHASE4.md](REPRODUCING_PHASE4.md)
 
 ### Phase 5: Feature Analysis, Comparative Modeling & Live Demonstration
+- **Phase 5 Master Research Report:** [PHASE5_FINAL_RESEARCH_REPORT.md](PHASE5_FINAL_RESEARCH_REPORT.md)
 - **Phase 5A (Feature Audit & Multi-Model Research Design):** [PHASE5A_FEATURE_ANALYSIS_AND_COMPARISON_PLAN.md](PHASE5A_FEATURE_ANALYSIS_AND_COMPARISON_PLAN.md)
 - **Phase 5B (Simulation Matrix & Bounded Pilot Report):** [PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md](PHASE5B_SIMULATION_MATRIX_AND_PILOT_REPORT.md)
 - **Phase 5B.1 (Pre-Bulk Physical Validation & Sampling Audit):** [PHASE5B1_PREBULK_ENGINEERING_AUDIT.md](PHASE5B1_PREBULK_ENGINEERING_AUDIT.md)
 - **Phase 5B.2 (Simulation Pipeline Remediation & Verification):** [PHASE5B2_SIMULATION_PIPELINE_REMEDIATION_REPORT.md](PHASE5B2_SIMULATION_PIPELINE_REMEDIATION_REPORT.md)
+- **Phase 5C (Expanded Dataset Freeze Audit):** [PHASE5C_EXPANDED_DATASET_FREEZE_AUDIT.md](PHASE5C_EXPANDED_DATASET_FREEZE_AUDIT.md)
+- **Phase 5D (Classical ML & Feature Analysis):** [PHASE5D_CLASSICAL_ML_AND_FEATURE_ANALYSIS.md](PHASE5D_CLASSICAL_ML_AND_FEATURE_ANALYSIS.md)
+- **Phase 5E (Waveform Deep Learning - CNN & TCN):** [PHASE5E_WAVEFORM_DEEP_LEARNING.md](PHASE5E_WAVEFORM_DEEP_LEARNING.md)
+- **Phase 5F (Hybrid Model Analysis):** [PHASE5F_HYBRID_MODEL_ANALYSIS.md](PHASE5F_HYBRID_MODEL_ANALYSIS.md)
+- **Phase 5G (Final Comparative & Challenge Evaluation):** [PHASE5G_FINAL_COMPARATIVE_EVALUATION.md](PHASE5G_FINAL_COMPARATIVE_EVALUATION.md)
 - **Phase 5 Live Demonstration Specification:** [LIVE_MVP_PLAN.md](LIVE_MVP_PLAN.md)
 
 ---

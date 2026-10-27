@@ -1,9 +1,9 @@
 # Power Quality Disturbance (PQD) Project Roadmap
 
 **Document Reference**: `docs/ROADMAP.md`  
-**Date**: October 7, 2026  
+**Date**: October 27, 2026  
 **Status**: ACTIVE  
-**Current Milestone**: Phase 3 Complete (Eight-Class Physical Simulation & Datasets Verified)  
+**Current Milestone**: Phase 5 Complete (Comparative Research Study, Multi-Model Benchmark & Research Dashboard)  
 
 ---
 
@@ -98,24 +98,28 @@ All 8 disturbance classes have completed physical simulation, dataset extraction
 - [x] **Zero Trajectory Leakage**: Every dataset partitioned strictly by simulation trajectory (Total: 6,594 Train / 1,295 Val / 1,295 Test across 284 trajectories, 9,184 total frames).
 - [x] **Complete Audits**: 16-domain independent audits passed for all classes with 100% physical validation pass rates.
 
-### Phase 4 — Native 60-Hz Machine Learning Training (`PENDING`)
-- [ ] **Final Dataset Freeze**: Lock consolidated dataset checksums across all 9,184 frames.
-- [ ] **Data Preprocessing & Scaling**: Fit `StandardScaler` strictly on training set ($N = 6,594$), transform validation ($N = 1,295$) and test sets ($N = 1,295$).
-- [ ] **Baseline Model Comparison**: Train and compare candidate architectures:
+### Phase 4 — Native 60-Hz Machine Learning Training (`COMPLETE - HISTORICAL BASELINE`)
+- [x] **Final Dataset Freeze**: Consolidated dataset checksums locked across all 9,184 frames (`data/ieee9bus_60hz/dataset_manifest_v1.json`).
+- [x] **Data Preprocessing & Scaling**: Fit `StandardScaler` strictly on training set ($N = 6,594$), transform validation ($N = 1,295$) and test sets ($N = 1,295$).
+- [x] **Baseline Model Comparison**: Trained and benchmarked candidate architectures:
   - Multi-Layer Perceptron (MLP, 32 $\rightarrow$ 64 $\rightarrow$ 32 $\rightarrow$ 8)
   - Random Forest Classifier (100 trees)
-  - 1D Convolutional Neural Network (raw waveform end-to-end baseline)
-- [ ] **Hyperparameter Optimization**: Systematic grid search over learning rates, batch sizes, weight decay, and dropout.
-- [ ] **Calibration & Temperature Scaling**: Optimize Platt scaling / temperature parameter to produce well-calibrated confidence probabilities.
-- [ ] **Independent Test Evaluation**: Evaluate on held-out test split ($N = 1,295$) across per-class precision, recall, F1, and confusion matrix.
-- [ ] **Firmware & C++ Export**: Export trained weights to `model_weights_32.json`, `model_weights_32.h` (C++ static arrays), and TFLite Micro flatbuffer.
+  - 1D Convolutional Neural Network
+- [x] **Hyperparameter Optimization**: Grid search across architectures and loss functions.
+- [x] **Independent Test Evaluation**: Evaluated on historical test split ($N = 1,295$) with 100% Macro F1 on historical conditions.
+- [x] **Artifact Preservation**: Preserved historical models and evaluation records intact under global freeze.
 
-### Phase 5 — Live Demonstration MVP (`PENDING`)
-- [ ] **Demo Derivative Simulink Model**: Build dedicated interactive simulation model (`IEEE_9bus_PQD_DEMO.slx`) derived from working disturbance model.
-- [ ] **PQD Disturbance Rack**: Implement GUI / programmable disturbance trigger subsystem inside Simulink.
-- [ ] **PQD Controller**: Implement bidirectional controller orchestrating MATLAB execution, disturbance triggers, and data streaming.
-- [ ] **Rolling Ring Buffer & Bridge**: Stream live sliding 200-ms windows from Simulink to Python REST server via HTTP/SSE.
-- [ ] **Live Telemetry & Dashboard**: Connect web frontend (`web/index.html`) displaying 3-phase CRT oscilloscope, real-time feature vector, and live ML classification state.
+### Phase 5 — Multi-Model Comparative Research Study & Dashboard (`COMPLETE`)
+- [x] **Expanded Experiment Design**: Formulated 368-trajectory extended matrix across 40 operating conditions with 8 quarantined challenge conditions (`scenarios/phase5c_extended_matrix.json`).
+- [x] **High-Rate & Dual-Rate Acquisition**: Executed 144 core trajectories in MATLAB R2025a, producing genuine 20 kHz waveforms (`phase5c_waveforms_20k.npz`) and anti-aliased 5 kHz canonical waveforms (`phase5c_waveforms_5k.npz`).
+- [x] **Physical Validation Gate**: Audited electrical features, identifying 118 PASS and 26 FLAGGED cases in `physical_validation_failures.json` without weakening thresholds.
+- [x] **Dataset Freeze Audit**: Published `docs/PHASE5C_EXPANDED_DATASET_FREEZE_AUDIT.md` confirming zero leakage.
+- [x] **Track A Classical ML Benchmark**: Benchmarked 6 classifiers on 32 features; identified constant features (`dominant_freq`, `true_dominant_freq`), computed permutation importance, and executed functional group ablations (`docs/PHASE5D_CLASSICAL_ML_AND_FEATURE_ANALYSIS.md`).
+- [x] **Track B Raw-Waveform Deep Learning**: Built and benchmarked 1D-CNN and Temporal ConvNet (TCN); performed temporal occlusion sensitivity and 3-phase cross-coupling ablations (`docs/PHASE5E_WAVEFORM_DEEP_LEARNING.md`).
+- [x] **Track C Hybrid Representation Models**: Architected `HybridPQNet` fusing 20 kHz waveform embeddings with 32 engineered features, demonstrating +11.08% F1 gain over features alone (`docs/PHASE5F_HYBRID_MODEL_ANALYSIS.md`).
+- [x] **One-Time Quarantined Challenge Evaluation**: Evaluated frozen candidates once on held-out Conditions 33–36 (1,024 frames); `HybridPQNet` achieved 100.00% Macro F1 with 0.00% generalization gap (`docs/PHASE5G_FINAL_COMPARATIVE_EVALUATION.md`).
+- [x] **Demonstration Dashboard Integration**: Integrated 5-tab Phase 5 Comparative Research Explorer into `app.py` and `dashboard_backend.py` with standalone recorded mode.
+- [x] **Master Scientific Research Report**: Published comprehensive research monograph in `docs/PHASE5_FINAL_RESEARCH_REPORT.md`.
 
 ### Phase 6 — Optional Hardware-in-the-Loop & Advanced Deployment (`PLANNED`)
 - [ ] **ESP32 Edge Deployment**: Flash exported C++ MLP weights to ESP32 microcontroller and verify embedded execution latency ($< 35\,\text{ms}$).

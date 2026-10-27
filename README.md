@@ -1,14 +1,15 @@
 # AI-Based Real-Time Power Quality Disturbance Classification Using Machine Learning with IEEE 9-Bus Simulation
 
-> **Current Lifecycle Phase:** Phase 4 — Proper 60-Hz ML Implementation & Evaluation (**COMPLETE**)  
-> **Next Engineering Phase:** Phase 5 — Live Simulink Demonstration MVP (**PENDING**)  
-> **Optional Extension:** Phase 6 — Embedded ESP32 Hardware-in-the-Loop Deployment (**FUTURE / OPTIONAL**)  
+> **Current Lifecycle Phase:** Phase 5 — Multi-Model Power Quality Comparative Research (**COMPLETE**)  
+> **Primary Research Branch:** `research/pq-comparative-lab`  
+> **Stable Baseline Branch:** `main` (Preserved intact)  
 >
-> [![Tests](https://img.shields.io/badge/tests-322%20passed-brightgreen.svg)](tests/)
-> [![Sampling](https://img.shields.io/badge/sampling-5%20kHz%20%7C%20200%20ms-blue.svg)](dsp/)
+> [![Tests](https://img.shields.io/badge/tests-358%20passed-brightgreen.svg)](tests/)
+> [![Sampling](https://img.shields.io/badge/sampling-dual--rate%2020%20kHz%20%26%205%20kHz-blue.svg)](data/ieee9bus_60hz_phase5c/)
 > [![Grid](https://img.shields.io/badge/grid-WSCC%2060%20Hz%20IEEE%209--bus-orange.svg)](IEEE_9bus/)
-> [![Classes](https://img.shields.io/badge/classes-8%20disturbances%20audited-success.svg)](data/ieee9bus_60hz/)
-> [![Phase](https://img.shields.io/badge/phase%204-COMPLETE%20(Gates%204A--4D)-brightgreen.svg)](docs/REPRODUCING_PHASE4.md)
+> [![Classes](https://img.shields.io/badge/classes-8%20disturbances%20audited-success.svg)](data/ieee9bus_60hz_phase5c/)
+> [![Phase 5](https://img.shields.io/badge/phase%205-COMPLETE%20(Comparative%20Research)-brightgreen.svg)](docs/PHASE5_FINAL_RESEARCH_REPORT.md)
+
 
 ---
 

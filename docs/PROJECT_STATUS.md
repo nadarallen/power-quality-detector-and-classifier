@@ -1,11 +1,11 @@
 # Power Quality Disturbance (PQD) Project Status
 
 **Document Reference**: `docs/PROJECT_STATUS.md`  
-**Date**: October 7, 2026  
-**Project Phase**: Phase 3 (Disturbance Datasets & Physical Audits) — **COMPLETE**  
-**Next Phase**: Phase 4 (60-Hz Machine Learning Training & Model Selection) — **PENDING**  
+**Date**: October 27, 2026  
+**Project Phase**: Phase 5 (Multi-Model Power-Quality Comparative Research Study) — **COMPLETE**  
+**Development Branch**: `research/pq-comparative-lab`  
 **Pristine Model Checksum Status**: **VERIFIED** (`5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D`)  
-**Test Suite Status**: **322 passed**, 2 skipped, 0 failed  
+**Test Suite Status**: **358 passed**, 2 skipped, 0 failed  
 
 ---
 
@@ -194,10 +194,10 @@ To guarantee experimental integrity and reproducibility, the following artifacts
 
 ## 8. Automated Testing & Verification State
 
-The automated regression test suite contains **300 tests**, all of which pass:
+The automated regression test suite contains **358 tests**, all of which pass:
 
 ```
-================= 300 passed, 2 skipped, 2 warnings in 7.67s ==================
+================= 358 passed, 2 skipped, 2 warnings in 11.61s ==================
 ```
 
 ### Breakdown of Test Suites
@@ -209,6 +209,9 @@ The automated regression test suite contains **300 tests**, all of which pass:
 - **Gate 3S / 3T / 3U (Voltage Notch)**: 26 tests
 - **Gate 3V / 3W / 3X (Oscillatory Transient)**: 26 tests
 - **Integration, SNR, Phase Processor & Pipeline**: 120 tests
+- **Phase 5 Interactive Dashboard & Telemetry Backend**: 6 tests
+- **Phase 5C Multi-Model Research Pipeline & Data Contracts**: 9 tests
+- **Model Checksums, Physical Gates, Invariants & Anti-Leakage**: 43 tests
 
 ---
 
@@ -216,8 +219,10 @@ The automated regression test suite contains **300 tests**, all of which pass:
 
 ```
 ============================================================
-PHASE 3 STATUS  = COMPLETE
-PHASE 4 (ML)    = PENDING
-PHASE 5 (DEMO)  = PENDING
+PHASE 3 STATUS  = COMPLETE (Frozen Historical Datasets 9,184 Frames)
+PHASE 4 (ML)    = COMPLETE (Historical Baseline Models & Tests)
+PHASE 5 (RES)   = COMPLETE (Expanded Matrix, Dual-Rate Waveforms,
+                            Classical ML, 1D-CNN, TCN, HybridPQNet,
+                            Explainability Lab, Challenge Evaluation)
 ============================================================
 ```
