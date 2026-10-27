@@ -141,3 +141,105 @@ def load_benchmark_summary() -> Dict[str, Any]:
             summary["phase4d"] = json.load(f)
             
     return summary
+
+
+# ==============================================================================
+# Phase 5C Comparative Research Helpers
+# ==============================================================================
+
+PHASE5C_DIR = os.path.join("data", "ieee9bus_60hz_phase5c")
+PHASE5C_EXP_DIR = os.path.join("experiments", "phase5c")
+
+
+def load_phase5c_manifest() -> Dict[str, Any]:
+    """Loads Phase 5C dataset manifest v2 if available."""
+    m_path = os.path.join(PHASE5C_DIR, "dataset_manifest_v2.json")
+    if os.path.exists(m_path):
+        with open(m_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def load_phase5c_dual_rate_sample(traj_id: str, window_idx: int = 16) -> Dict[str, Any]:
+    """
+    Loads both 20 kHz (4,000 pts) and 5 kHz (1,000 pts) waveforms for a given trajectory and window.
+    """
+    raw_path = os.path.join(PHASE5C_DIR, "raw", f"{traj_id}.mat")
+    if not os.path.exists(raw_path):
+        raise FileNotFoundError(f"Raw trajectory MAT file not found: {raw_path}")
+
+    import scipy.io
+    mat = scipy.io.loadmat(raw_path)
+    v_cont_20k = mat["V_cont_20k"]
+    v_cont_5k = mat["V_cont_5k"]
+
+    # Window slicing
+    w = max(0, min(window_idx, 31))
+    t0 = 0.12
+    onset_ms = 20.0 + (w * 1.0)
+    t_start = max(0.0, t0 - (onset_ms / 1000.0))
+
+    idx_20k = int(round(t_start * 20000.0))
+    idx_5k = int(round(t_start * 5000.0))
+
+    v_20k = v_cont_20k[idx_20k : idx_20k + 4000, :]
+    v_5k = v_cont_5k[idx_5k : idx_5k + 1000, :]
+
+    return {
+        "trajectory_id": traj_id,
+        "window_idx": w,
+        "v_20k": v_20k,
+        "v_5k": v_5k,
+        "t_20k_ms": np.linspace(0, 200, 4000, endpoint=False),
+        "t_5k_ms": np.linspace(0, 200, 1000, endpoint=False)
+    }
+
+
+def load_phase5c_research_results() -> Dict[str, Any]:
+    """Loads all Phase 5C comparative benchmarks, ablations, SHAP, and challenge evaluations."""
+    res = {}
+    
+    # Classical
+    c_path = os.path.join(PHASE5C_EXP_DIR, "classical", "classical_benchmark_metrics.json")
+    if os.path.exists(c_path):
+        with open(c_path, "r", encoding="utf-8") as f:
+            res["classical"] = json.load(f)
+
+    # Feature ablation
+    abl_path = os.path.join(PHASE5C_EXP_DIR, "classical", "feature_ablation_results.json")
+    if os.path.exists(abl_path):
+        with open(abl_path, "r", encoding="utf-8") as f:
+            res["feature_ablation"] = json.load(f)
+
+    # Permutation importance
+    perm_path = os.path.join(PHASE5C_EXP_DIR, "classical", "permutation_importance.json")
+    if os.path.exists(perm_path):
+        with open(perm_path, "r", encoding="utf-8") as f:
+            res["permutation_importance"] = json.load(f)
+
+    # SHAP
+    shap_path = os.path.join(PHASE5C_EXP_DIR, "classical", "shap_summary.json")
+    if os.path.exists(shap_path):
+        with open(shap_path, "r", encoding="utf-8") as f:
+            res["shap"] = json.load(f)
+
+    # Deep learning
+    dl_path = os.path.join(PHASE5C_EXP_DIR, "deep_learning", "deep_learning_benchmark_summary.json")
+    if os.path.exists(dl_path):
+        with open(dl_path, "r", encoding="utf-8") as f:
+            res["deep_learning"] = json.load(f)
+
+    # Hybrid
+    hyb_path = os.path.join(PHASE5C_EXP_DIR, "hybrid", "hybrid_benchmark_results.json")
+    if os.path.exists(hyb_path):
+        with open(hyb_path, "r", encoding="utf-8") as f:
+            res["hybrid"] = json.load(f)
+
+    # Challenge evaluation
+    ch_path = os.path.join(PHASE5C_EXP_DIR, "challenge_eval", "challenge_evaluation_results.json")
+    if os.path.exists(ch_path):
+        with open(ch_path, "r", encoding="utf-8") as f:
+            res["challenge_evaluation"] = json.load(f)
+
+    return res
+
