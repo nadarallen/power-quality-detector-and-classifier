@@ -1,0 +1,14 @@
+{
+  "run_id": "RUN_1793163493404_A254F7",
+  "class": "Swell",
+  "phase": "ABC",
+  "stop_time": 0.38,
+  "onset_time": 0.12,
+  "server_url": "http://127.0.0.1:8500",
+  "model_dir": "D:\\my study\\Project\\power-quality-detector-and-classifier\\IEEE_9bus",
+  "class_params": {
+    "capacitive_power_mvar": 50,
+    "damping_power_kw": 5,
+    "duration_ms": 100
+  }
+}

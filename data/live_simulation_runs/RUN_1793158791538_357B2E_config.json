@@ -1,0 +1,14 @@
+{
+  "run_id": "RUN_1793158791538_357B2E",
+  "class": "Sag",
+  "phase": "ABC",
+  "stop_time": 0.38,
+  "onset_time": 0.12,
+  "server_url": "http://127.0.0.1:8500",
+  "model_dir": "D:\\my study\\Project\\power-quality-detector-and-classifier\\IEEE_9bus",
+  "class_params": {
+    "fault_resistance_ohms": 5.0,
+    "ground_resistance_ohms": 0.1,
+    "duration_ms": 100.0
+  }
+}

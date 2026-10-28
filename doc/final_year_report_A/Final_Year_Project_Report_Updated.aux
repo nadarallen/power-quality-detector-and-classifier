@@ -18,9 +18,9 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Overview of Power Quality Standards}{5}{section.2.1}\protected@file@percent }
 \citation{buasi2023}
 \citation{sekar2020}
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces IEEE Std 1159-2019 Disturbance Classification Criteria}}{6}{table.caption.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Power-Quality Disturbance Classification Criteria Based on IEEE Standards}}{6}{table.caption.4}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:ieee1159_definitions}{{2.1}{6}{IEEE Std 1159-2019 Disturbance Classification Criteria}{table.caption.4}{}}
+\newlabel{tab:ieee1159_definitions}{{2.1}{6}{Power-Quality Disturbance Classification Criteria Based on IEEE Standards}{table.caption.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Review of Contemporary Research Studies}{6}{section.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Artificial Neural Networks with Wavelet Decomposition}{6}{subsection.2.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Morphology Filters and Decision Tree Classifiers}{6}{subsection.2.2.2}\protected@file@percent }
@@ -32,128 +32,131 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Fourier Synchro-Squeezing Transform and Ensemble Methods}{7}{subsection.2.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Deep Learning and End-to-End Convolutional Models}{7}{subsection.2.2.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2.3}Summary of Literature Review and Identified Research Gaps}{7}{section.2.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Comparative Synthesis of Literature and Identified Research Gaps}}{8}{table.caption.5}\protected@file@percent }
-\newlabel{tab:lit_comparison}{{2.2}{8}{Comparative Synthesis of Literature and Identified Research Gaps}{table.caption.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Synthesis of Published Literature on Power-Quality Disturbance Detection and Classification}}{8}{table.caption.5}\protected@file@percent }
+\newlabel{tab:lit_comparison}{{2.2}{8}{Synthesis of Published Literature on Power-Quality Disturbance Detection and Classification}{table.caption.5}{}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}System Architecture and Methodology}{9}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}High-Level Dataflow Architecture}{9}{section.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces High-Level End-to-End System Architecture}}{9}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:sys_arch}{{3.1}{9}{High-Level End-to-End System Architecture}{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces End-to-End Architecture for Electromagnetic Transient Simulation, Signal Processing, and Multi-Model Disturbance Classification}}{9}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:sys_arch}{{3.1}{9}{End-to-End Architecture for Electromagnetic Transient Simulation, Signal Processing, and Multi-Model Disturbance Classification}{figure.caption.6}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Systematic Implementation Stages}{10}{section.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Power System Simulation, Disturbance Injection, and Raw Signal Measurement Workflow (Stages 1--3)}}{10}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:step1_3}{{3.2}{10}{Power System Simulation, Disturbance Injection, and Raw Signal Measurement Workflow (Stages 1--3)}{figure.caption.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Digital Signal Processing, Model Benchmarking, and Evaluation Workflow (Stages 4--6)}}{10}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:step4_6}{{3.3}{10}{Digital Signal Processing, Model Benchmarking, and Evaluation Workflow (Stages 4--6)}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Workflow for IEEE 9-Bus Disturbance Injection, Electromagnetic Simulation, and Bus 5 Signal Acquisition (Stages 1--3)}}{10}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:step1_3}{{3.2}{10}{Workflow for IEEE 9-Bus Disturbance Injection, Electromagnetic Simulation, and Bus 5 Signal Acquisition (Stages 1--3)}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Workflow for Dual-Rate Digital Signal Processing, Feature Extraction, and Multi-Model Performance Evaluation (Stages 4--6)}}{10}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:step4_6}{{3.3}{10}{Workflow for Dual-Rate Digital Signal Processing, Feature Extraction, and Multi-Model Performance Evaluation (Stages 4--6)}{figure.caption.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Stage 1: Electrical Benchmark Modeling}{10}{subsection.3.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Stage 2: Disturbance Injection Mechanisms}{11}{subsection.3.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Stage 3: Measurement and Noise Modeling}{11}{subsection.3.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Stage 4: Dual-Rate DSP and Feature Extraction}{11}{subsection.3.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Stage 4: Dual-Rate DSP and Feature Extraction}{12}{subsection.3.2.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.5}Stage 5: Model Training and Multi-Modal Fusion}{12}{subsection.3.2.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.6}Stage 6: Testing, Evaluation, and Failure Auditing}{12}{subsection.3.2.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.7}Physical Measurement and Signal-Conditioning Interface Context}{12}{subsection.3.2.7}\protected@file@percent }
 \citation{ieee1159}
 \citation{ieee519}
 \citation{ieee1453}
-\citation{iec61000}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Standards Traceability and Project-Specific Classification Framework}{13}{section.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Standards Taxonomy and Functional Governance}{13}{subsection.3.3.1}\protected@file@percent }
+\citation{iec61000}
 \citation{ieee1159_3}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Frequency Adaptation: 50 Hz Standards Examples vs. 60 Hz Benchmark Implementation}{14}{subsection.3.3.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Cycle and Duration Mapping: 50 Hz Standard Examples vs. Implemented 60 Hz Benchmark}}{15}{table.caption.9}\protected@file@percent }
-\newlabel{tab:freq_mapping}{{3.1}{15}{Cycle and Duration Mapping: 50 Hz Standard Examples vs. Implemented 60 Hz Benchmark}{table.caption.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Cycle and Temporal Duration Parameter Mapping for 50 Hz Standards and the Implemented 60 Hz Benchmark}}{15}{table.caption.9}\protected@file@percent }
+\newlabel{tab:freq_mapping}{{3.1}{15}{Cycle and Temporal Duration Parameter Mapping for 50 Hz Standards and the Implemented 60 Hz Benchmark}{table.caption.9}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Project-Specific Disturbance Classification Matrix}{15}{subsection.3.3.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Power Quality Disturbance Standards Criteria vs. Implemented Project Specifications}}{16}{table.caption.10}\protected@file@percent }
-\newlabel{tab:classification_matrix}{{3.2}{16}{Power Quality Disturbance Standards Criteria vs. Implemented Project Specifications}{table.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces IEEE Standard Power-Quality Specifications Reconciled with Benchmark Simulation Parameters}}{16}{table.caption.10}\protected@file@percent }
+\newlabel{tab:classification_matrix}{{3.2}{16}{IEEE Standard Power-Quality Specifications Reconciled with Benchmark Simulation Parameters}{table.caption.10}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Connecting the Standards Criteria to Experimental Results}{16}{subsection.3.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}IEEE 9-Bus Benchmark Model and Simulink Demonstration}{18}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {4.1}WSCC IEEE 9-Bus Model Structure}{18}{section.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces WSCC IEEE 9-bus 3-machine benchmark electrical transmission single-line diagram, depicting generators at Buses 1, 2, and 3, step-up transformers, 230 kV transmission lines, and the observation load bus at Bus 5 (extracted directly from \textit  {original 9 bus.pdf}).}}{19}{figure.caption.11}\protected@file@percent }
-\newlabel{fig:ieee9bus_schematic}{{4.1}{19}{WSCC IEEE 9-bus 3-machine benchmark electrical transmission single-line diagram, depicting generators at Buses 1, 2, and 3, step-up transformers, 230 kV transmission lines, and the observation load bus at Bus 5 (extracted directly from \textit {original 9 bus.pdf})}{figure.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces IEEE 9-Bus WSCC Benchmark Transmission Network Single-Line Diagram Showing Generation, Transformation, and Bus 5 Observation Topology}}{19}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:ieee9bus_schematic}{{4.1}{19}{IEEE 9-Bus WSCC Benchmark Transmission Network Single-Line Diagram Showing Generation, Transformation, and Bus 5 Observation Topology}{figure.caption.11}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Disturbance-Injection Topology and Network Modifications}{19}{subsection.4.1.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Simulink IEEE 9-bus circuit diagram showing the physical placement of disturbance-injection blocks: three-phase fault block on Line 5--7 and series interruption breakers (extracted directly from \textit  {circuit 1.pdf}).}}{20}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:circuit1_model}{{4.2}{20}{Simulink IEEE 9-bus circuit diagram showing the physical placement of disturbance-injection blocks: three-phase fault block on Line 5--7 and series interruption breakers (extracted directly from \textit {circuit 1.pdf})}{figure.caption.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Simulink Network Model Incorporating Disturbance Injection Subsystems and Bus 5 Instrumentation}}{20}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:circuit1_model}{{4.2}{20}{Simulink Network Model Incorporating Disturbance Injection Subsystems and Bus 5 Instrumentation}{figure.caption.12}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Working Disturbance Model vs. Protected Pristine Reference}{20}{subsection.4.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Simulink Model Configurations: Clean Baseline vs. Fault-Injected Benchmark}{21}{section.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces IEEE 9-bus power system model in the baseline, no-disturbance configuration (exported directly from MATLAB/Simulink R2025a without fault-highlighting overlays).}}{22}{figure.caption.13}\protected@file@percent }
-\newlabel{fig:simulink_clean}{{4.3}{22}{IEEE 9-bus power system model in the baseline, no-disturbance configuration (exported directly from MATLAB/Simulink R2025a without fault-highlighting overlays)}{figure.caption.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Working disturbance model (\texttt  {IEEE\_9bus\_PQD\_DISTURBANCES.slx}) in the active simulation configuration, showing the red/orange highlighted disturbance-injection blocks and Bus 5 measurement instrumentation.}}{22}{figure.caption.14}\protected@file@percent }
-\newlabel{fig:simulink_fault_annotated}{{4.4}{22}{Working disturbance model (\texttt {IEEE\_9bus\_PQD\_DISTURBANCES.slx}) in the active simulation configuration, showing the red/orange highlighted disturbance-injection blocks and Bus 5 measurement instrumentation}{figure.caption.14}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Dedicated MATLAB Sag and Swell Demonstration Guide}{23}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Physical Mechanisms of Sag and Swell Injection}{23}{subsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Simulink Benchmark Configuration and Measurement Topology}{21}{section.4.2}\protected@file@percent }
+\newlabel{sec:simulink_clean}{{4.2}{21}{Simulink Benchmark Configuration and Measurement Topology}{section.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces IEEE 9-Bus WSCC Power System Model for Power-Quality Simulation in Nominal Operating Configuration}}{22}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:simulink_clean}{{4.3}{22}{IEEE 9-Bus WSCC Power System Model for Power-Quality Simulation in Nominal Operating Configuration}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Dedicated MATLAB Sag and Swell Demonstration Guide}{22}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Physical Mechanisms of Sag and Swell Injection}{22}{subsection.4.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Step-by-Step Practical MATLAB Demonstration Commands}{23}{subsection.4.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Option A: Inspecting and Visualizing Recorded Authoritative Trajectories}{23}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Option A: Inspecting and Visualizing Recorded Authoritative Trajectories}{23}{section*.14}\protected@file@percent }
 \newlabel{lst:matlab_demo}{{4.1}{23}{MATLAB script to verify, load, and plot Phase 5C Sag and Swell recordings}{lstlisting.4.1}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {4.1}{\ignorespaces MATLAB script to verify, load, and plot Phase 5C Sag and Swell recordings}}{23}{lstlisting.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Option B: Executing a Targeted Single Disturbance Simulation}{26}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Option B: Executing a Targeted Single Disturbance Simulation}{26}{section*.15}\protected@file@percent }
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {4.2}{\ignorespaces MATLAB script to execute targeted single disturbance simulation}}{26}{lstlisting.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Waveform Analysis: Voltage and Current Dynamics}{27}{subsection.4.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Three-panel Voltage Sag waveform analysis: nominal reference sinusoid (top), disturbed waveform with fault inception at $t = 30\text  { ms}$ (middle), and comparative overlay with parameter callout (bottom).}}{28}{figure.caption.17}\protected@file@percent }
-\newlabel{fig:sag_wf}{{4.5}{28}{Three-panel Voltage Sag waveform analysis: nominal reference sinusoid (top), disturbed waveform with fault inception at $t = 30\text { ms}$ (middle), and comparative overlay with parameter callout (bottom)}{figure.caption.17}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Three-panel Voltage Swell waveform analysis: nominal reference (top), elevated waveform during capacitor energization (middle), and comparative overlay with parameter callout (bottom).}}{29}{figure.caption.18}\protected@file@percent }
-\newlabel{fig:swell_wf}{{4.6}{29}{Three-panel Voltage Swell waveform analysis: nominal reference (top), elevated waveform during capacitor energization (middle), and comparative overlay with parameter callout (bottom)}{figure.caption.18}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Bus 5 three-phase current waveforms ($I_{abc}$) logged during (a) Voltage Sag (three-phase fault with high fault current surge) and (b) Voltage Swell (capacitive current elevation) generated from actual electromagnetic simulation data.}}{29}{figure.caption.19}\protected@file@percent }
-\newlabel{fig:current_wf}{{4.7}{29}{Bus 5 three-phase current waveforms ($I_{abc}$) logged during (a) Voltage Sag (three-phase fault with high fault current surge) and (b) Voltage Swell (capacitive current elevation) generated from actual electromagnetic simulation data}{figure.caption.19}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Simulink Scope waveform recording showing a multi-event sequence: nominal steady-state sinusoid, line interruption ($0.2\text  {--}0.3\text  { s}$), breaker reclosure ringing transient ($0.3\text  { s}$), voltage sag ($0.5\text  {--}0.6\text  { s}$), and post-fault recovery (extracted directly from \textit  {scope.pdf}).}}{30}{figure.caption.20}\protected@file@percent }
-\newlabel{fig:scope_sequence}{{4.8}{30}{Simulink Scope waveform recording showing a multi-event sequence: nominal steady-state sinusoid, line interruption ($0.2\text {--}0.3\text { s}$), breaker reclosure ringing transient ($0.3\text { s}$), voltage sag ($0.5\text {--}0.6\text { s}$), and post-fault recovery (extracted directly from \textit {scope.pdf})}{figure.caption.20}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Multichannel oscilloscope interface capture displaying synchronized three-phase waveforms ($V_a, V_b, V_c$), pre-disturbance nominal sinusoidal profile, disturbance interval, and post-fault recovery.}}{30}{figure.caption.21}\protected@file@percent }
-\newlabel{fig:scope_multichannel}{{4.9}{30}{Multichannel oscilloscope interface capture displaying synchronized three-phase waveforms ($V_a, V_b, V_c$), pre-disturbance nominal sinusoidal profile, disturbance interval, and post-fault recovery}{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Three-Phase Bus 5 Voltage Waveforms and Transient Envelope During a Symmetrical Voltage Sag Event}}{28}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:sag_wf}{{4.4}{28}{Three-Phase Bus 5 Voltage Waveforms and Transient Envelope During a Symmetrical Voltage Sag Event}{figure.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Three-Phase Bus 5 Voltage Waveforms and Overvoltage Envelope During a Shunt Capacitor Voltage Swell Event}}{29}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:swell_wf}{{4.5}{29}{Three-Phase Bus 5 Voltage Waveforms and Overvoltage Envelope During a Shunt Capacitor Voltage Swell Event}{figure.caption.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Three-Phase Bus 5 Current Dynamics During Voltage Sag and Voltage Swell Disturbance Transients}}{29}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:current_wf}{{4.6}{29}{Three-Phase Bus 5 Current Dynamics During Voltage Sag and Voltage Swell Disturbance Transients}{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Voltage and Current Response During Multi-Event Disturbance Injection, Line Interruption, and System Recovery}}{30}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:scope_sequence}{{4.7}{30}{Voltage and Current Response During Multi-Event Disturbance Injection, Line Interruption, and System Recovery}{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Synchronized Multi-Channel Voltage Waveforms Captured During Bus 5 Disturbance Inception and Steady-State Recovery}}{30}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:scope_multichannel}{{4.8}{30}{Synchronized Multi-Channel Voltage Waveforms Captured During Bus 5 Disturbance Inception and Steady-State Recovery}{figure.caption.20}{}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {5}Dataset Creation, Integrity, and Feature Engineering}{32}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {5.1}Historical Baseline vs. Expanded Phase 5C Datasets}{32}{section.5.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Comprehensive waveform comparison across all eight project power quality disturbance classes (Normal, Voltage Sag, Voltage Swell, Voltage Interruption, Harmonics, Oscillatory Transient, Voltage Flicker, and Commutation Notch).}}{33}{figure.caption.22}\protected@file@percent }
-\newlabel{fig:all_waveforms}{{5.1}{33}{Comprehensive waveform comparison across all eight project power quality disturbance classes (Normal, Voltage Sag, Voltage Swell, Voltage Interruption, Harmonics, Oscillatory Transient, Voltage Flicker, and Commutation Notch)}{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Simulated Voltage Waveform Signatures Across the Eight IEEE Power-Quality Disturbance Classes at Bus 5}}{33}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:all_waveforms}{{5.1}{33}{Simulated Voltage Waveform Signatures Across the Eight IEEE Power-Quality Disturbance Classes at Bus 5}{figure.caption.21}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Historical Frozen Baseline Dataset (Phase 4A)}{33}{subsection.5.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Expanded Phase 5C Dataset Architecture}{34}{subsection.5.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Matrix Specification and Verification Execution Clarification}{34}{subsection.5.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5.2}Physical Validation and Failure Registry Analysis}{35}{section.5.2}\protected@file@percent }
+\newlabel{sec:dataset_freeze}{{5.2}{35}{Physical Validation and Failure Registry Analysis}{section.5.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.3}Canonical 32-Feature Engineering Contract}{35}{section.5.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces The Canonical 32-Dimensional Feature Engineering Contract}}{36}{table.caption.23}\protected@file@percent }
-\newlabel{tab:32_features}{{5.1}{36}{The Canonical 32-Dimensional Feature Engineering Contract}{table.caption.23}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Canonical 32-Dimensional Feature Engineering Set for Three-Phase Disturbance Characterization}}{36}{table.caption.22}\protected@file@percent }
+\newlabel{tab:32_features}{{5.1}{36}{Canonical 32-Dimensional Feature Engineering Set for Three-Phase Disturbance Characterization}{table.caption.22}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Audit of Constant Features}{36}{subsection.5.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{\numberline {6}Model Benchmarking, Experimental Results, and Hybrid Representation Fusion}{37}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {6.1}Classical Machine Learning Benchmark (Track A)}{37}{section.6.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Classical Machine Learning Performance on Validation Partition}}{37}{table.caption.24}\protected@file@percent }
-\newlabel{tab:classical_results}{{6.1}{37}{Classical Machine Learning Performance on Validation Partition}{table.caption.24}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Feature Importance and Group Ablation Analysis}{37}{section.6.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Top 10 most discriminative features determined by permutation importance on the validation set, showing the overwhelming importance of \texttt  {snr}, \texttt  {duration}, and \texttt  {crest\_factor}.}}{38}{figure.caption.25}\protected@file@percent }
-\newlabel{fig:feat_imp}{{6.1}{38}{Top 10 most discriminative features determined by permutation importance on the validation set, showing the overwhelming importance of \texttt {snr}, \texttt {duration}, and \texttt {crest\_factor}}{figure.caption.25}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Validation Performance of Classical Machine-Learning Classifiers on the Engineered Feature Set}}{37}{table.caption.23}\protected@file@percent }
+\newlabel{tab:classical_results}{{6.1}{37}{Validation Performance of Classical Machine-Learning Classifiers on the Engineered Feature Set}{table.caption.23}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Feature Importance and Group Ablation Analysis}{38}{section.6.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Permutation Feature Importance Across the Engineered 32-Dimensional Power-Quality Feature Set}}{38}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:feat_imp}{{6.1}{38}{Permutation Feature Importance Across the Engineered 32-Dimensional Power-Quality Feature Set}{figure.caption.24}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Controlled Functional Group Ablation}{38}{subsection.6.2.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Feature Group Ablation Results on Validation Partition}}{38}{table.caption.26}\protected@file@percent }
-\newlabel{tab:ablation_results}{{6.2}{38}{Feature Group Ablation Results on Validation Partition}{table.caption.26}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Functional Feature Group Ablation Analysis on the Frozen Validation Partition}}{39}{table.caption.25}\protected@file@percent }
+\newlabel{tab:ablation_results}{{6.2}{39}{Functional Feature Group Ablation Analysis on the Frozen Validation Partition}{table.caption.25}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.3}Raw Waveform Deep Learning (Track B)}{39}{section.6.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Raw Waveform Deep Learning Performance on Validation Partition}}{39}{table.caption.27}\protected@file@percent }
-\newlabel{tab:dl_results}{{6.3}{39}{Raw Waveform Deep Learning Performance on Validation Partition}{table.caption.27}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Three-Phase Synchrony Requirement}{39}{subsection.6.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}The Hybrid Model Breakthrough (Track C: HybridPQNet)}{39}{section.6.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Controlled Multi-Modal Representation Comparison (Validation Partition)}}{40}{table.caption.28}\protected@file@percent }
-\newlabel{tab:hybrid_results}{{6.4}{40}{Controlled Multi-Modal Representation Comparison (Validation Partition)}{table.caption.28}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Validation Performance of Deep-Learning Architectures Operating on Multi-Channel Raw Waveforms}}{40}{table.caption.26}\protected@file@percent }
+\newlabel{tab:dl_results}{{6.3}{40}{Validation Performance of Deep-Learning Architectures Operating on Multi-Channel Raw Waveforms}{table.caption.26}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Three-Phase Synchrony Requirement}{40}{subsection.6.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}The Hybrid Model Breakthrough (Track C: HybridPQNet)}{40}{section.6.4}\protected@file@percent }
+\newlabel{sec:hybrid_breakthrough}{{6.4}{40}{The Hybrid Model Breakthrough (Track C: HybridPQNet)}{section.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Comparative Validation Performance of Classical, Raw-Waveform Deep-Learning, and Fused Hybrid Architectures}}{40}{table.caption.27}\protected@file@percent }
+\newlabel{tab:hybrid_results}{{6.4}{40}{Comparative Validation Performance of Classical, Raw-Waveform Deep-Learning, and Fused Hybrid Architectures}{table.caption.27}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.5}Final One-Time Challenge Evaluation}{40}{section.6.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Final Benchmark Comparison: Validation vs. One-Time Challenge Partition}}{40}{table.caption.29}\protected@file@percent }
-\newlabel{tab:challenge_results}{{6.5}{40}{Final Benchmark Comparison: Validation vs. One-Time Challenge Partition}{table.caption.29}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Multi-model benchmark comparison showing Validation Macro F1 vs. One-Time Challenge Macro F1 across all evaluated architectures.}}{41}{figure.caption.30}\protected@file@percent }
-\newlabel{fig:model_comp}{{6.2}{41}{Multi-model benchmark comparison showing Validation Macro F1 vs. One-Time Challenge Macro F1 across all evaluated architectures}{figure.caption.30}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Baseline multi-class confusion matrix across the eight canonical disturbance classes.}}{41}{figure.caption.31}\protected@file@percent }
-\newlabel{fig:cm}{{6.3}{41}{Baseline multi-class confusion matrix across the eight canonical disturbance classes}{figure.caption.31}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}Methodological Context of the 100\% Challenge Result}{41}{subsection.6.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.6}Interactive Research Dashboard Implementation}{42}{section.6.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Interactive Power Quality Research Dashboard running locally, displaying the Recorded Experiment Explorer panel with multi-phase voltage waveforms, harmonic spectra, and classification predictions.}}{42}{figure.caption.32}\protected@file@percent }
-\newlabel{fig:dashboard}{{6.4}{42}{Interactive Power Quality Research Dashboard running locally, displaying the Recorded Experiment Explorer panel with multi-phase voltage waveforms, harmonic spectra, and classification predictions}{figure.caption.32}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Discussion, Limitations, and Threats to Validity}{43}{chapter.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Classification Performance Benchmark Across Frozen Validation and Held-Out Stress Challenge Partitions}}{41}{table.caption.28}\protected@file@percent }
+\newlabel{tab:challenge_results}{{6.5}{41}{Classification Performance Benchmark Across Frozen Validation and Held-Out Stress Challenge Partitions}{table.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Comparative Validation and Out-of-Distribution Challenge Performance Across Evaluated Model Architectures}}{41}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:model_comp}{{6.2}{41}{Comparative Validation and Out-of-Distribution Challenge Performance Across Evaluated Model Architectures}{figure.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Multi-Class Disturbance Classification Confusion Matrix on the Frozen Validation Partition}}{42}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:cm}{{6.3}{42}{Multi-Class Disturbance Classification Confusion Matrix on the Frozen Validation Partition}{figure.caption.30}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}Methodological Context of the 100\% Challenge Result}{42}{subsection.6.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Interactive Research Platform and Real-Time Telemetry Interface}{42}{section.6.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Interactive Power-Quality Research Platform Interface Displaying Real-Time Three-Phase Bus 5 Telemetry, Oscilloscope Display, and Disturbance Control}}{44}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:dashboard_overview}{{6.4}{44}{Interactive Power-Quality Research Platform Interface Displaying Real-Time Three-Phase Bus 5 Telemetry, Oscilloscope Display, and Disturbance Control}{figure.caption.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Real-Time Disturbance Classification Interface Showing Waveform Collapse, DSP Feature Extraction, and Neural Network Confidence During a Voltage Sag Event}}{45}{figure.caption.32}\protected@file@percent }
+\newlabel{fig:dashboard_sag}{{6.5}{45}{Real-Time Disturbance Classification Interface Showing Waveform Collapse, DSP Feature Extraction, and Neural Network Confidence During a Voltage Sag Event}{figure.caption.32}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Discussion, Limitations, and Threats to Validity}{46}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}Comparative Synthesis of Findings}{43}{section.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7.2}Limitations and Threats to Validity}{43}{section.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion and Future Scope}{45}{chapter.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Comparative Synthesis of Findings}{46}{section.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Limitations and Threats to Validity}{46}{section.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion and Future Scope}{48}{chapter.8}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {8.1}Conclusion}{45}{section.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8.2}Future Scope}{46}{section.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}Conclusion}{48}{section.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.2}Future Scope}{49}{section.8.2}\protected@file@percent }
 \bibcite{ieee1159}{1}
 \bibcite{ieee519}{2}
 \bibcite{ieee1453}{3}
@@ -166,4 +169,4 @@
 \bibcite{he2020}{10}
 \bibcite{bai2021}{11}
 \bibcite{goertzel}{12}
-\gdef \@abspage@last{61}
+\gdef \@abspage@last{64}

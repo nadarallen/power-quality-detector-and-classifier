@@ -1,0 +1,281 @@
+
+% Chapter 2: Literature Survey
+
+\chapter{Study of the System}
+\fancyhead[R]{MsAdmit}
+\newpage
+\label{chap2}
+
+\section{About the Technique}
+
+Some students who attend the University admission are assessed on several criteria including academic performance, standardized test scores, research experience, internships, and personal documents (Student Statements of Purpose (SOP) and Letters of Recommendation (LOR). Conventional admission decisions were made manually and that were based on academic or research results. Although this approach allows for human judgment, it can become time-consuming and oftentimes create incorrect evaluations based on the number of applications requested. While introducing artificial intelligence (AI) and machine learning (ML), some parts of this process can be automated through collecting applicant data and evaluating patterns in previous admission results. Analysis methods of classification and prediction models may estimate the admission competitiveness of an applicant and analysis of SOPs, LORs and resumes using Natural Language Processing (NLP). Explainable AI (XAI) strategies can enable users to visualize what factors dictate a prediction. MsAdmit leverages these methods in order to assist students in making the evaluation of their profiles, compare their qualifications with university requirements, and identify learning opportunities. The system would rather support admission planning and decision making than eschew official university admission decisions.
+
+\section{Various Available Techniques}
+
+Different kinds of AI approaches can be employed in identifying and determining candidate profile data.
+
+\
+\begin{enumerate}
+
+    \item \textbf{Machine Learning Classification and Prediction}
+
+    Machine learning algorithms such as Logistic Regression, Random Forest, Support Vector Machine (SVM), and XGBoost can be used to estimate admission competitiveness based on applicant features such as GPA, test scores, research experience, and internships \cite{scikit_learn,xgboost}.
+
+    \item \textbf{Natural Language Processing (NLP)}
+
+    NLP techniques process unstructured text from resumes and other application documents to extract relevant information, identify skills, and support applicant profile evaluation \cite{huggingface_nlp}.
+
+    \item \textbf{Explainable Artificial Intelligence (XAI)}
+
+    XAI techniques such as SHAP and LIME help explain model predictions by identifying influential features, allowing applicants to better understand their strengths and areas for improvement \cite{shap,lime}.
+
+    \item \textbf{Recommendation Systems}
+
+    Recommendation techniques compare applicant profiles with relevant university information to suggest suitable institutions. Based on estimated competitiveness, universities can be grouped into Target, Consider, and Reach categories to support application planning \cite{google_recommendation}.
+
+    \item \textbf{What-If Analysis and Profile Optimization}
+
+    What-if analysis enables applicants to explore how changes in profile attributes may affect predicted outcomes, helping them identify potential areas for improvement. Such estimates are indicative and do not guarantee admission \cite{what_if_tool}.
+
+    \item \textbf{Hybrid AI Techniques}
+
+    Hybrid AI approaches combine multiple methods to improve the overall recommendation process. In MsAdmit, machine learning, NLP, explainability, and recommendation techniques work together to support admission competitiveness estimation and personalized profile improvement \cite{hybrid_recommender}.
+
+\end{enumerate}
+
+
+\section{Related Works}
+
+Several authors have developed methods using Machine Learning, Natural Language Processing and Explainable AI in universities to predict the admission and assessment of students profiles. Research to do at the present paper MsAdmit provided these details of information from this symposium.
+
+
+\subsection{A Machine Learning Approach to Graduate Admissions and the Role of Letters of Recommendation}
+
+The study by Zhao et al. \cite{zhao2023} investigates the use of
+structured academic information and recommendation-letter features
+to predict graduate admission-related outcomes. The approach uses
+IBM Watson Natural Language Understanding to analyze textual
+information and SHAP to explain model predictions. The study reports
+an accuracy of 89\%.
+
+\noindent\textbf{Limitations / Gaps}
+\begin{itemize}
+    \item The study focused on a single university and two academic programs.
+    \item Recommendation letters required manual rating, limiting automation.
+    \item Precision, recall, and F1-score were not reported.
+    \item Data sharing was restricted due to privacy requirements.
+\end{itemize}
+
+The study demonstrates the potential of combining structured academic
+data, textual analysis, and explainable Machine Learning for admission
+prediction. However, its limited institutional scope and reliance on
+manual evaluation restrict generalizability. MsAdmit builds on this
+approach by integrating automated document analysis, explainable
+predictions, and university recommendations.
+
+\subsection{A Comparison of Classification Models in Predicting Graduate Admission Decision}
+
+Iman and Tian \cite{iman2021} compared several Machine Learning
+algorithms using the Kaggle Graduate Admissions dataset. The
+algorithms included Naive Bayes, Logistic Regression, Multilayer
+Perceptron, Random Forest, and decision-tree-based models. The study
+reported that Naive Bayes performed best and identified CGPA and
+TOEFL scores as important predictors of admission outcomes.
+
+\noindent\textbf{Limitations / Gaps}
+\begin{itemize}
+    \item The dataset contained only 400 records, limiting the reliability
+    of broader conclusions.
+    \item The data primarily represented Indian applicants, restricting
+    geographical diversity.
+    \item The study focused on structured numerical features.
+    \item Explainability and fairness were not explored.
+\end{itemize}
+
+This research demonstrates the usefulness of academic performance
+and standardized test scores in admission prediction. However, its
+limited dataset and focus on numerical attributes leave scope for
+more comprehensive applicant evaluation. MsAdmit extends this
+approach by incorporating document analysis, explainable predictions,
+and personalized university recommendations.
+
+\subsection{Artificial Intelligence Use in Academic Applicant Screening: A Systematic Review}
+
+Jiang et al. \cite{jiang2025} conducted a systematic review of research
+on AI-based admission prediction, covering 18 studies involving
+61,327 applicants. The review compared traditional Machine Learning
+methods with Natural Language Processing techniques. According to
+the conference paper, traditional Machine Learning methods achieved
+an average AUROC of 0.89, compared with 0.77 for NLP approaches.
+
+\noindent\textbf{Limitations / Gaps}
+\begin{itemize}
+    \item The reviewed studies used different datasets and evaluation
+    methods, limiting direct comparisons.
+    \item Only nine studies reported AUROC values.
+    \item Statistical significance testing was not performed.
+    \item Bias was identified as a concern in approximately half of the
+    reviewed studies.
+\end{itemize}
+
+This review highlights the importance of selecting suitable prediction
+techniques and evaluating their performance consistently. It also
+emphasizes the need to address fairness, data quality, and
+methodological limitations in AI-based admission systems. MsAdmit
+considers these aspects through model evaluation, explainability, and
+applicant profile analysis.
+
+\subsection{LLM-Augmented and Fair Machine Learning Framework for University Admission Prediction}
+
+Abbadi et al. \cite{abbadi2025} investigated university admission
+prediction using four datasets and simulated personal-statement
+scores generated with GPT-4. The study compared Logistic Regression,
+Naive Bayes, Random Forest, Deep Neural Networks, and a stacked
+ensemble. The ensemble reportedly achieved an accuracy of 91\%.
+The researchers also examined fairness using demographic parity
+and equalized odds.
+
+\noindent\textbf{Limitations / Gaps}
+\begin{itemize}
+    \item Personal-statement scores were simulated rather than obtained
+    from real admission evaluations.
+    \item Validation using actual admission outcomes was limited.
+    \item Implementation details and train-test split procedures were
+    not sufficiently reported.
+    \item Differences associated with gender and parental education
+    were identified.
+\end{itemize}
+
+The study demonstrates the potential of combining multiple prediction
+models with large language models and fairness evaluation. However,
+the use of simulated statement scores and limited real-world
+validation presents challenges for practical application. MsAdmit
+builds on this direction by integrating applicant profile prediction,
+statement-of-purpose evaluation, and explainability while recognizing
+the importance of fairness assessment.
+
+\subsection{Explainable AI Framework for Multiclass University Recommendations Using SHAP and Counterfactual SHAP}
+
+Romsaiyud \cite{romsaiyud2025} explored an explainable university
+recommendation approach using six Machine Learning models. XGBoost
+achieved a reported accuracy of 88.69\%. SHAP and Counterfactual
+SHAP were employed to explain predictions and identify changes in
+applicant scores that could influence recommendation outcomes.
+
+\noindent\textbf{Limitations / Gaps}
+\begin{itemize}
+    \item The study focused on Thai universities and the Computer
+    Engineering discipline.
+    \item Model implementation and train-test evaluation details were
+    not fully specified.
+    \item Evaluation across international universities was not reported.
+\end{itemize}
+
+This work is particularly relevant to MsAdmit because it combines
+university recommendations with explainable predictions. However,
+its restricted geographical and disciplinary scope limits its
+applicability to diverse international applicants. MsAdmit extends
+this approach by aiming to recommend universities across a broader
+range of institutions and help students understand their predicted
+competitiveness and identify areas for profile improvement.
+
+
+
+
+
+
+
+\begin{table*}[!t]
+\centering
+\caption{Comparative Analysis of Related Research Studies}
+\label{tab:comparative_analysis}
+
+\small
+\renewcommand{\arraystretch}{1.6}
+\setlength{\tabcolsep}{6pt}
+
+\begin{tabularx}{\textwidth}{
+|>{\raggedright\arraybackslash}p{2.0cm}
+|*{5}{>{\raggedright\arraybackslash}X|}}
+\hline
+\textbf{Aspect} &
+\textbf{Zhao et al. (2023)} &
+\textbf{Iman and Tian (2021)} &
+\textbf{Jiang et al. (2025)} &
+\textbf{Abbadi et al. (2025)} &
+\textbf{Romsaiyud (2025)} \\
+\hline
+
+\textbf{Study Type} &
+Admission prediction &
+Classification model comparison &
+Systematic review &
+Admission prediction and fairness &
+Explainable university recommendation \\
+\hline
+
+\textbf{Dataset} &
+One university; two programs &
+400 admission records &
+18 studies; 61,327 applicants &
+Four admission datasets &
+Thai universities; Computer Engineering \\
+\hline
+
+\textbf{Focus Areas} &
+Academic data and recommendation letters &
+Academic and test scores &
+ML and NLP screening &
+LLMs and fairness &
+University recommendations and explanations \\
+\hline
+
+\textbf{Techniques} &
+IBM Watson NLU; SHAP &
+Naive Bayes, Logistic Regression, MLP, Random Forest, decision trees &
+Traditional ML and NLP &
+Logistic Regression, Naive Bayes, Random Forest, DNN, ensemble &
+Six ML models, SHAP, Counterfactual SHAP \\
+\hline
+
+\textbf{Key Findings} &
+89\% reported accuracy &
+Naive Bayes performed best &
+AUROC: 0.89 (ML); 0.77 (NLP) &
+91\% reported ensemble accuracy &
+XGBoost accuracy: 88.69\% \\
+\hline
+
+\textbf{Limitations} &
+Limited scope, manual rating, privacy restrictions &
+Small dataset; limited generalizability &
+Evaluation differences and bias concerns &
+Synthetic text scores; limited real-outcome validation &
+Limited geographic scope; no international validation reported \\
+\hline
+\end{tabularx}
+
+\vspace{4mm}
+
+\begin{minipage}{\textwidth}
+\small
+Table 2.1 compares related studies on admission prediction,
+applicant screening, fairness, and explainability. Their
+methods, findings, and limitations highlight the need for
+an integrated framework such as MsAdmit.
+\end{minipage}
+
+\end{table*}
+
+
+
+
+
+\subsection{Summary of Literature Survey}
+
+Across the five reviewed studies, researchers have applied Machine Learning, Natural Language Processing and Explainable AI to predict graduate admission outcomes, with reported accuracies of roughly 88--91\%. Zhao et al. combined academic data with recommendation-letter analysis and SHAP (89\%), Iman and Tian found Naive Bayes to perform best on a small Kaggle dataset with CGPA and TOEFL as key predictors, Jiang et al. reviewed 18 studies and found traditional Machine Learning (AUROC 0.89) outperforming NLP approaches (0.77), Abbadi et al. used GPT-4-simulated personal-statement scores with a stacked ensemble (91\%) and assessed fairness, and Romsaiyud used XGBoost (88.69\%) with SHAP and Counterfactual SHAP for university recommendations.
+
+Common limitations include small or single-institution datasets, manual or simulated text scoring, limited validation on real admission outcomes, inconsistent reporting of evaluation details, and fairness and explainability being addressed in only some studies. No existing work combines prediction, document analysis, explainability, fairness assessment and university recommendations in a single system, which is the gap MsAdmit aims to address.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% End of Chapter 2

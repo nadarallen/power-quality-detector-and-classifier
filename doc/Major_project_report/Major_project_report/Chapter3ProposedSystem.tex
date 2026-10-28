@@ -1,0 +1,115 @@
+
+\chapter{Proposed System} \label{chap3}
+\newpage
+
+\section{Problem Statement}
+\justify
+Students that desire to attend college have trouble evaluating their own competitive admission and finding appropriate institutions to pursue their studies. Existing platforms can provide broadly focused suggestions, lack transparency in their forecasting and provide little or no insight on improving profiles. Students have to attend applications deadlines, obtain all the necessary documents, and pay a cost of application. MsAdmit has a set of solutions to these problems: its intelligent admission guidance system analyzes the student profiles, predicts acceptance competitiveness using machine learning, provides predictions through SHAP, assesses Statements of Purpose (SOPs) using Large Language Models (LLMs) and presents tailored recommendations with what-if simulations.
+
+\section{Scope}
+MsAdmit is about providing direct advice to simplify graduate admission planning and provide detailed data-driven guidance. In addition, it helps inform admission plans(For MS in Computer Science) via data analysis, machine learning to measure student profiles, prediction of admission competition, and prediction via SHAP. It recommendations best institutions(Top 150 QS ranked) for Reach, Target and Consider as well as evaluates Statements of Purpose through Large Language Models (LLMs) and serves individual improvement advice using what-if simulations. Students could also track the deadlines of applications, required documents, and fees for applications. It’s a system not meant to deliver applications; it does not direct university applications; it does not processes visa applications or performs financial transactions.
+
+\section{Proposed System}
+\justify
+MsAdmit is a intelligent admission guidance system designed to make admissions easy and efficient for graduate students. It works with AI, Explainable AI (SHAP), Large Language Models (LLMs) in order to detect user profiles, predicted admission competitiveness and provide a recommendation of right universities. The system evaluates Statements of Purpose, provides advice about the profile's improvement and does what-if simulations to make the applications as easy for students to utilize as they would on a personal or shared device.
+
+
+
+
+\subsection{Key Components}
+
+\begin{itemize}
+    \item \textbf{Profile Analysis:} Collects details of students and extracts academic and professional information from PDF resumes uploaded by students.
+
+    \item \textbf{Admission Prediction:}Uses a machine learning stacking ensemble to estimate admission competitiveness.
+
+    \item \textbf{Explainable AI (SHAP):} Identifies factors that positively or negatively influence admission predictions.
+
+    \item \textbf{University Recommendation:} Categorizes suitable universities into Reach, Target, and Consider options out of Top 150 Ranked QS univeristies.
+
+    \item \textbf{SOP Evaluation:} Uses Large Language Models (LLMs) to evaluate Statements of Purpose and suggest improvements.\cite{mit_sop,cmu_admissions,cmu_sop_guidelines,mit_faculty_essay}
+
+    
+\begin{table}[htbp]
+\caption{SOP Evaluation Criteria and Weights}
+\label{tab:sop_rubric}
+\centering
+\begin{tabular}{clc}
+\hline
+\textbf{No.} & \textbf{Evaluation Criterion} & \textbf{Weight} \\
+\hline
+1 & Academic Preparation & 20\% \\
+2 & Concrete and Quantified Evidence & 15\% \\
+3 & Experience and Reflection & 15\% \\
+4 & Specificity of Goals & 15\% \\
+5 & Program Fit & 15\% \\
+6 & Non-Technical Strengths & 5\% \\
+7 & Narrative Quality & 10\% \\
+8 & Compliance with Requirements & 5\% \\
+\hline
+ & \textbf{Total} & \textbf{100\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+    \item \textbf{Semantic University Search:} Uses ChromaDB to help students discover universities based on their preferences.
+
+    \item \textbf{What-If Simulation:} Shows how changes in academic scores, work experience, or publications may affect competitiveness.
+
+    \item \textbf{Application Tracking:} Helps students manage application deadlines, required documents, and application fees.
+\end{itemize}
+
+\subsection{Workflow}
+
+\begin{enumerate}
+    \item \textbf{User Registration:} Students create an account and securely log in.
+
+    \item \textbf{Profile Submission:} Students enter their academic details or upload a resume for information extraction.
+
+    \item \textbf{Profile Processing:} The system validates and prepares the collected data for analysis.
+
+    \item \textbf{Admission Prediction:} The machine learning model calculates competitiveness scores for suitable universities.
+
+    \item \textbf{Explanation and Recommendations:} SHAP explains the prediction factors, and universities are grouped into Reach, Target, and Consider categories.
+
+    \item \textbf{Profile Improvement:} Students evaluate their SOPs, receive improvement suggestions, and explore what-if scenarios.
+
+    \item \textbf{University Discovery:} Students search for universities based on their academic interests and preferences.
+
+    \item \textbf{Application Management:} Students track shortlisted universities, deadlines, documents, and fees.
+\end{enumerate}
+
+
+%------------------------------------------------
+% System Architecture and Description
+%------------------------------------------------
+
+
+\vspace{0.3cm}
+
+\includegraphics[width=0.95\textwidth]{system_arch.png}
+
+\captionof{figure}{Overall System Architecture of MsAdmit}
+\label{fig:msadmit_architecture}
+
+
+Figure~\ref{fig:msadmit_architecture} illustrates the overall
+system architecture of MsAdmit, showing the interaction between
+the frontend, FastAPI backend, AI/ML engine, GenAI and LLM engine,
+vector search engine, and storage layer. These components work
+together to analyze applicant profiles, predict admission
+probabilities, explain model predictions, evaluate Statements of
+Purpose (SOPs), recommend suitable universities, and securely
+manage applicant data and documents. Redis caching supports
+efficient access to frequently requested predictions and search
+results.
+
+
+\vspace{30pt}
+\justify
+This chapter presented the proposed MsAdmit system, including its problem statement, scope, key components, workflow, and overall system architecture. It explained how machine learning, Explainable AI, and Large Language Models work together to support admission prediction, university recommendations, SOP evaluation, and profile improvement. The proposed system aims to simplify graduate admission planning by providing students with transparent and personalized guidance.
+
+
+

@@ -1,18 +1,18 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces IEEE Std 1159-2019 Disturbance Classification Criteria}}{6}{table.caption.4}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Comparative Synthesis of Literature and Identified Research Gaps}}{8}{table.caption.5}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Power-Quality Disturbance Classification Criteria Based on IEEE Standards}}{6}{table.caption.4}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Synthesis of Published Literature on Power-Quality Disturbance Detection and Classification}}{8}{table.caption.5}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Cycle and Duration Mapping: 50 Hz Standard Examples vs. Implemented 60 Hz Benchmark}}{15}{table.caption.9}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Power Quality Disturbance Standards Criteria vs. Implemented Project Specifications}}{16}{table.caption.10}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Cycle and Temporal Duration Parameter Mapping for 50 Hz Standards and the Implemented 60 Hz Benchmark}}{15}{table.caption.9}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces IEEE Standard Power-Quality Specifications Reconciled with Benchmark Simulation Parameters}}{16}{table.caption.10}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces The Canonical 32-Dimensional Feature Engineering Contract}}{36}{table.caption.23}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Canonical 32-Dimensional Feature Engineering Set for Three-Phase Disturbance Characterization}}{36}{table.caption.22}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Classical Machine Learning Performance on Validation Partition}}{37}{table.caption.24}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces Feature Group Ablation Results on Validation Partition}}{38}{table.caption.26}%
-\contentsline {table}{\numberline {6.3}{\ignorespaces Raw Waveform Deep Learning Performance on Validation Partition}}{39}{table.caption.27}%
-\contentsline {table}{\numberline {6.4}{\ignorespaces Controlled Multi-Modal Representation Comparison (Validation Partition)}}{40}{table.caption.28}%
-\contentsline {table}{\numberline {6.5}{\ignorespaces Final Benchmark Comparison: Validation vs. One-Time Challenge Partition}}{40}{table.caption.29}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Validation Performance of Classical Machine-Learning Classifiers on the Engineered Feature Set}}{37}{table.caption.23}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Functional Feature Group Ablation Analysis on the Frozen Validation Partition}}{39}{table.caption.25}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Validation Performance of Deep-Learning Architectures Operating on Multi-Channel Raw Waveforms}}{40}{table.caption.26}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Comparative Validation Performance of Classical, Raw-Waveform Deep-Learning, and Fused Hybrid Architectures}}{40}{table.caption.27}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces Classification Performance Benchmark Across Frozen Validation and Held-Out Stress Challenge Partitions}}{41}{table.caption.28}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

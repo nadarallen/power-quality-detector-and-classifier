@@ -45,6 +45,19 @@
 }
 \lstset{style=matlabstyle}
 
+
+% Document-Wide Professional Academic Page Border (Every Page)
+\AddToHook{shipout/background}{%
+  \put(0,0){%
+    \normalcolor
+    \color{black!55}%
+    \linethickness{0.6pt}%
+    \put(\dimexpr 12mm\relax, \dimexpr -285mm\relax){%
+      \framebox(\dimexpr 186mm\relax, \dimexpr 273mm\relax){}%
+    }%
+  }%
+}
+
 \begin{document}
 
 % =========================================================================
@@ -84,9 +97,10 @@ Under the Guidance of \\[0.2cm]
 \end{center}
 \vspace{0.4cm}
 
-\includegraphics[width=3.6cm]{logo.png} \\[0.8cm]
+\includegraphics[width=3.6cm]{logo.png} \\[0.6cm]
 
-Department of Electrical Engineering \\
+\textbf{\large Department of Electrical Engineering} \\[0.15cm]
+\textbf{\large Department of Computer Engineering} \\[0.35cm]
 \textbf{\large Fr. C. Rodrigues Institute of Technology, Vashi} \\
 (An Autonomous Institute Permanently Affiliated to the University of Mumbai) \\
 Navi Mumbai, Maharashtra -- 400703 \\[0.4cm]
@@ -227,7 +241,7 @@ We confirm that all experimental evaluations, dataset counts, and empirical find
 \end{center}
 We express our deepest sense of gratitude to our project guides, \textbf{Dr. Bindu S} and \textbf{Dr. Kirutika N}, for their exemplary mentorship, intellectual guidance, and constructive critiques throughout the course of this final-year project. Their domain expertise in electrical power systems, signal processing, and continuous academic encouragement were instrumental in guiding both our simulation modeling and machine learning research.
 
-We extend our sincere thanks to \textbf{Dr. Mini R}, Head of the Department of Electrical Engineering, for providing the departmental infrastructure, laboratory computing facilities, and administrative support necessary for our research.
+We extend our sincere thanks to \textbf{Dr. Mini R}, Head of the Department of Electrical Engineering, and the Department of Computer Engineering, for providing the departmental infrastructure, laboratory computing facilities, and administrative support necessary for our research.
 
 We convey our heartfelt appreciation to our Principal, \textbf{Dr. S. M. Khot}, for his administrative encouragement and for maintaining an academic environment that actively fosters technical innovation and research excellence at Fr. C. Rodrigues Institute of Technology, Vashi.
 
@@ -332,7 +346,7 @@ Power quality disturbances are governed internationally by two primary IEEE stan
 
 \begin{table}[H]
 \centering
-\caption{IEEE Std 1159-2019 Disturbance Classification Criteria}
+\caption{Power-Quality Disturbance Classification Criteria Based on IEEE Standards}
 \label{tab:ieee1159_definitions}
 \small
 \begin{tabularx}{\textwidth}{p{3.2cm}p{3.0cm}p{3.6cm}X}
@@ -371,7 +385,7 @@ Table \ref{tab:lit_comparison} synthesizes the comparative analysis of existing 
 
 \begin{table}[H]
 \centering
-\caption{Comparative Synthesis of Literature and Identified Research Gaps}
+\caption{Synthesis of Published Literature on Power-Quality Disturbance Detection and Classification}
 \label{tab:lit_comparison}
 \small
 \begin{tabularx}{\textwidth}{lXXXX}
@@ -400,7 +414,7 @@ The system architecture developed in this project links electromagnetic transien
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{block diagram_1.png}
-    \caption{High-Level End-to-End System Architecture}
+    \caption{End-to-End Architecture for Electromagnetic Transient Simulation, Signal Processing, and Multi-Model Disturbance Classification}
     \label{fig:sys_arch}
 \end{figure}
 
@@ -417,14 +431,14 @@ The methodology is executed across six structured engineering stages, depicted i
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{step1_3.png}
-    \caption{Power System Simulation, Disturbance Injection, and Raw Signal Measurement Workflow (Stages 1--3)}
+    \caption{Workflow for IEEE 9-Bus Disturbance Injection, Electromagnetic Simulation, and Bus 5 Signal Acquisition (Stages 1--3)}
     \label{fig:step1_3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{step4_6.png}
-    \caption{Digital Signal Processing, Model Benchmarking, and Evaluation Workflow (Stages 4--6)}
+    \caption{Workflow for Dual-Rate Digital Signal Processing, Feature Extraction, and Multi-Model Performance Evaluation (Stages 4--6)}
     \label{fig:step4_6}
 \end{figure}
 
@@ -492,7 +506,7 @@ Table \ref{tab:freq_mapping} provides the precise mathematical conversion betwee
 
 \begin{table}[H]
 \centering
-\caption{Cycle and Duration Mapping: 50 Hz Standard Examples vs. Implemented 60 Hz Benchmark}
+\caption{Cycle and Temporal Duration Parameter Mapping for 50 Hz Standards and the Implemented 60 Hz Benchmark}
 \label{tab:freq_mapping}
 \small
 \begin{tabularx}{\textwidth}{lXX}
@@ -520,7 +534,7 @@ Table \ref{tab:classification_matrix} incorporates the complete power-quality di
 
 \begin{table}[H]
 \centering
-\caption{Power Quality Disturbance Standards Criteria vs. Implemented Project Specifications}
+\caption{IEEE Standard Power-Quality Specifications Reconciled with Benchmark Simulation Parameters}
 \label{tab:classification_matrix}
 \tiny
 \setlength{\tabcolsep}{3pt}
@@ -576,7 +590,7 @@ Figure \ref{fig:ieee9bus_schematic} displays the authoritative single-line diagr
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{original_9bus_baseline_model.png}
-    \caption{WSCC IEEE 9-bus 3-machine benchmark electrical transmission single-line diagram, depicting generators at Buses 1, 2, and 3, step-up transformers, 230 kV transmission lines, and the observation load bus at Bus 5 (extracted directly from \textit{original 9 bus.pdf}).}
+    \caption{IEEE 9-Bus WSCC Benchmark Transmission Network Single-Line Diagram Showing Generation, Transformation, and Bus 5 Observation Topology}
     \label{fig:ieee9bus_schematic}
 \end{figure}
 
@@ -586,7 +600,7 @@ To inject physical power quality disturbances into the benchmark grid, controlle
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{circuit1_fault_injection_model.png}
-    \caption{Simulink IEEE 9-bus circuit diagram showing the physical placement of disturbance-injection blocks: three-phase fault block on Line 5--7 and series interruption breakers (extracted directly from \textit{circuit 1.pdf}).}
+    \caption{Simulink Network Model Incorporating Disturbance Injection Subsystems and Bus 5 Instrumentation}
     \label{fig:circuit1_model}
 \end{figure}
 
@@ -601,23 +615,15 @@ In this project, two distinct Simulink models are maintained to guarantee strict
     This reference model remains completely unmodified throughout all research phases.
 \end{enumerate}
 
-\section{Simulink Model Configurations: Clean Baseline vs. Fault-Injected Benchmark}
-Figure \ref{fig:simulink_clean} displays the working Simulink model in its clean, baseline, no-fault operational state. In this baseline configuration, all fault blocks (\texttt{PQD\_Fault\_Sag}) have their fault phases disabled (\texttt{FaultA = off}, \texttt{FaultB = off}, \texttt{FaultC = off}, \texttt{SwitchTimes = [999 1000]}), swell capacitor breakers (\texttt{PQD\_Breaker\_Swell}) are held in the open state, and harmonic/flicker/notch enable switches are deactivated. The diagram exhibits no temporary red fault overlays or selection artifacts.
-
-In contrast, Figure \ref{fig:simulink_fault_annotated} illustrates the working disturbance model (\texttt{IEEE\_9bus\_PQD\_DISTURBANCES.slx}) in its active simulation state, featuring the visible red/orange highlighting around the disturbance injection subsystems (such as the Bus 4 shunt fault breaker, Bus 5 capacitor energization bank, non-linear harmonic load, and line interruption switch) and the Bus 5 measurement interfaces. Comparing Figures \ref{fig:simulink_clean} and \ref{fig:simulink_fault_annotated} clearly distinguishes the pristine baseline network from the fault-instrumented research benchmark.
+\section{Simulink Benchmark Configuration and Measurement Topology}
+\label{sec:simulink_clean}
+Figure \ref{fig:simulink_clean} displays the working Simulink model in its baseline operational state. In this configuration, all fault blocks (\texttt{PQD\_Fault\_Sag}) have their fault phases disabled (\texttt{FaultA = off}, \texttt{FaultB = off}, \texttt{FaultC = off}, \texttt{SwitchTimes = [999 1000]}), swell capacitor breakers (\texttt{PQD\_Breaker\_Swell}) are held in the open state, and harmonic, flicker, and notch enable switches are deactivated. The working disturbance model (\texttt{IEEE\_9bus\_PQD\_DISTURBANCES.slx}) incorporates parameterized disturbance injection subsystems---including the Bus 4 shunt fault breaker, Bus 5 capacitor energization bank, non-linear harmonic load, and line interruption switch---coupled to the Bus 5 three-phase voltage and current measurement instrumentation.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.98\textwidth]{simulink_model_clean.png}
-    \caption{IEEE 9-bus power system model in the baseline, no-disturbance configuration (exported directly from MATLAB/Simulink R2025a without fault-highlighting overlays).}
+    \caption{IEEE 9-Bus WSCC Power System Model for Power-Quality Simulation in Nominal Operating Configuration}
     \label{fig:simulink_clean}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.98\textwidth]{simulink_fault_annotated.png}
-    \caption{Working disturbance model (\texttt{IEEE\_9bus\_PQD\_DISTURBANCES.slx}) in the active simulation configuration, showing the red/orange highlighted disturbance-injection blocks and Bus 5 measurement instrumentation.}
-    \label{fig:simulink_fault_annotated}
 \end{figure}
 
 \section{Dedicated MATLAB Sag and Swell Demonstration Guide}
@@ -775,35 +781,35 @@ Figure \ref{fig:scope_sequence} displays the multi-event waveform record exporte
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{sag_waveform.png}
-    \caption{Three-panel Voltage Sag waveform analysis: nominal reference sinusoid (top), disturbed waveform with fault inception at $t = 30\text{ ms}$ (middle), and comparative overlay with parameter callout (bottom).}
+    \caption{Three-Phase Bus 5 Voltage Waveforms and Transient Envelope During a Symmetrical Voltage Sag Event}
     \label{fig:sag_wf}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{swell_waveform.png}
-    \caption{Three-panel Voltage Swell waveform analysis: nominal reference (top), elevated waveform during capacitor energization (middle), and comparative overlay with parameter callout (bottom).}
+    \caption{Three-Phase Bus 5 Voltage Waveforms and Overvoltage Envelope During a Shunt Capacitor Voltage Swell Event}
     \label{fig:swell_wf}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{sag_swell_current_waveforms.png}
-    \caption{Bus 5 three-phase current waveforms ($I_{abc}$) logged during (a) Voltage Sag (three-phase fault with high fault current surge) and (b) Voltage Swell (capacitive current elevation) generated from actual electromagnetic simulation data.}
+    \caption{Three-Phase Bus 5 Current Dynamics During Voltage Sag and Voltage Swell Disturbance Transients}
     \label{fig:current_wf}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{scope_interruption_sag_sequence.png}
-    \caption{Simulink Scope waveform recording showing a multi-event sequence: nominal steady-state sinusoid, line interruption ($0.2\text{--}0.3\text{ s}$), breaker reclosure ringing transient ($0.3\text{ s}$), voltage sag ($0.5\text{--}0.6\text{ s}$), and post-fault recovery (extracted directly from \textit{scope.pdf}).}
+    \caption{Voltage and Current Response During Multi-Event Disturbance Injection, Line Interruption, and System Recovery}
     \label{fig:scope_sequence}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{scope_multichannel_disturbances.png}
-    \caption{Multichannel oscilloscope interface capture displaying synchronized three-phase waveforms ($V_a, V_b, V_c$), pre-disturbance nominal sinusoidal profile, disturbance interval, and post-fault recovery.}
+    \caption{Synchronized Multi-Channel Voltage Waveforms Captured During Bus 5 Disturbance Inception and Steady-State Recovery}
     \label{fig:scope_multichannel}
 \end{figure}
 
@@ -825,7 +831,7 @@ Figure \ref{fig:all_waveforms} presents the comparative waveform gallery across 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.98\textwidth]{all_waveforms_comparison.png}
-    \caption{Comprehensive waveform comparison across all eight project power quality disturbance classes (Normal, Voltage Sag, Voltage Swell, Voltage Interruption, Harmonics, Oscillatory Transient, Voltage Flicker, and Commutation Notch).}
+    \caption{Simulated Voltage Waveform Signatures Across the Eight IEEE Power-Quality Disturbance Classes at Bus 5}
     \label{fig:all_waveforms}
 \end{figure}
 
@@ -867,6 +873,7 @@ The Phase 5C research expansion introduced continuous dual-rate representations 
 \end{enumerate}
 
 \section{Physical Validation and Failure Registry Analysis}
+\label{sec:dataset_freeze}
 Every simulated trajectory underwent automated physical validation across IEEE Std 1159 criteria:
 \begin{itemize}
     \item \textbf{Total Trajectories Validated:} 144 trajectories.
@@ -886,7 +893,7 @@ Table \ref{tab:32_features} outlines the 32 mathematical features extracted from
 
 \begin{table}[H]
 \centering
-\caption{The Canonical 32-Dimensional Feature Engineering Contract}
+\caption{Canonical 32-Dimensional Feature Engineering Set for Three-Phase Disturbance Characterization}
 \label{tab:32_features}
 \small
 \begin{tabularx}{\textwidth}{llX}
@@ -932,7 +939,7 @@ Six classical classifiers were trained strictly on the 32-feature contract using
 
 \begin{table}[H]
 \centering
-\caption{Classical Machine Learning Performance on Validation Partition}
+\caption{Validation Performance of Classical Machine-Learning Classifiers on the Engineered Feature Set}
 \label{tab:classical_results}
 \begin{tabularx}{\textwidth}{lXXXXX}
 \toprule
@@ -954,7 +961,7 @@ Figure \ref{fig:feat_imp} depicts the top 10 most discriminative features determ
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.88\textwidth]{feature_importance.png}
-    \caption{Top 10 most discriminative features determined by permutation importance on the validation set, showing the overwhelming importance of \texttt{snr}, \texttt{duration}, and \texttt{crest\_factor}.}
+    \caption{Permutation Feature Importance Across the Engineered 32-Dimensional Power-Quality Feature Set}
     \label{fig:feat_imp}
 \end{figure}
 
@@ -963,7 +970,7 @@ Table \ref{tab:ablation_results} presents the results of retraining the baseline
 
 \begin{table}[H]
 \centering
-\caption{Feature Group Ablation Results on Validation Partition}
+\caption{Functional Feature Group Ablation Analysis on the Frozen Validation Partition}
 \label{tab:ablation_results}
 \begin{tabularx}{\textwidth}{lXXl}
 \toprule
@@ -992,7 +999,7 @@ We benchmarked Compact 1D CNN and Temporal Convolutional Network (TCN) models op
 
 \begin{table}[H]
 \centering
-\caption{Raw Waveform Deep Learning Performance on Validation Partition}
+\caption{Validation Performance of Deep-Learning Architectures Operating on Multi-Channel Raw Waveforms}
 \label{tab:dl_results}
 \begin{tabularx}{\textwidth}{lXXXX}
 \toprule
@@ -1009,12 +1016,13 @@ Compact 1D CNN & 20 kHz & \texttt{[3, 4000]} & 90.62\% & 90.16\% \\
 Ablating multi-phase inputs by setting Phases B and C to zero (\texttt{[Va, 0, 0]}) caused 20 kHz CNN Macro F1 to collapse from \textbf{90.16\% down to 3.91\%} (an 86.25\% drop). Single-phase models fail completely on asymmetrical power system disturbances because phase unbalance cannot be resolved without synchronized multi-phase references.
 
 \section{The Hybrid Model Breakthrough (Track C: HybridPQNet)}
+\label{sec:hybrid_breakthrough}
 Track C addressed the central research question: \textit{Do engineered electrical features and learned raw-waveform representations supply complementary information?}
 Table \ref{tab:hybrid_results} presents the controlled comparison across three architectures trained with identical optimizers, learning rate schedules, and epoch budgets.
 
 \begin{table}[H]
 \centering
-\caption{Controlled Multi-Modal Representation Comparison (Validation Partition)}
+\caption{Comparative Validation Performance of Classical, Raw-Waveform Deep-Learning, and Fused Hybrid Architectures}
 \label{tab:hybrid_results}
 \small
 \begin{tabularx}{\textwidth}{p{4.2cm}p{3.8cm}p{2.8cm}cc}
@@ -1033,7 +1041,7 @@ Table \ref{tab:challenge_results} and Figure \ref{fig:model_comp} summarize the 
 
 \begin{table}[H]
 \centering
-\caption{Final Benchmark Comparison: Validation vs. One-Time Challenge Partition}
+\caption{Classification Performance Benchmark Across Frozen Validation and Held-Out Stress Challenge Partitions}
 \label{tab:challenge_results}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -1057,14 +1065,14 @@ Compact 1D CNN (20k) & 90.62\% & 90.16\% & 87.21\% & 85.78\% & -4.38\% \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.98\textwidth]{model_comparison.png}
-    \caption{Multi-model benchmark comparison showing Validation Macro F1 vs. One-Time Challenge Macro F1 across all evaluated architectures.}
+    \caption{Comparative Validation and Out-of-Distribution Challenge Performance Across Evaluated Model Architectures}
     \label{fig:model_comp}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{confusion_matrix.png}
-    \caption{Baseline multi-class confusion matrix across the eight canonical disturbance classes.}
+    \caption{Multi-Class Disturbance Classification Confusion Matrix on the Frozen Validation Partition}
     \label{fig:cm}
 \end{figure}
 
@@ -1075,14 +1083,31 @@ The 100.00\% accuracy and F1 score achieved by \textbf{HybridPQNet} represents a
     \item \textbf{Mathematical Complementarity:} The 1D CNN branch extracts sub-cycle commutation slopes (notches) and high-frequency phase coupling, while the 32-feature branch supplies invariant energy conservation quantities (true RMS, crest factor, Goertzel harmonic ratios). Their combination eliminates residual boundary ambiguities.
 \end{enumerate}
 
-\section{Interactive Research Dashboard Implementation}
-Figure \ref{fig:dashboard} illustrates the user-facing research dashboard built using Streamlit (\texttt{app.py}), enabling recorded-data exploration, waveform inspections, and real-time model inference.
+\section{Interactive Research Platform and Real-Time Telemetry Interface}
+To provide interactive verification and laboratory demonstration, a web-based telemetry and classification dashboard was developed and deployed. The redesigned interface adopts a clean, predominantly white architectural aesthetic with generous whitespace, modern typography, restrained accent colors, and subtle technical line-art icons, providing an approachable yet rigorous engineering research environment.
+
+Figure \ref{fig:dashboard_overview} displays the primary real-time monitoring bench operating under nominal steady-state conditions. The interface comprises four integrated functional subsystems:
+\begin{enumerate}
+    \item \textbf{Grid Bus Telemetry Bar:} Continuously monitors three-phase Bus 5 parameters ($V_a, V_b, V_c$), displaying per-unit RMS voltage, total harmonic distortion (THD), and active operating status.
+    \item \textbf{Disturbance Injection Console:} Enables deterministic triggering of standard disturbance events (Voltage Sag, Swell, Harmonics, Interruption, Transient, Flicker, Notch) with tunable amplitude scaling and measurement noise.
+    \item \textbf{Laboratory Oscilloscope Viewport:} Renders high-precision synchronized three-phase waveforms ($0^\circ, -120^\circ, +120^\circ$) with calibrated timebase ($5\text{--}20\text{ ms/div}$) and vertical scaling ($0.5\text{--}2.0\text{ V/div}$), toggleable between time-domain traces and Goertzel/FFT harmonic spectra.
+    \item \textbf{Extracted DSP Feature Matrix:} Computes and displays the eight core electrical indicators in real time, including RMS voltage, peak amplitude, crest factor, THD, duration, dominant frequency, system frequency, and signal-to-noise ratio (SNR).
+\end{enumerate}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.98\textwidth]{dashboard_screenshot.png}
-    \caption{Interactive Power Quality Research Dashboard running locally, displaying the Recorded Experiment Explorer panel with multi-phase voltage waveforms, harmonic spectra, and classification predictions.}
-    \label{fig:dashboard}
+    \includegraphics[width=0.95\textwidth]{ui_screenshots/dashboard_overview_redesigned.png}
+    \caption{Interactive Power-Quality Research Platform Interface Displaying Real-Time Three-Phase Bus 5 Telemetry, Oscilloscope Display, and Disturbance Control}
+    \label{fig:dashboard_overview}
+\end{figure}
+
+Figure \ref{fig:dashboard_sag} illustrates the platform response during an active Voltage Sag event injected on Phase A. The interface captures the instantaneous voltage depression ($V_{\text{RMS}} = 0.579\text{ pu}$), computes the updated DSP feature vector, and executes forward inference through the neural network. The ML Validation Unit displays the independent model prediction (\texttt{SAG}), high classification confidence ($96.3\%$), and the full multi-class probability distribution, while logging the verified event to the chronological validation stream.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{ui_screenshots/dashboard_sag_classification.png}
+    \caption{Real-Time Disturbance Classification Interface Showing Waveform Collapse, DSP Feature Extraction, and Neural Network Confidence During a Voltage Sag Event}
+    \label{fig:dashboard_sag}
 \end{figure}
 
 % =========================================================================

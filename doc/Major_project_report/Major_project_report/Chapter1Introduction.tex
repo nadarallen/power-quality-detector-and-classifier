@@ -1,0 +1,72 @@
+% Chapter 1 Introduction
+\fancyhead[R]{\small MsAdmit}
+\chapter[Introduction]{\centering Introduction}\label{chap1}
+\newpage
+
+\section{Background}
+\justify
+
+Applying for a Master's program abroad is one of the biggest academic decisions a student makes, and also one of the most uncertain. Applicants have to weigh their GPA, GRE and TOEFL/IELTS scores, work experience, internships and research publications against hundreds of universities, each with its own unwritten expectations. Most students rely on forums, consultants or word of mouth, which tends to be generic, inconsistent and often expensive. Few applicants can tell where their profile actually stands, which universities are realistic targets, or what to improve before the deadline.
+ 
+Machine Learning, Explainable AI and Large Language Models make a more personal and transparent approach possible. MsAdmit is a full-stack platform that evaluates a student's profile and predicts their competitiveness for universities worldwide. It uses trained ML models (XGBoost and a stacking ensemble) on historical admission data, and SHAP explains each prediction so the student can see why a university is labelled Reach, Target or Consider. Resumes are uploaded as PDFs and parsed automatically into the metrics the models need. Google Gemini reviews Statements of Purpose against an 8-criteria rubric. A what-if simulator and strategic roadmap then show how improvements such as a GRE retake or a new publication would change the outcome.
+\section{Motivation}
+\justify
+
+Students applying abroad face a gap between what they know and what they need to know. They often do not know how competitive they are, so they apply too high, too low, or without a clear strategy. Each application also carries real costs: fees, documents (SOP, three LORs, transcripts, resume) and deadlines that are easy to lose track of.
+ 
+Existing tools mostly give a bare ``chance of admit'' number with no reasoning, or generic advice that ignores the individual profile. Students are left without answers to the questions that matter: why was this university placed in this category, and what should I do next?
+ 
+MsAdmit was built to close that gap. It combines prediction with explanation and action. The student gets a competitiveness score, a clear breakdown of the factors behind it, feedback on their SOP, and a plan for improving their profile, all in one place alongside an application tracker.
+\section{Aim and Objective}
+\subsection*{Aim :}
+\justify
+MsAdmit aims to provide an efficient system of applying university to get a deeper insight into a person's profiles and discover optimal universities for graduate education. It delivers personalized advice to their admission applicants, assesses entry competitiveness, and recommends ways to improve, and that's how it allows a student to plan the next step towards their admission journey.
+
+\subsection*{Objectives :}
+
+The objective of MsAdmit is to create an AI-powered graduate
+admissions decision support and profile optimization platform
+that provides transparent, personalized, and actionable guidance
+through a unified system. The detailed objectives of the project
+are as follows:
+
+\begin{itemize}
+    \item To predict a student's competitiveness score from academic and profile data (GPA, GRE, TOEFL/IELTS, undergraduate tier, work experience, internships and publications) using machine learning models.
+    \item To recommend universities in three tiers (Reach, Target and Consider) based on model inference and historical admission benchmarks.
+    \item To apply Explainable AI (SHAP) so students can see which factors raised or lowered each prediction.
+    \item To extract profile metrics automatically from uploaded PDF resumes and feed them into the prediction pipeline.
+    \item To evaluate Statements of Purpose with Google Gemini against an 8-criteria \cite{mit_sop,cmu_admissions,cmu_sop_guidelines,mit_faculty_essay}rubric, with paragraph-level strengths and weaknesses.
+    \item To provide an interactive what-if simulator and roadmap that shows the effect of GRE retakes, new publications or a stronger SOP.
+    \item To provide an application tracker for documents, deadlines, notes and fee budgeting.
+    \item To offer a QS Top 150 explorer with admission requirements, tuition and acceptance statistics.
+    \item To build the system as a secure, scalable web application with a React frontend and a FastAPI backend, using JWT authentication and database support for MongoDB and SQL.
+\end{itemize}
+
+
+% \section{Problem statement}
+
+% \section{Scope}
+
+
+\section{Report Outline}
+
+
+This report is organized into six chapters:
+
+\begin{itemize}
+    \item \textbf{Chapter 1: Introduction} presents the project background, problem statement, motivation, and objectives.
+
+    \item \textbf{Chapter 2: Study of the System} reviews existing systems, related research, and their limitations.
+
+    \item \textbf{Chapter 3: Proposed System} describes the MsAdmit platform, its key features, and workflow, including admission prediction, university recommendations, SOP evaluation, and profile optimization.
+
+    \item \textbf{Chapter 4: Design of the System} explains the system architecture, data flow diagrams, database design, and machine learning methodology.
+
+    \item \textbf{Chapter 5: Result and Discussion} presents the implementation results, model performance, system evaluation, and limitations.
+
+    \item \textbf{Chapter 6: Conclusion \& Future Scope} summarizes the project's contributions and discusses potential future enhancements.
+\end{itemize}
+
+
+
+%%%% End of Chapter 1

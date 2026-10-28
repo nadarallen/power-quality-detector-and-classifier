@@ -1,0 +1,235 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue!80!black, citecolor=blue!80!black, urlcolor=blue!80!black]{hyperref}
+
+\geometry{margin=1in, top=1in, bottom=1in}
+
+% Document-Wide Professional Academic Page Border (Every Page)
+\AddToHook{shipout/background}{%
+  \put(0,0){%
+    \normalcolor
+    \color{black!55}%
+    \linethickness{0.6pt}%
+    \put(\dimexpr 12mm\relax, \dimexpr -285mm\relax){%
+      \framebox(\dimexpr 186mm\relax, \dimexpr 273mm\relax){}%
+    }%
+  }%
+}
+
+\begin{document}
+
+% =========================================================================
+% PAGE 1: TITLE PAGE
+% =========================================================================
+\begin{titlepage}
+\thispagestyle{empty}
+
+{\centering
+{\large A Project Report}\\ 
+\vspace{0.15cm}
+{\large On}\\
+\vspace{0.4cm}
+
+{\fontsize{18}{24}\selectfont\bfseries POWER QUALITY DISTURBANCE \\ DETECTION AND CLASSIFICATION \\ USING MACHINE LEARNING\par}
+\vspace{0.6cm}
+
+{\large Submitted in partial fulfilment of the requirements of} \\[0.15cm]
+{\large\bf University of Mumbai} \\[0.15cm]
+{\large For the Degree of} \\[0.15cm]
+{\large\bf Bachelor of Technology} \\
+{\it in} \\
+{\bf\large ELECTRICAL ENGINEERING and COMPUTER ENGINEERING} \\[0.45cm]
+
+{\it\large Submitted by} \\[0.25cm]
+{\large\bf Allen Salmo Nadar \quad (1023169)}\\[0.12cm]
+{\large\bf Ryan Norman \quad (1023170)}\\[0.12cm]
+{\large\bf Tushar Rajendra Patil \quad (4023126)}\\[0.12cm]
+{\large\bf Sejal Sampat Pawar \quad (4023128)}\\[0.45cm]
+
+{\it\large Supervised by} \\[0.2cm]
+{\large\textbf{Dr. Bindu S}} \qquad\qquad {\large\textbf{Dr. M. Kiruthika}}\\[0.35cm]
+
+\includegraphics[width=3.4cm,height=3.4cm,keepaspectratio]{fcritlogo}\\[0.25cm]
+
+{\bf\large Department of Electrical Engineering} \\[0.08cm]
+{\bf\large Department of Computer Engineering} \\[0.15cm]
+{\bf\large Agnel Charities', Fr. Conceicao Rodrigues Institute of Technology}\\
+{\small\bfseries (An Autonomous Institute \& Permanently Affiliated to University of Mumbai)}\\
+{\bf Sector 9A, Vashi, Navi Mumbai -- 400703} \\[0.35cm]
+
+{\bf\large UNIVERSITY OF MUMBAI} \\[0.1cm]
+{\bf\large 2026--2027} \\
+}
+\end{titlepage}
+\clearpage
+
+% =========================================================================
+% PAGE 2: APPROVAL SHEET
+% =========================================================================
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\begin{center}
+\vspace*{0.2cm}
+{\LARGE\bf APPROVAL SHEET} \\[0.5cm]
+
+{\large This is to certify that the project entitled}\\[0.25cm]
+
+{\Large\bf \textsc{``Power Quality Disturbance Detection and Classification Using Machine Learning''}}\\[0.35cm]
+
+{\large\bf Submitted by}\\[0.3cm]
+
+\begin{tabular}{cc}
+\large\textbf{Allen Salmo Nadar} & \large\textbf{1023169} \\
+\large\textbf{Ryan Norman} & \large\textbf{1023170} \\
+\large\textbf{Tushar Rajendra Patil} & \large\textbf{4023126} \\
+\large\textbf{Sejal Sampat Pawar} & \large\textbf{4023128}
+\end{tabular}
+
+\vspace{0.5cm}
+
+{\large
+In partial fulfilment of degree of B.Tech (Semester VII--VIII) in Electrical Engineering and Computer Engineering for continuous assessment of Major project is approved.
+\par
+}
+
+\vspace{0.8cm}
+
+%------------------------------------------------
+% Signature Sections
+%------------------------------------------------
+
+\begin{raggedleft}
+\large{\textbf{Supervisor(s) :  \rule{7.5cm}{0.4pt}}} \\ [0.75cm]
+\large{\textbf{Project Coordinator(s) : \rule{5.5cm}{0.4pt}}} \\ [0.75cm]
+\large{\textbf{Examiners  : 1. \rule{7.5cm}{0.4pt}}} \\ [0.75cm]
+\large{\textbf{2. \rule{7.5cm}{0.4pt}}} \\ [0.75cm]
+\large{\textbf{Head of Department : \rule{6cm}{0.4pt}}} \\ [1.5cm]
+\end{raggedleft}
+
+\begin{flushleft}
+\textbf{Date : }\\[0.15cm]
+\textbf{Place : Navi Mumbai} 
+\end{flushleft}
+
+\vspace{-0.2cm}
+%------------------------------------------------
+% College Seal
+%------------------------------------------------
+\textbf{COLLEGE SEAL}
+
+\end{center}
+\clearpage
+
+% =========================================================================
+% PAGE 3: DECLARATION
+% =========================================================================
+\begin{center}
+\vspace*{0.2cm}
+{\LARGE\bf Declaration}\\[0.6cm]
+\end{center}
+
+\justify
+We declare that this written submission for B.Tech Declaration entitled \textbf{``Power Quality Disturbance Detection and Classification Using Machine Learning and Deep Representation Learning''} represents our ideas in our own words and where others' ideas or words have been included, we have adequately cited and referenced the sources. We also declare that we have adhered to all principles of academic honesty and integrity and have not misrepresented, fabricated, or falsified any ideas/data/fact/source in our submission. We understand that any violation of the above will cause disciplinary action by the institute and also evoke penal action from the sources which have thus not been properly cited or from whom permission has not been taken when needed.
+
+\vspace{1.8cm}
+\hfill
+\begin{tabular}[t]{l@{}}
+{\large\textbf{Project Group Members:}} \\[0.6cm]
+
+1. Allen Salmo Nadar, 1023169\\[0.15cm]
+\noindent\rule{6cm}{0.4pt} \\[0.7cm]
+
+2. Ryan Norman, 1023170 \\[0.15cm]
+\noindent\rule{6cm}{0.4pt} \\[0.7cm]
+
+3. Tushar Rajendra Patil, 4023126 \\[0.15cm]
+\noindent\rule{6cm}{0.4pt} \\[0.7cm]
+
+4. Sejal Sampat Pawar, 4023128 \\[0.15cm]
+\noindent\rule{6cm}{0.4pt}
+\end{tabular}
+
+\vfill
+\noindent
+\textbf{Date:} \rule{3.5cm}{0.4pt} \hfill \textbf{Place:} Navi Mumbai
+\clearpage
+
+% =========================================================================
+% PAGE 4: ABSTRACT
+% =========================================================================
+\vspace*{0.2cm}
+\begin{center}
+{\LARGE\bf Abstract}\\[0.4cm]
+\end{center}
+
+\justify
+Power quality (PQ) monitoring has emerged as a paramount technical requirement in modern power grids characterized by widespread non-linear loads, high-frequency power electronic switching converters, and distributed energy resource integrations. Voltage and current waveform disturbances degrade equipment efficiency, induce thermal stress, trip sensitive automated protections, and reduce overall network reliability. Developing automated, high-accuracy, and computationally resilient algorithms for power quality disturbance classification is therefore a crucial engineering priority.
+
+This project establishes a comprehensive, end-to-end framework for three-phase power quality disturbance detection and classification grounded in the Western System Coordinating Council (WSCC) IEEE 9-bus transmission benchmark ($60\text{ Hz}$, $230\text{ kV}$ nominal base). The entire processing pipeline is developed and validated across nine systematic stages:
+(1) electrical network modeling in MATLAB/Simulink;
+(2) controlled disturbance injection across eight canonical IEEE Std 1159 classes (Normal, Sag, Swell, Interruption, Harmonics, Flicker, Notch, and Oscillatory Transient);
+(3) multi-channel three-phase voltage and current signal acquisition at the Bus 5 load center;
+(4) dual-rate digital signal processing (20 kHz high-resolution and 5 kHz anti-aliased decimated streams) and 32-dimensional canonical feature extraction;
+(5) rigorous dataset generation and leakage-free partitioning;
+(6) classical machine learning benchmarking (MLP, SVM, Random Forest, Extra Trees, HistGradientBoosting, Logistic Regression);
+(7) raw waveform deep learning evaluation utilizing Compact 1D Convolutional Neural Networks and Temporal Convolutional Networks (TCN) with dilated causal receptive fields;
+(8) multi-modal hybrid representation fusion via \textbf{HybridPQNet}; and
+(9) an interactive research dashboard for recorded-data analytics and explainability.
+
+Empirical evaluations on a strictly frozen, zero-leakage dataset (comprising 4,608 frames across 144 independent continuous trajectories) confirm that while classical feature-based MLP models achieve 92.60\% validation Macro F1 and raw-waveform TCN architectures achieve 93.70\% validation Macro F1, the fused \textbf{HybridPQNet} model achieves \textbf{100.00\% validation Macro F1} and maintains \textbf{100.00\% Macro F1} on a quarantined one-time challenge partition spanning four physically held-out grid stress regimes (Renewable Inverter Penetration, Severe Reactive Imbalance, Asymmetric Substation Loading, Stressed Transmission Import) and harsh 40 dB sensor noise. Group ablation proves that hand-crafted physical features and convolutional waveform representations supply complementary mathematical properties: raw waveforms resolve localized sub-cycle commutation slopes and high-frequency phase coupling, while engineered features supply invariant global energy conservation quantities. All findings reflect simulated electromagnetic benchmark environments, with physical grid deployment and embedded hardware execution demarcated as future scope.
+
+\vspace{0.35cm}
+\noindent\textbf{Keywords:} Power Quality Disturbances, IEEE 9-bus benchmark, Waveform Classification, HybridPQNet, Dilated TCN, Convolutional Neural Networks, Digital Signal Processing, Feature Extraction, Machine Learning.
+\clearpage
+
+% =========================================================================
+% PAGE 5: ACKNOWLEDGEMENTS
+% =========================================================================
+\begin{center}
+\vspace*{0.2cm}
+{\LARGE\bf Acknowledgements}\\[0.6cm]
+\end{center}
+
+\justify
+We express our deepest sense of gratitude to our project guides, \textbf{Dr. Bindu S} and \textbf{Dr. M. Kiruthika}, for their exemplary mentorship, intellectual guidance, and constructive critiques throughout the course of this final-year project. Their domain expertise in electrical power systems, signal processing, and continuous academic encouragement were instrumental in guiding both our simulation modeling and machine learning research.
+
+We extend our sincere thanks to \textbf{Dr. Mini R}, Head of the Department of Electrical Engineering, and the Department of Computer Engineering, for providing the departmental infrastructure, laboratory computing facilities, and administrative support necessary for our research.
+
+We convey our heartfelt appreciation to our Principal, \textbf{Dr. S. M. Khot}, for his administrative encouragement and for maintaining an academic environment that actively fosters technical innovation and research excellence at Fr. C. Rodrigues Institute of Technology, Vashi.
+
+Finally, we express our profound gratitude to our parents, family members, faculty colleagues, and friends for their enduring patience, moral support, and motivation throughout the duration of this engineering degree.
+
+\vspace{1.8cm}
+\hfill
+\begin{tabular}[t]{l@{}}
+{\large\textbf{Project Group Members:}} \\[0.6cm]
+
+1. Allen Salmo Nadar, 1023169 \\[0.15cm]
+\noindent\rule{6cm}{0.4pt} \\[0.7cm]
+
+2. Ryan Norman, 1023170 \\[0.15cm]
+\noindent\rule{6cm}{0.4pt} \\[0.7cm]
+
+3. Tushar Rajendra Patil, 4023126 \\[0.15cm]
+\noindent\rule{6cm}{0.4pt} \\[0.7cm]
+
+4. Sejal Sampat Pawar, 4023128 \\[0.15cm]
+\noindent\rule{6cm}{0.4pt}
+\end{tabular}
+
+\vfill
+\noindent
+\textbf{Date:} \rule{3.5cm}{0.4pt} \hfill \textbf{Place:} Navi Mumbai
+\clearpage
+
+\end{document}

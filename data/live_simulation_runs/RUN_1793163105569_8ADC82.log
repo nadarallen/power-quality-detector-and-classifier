@@ -1,0 +1,41 @@
+[Warning: Unable to load Toolbox Path Cache C:\Users\Allen\AppData\Local\MathWorks\MATLAB\R2025a\toolbox_cache-25.1.0-1840924715-win64.xml. The cache file is not in the correct
+format. It will be regenerated upon quitting MATLAB.] 
+[LiveSim] Starting  reading config: D:/my study/Project/power-quality-detector-and-classifier/data/live_simulation_runs/RUN_1793163105569_8ADC82_config.json
+[LiveSim] run_id=RUN_1793163105569_8ADC82  class=Normal  phase=ABC  stop=0.380s
+[LiveSim] Loading model IEEE_9bus_PQD_DISTURBANCES ...
+[LiveSim] Model loaded.
+[LiveSim] Normal scenario  all disturbances disabled.
+[LiveSim] Running sim (StopTime=0.380 s) ...
+[Warning: A propagation speed of 312815 km/s has been found for mode 2 in block ' Line 4 - 6'; Propagation speeds must be < 300000 km/s!] 
+[> In blmodlin
+In ThreePhasePiSectionLineBlock
+In psbsort
+In powersolve
+In powersysdomain_start
+In powersysdomain_netlist
+In powersysdomain
+In run_live_dashboard_sim (line 243)] 
+[Warning: A propagation speed of 308409 km/s has been found for mode 2 in block 'Line 4 - 5 '; Propagation speeds must be < 300000 km/s!] 
+[> In blmodlin
+In ThreePhasePiSectionLineBlock
+In psbsort
+In powersolve
+In powersysdomain_start
+In powersysdomain_netlist
+In powersysdomain
+In run_live_dashboard_sim (line 243)] 
+[Warning: A propagation speed of 335656 km/s has been found for mode 1 in block 'Line 7- 8'; Propagation speeds must be < 300000 km/s!] 
+[> In blmodlin
+In ThreePhasePiSectionLineBlock
+In psbsort
+In powersolve
+In powersysdomain_start
+In powersysdomain_netlist
+In powersysdomain
+In run_live_dashboard_sim (line 243)] 
+[LiveSim] sim() completed in 8.9 s
+[LiveSim] Resampled to 5 kHz: 1901 samples
+[LiveSim] Chunk 1/2 posted (1000 samples)
+[LiveSim] Chunk 2/2 posted (901 samples)
+[LiveSim] Completion notification sent.
+[LiveSim] Done  model closed (not saved).

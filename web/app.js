@@ -47,9 +47,9 @@ let waveformL3 = new Float32Array(BUFFER_SIZE);
 let sseTelemetrySource = null;
 
 const PHASE_COLORS = {
-  'L1': '#f1e05a', // Yellow / Gold (Phase A 0°)
-  'L2': '#58a6ff', // Blue (Phase B -120°)
-  'L3': '#ff7b72'  // Salmon / Red (Phase C +120°)
+  'L1': '#2563eb', // Royal Blue (Phase A 0°)
+  'L2': '#d97706', // Warm Amber (Phase B -120°)
+  'L3': '#dc2626'  // Crimson Red (Phase C +120°)
 };
 
 // Color Palette Mapping per Disturbance Class
@@ -84,6 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
   initOscilloscopeCanvas();
   startAnimationLoop();
   initTelemetryStream();
+
+  // Support direct parameter initialization for testing, links, and automated report captures
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramMode = urlParams.get('mode');
+  const paramDist = urlParams.get('dist');
+  const paramPhase = urlParams.get('phase');
+  if (paramMode) setInjectionMode(paramMode);
+  if (paramPhase) setSelectedPhase(paramPhase);
+  if (paramDist) {
+    selectDisturbance(paramDist);
+    setTimeout(() => {
+      triggerDisturbanceInjection();
+    }, 200);
+  }
 });
 
 // Fetch neural network model weights from backend or local static file
@@ -316,17 +330,28 @@ function extractFeaturesDSP(waveform) {
 
 // --- 3. REAL CLIENT-SIDE NEURAL NETWORK INFERENCE ENGINE ---
 function runNeuralNetworkInference(features) {
+  let rms = features.rms_voltage;
+  let peak = features.peak_voltage;
+  let crest = features.crest_factor;
+  let thd = features.thd;
+  let dur = features.duration;
+  let dom_f = features.dominant_freq;
+  let sys_f = features.system_freq;
+  let snr = features.snr;
+
+  // Domain adaptation for 60-Hz IEEE 9-bus
+  if (sys_f >= 55.0 || dom_f >= 55.0) {
+    const v_pu = rms / 0.5887;
+    const p_pu = peak / 0.8326;
+    rms = v_pu * 0.7071;
+    peak = p_pu * 1.000;
+    crest = (rms > 1e-4) ? (peak / rms) : crest;
+    dom_f = 50.0;
+    sys_f = 50.0;
+  }
+
   // Convert 8 features to array vector
-  const vec = [
-    features.rms_voltage,
-    features.peak_voltage,
-    features.crest_factor,
-    features.thd,
-    features.duration,
-    features.dominant_freq,
-    features.system_freq,
-    features.snr
-  ];
+  const vec = [rms, peak, crest, thd, dur, dom_f, sys_f, snr];
 
   // 1. Feature Standardization (Z-score)
   const z = vec.map((v, i) => (v - SCALER_MEAN[i]) / SCALER_SCALE[i]);
@@ -720,12 +745,12 @@ function drawScopeScreen() {
   const w = canvas.width;
   const h = canvas.height;
 
-  // 1. CRT Screen Background
-  ctx.fillStyle = '#031008';
+  // 1. Clean Engineering Scope Background
+  ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
 
   // 2. Graticule Grid Lines (8x10 Divisions)
-  ctx.strokeStyle = 'rgba(0, 255, 102, 0.12)';
+  ctx.strokeStyle = 'rgba(15, 23, 42, 0.08)';
   ctx.lineWidth = 1;
 
   const numCols = 10;
@@ -748,7 +773,7 @@ function drawScopeScreen() {
   }
 
   // Center Crosshairs
-  ctx.strokeStyle = 'rgba(0, 255, 102, 0.35)';
+  ctx.strokeStyle = 'rgba(15, 23, 42, 0.25)';
   ctx.beginPath();
   ctx.moveTo(0, h / 2);
   ctx.lineTo(w, h / 2);
@@ -764,10 +789,9 @@ function drawScopeScreen() {
 
     function drawTrace(waveform, strokeColor) {
       if (!waveform || waveform.length === 0) return;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = strokeColor;
+      ctx.shadowBlur = 0;
       ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = 2.2;
+      ctx.lineWidth = 2.4;
       ctx.beginPath();
       const N = waveform.length;
       for (let i = 0; i < points; i++) {
@@ -815,9 +839,8 @@ function drawScopeScreen() {
     }
   } else {
     // --- GENUINE FFT HARMONIC SPECTRUM BAR GRAPH ---
-    ctx.shadowBlur = 8;
-    ctx.shadowColor = 'var(--crt-cyan)';
-    ctx.fillStyle = '#00e5ff';
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#2563eb';
 
     // Prioritize backend DSP spectral telemetry; fallback to true Goertzel calculation on active waveform
     let freqs = [];
@@ -885,7 +908,7 @@ function toggleScanlines() {
   if (!overlay) return;
   const isVis = overlay.style.display !== 'none';
   overlay.style.display = isVis ? 'none' : 'block';
-  document.getElementById('btn-scanlines').textContent = isVis ? 'CRT GRID: OFF' : 'CRT GRID: ON';
+  document.getElementById('btn-scanlines').textContent = isVis ? 'GRID: OFF' : 'GRID: ON';
 }
 
 // Update telemetry UI indicators
@@ -1097,3 +1120,580 @@ async function pollThreePhaseTelemetry() {
 // Poll telemetry every 2 seconds as fallback
 setInterval(pollThreePhaseTelemetry, 2000);
 pollThreePhaseTelemetry();
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIVE SIMULINK SIMULATION PANEL — JavaScript
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+// ── State ──────────────────────────────────────────────────────────────────
+const LIVE_SIM = {
+  selectedClass:  'Normal',
+  statusPollId:   null,
+  streamBuffer:   { L1: [], L2: [], L3: [] },
+  currentBuffer:  { L1: [], L2: [], L3: [] },
+  telSubbed:      false,
+  activeRunId:    null,
+  onsetTime:      0.12,
+  samplingRate:   5000,
+  lastStatus:     'idle',
+};
+
+// ── DOM helpers ────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+function liveLog(msg, type = 'info') {
+  const scr = $('live-log-scroll');
+  if (!scr) return;
+  const now = new Date().toISOString().substring(11, 23);
+  const row = document.createElement('div');
+  row.className = 'live-log-row ' + type;
+  row.textContent = `[${now}] ${msg}`;
+  scr.appendChild(row);
+  scr.scrollTop = scr.scrollHeight;
+}
+
+function setLiveBadge(text, cls) {
+  const b = $('live-sim-badge');
+  if (!b) return;
+  b.textContent = text;
+  b.className = 'live-sim-status-badge ' + (cls || '');
+}
+
+function setOverlay(show, title, sub, spinner) {
+  const ov = $('live-sim-overlay');
+  if (!ov) return;
+  ov.classList.toggle('hidden', !show);
+  if ($('live-overlay-title')) $('live-overlay-title').textContent = title || '';
+  if ($('live-overlay-sub'))   $('live-overlay-sub').textContent   = sub   || '';
+  const sp = $('live-spinner');
+  if (sp) sp.style.display = spinner ? 'block' : 'none';
+}
+
+function setProgress(pct, label) {
+  const bar = $('live-progress-bar');
+  const pctEl = $('live-progress-pct');
+  const lblEl = $('live-sim-phase-label');
+  if (bar) bar.style.width = Math.min(100, pct) + '%';
+  if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+  if (lblEl && label) lblEl.textContent = label;
+}
+
+// ── Disturbance class selection ────────────────────────────────────────────
+function selectDistClass(btn) {
+  document.querySelectorAll('.dist-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  LIVE_SIM.selectedClass = btn.dataset.cls || btn.dataset['class'];
+
+  // Show matching param panel
+  document.querySelectorAll('.dist-params').forEach(p => p.style.display = 'none');
+  const panel = $('params-' + LIVE_SIM.selectedClass);
+  if (panel) panel.style.display = 'block';
+}
+
+// ── Slider helpers ─────────────────────────────────────────────────────────
+function updParam(slider, labelId) {
+  $(labelId).textContent = parseFloat(slider.value).toFixed(0) + (slider.dataset.unit || '');
+}
+function updParamF(slider, labelId, decimals) {
+  $(labelId).textContent = parseFloat(slider.value).toFixed(decimals) + (slider.dataset.unit || '');
+}
+
+function selectAllPhases() {
+  ['ph-A','ph-B','ph-C'].forEach(id => { const el = $(id); if (el) el.checked = true; });
+}
+
+// ── Build config from UI ───────────────────────────────────────────────────
+function buildSimConfig() {
+  const cls = LIVE_SIM.selectedClass;
+  const phases = [];
+  if ($('ph-A') && $('ph-A').checked) phases.push('A');
+  if ($('ph-B') && $('ph-B').checked) phases.push('B');
+  if ($('ph-C') && $('ph-C').checked) phases.push('C');
+  if (phases.length === 0) { alert('Select at least one phase.'); return null; }
+
+  const stopTime  = parseFloat($('p-stoptime') ? $('p-stoptime').value : 0.38);
+  const onsetTime = parseFloat($('p-onset')    ? $('p-onset').value    : 0.12);
+  LIVE_SIM.onsetTime = onsetTime;
+
+  const params = {};
+  if (cls === 'Sag') {
+    params.fault_resistance_ohms  = parseFloat($('p-sag-fault-r').value);
+    params.ground_resistance_ohms = parseFloat($('p-sag-gnd-r').value);
+    params.duration_ms            = parseFloat($('p-sag-dur').value);
+  } else if (cls === 'Swell') {
+    params.capacitive_power_mvar = parseFloat($('p-swl-qc').value);
+    params.damping_power_kw      = parseFloat($('p-swl-damp').value);
+    params.duration_ms           = parseFloat($('p-swl-dur').value);
+  } else if (cls === 'Interruption') {
+    params.duration_ms = parseFloat($('p-int-dur').value);
+  } else if (cls === 'Harmonics') {
+    params.h3_amplitude = parseFloat($('p-h3').value);
+    params.h5_amplitude = parseFloat($('p-h5').value);
+    params.h7_amplitude = parseFloat($('p-h7').value);
+  } else if (cls === 'Flicker') {
+    params.modulation_freq_hz = parseFloat($('p-flk-fm').value);
+    params.modulation_depth   = parseFloat($('p-flk-depth').value);
+  } else if (cls === 'Notch') {
+    params.commutation_resistance_ohms = parseFloat($('p-ntch-r').value);
+    params.notch_width_us              = parseFloat($('p-ntch-w').value);
+  } else if (cls === 'Transient') {
+    params.inductance_mh          = parseFloat($('p-trn-L').value);
+    params.capacitance_uf         = parseFloat($('p-trn-C').value);
+    params.damping_resistance_ohms = parseFloat($('p-trn-R').value);
+  }
+
+  return { class: cls, phases, params, stop_time: stopTime, onset_time: onsetTime };
+}
+
+// ── Start simulation ───────────────────────────────────────────────────────
+async function startLiveSimulation() {
+  const cfg = buildSimConfig();
+  if (!cfg) return;
+
+  // Reset buffers
+  LIVE_SIM.streamBuffer  = { L1: [], L2: [], L3: [] };
+  LIVE_SIM.currentBuffer = { L1: [], L2: [], L3: [] };
+  LIVE_SIM.activeRunId   = null;
+  clearLiveCanvases();
+
+  // Disable start, enable stop
+  const startBtn = $('btn-live-start');
+  const stopBtn  = $('btn-live-stop');
+  if (startBtn) startBtn.disabled = true;
+  if (stopBtn)  stopBtn.disabled  = false;
+
+  setLiveBadge('STARTING', 'starting');
+  setOverlay(true, 'MATLAB STARTING...', 'Cold-start takes ~50 s. Please wait.', true);
+  setProgress(0, 'Launching MATLAB...');
+  liveLog(`Starting ${cfg.class} simulation on phases [${cfg.phases.join(',')}]`, 'matlab');
+  liveLog('MATLAB cold-start can take up to 50 seconds...', 'warn');
+
+  try {
+    const resp = await fetch('/api/live/simulation/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cfg),
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      const errMsg = data.error || `HTTP ${resp.status}`;
+      liveLog('Error: ' + errMsg, 'error');
+      setLiveBadge('ERROR', 'error');
+      setOverlay(true, 'SIMULATION ERROR', errMsg, false);
+      if (startBtn) startBtn.disabled = false;
+      if (stopBtn)  stopBtn.disabled  = true;
+      return;
+    }
+
+    LIVE_SIM.activeRunId = data.run_id;
+    $('live-run-id') && ($('live-run-id').textContent = data.run_id);
+    liveLog(`Simulation accepted — Run ID: ${data.run_id}`, 'success');
+
+    // Start polling status
+    startStatusPolling();
+
+    // Subscribe to telemetry SSE to capture live chunks
+    subscribeLiveTelemetry();
+
+  } catch (err) {
+    liveLog('Network error: ' + err.message, 'error');
+    setLiveBadge('ERROR', 'error');
+    setOverlay(true, 'NETWORK ERROR', err.message, false);
+    if (startBtn) startBtn.disabled = false;
+    if (stopBtn)  stopBtn.disabled  = true;
+  }
+}
+
+// ── Stop simulation ────────────────────────────────────────────────────────
+async function stopLiveSimulation() {
+  liveLog('Stop requested by user.', 'warn');
+  await fetch('/api/live/simulation/stop', { method: 'POST',
+    headers: {'Content-Type':'application/json'}, body: '{}' });
+}
+
+// ── Reset to Normal ────────────────────────────────────────────────────────
+function resetToNormal() {
+  document.querySelectorAll('.dist-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cls === 'Normal' || b.dataset['class'] === 'Normal');
+  });
+  document.querySelectorAll('.dist-params').forEach(p => p.style.display = 'none');
+  const np = $('params-Normal');
+  if (np) np.style.display = 'block';
+  LIVE_SIM.selectedClass = 'Normal';
+  liveLog('Reset to Normal (no disturbance). Start simulation to apply.', 'info');
+}
+
+// ── Status polling ─────────────────────────────────────────────────────────
+function startStatusPolling() {
+  if (LIVE_SIM.statusPollId) clearInterval(LIVE_SIM.statusPollId);
+  LIVE_SIM.statusPollId = setInterval(async () => {
+    try {
+      const resp = await fetch('/api/live/simulation/status');
+      const s    = await resp.json();
+      updateSimStatusUI(s);
+
+      if (['completed', 'error', 'cancelled'].includes(s.status)) {
+        clearInterval(LIVE_SIM.statusPollId);
+        LIVE_SIM.statusPollId = null;
+        onSimulationEnded(s);
+      }
+    } catch (_) { /* network glitch — keep polling */ }
+  }, 1000);
+}
+
+function updateSimStatusUI(s) {
+  if (!s) return;
+  LIVE_SIM.lastStatus = s.status;
+
+  // Badge
+  const badgeMap = {
+    idle: ['IDLE', ''], starting: ['STARTING...', 'starting'],
+    running: ['RUNNING', 'running'], streaming: ['STREAMING', 'streaming'],
+    completed: ['COMPLETED', 'completed'], error: ['ERROR', 'error'],
+    cancelled: ['CANCELLED', 'cancelled'],
+  };
+  const [label, cls] = badgeMap[s.status] || ['?', ''];
+  setLiveBadge(label, cls);
+
+  // Elapsed
+  if ($('live-elapsed')) $('live-elapsed').textContent = s.elapsed_s + ' s';
+
+  // Progress
+  const phaseLabel = {
+    starting: 'MATLAB launching...', running: 'Simulink running sim()...',
+    streaming: `Streaming chunk ${s.chunks_posted || '?'} ...`,
+    completed: 'Simulation complete', error: 'Error', cancelled: 'Cancelled',
+  }[s.status] || '';
+  setProgress(s.progress_pct || 0, phaseLabel);
+
+  // Overlay
+  if (s.status === 'running') {
+    setOverlay(true, 'MATLAB RUNNING sim()', 'Simulink model executing...', true);
+  } else if (s.status === 'streaming') {
+    setOverlay(false);
+    if ($('live-onset-label')) $('live-onset-label').style.display = 'inline';
+  } else if (s.status === 'starting') {
+    setOverlay(true, 'MATLAB STARTING...', 'Cold-start takes ~50 s', true);
+  }
+
+  // Error message
+  if (s.status === 'error' && s.error_message) {
+    liveLog('MATLAB error: ' + s.error_message.substring(0, 300), 'error');
+  }
+
+  // Live waveform rendering from status
+  if (s.voltage && s.voltage.L1 && s.voltage.L1.length > 0) {
+    LIVE_SIM.streamBuffer = s.voltage;
+    drawLiveWaveform('live-voltage-canvas', s.voltage, 'live-v-samples');
+  }
+  if (s.current && s.current.L1 && s.current.L1.length > 0) {
+    LIVE_SIM.currentBuffer = s.current;
+    drawLiveWaveform('live-current-canvas', s.current, 'live-i-samples');
+  }
+  if (s.metrics && (s.metrics.rms_voltage !== undefined || s.metrics.rms !== undefined)) {
+    $('live-metrics-strip') && ($('live-metrics-strip').style.display = 'flex');
+    updateLiveMetrics(s.metrics);
+  }
+  if (s.prediction && s.prediction.predicted_class) {
+    displayLivePrediction(s.prediction);
+  }
+}
+
+function onSimulationEnded(s) {
+  const startBtn = $('btn-live-start');
+  const stopBtn  = $('btn-live-stop');
+  if (startBtn) startBtn.disabled = false;
+  if (stopBtn)  stopBtn.disabled  = true;
+
+  if (s.status === 'completed') {
+    setOverlay(false);
+    setProgress(100, 'Complete — ' + (s.chunks_posted || '?') + ' chunks streamed');
+    liveLog(`Simulation complete. ${s.chunks_posted || 0} chunks · ${s.elapsed_s} s wall-clock.`, 'success');
+    $('live-metrics-strip') && ($('live-metrics-strip').style.display = 'flex');
+
+    if (s.voltage && s.voltage.L1 && s.voltage.L1.length > 0) {
+      LIVE_SIM.streamBuffer = s.voltage;
+      drawLiveWaveform('live-voltage-canvas', s.voltage, 'live-v-samples');
+    }
+    if (s.current && s.current.L1 && s.current.L1.length > 0) {
+      LIVE_SIM.currentBuffer = s.current;
+      drawLiveWaveform('live-current-canvas', s.current, 'live-i-samples');
+    }
+    if (s.metrics && (s.metrics.rms_voltage !== undefined || s.metrics.rms !== undefined)) {
+      updateLiveMetrics(s.metrics);
+    }
+    if (s.prediction && s.prediction.predicted_class) {
+      displayLivePrediction(s.prediction);
+    } else {
+      runLiveMLPrediction();
+    }
+  } else if (s.status === 'error') {
+    setOverlay(true, 'SIMULATION ERROR', (s.error_message || '').substring(0, 120), false);
+  } else if (s.status === 'cancelled') {
+    setOverlay(true, 'STOPPED', 'Simulation cancelled by user.', false);
+    liveLog('Simulation cancelled.', 'warn');
+  }
+}
+
+// ── Telemetry SSE subscription ─────────────────────────────────────────────
+let _liveEvtSrc = null;
+
+function subscribeLiveTelemetry() {
+  if (_liveEvtSrc) { _liveEvtSrc.close(); }
+  _liveEvtSrc = new EventSource('/api/stream/telemetry');
+  _liveEvtSrc.onmessage = (ev) => {
+    try {
+      const telem = JSON.parse(ev.data);
+      if (!LIVE_SIM.activeRunId) return;
+
+      const wf = telem.waveforms || telem.waveform;
+      if (wf && wf.L1 && wf.L1.length > 0) {
+        LIVE_SIM.streamBuffer = wf;
+        drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
+      }
+      const ci = telem.current_waveforms || telem.current_waveform || telem.currents;
+      if (ci && ci.L1 && ci.L1.length > 0) {
+        LIVE_SIM.currentBuffer = ci;
+        drawLiveWaveform('live-current-canvas', LIVE_SIM.currentBuffer, 'live-i-samples');
+      }
+
+      updateLiveMetrics(telem);
+    } catch (_) {}
+  };
+}
+
+// ── Canvas drawing ─────────────────────────────────────────────────────────
+const LIVE_COLORS = { L1: '#2563eb', L2: '#d97706', L3: '#dc2626' };
+const MAX_LIVE_SAMPLES = 5000;
+
+function clearLiveCanvases() {
+  ['live-voltage-canvas', 'live-current-canvas'].forEach(id => {
+    const cvs = $(id);
+    if (!cvs) return;
+    cvs.width  = cvs.clientWidth  || 600;
+    cvs.height = cvs.clientHeight || 140;
+    const ctx = cvs.getContext('2d');
+    ctx.fillStyle = '#fafafa';
+    ctx.fillRect(0, 0, cvs.width, cvs.height);
+  });
+}
+
+function drawLiveWaveform(canvasId, buffers, sampleCountId) {
+  const cvs = $(canvasId);
+  if (!cvs) return;
+  cvs.width  = cvs.clientWidth  || 600;
+  cvs.height = cvs.clientHeight || 140;
+  const W = cvs.width, H = cvs.height;
+  const ctx = cvs.getContext('2d');
+
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid lines
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth   = 0.8;
+  for (let y = 0.25; y < 1; y += 0.25) {
+    ctx.beginPath();
+    ctx.moveTo(0, H * y);
+    ctx.lineTo(W, H * y);
+    ctx.stroke();
+  }
+  // Zero line
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth   = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.5);
+  ctx.lineTo(W, H * 0.5);
+  ctx.stroke();
+
+  const channels = ['L1', 'L2', 'L3'];
+  let mn = Infinity, mx = -Infinity;
+  channels.forEach(ch => {
+    const raw = buffers[ch] || [];
+    const data = raw.slice(-MAX_LIVE_SAMPLES);
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] < mn) mn = data[i];
+      if (data[i] > mx) mx = data[i];
+    }
+  });
+
+  if (!isFinite(mn) || !isFinite(mx) || (mx - mn < 1e-4)) {
+    mn = -1.2;
+    mx = 1.2;
+  }
+  const range = Math.max(mx - mn, 0.2);
+  const mid = (mx + mn) / 2;
+
+  channels.forEach(ch => {
+    const raw = buffers[ch] || [];
+    if (raw.length < 2) return;
+    const data = raw.slice(-MAX_LIVE_SAMPLES);
+    const N = data.length;
+
+    ctx.strokeStyle = LIVE_COLORS[ch];
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = (i / (N - 1)) * W;
+      const y = H * 0.5 - ((data[i] - mid) / range) * H * 0.85;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  });
+
+  // Onset marker
+  if (LIVE_SIM.onsetTime > 0 && buffers.L1 && buffers.L1.length > 0) {
+    const totalT = buffers.L1.length / LIVE_SIM.samplingRate;
+    const shownT = Math.min(buffers.L1.length, MAX_LIVE_SAMPLES) / LIVE_SIM.samplingRate;
+    const onsetInWindow = LIVE_SIM.onsetTime >= (totalT - shownT) && LIVE_SIM.onsetTime <= totalT;
+    if (onsetInWindow) {
+      const xOns = W * (1 - (totalT - LIVE_SIM.onsetTime) / shownT);
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth   = 1;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.moveTo(xOns, 0);
+      ctx.lineTo(xOns, H);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  // Sample count label
+  const scEl = $(sampleCountId) || $('live-' + sampleCountId);
+  if (scEl) {
+    const count = (buffers.L1 && buffers.L1.length) || 0;
+    scEl.textContent = count > 0 ? (count + ' samples') : '— samples';
+  }
+}
+
+// ── Live metrics update ────────────────────────────────────────────────────
+function updateLiveMetrics(raw) {
+  if (!raw) return;
+  const metrics = raw.phases ? (raw.phases.L1 || raw.phases) : raw;
+  const setM = (id, val, unit) => {
+    const el = $(id);
+    if (el && val !== undefined && val !== null) {
+      el.textContent = (+val).toFixed(3) + (unit || '');
+    }
+  };
+  setM('lm-rms',  metrics.rms_voltage  !== undefined ? metrics.rms_voltage  : metrics.rms, ' pu');
+  setM('lm-peak', metrics.peak_voltage !== undefined ? metrics.peak_voltage : metrics.peak, ' pu');
+  setM('lm-thd',  metrics.thd, ' %');
+  setM('lm-freq', metrics.system_freq  !== undefined ? metrics.system_freq  : (metrics.dominant_freq || metrics.frequency), ' Hz');
+  setM('lm-snr',  metrics.snr, ' dB');
+}
+
+function displayLivePrediction(result) {
+  if (!result || !result.predicted_class) return;
+  const predEl  = $('live-pred-class');
+  const confEl  = $('live-pred-conf');
+  const mlPanel = $('live-ml-prediction');
+  if (predEl)  predEl.textContent  = result.predicted_class;
+  if (confEl)  confEl.textContent  = ((result.confidence || 0) * 100).toFixed(1) + '%';
+  if (mlPanel) mlPanel.style.display = 'block';
+}
+
+// ── ML prediction on completed run ────────────────────────────────────────
+async function runLiveMLPrediction() {
+  try {
+    const resp = await fetch('/api/live/simulation/status');
+    const status = await resp.json();
+    if (status.prediction && status.prediction.predicted_class) {
+      displayLivePrediction(status.prediction);
+      liveLog(`ML prediction: ${status.prediction.predicted_class} (${((status.prediction.confidence||0)*100).toFixed(1)}% confidence)`, 'success');
+      return;
+    }
+    const m = status.metrics || {};
+    const features = [
+      m.rms_voltage || 0.5887, m.peak_voltage || 0.8326, m.crest_factor || 1.414,
+      m.thd || 0, m.duration || 0, m.dominant_freq || 60,
+      m.system_freq || 60, m.snr || 45
+    ];
+    const pr = await fetch('/api/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ features }),
+    });
+    const result = await pr.json();
+    displayLivePrediction(result);
+    liveLog(`ML prediction: ${result.predicted_class} (${((result.confidence||0)*100).toFixed(1)}% confidence)`, 'success');
+  } catch (_) {}
+}
+
+async function checkMatlabStatus() {
+  const el = $('live-matlab-status');
+  if (el) el.textContent = 'Checking...';
+  try {
+    const resp = await fetch('/api/live/matlab/check');
+    const data = await resp.json();
+    if (el) {
+      el.textContent = data.matlab_available
+        ? '✓ MATLAB available'
+        : '✗ MATLAB unavailable: ' + data.matlab_detail;
+      el.style.color = data.matlab_available ? '#166534' : '#991b1b';
+    }
+    liveLog(data.matlab_available ? 'MATLAB reachable.' : 'MATLAB not available: ' + data.matlab_detail,
+            data.matlab_available ? 'success' : 'error');
+  } catch (err) {
+    if (el) { el.textContent = '✗ Error: ' + err.message; el.style.color = '#991b1b'; }
+  }
+}
+
+// ── Init: read dist-btn data attributes correctly ──────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Normalise data attribute (HTML uses data-class but JS may read dataset.cls)
+  document.querySelectorAll('.dist-btn').forEach(btn => {
+    btn.dataset.cls = btn.dataset.cls || btn.getAttribute('data-class') || 'Normal';
+  });
+  // Show the Normal param panel by default
+  const np = $('params-Normal');
+  if (np) np.style.display = 'block';
+
+  // Initialise slider label displays
+  const sliders = [
+    ['p-sag-fault-r','p-sag-fault-r-val',0],['p-sag-gnd-r','p-sag-gnd-r-val',1],
+    ['p-sag-dur','p-sag-dur-val',0],['p-swl-qc','p-swl-qc-val',0],
+    ['p-swl-damp','p-swl-damp-val',0],['p-swl-dur','p-swl-dur-val',0],
+    ['p-int-dur','p-int-dur-val',0],['p-h3','p-h3-val',2],['p-h5','p-h5-val',2],
+    ['p-h7','p-h7-val',2],['p-flk-fm','p-flk-fm-val',1],['p-flk-depth','p-flk-depth-val',2],
+    ['p-ntch-r','p-ntch-r-val',3],['p-ntch-w','p-ntch-w-val',0],
+    ['p-trn-L','p-trn-L-val',1],['p-trn-C','p-trn-C-val',0],['p-trn-R','p-trn-R-val',1],
+    ['p-stoptime','p-stoptime-val',2],['p-onset','p-onset-val',2],
+  ];
+  sliders.forEach(([sid, lid, dec]) => {
+    const sl = $(sid);
+    if (sl) {
+      const units = {
+        'p-sag-fault-r-val':' Ω','p-sag-gnd-r-val':' Ω','p-sag-dur-val':' ms',
+        'p-swl-qc-val':' MVAr','p-swl-damp-val':' kW','p-swl-dur-val':' ms',
+        'p-int-dur-val':' ms','p-h3-val':' pu','p-h5-val':' pu','p-h7-val':' pu',
+        'p-flk-fm-val':' Hz','p-flk-depth-val':'','p-ntch-r-val':' Ω',
+        'p-ntch-w-val':' µs','p-trn-L-val':' mH','p-trn-C-val':' µF',
+        'p-trn-R-val':' Ω','p-stoptime-val':' s','p-onset-val':' s',
+      };
+      const lbl = $(lid);
+      if (lbl) lbl.textContent = parseFloat(sl.value).toFixed(dec) + (units[lid] || '');
+    }
+  });
+
+  clearLiveCanvases();
+
+  // Load existing live simulation state on page load
+  fetch('/api/live/simulation/status')
+    .then(r => r.json())
+    .then(s => {
+      if (s && s.status && s.status !== 'idle') {
+        updateSimStatusUI(s);
+        if (s.status === 'completed') {
+          onSimulationEnded(s);
+        } else if (['running', 'starting', 'streaming'].includes(s.status)) {
+          startStatusPolling();
+          subscribeLiveTelemetry();
+        }
+      }
+    })
+    .catch(() => {});
+});

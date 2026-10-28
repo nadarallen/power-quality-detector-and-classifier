@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Quality Analyzer — Retro Laboratory ML Validation Bench</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="instrument-frame">
+
+    <!-- Header & System Metadata Bar -->
+    <header class="instrument-header">
+      <div class="brand-title">
+        <span class="brand-name">⚡ PQD ANALYZER & INJECTION BENCH</span>
+        <span class="brand-sub">REAL-TIME WAVEFORM MONITORING & INDEPENDENT ML CLASSIFICATION VALIDATION</span>
+      </div>
+
+      <div class="lamp-matrix">
+        <div class="lamp-unit">
+          <div class="lamp-led green" id="lamp-sys"></div>
+          <span class="lamp-text">SYS: 3-PHASE ON</span>
+        </div>
+        <div class="lamp-unit">
+          <div class="lamp-led cyan" id="lamp-adc"></div>
+          <span class="lamp-text">ADC: 5 kHz ISR</span>
+        </div>
+        <div class="lamp-unit">
+          <div class="lamp-led green" id="lamp-model"></div>
+          <span class="lamp-text">ML: 3-PHASE ENGINE</span>
+        </div>
+        <div class="lamp-unit">
+          <div class="lamp-led amber" id="lamp-mode"></div>
+          <span class="lamp-text" id="status-mode-text">MODE: SIMULATION</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3-Phase Real-Time Grid Bus Bar -->
+    <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 0.5rem 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.75rem;">
+      <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <span style="color: #8b949e; font-weight: 700;">GRID BUS METRICS:</span>
+        <span style="color: #f1e05a;">● L1 (0°): <strong id="bus-l1-rms" style="color:#fff;">1.00 pu</strong> | <span id="bus-l1-thd" style="color:#8b949e;">0.8% THD</span></span>
+        <span style="color: #58a6ff;">● L2 (-120°): <strong id="bus-l2-rms" style="color:#fff;">1.00 pu</strong> | <span id="bus-l2-thd" style="color:#8b949e;">0.8% THD</span></span>
+        <span style="color: #ff7b72;">● L3 (+120°): <strong id="bus-l3-rms" style="color:#fff;">1.00 pu</strong> | <span id="bus-l3-thd" style="color:#8b949e;">0.8% THD</span></span>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <span style="color: #8b949e;">EVENTS PERSISTED: <strong id="bus-total-events" style="color: var(--crt-cyan);">0</strong></span>
+        <span class="val-value-badge" id="bus-system-status" style="background: #1f6feb; color: #fff; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.68rem;">SYSTEM NORMAL</span>
+      </div>
+    </div>
+
+    <!-- Main 3-Column Console Grid -->
+    <main class="console-grid">
+
+      <!-- LEFT COLUMN: DISTURBANCE INJECTION CONSOLE -->
+      <section class="panel-box">
+        <div class="panel-title">
+          <span>1. INJECTION CONSOLE</span>
+          <span style="font-size: 0.68rem; color: var(--crt-amber);">[CONTROL UNIT]</span>
+        </div>
+
+        <!-- Mode Selector Switcher -->
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #788796; margin-bottom: 0.35rem; font-weight: 700;">
+          PRIMARY ACQUISITION SOURCE:
+        </div>
+        <div class="mode-selector" style="margin-bottom: 0.5rem;">
+          <button class="mode-btn active" id="mode-simulink-btn" onclick="setInjectionMode('simulink')" style="flex: 1; font-weight: 700; color: #00ff66; border-color: #00ff66;">⚡ MATLAB Simulink (IEEE 9-Bus)</button>
+        </div>
+
+        <!-- Simulink Active Status Card -->
+        <div id="simulink-status-card" style="background: #08150c; border: 1px solid #144622; border-radius: 6px; padding: 0.6rem 0.75rem; margin-bottom: 0.75rem; font-family: var(--font-mono); font-size: 0.68rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <span style="color: #00ff66; font-weight: 700;">IEEE 9-BUS SIMULINK ACTIVE</span>
+            <span style="background: #00ff66; color: #000; padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.58rem; font-weight: 800;">60 Hz NATIVE</span>
+          </div>
+          <div style="color: #8c9cae; line-height: 1.55;">
+            • Model: <span style="color: #f1e05a;">IEEE_9bus_PQD_HIL_R2025a.slx</span><br>
+            • Node: <span style="color: #58a6ff;">Bus 5 (Vabc_5 & Iabc_5)</span><br>
+            • Stream: <span id="simulink-stream-status" style="color: #00ff66; font-weight: 700;">● STREAM READY</span><br>
+            • Ingested Frames: <span id="simulink-chunks-count" style="color: #fff; font-weight: 700;">0</span><br>
+            • Last Ingestion: <span id="simulink-last-ts" style="color: #88a0b0;">--</span>
+          </div>
+          <div style="margin-top: 0.45rem; padding-top: 0.35rem; border-top: 1px dashed #1a4a2a; color: #728496; font-size: 0.62rem;">
+            MATLAB commands:<br>
+            <code style="color: #00e5ff; background: #000; padding: 1px 4px; border-radius: 2px;">stream_simulink_live</code> (continuous)<br>
+            <code style="color: #00e5ff; background: #000; padding: 1px 4px; border-radius: 2px;">send_pqd_now</code> (after GUI run)
+          </div>
+        </div>
+
+        <!-- Secondary Test Mode Toggles -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+          <span style="font-family: var(--font-mono); font-size: 0.62rem; color: #627282; font-weight: 700;">OTHER MODES (CLICK TO SWITCH):</span>
+        </div>
+        <div class="mode-selector" style="margin-bottom: 0.85rem;">
+          <button class="mode-btn" id="mode-sim-btn" onclick="setInjectionMode('simulation')">A. Math Sim (50Hz)</button>
+          <button class="mode-btn" id="mode-dataset-btn" onclick="setInjectionMode('dataset')">B. BARC Data</button>
+          <button class="mode-btn" id="mode-hw-btn" onclick="setInjectionMode('hardware')">C. ESP32 HW</button>
+        </div>
+
+        <!-- Target Channel Selector -->
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #788796; margin-bottom: 0.4rem; font-weight: 700;">
+          TARGET GRID CHANNEL:
+        </div>
+        <div class="mode-selector" style="margin-bottom: 0.85rem;">
+          <button class="mode-btn active" id="phase-btn-L1" onclick="setSelectedPhase('L1')">Phase A (L1)</button>
+          <button class="mode-btn" id="phase-btn-L2" onclick="setSelectedPhase('L2')">Phase B (L2)</button>
+          <button class="mode-btn" id="phase-btn-L3" onclick="setSelectedPhase('L3')">Phase C (L3)</button>
+          <button class="mode-btn" id="phase-btn-ALL" onclick="setSelectedPhase('ALL')">All 3-Phase</button>
+        </div>
+
+        <!-- Supported Model Disturbance Classes Grid -->
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #788796; margin-bottom: 0.4rem; font-weight: 700;">
+          SELECT DISTURBANCE TO INJECT:
+        </div>
+        <div class="disturbance-grid">
+          <button class="dist-btn active" id="btn-Normal" onclick="selectDisturbance('Normal')">Normal</button>
+          <button class="dist-btn" id="btn-Sag" onclick="selectDisturbance('Sag')">Voltage Sag</button>
+          <button class="dist-btn" id="btn-Swell" onclick="selectDisturbance('Swell')">Voltage Swell</button>
+          <button class="dist-btn" id="btn-Harmonics" onclick="selectDisturbance('Harmonics')">Harmonics</button>
+          <button class="dist-btn" id="btn-Interruption" onclick="selectDisturbance('Interruption')">Interruption</button>
+          <button class="dist-btn" id="btn-Transient" onclick="selectDisturbance('Transient')">Transient</button>
+          <button class="dist-btn" id="btn-Flicker" onclick="selectDisturbance('Flicker')">Flicker</button>
+          <button class="dist-btn" id="btn-Notch" onclick="selectDisturbance('Notch')">Notch</button>
+        </div>
+
+        <!-- Modifiers & Injection Controls -->
+        <div style="background: #111315; border: 1px solid #282f35; border-radius: 6px; padding: 0.75rem; margin-bottom: 0.85rem;">
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.68rem; color: #8c9cae; margin-bottom: 0.3rem;">
+            <span>AMPLITUDE MODIFIER</span>
+            <span id="lbl-amp-val">1.00x</span>
+          </div>
+          <input type="range" id="slider-amp" min="0.1" max="2.0" step="0.05" value="1.0" oninput="onModifierChange()" style="width: 100%; accent-color: var(--crt-amber); margin-bottom: 0.6rem;">
+
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.68rem; color: #8c9cae; margin-bottom: 0.3rem;">
+            <span>MEASUREMENT NOISE</span>
+            <span id="lbl-noise-val">1.5%</span>
+          </div>
+          <input type="range" id="slider-noise" min="0.0" max="10.0" step="0.5" value="1.5" oninput="onModifierChange()" style="width: 100%; accent-color: var(--crt-cyan);">
+        </div>
+
+        <!-- Action Control Buttons -->
+        <div class="action-btn-group">
+          <button class="btn-primary" onclick="triggerDisturbanceInjection()">⚡ INJECT & RUN ML PIPELINE</button>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-secondary" style="flex: 1;" onclick="selectDisturbance('Normal')">RESET NORMAL</button>
+            <button class="btn-secondary" style="flex: 1;" id="btn-autodemo" onclick="toggleAutoDemoCycle()">AUTO DEMO: OFF</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER COLUMN: CRT OSCILLOSCOPE & SPECTRUM ANALYZER -->
+      <section class="panel-box" style="flex: 1;">
+        <div class="panel-title">
+          <span id="scope-title-label">2. LABORATORY OSCILLOSCOPE (50 Hz AC SIGNAL)</span>
+          <span style="font-size: 0.68rem; color: var(--crt-green);" id="scope-mode-label">TIME DOMAIN (TIMEBASE: 10 ms/div)</span>
+        </div>
+
+        <!-- CRT Oscilloscope Viewport Canvas -->
+        <div class="crt-wrapper">
+          <canvas id="crtCanvas" class="crt-canvas"></canvas>
+          <div class="crt-scanlines" id="crtScanlineOverlay"></div>
+        </div>
+
+        <!-- Scope Controls Toolbar -->
+        <div class="scope-toolbar">
+          <div style="display: flex; gap: 0.6rem; align-items: center;">
+            <select class="scope-select" id="select-channel" onchange="onScopeChannelChange(this.value)">
+              <option value="ALL" selected>3-Phase Overlay (L1/L2/L3)</option>
+              <option value="L1">Phase A (L1 0°)</option>
+              <option value="L2">Phase B (L2 -120°)</option>
+              <option value="L3">Phase C (L3 +120°)</option>
+            </select>
+            <select class="scope-select" id="select-display-mode" onchange="switchScopeDisplayMode(this.value)">
+              <option value="time">Oscilloscope (Time Domain)</option>
+              <option value="fft">FFT Spectrum (Frequency Domain)</option>
+            </select>
+            <select class="scope-select" id="select-timebase" onchange="onScopeSettingChange()">
+              <option value="5">5 ms/div</option>
+              <option value="10" selected>10 ms/div</option>
+              <option value="20">20 ms/div</option>
+            </select>
+            <select class="scope-select" id="select-volts" onchange="onScopeSettingChange()">
+              <option value="0.5">0.5 V/div</option>
+              <option value="1.0" selected>1.0 V/div</option>
+              <option value="2.0">2.0 V/div</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.7rem;" onclick="toggleFreezeTrace()" id="btn-freeze">FREEZE</button>
+            <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.7rem;" onclick="toggleScanlines()" id="btn-scanlines">CRT GRID: ON</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: ML CLASSIFICATION & VALIDATION UNIT -->
+      <section class="panel-box">
+        <div class="panel-title">
+          <span>3. ML VALIDATION UNIT</span>
+          <span style="font-size: 0.68rem; color: var(--crt-green);">[COMPACT MLP]</span>
+        </div>
+
+        <!-- Injected Condition Card -->
+        <div class="validation-card">
+          <div class="val-label">1. INJECTED CONDITION</div>
+          <div class="val-value-badge badge-injected" id="val-injected-name">NORMAL</div>
+        </div>
+
+        <!-- Independent ML Prediction Card -->
+        <div class="validation-card">
+          <div class="val-label">2. INDEPENDENT ML PREDICTION</div>
+          <div class="val-value-badge badge-predicted" id="val-predicted-name">NORMAL</div>
+        </div>
+
+        <!-- Match / Mismatch Result Banner -->
+        <div class="result-banner match" id="val-result-banner">
+          ✓ CORRECT CLASSIFICATION
+        </div>
+
+        <!-- Confidence Gauge & Footprint -->
+        <div style="background: #111315; border: 1px solid #282f36; border-radius: 6px; padding: 0.75rem; margin-bottom: 0.85rem;">
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; color: #8898a8; margin-bottom: 0.35rem;">
+            <span>MODEL CONFIDENCE</span>
+            <span style="color: var(--crt-green); font-weight: 700;" id="lbl-confidence">96.3%</span>
+          </div>
+          <div style="height: 10px; background: #000; border-radius: 5px; overflow: hidden; border: 1px solid #333;">
+            <div id="bar-confidence-fill" style="width: 96.3%; height: 100%; background: var(--crt-green); transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Real-Time Class Probabilities Bar Chart -->
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: #768696; margin-bottom: 0.3rem; font-weight: 700;">
+          NEURAL NETWORK CLASS PROBABILITIES:
+        </div>
+        <div class="prob-list" id="prob-bar-container">
+          <!-- Populated by JS -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- BOTTOM SECTION 1: EXTRACTED ELECTRICAL FEATURES MATRIX -->
+    <section style="margin-bottom: 1.25rem;">
+      <div style="font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: #8c9caa; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.08em;">
+        4. EXTRACTED ELECTRICAL FEATURE VECTOR (DSP MATRIX)
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="val-label">1. RMS VOLTAGE</div>
+          <div><span class="feature-num" id="feat-rms">0.998</span><span class="feature-unit">pu</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">2. PEAK VOLTAGE</div>
+          <div><span class="feature-num" id="feat-peak">1.412</span><span class="feature-unit">pu</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">3. CREST FACTOR</div>
+          <div><span class="feature-num" id="feat-crest">1.415</span><span class="feature-unit">ratio</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">4. TOTAL HARMONIC THD</div>
+          <div><span class="feature-num" id="feat-thd">0.82</span><span class="feature-unit">%</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">5. EVENT DURATION</div>
+          <div><span class="feature-num" id="feat-duration">0.0</span><span class="feature-unit">ms</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">6. DOMINANT FREQ</div>
+          <div><span class="feature-num" id="feat-domfreq">50.0</span><span class="feature-unit">Hz</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">7. SYSTEM FREQUENCY</div>
+          <div><span class="feature-num" id="feat-sysfreq">50.00</span><span class="feature-unit">Hz</span></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="val-label">8. SIGNAL NOISE SNR</div>
+          <div><span class="feature-num" id="feat-snr">44.8</span><span class="feature-unit">dB</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM SECTION 2: CHRONOLOGICAL EXPERIMENT TERMINAL LOG -->
+    <section class="terminal-card">
+      <div class="terminal-header">
+        <span class="terminal-title">> EXPERIMENT & VALIDATION LOG STREAM (CHRONOLOGICAL)</span>
+        <button class="btn-secondary" style="padding: 0.25rem 0.65rem; font-size: 0.7rem;" onclick="exportLogCSV()">EXPORT LOG (CSV)</button>
+      </div>
+
+      <div class="terminal-log-stream" id="terminal-log-container">
+        <!-- Log rows populated dynamically -->
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js?v=hil_2"></script>
+</body>
+</html>

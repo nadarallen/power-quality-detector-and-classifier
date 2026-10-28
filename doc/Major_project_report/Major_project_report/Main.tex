@@ -1,0 +1,26 @@
+
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sorting=none,
+    defernumbers=true
+]{biblatex}
+
+\addbibresource{references.bib}
+
+% Define the website category
+\DeclareBibliographyCategory{online}
+
+% Add all website/documentation entries to this category
+\addtocategory{online}{
+    mit_sop,
+    cmu_admissions,
+    cmu_sop_guidelines,
+    mit_faculty_essay,
+    scikit_learn,
+    xgboost,
+    huggingface_nlp,
+    shap,
+    google_recommendation,
+    what_if_tool
+}

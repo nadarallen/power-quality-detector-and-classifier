@@ -16,6 +16,9 @@ import numpy as np
 from http.server import HTTPServer, ThreadingHTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import parse_qs, urlparse
 
+# Live Simulink simulation bridge
+import simulation_bridge as _sim_bridge
+
 # Standard feature order
 STANDARD_FEATURES = [
     'rms_voltage', 'peak_voltage', 'crest_factor', 'thd',
@@ -53,15 +56,38 @@ def softmax(x):
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum(axis=-1, keepdims=True)
 
+def adapt_features_60hz_to_50hz(feature_vector):
+    """
+    Adapts 60-Hz IEEE 9-bus Bus 5 features (V_nom=0.5887 pu, f0=60 Hz)
+    to the 50-Hz reference base (V_nom=0.7071 pu, f0=50 Hz) expected by the compact MLP model.
+    Preserves exact 50-Hz feature vectors untouched.
+    """
+    rms, pk, crest, thd, dur, dom_f, sys_f, snr = [float(x) for x in feature_vector]
+    if sys_f >= 55.0 or dom_f >= 55.0:
+        # Bus 5 nominal base: 0.5887 pu RMS, 0.8326 pu Peak
+        v_pu = rms / 0.5887
+        p_pu = pk / 0.8326
+        ad_rms = v_pu * 0.7071
+        ad_pk = p_pu * 1.000
+        ad_crest = (ad_pk / ad_rms) if ad_rms > 1e-4 else crest
+        ad_dom = 50.0
+        ad_sys = 50.0
+        return [ad_rms, ad_pk, ad_crest, thd, dur, ad_dom, ad_sys, snr]
+    return [float(x) for x in feature_vector]
+
 def run_python_ml_inference(feature_vector):
     """
     Executes forward pass of the Compact Keras MLP model (Dense 64 -> Dense 32 -> Dense 8).
+    Handles 60 Hz -> 50 Hz domain adaptation and IEEE 1159 boundary standards.
     """
     if len(feature_vector) != 8:
         raise ValueError("Expected 8 features")
     
-    # 1. Feature Standardization
-    z = (np.array(feature_vector, dtype=np.float32) - np.array(SCALER_MEAN, dtype=np.float32)) / np.array(SCALER_SCALE, dtype=np.float32)
+    # 1. Adapt 60 Hz domain to 50 Hz model space if needed
+    adapted = adapt_features_60hz_to_50hz(feature_vector)
+    
+    # 2. Feature Standardization
+    z = (np.array(adapted, dtype=np.float32) - np.array(SCALER_MEAN, dtype=np.float32)) / np.array(SCALER_SCALE, dtype=np.float32)
     
     if WEIGHTS_DATA and 'weights' in WEIGHTS_DATA:
         w = WEIGHTS_DATA['weights']
@@ -83,6 +109,21 @@ def run_python_ml_inference(feature_vector):
     pred_class = CLASSES[pred_idx]
     confidence = float(probs[pred_idx])
 
+    # IEEE 1159 Physical standard disambiguation:
+    # If residual RMS drops below 0.10 pu (< 0.15 pu in 50Hz base) with sustained duration,
+    # it is strictly an Interruption per IEEE Std 1159-2019.
+    if adapted[0] < 0.15 and adapted[4] >= 8.0:
+        pred_class = 'Interruption'
+        confidence = max(confidence, 0.98)
+        if 'Interruption' in CLASSES:
+            int_idx = CLASSES.index('Interruption')
+            probs = np.zeros(8)
+            probs[int_idx] = confidence
+            other_p = (1.0 - confidence) / 7.0
+            for i in range(8):
+                if i != int_idx:
+                    probs[i] = other_p
+
     prob_dict = {CLASSES[i]: float(probs[i]) for i in range(len(CLASSES))}
 
     return {
@@ -90,6 +131,7 @@ def run_python_ml_inference(feature_vector):
         'confidence': confidence,
         'probabilities': prob_dict,
         'features_used': feature_vector,
+        'features_adapted': adapted,
         'is_uncertain': bool(confidence < 0.60)
     }
 
@@ -264,6 +306,41 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 return
             else:
                 self._send_json({'error': 'Weights not found'}, status=404)
+        elif parsed.path == '/api/live/simulation/status':
+            self._send_json(_sim_bridge.get_simulation_status())
+        elif parsed.path == '/api/live/simulation/stream':
+            # SSE stream emitting simulation status every second
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/event-stream')
+            self.send_header('Cache-Control', 'no-cache')
+            self.send_header('Connection', 'keep-alive')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            try:
+                while True:
+                    status = _sim_bridge.get_simulation_status()
+                    msg = 'data: ' + json.dumps(status) + '\n\n'
+                    self.wfile.write(msg.encode('utf-8'))
+                    self.wfile.flush()
+                    if status['status'] in ('completed', 'error', 'cancelled', 'idle'):
+                        time.sleep(1.5)
+                        final = _sim_bridge.get_simulation_status()
+                        self.wfile.write(('data: ' + json.dumps(final) + '\n\n').encode('utf-8'))
+                        self.wfile.flush()
+                        break
+                    time.sleep(1.0)
+            except (BrokenPipeError, ConnectionResetError, socket.error):
+                pass
+            return
+        elif parsed.path == '/api/live/matlab/check':
+            avail, detail = _sim_bridge.check_matlab_available()
+            hil_ok, hil_sha = _sim_bridge.verify_hil_model_sha256()
+            self._send_json({
+                'matlab_available': avail,
+                'matlab_detail': detail,
+                'hil_model_sha256_ok': hil_ok,
+                'hil_model_sha256': hil_sha,
+            })
         else:
             super().do_GET()
 
@@ -346,6 +423,14 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                     events = SHARED_PIPELINE.ingest_samples(frame.phases, timestamp_utc=frame.timestamp_utc)
                     first_ch_len = len(frame.phases["L1"])
                     dom_status = "MODEL_DOMAIN_MISMATCH" if abs(nominal_frequency_hz - 50.0) > 2.0 else "MODEL_COMPATIBLE"
+                    # Track live run chunk count & buffer real waveforms
+                    ingest_run_id = data.get('run_id', '')
+                    if ingest_run_id:
+                        _sim_bridge.record_chunk_posted(
+                            ingest_run_id,
+                            channels=channels_raw,
+                            current_channels=current_channels_raw if isinstance(current_channels_raw, dict) else None
+                        )
                     self._send_json({
                         'status': 'success',
                         'source': 'simulink',
@@ -420,6 +505,32 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 })
             except Exception as e:
                 self._send_json({'error': str(e)}, status=400)
+        elif parsed.path == '/api/live/simulation/start':
+            try:
+                result = _sim_bridge.launch_simulation(data)
+                self._send_json({
+                    'status': 'starting',
+                    'run_id': result.run_id,
+                    'dist_class': result.dist_class,
+                    'phases': result.phases,
+                })
+            except RuntimeError as e:
+                self._send_json({'error': str(e)}, status=409)
+            except ValueError as e:
+                self._send_json({'error': str(e)}, status=400)
+            except Exception as e:
+                self._send_json({'error': f'Internal error: {str(e)}'}, status=500)
+        elif parsed.path == '/api/live/simulation/stop':
+            _sim_bridge.cancel_simulation()
+            self._send_json({'status': 'cancelled'})
+        elif parsed.path == '/api/live/simulation/complete':
+            run_id  = data.get('run_id', '')
+            status  = data.get('status', 'completed')
+            if status == 'completed':
+                _sim_bridge.mark_simulation_complete(run_id)
+            else:
+                _sim_bridge.mark_simulation_error(run_id, data.get('error', 'Unknown'))
+            self._send_json({'received': True})
         else:
             self._send_json({'error': 'Endpoint not found'}, status=404)
 
