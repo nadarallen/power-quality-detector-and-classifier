@@ -466,3 +466,62 @@ class TestRunIdIsolation(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
+
+
+# ---------------------------------------------------------------------------
+# Category 12 — Live Disturbance Injection & Decoupled Prediction Integrity
+# ---------------------------------------------------------------------------
+class TestLiveDisturbanceInjection(unittest.TestCase):
+
+    def setUp(self):
+        _reset_bridge()
+
+    def test_inject_live_disturbance_writes_cmd_file(self):
+        job, _ = _launch_with_mock_proc(_good_normal_cfg())
+        job.status = "running"
+        res = bridge.inject_live_disturbance(
+            run_id=job.run_id,
+            disturbance="Sag",
+            phases=["A"],
+            params={"fault_resistance_ohms": 2.0},
+            duration_s=0.10
+        )
+        self.assertEqual(res["status"], "injected")
+        self.assertEqual(res["disturbance"], "Sag")
+        self.assertEqual(job.requested_disturbance, "Sag")
+        self.assertTrue(os.path.exists(job.cmd_file_path))
+        with open(job.cmd_file_path, "r") as f:
+            cmd = json.load(f)
+        self.assertEqual(cmd["action"], "inject")
+        self.assertEqual(cmd["disturbance"], "Sag")
+
+    def test_reset_live_disturbance_writes_reset_action(self):
+        job, _ = _launch_with_mock_proc(_good_normal_cfg())
+        job.status = "running"
+        bridge.inject_live_disturbance(job.run_id, "Swell", ["A", "B", "C"])
+        self.assertEqual(job.requested_disturbance, "Swell")
+
+        res = bridge.reset_live_disturbance(job.run_id)
+        self.assertEqual(res["status"], "reset")
+        self.assertEqual(job.requested_disturbance, "Normal")
+        with open(job.cmd_file_path, "r") as f:
+            cmd = json.load(f)
+        self.assertEqual(cmd["action"], "reset")
+
+    def test_decoupled_prediction_evaluates_pure_physics(self):
+        """Ensures that prediction derives from physical signals, not job.dist_class."""
+        job, _ = _launch_with_mock_proc(_good_normal_cfg())
+        # job.dist_class is "Normal", but we feed it real Swell voltage samples!
+        fs = 5000.0
+        f0 = 60.0
+        import numpy as np
+        t = np.arange(1000) / fs
+        v_swell = (0.5887 * np.sqrt(2) * 1.25) * np.sin(2 * np.pi * f0 * t)
+        job.voltage["L1"] = list(v_swell)
+        job.voltage["L2"] = list((0.5887 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t - 2*np.pi/3))
+        job.voltage["L3"] = list((0.5887 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t + 2*np.pi/3))
+
+        bridge._evaluate_live_simulation(job)
+        self.assertEqual(job.measured_physical_assessment, "Swell")
+        self.assertEqual(job.prediction["predicted_class"], "Swell")
+        self.assertGreater(job.prediction["max_rms_pu"], 1.10)

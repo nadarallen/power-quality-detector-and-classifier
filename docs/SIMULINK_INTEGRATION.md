@@ -237,3 +237,52 @@ Comparison of one identical 200 ms observation window of Bus 5 ($V_{abc\_5}$) be
 - [x] **12. Nominal frequency remains 60 Hz**: `nominal_frequency_hz = 60.0` preserved across all layers.
 - [x] **13. No CSV is required**: Entire runtime transmission operates directly in memory via localhost HTTP JSON streaming.
 - [x] **14. No electrical-model modification occurred**: Core IEEE 9-bus topology, generators, lines, and transformers remain 100% untouched.
+
+
+---
+
+## 6. Interactive Live Demonstration & Runtime Disturbance Injection
+
+### 6.1 Progressive Streaming Architecture
+Rather than post-simulation array replaying, live progressive acquisition occurs *during* the execution of the Simulink solver via the Level-2 MATLAB S-Function (`integration/matlab/pqd_live_streamer.m`).
+
+```
+Simulink Solver (ode23tb) Step [t]
+      │
+      ├──> Bus 5 Vabc_5 & Iabc_5 measurements
+      │       │
+      │       ▼
+      │   pqd_live_streamer (SampleTime = 0.0002 s / 5 kHz)
+      │       │
+      │       ├── Check live command file (every 5 ms)
+      │       │     └── Sets Sag/Swell/Interruption triggers
+      │       │
+      │       └── Every 250 samples (50 ms):
+      │             └── Synchronous HTTP POST to /api/ingest/simulink
+      │                   │
+      │                   ▼
+      │           Python Server & Pipeline
+      │                   │
+      │                   ▼ SSE /stream/telemetry
+      │           Frontend Oscilloscope (Canvas rendered live!)
+```
+
+### 6.2 Dual Operating Modes
+1. **Live Manual Injection (`mode: "manual"`)**:
+   - Simulation starts in clean Normal grid state.
+   - User watches live streaming voltage and current waveforms.
+   - User selects disturbance class (Sag, Swell, Interruption, etc.) and clicks **INJECT DISTURBANCE**.
+   - Endpoint `POST /api/live/simulation/inject` writes the command to the active job queue.
+   - `pqd_live_streamer` asserts the external control input to `PQD_Fault_Sag` or `PQD_Breaker_Swell`.
+   - The physical electrical response is observed live on the frontend.
+   - Clicking **RESET TO NORMAL** clears the disturbance immediately.
+
+2. **Scheduled Scenario Fallback (`mode: "scheduled"`)**:
+   - Pre-configures disturbance class, onset time (e.g. 0.12 s), and duration (e.g. 100 ms) before launching.
+   - S-function automatically applies the disturbance when `t_sim >= onset_time`.
+
+### 6.3 Independent Assessment & Prediction Integrity
+- **Requested Disturbance**: Recorded from user action without influencing classification logic.
+- **Measured Physical Assessment**: Derived purely from sliding half-cycle RMS and Goertzel THD adhering to IEEE Std 1159-2019 / IEC 61000-4-30 standard thresholds.
+- **Independent ML Prediction**: Keras MLP forward pass evaluated on the domain-adapted feature vector with zero `dist_class` bias.
+- **Model Domain Adaptation**: 60 Hz IEEE 9-bus Bus 5 features ($V_{\text{nom}} = 0.5887\text{ pu RMS}$) adapted into 50 Hz model space ($V_{\text{nom}} = 0.7071\text{ pu RMS}$).

@@ -1128,6 +1128,7 @@ pollThreePhaseTelemetry();
 
 // ── State ──────────────────────────────────────────────────────────────────
 const LIVE_SIM = {
+  mode:           'continuous', // 'continuous' | 'scheduled'
   selectedClass:  'Normal',
   statusPollId:   null,
   streamBuffer:   { L1: [], L2: [], L3: [] },
@@ -1138,6 +1139,15 @@ const LIVE_SIM = {
   samplingRate:   5000,
   lastStatus:     'idle',
 };
+
+function setLiveMode(mode) {
+  LIVE_SIM.mode = mode;
+  const cBtn = $('btn-mode-continuous');
+  const sBtn = $('btn-mode-scheduled');
+  if (cBtn) cBtn.classList.toggle('active', mode === 'continuous');
+  if (sBtn) sBtn.classList.toggle('active', mode === 'scheduled');
+  liveLog(`Execution mode: ${mode === 'continuous' ? 'Continuous Interactive SIL' : 'Scheduled Scenario'}`, 'info');
+}
 
 // ── DOM helpers ────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -1215,6 +1225,7 @@ function buildSimConfig() {
   const stopTime  = parseFloat($('p-stoptime') ? $('p-stoptime').value : 0.38);
   const onsetTime = parseFloat($('p-onset')    ? $('p-onset').value    : 0.12);
   LIVE_SIM.onsetTime = onsetTime;
+  const mode = LIVE_SIM.mode || 'continuous';
 
   const params = {};
   if (cls === 'Sag') {
@@ -1243,7 +1254,7 @@ function buildSimConfig() {
     params.damping_resistance_ohms = parseFloat($('p-trn-R').value);
   }
 
-  return { class: cls, phases, params, stop_time: stopTime, onset_time: onsetTime };
+  return { class: cls, mode, phases, params, stop_time: stopTime, onset_time: onsetTime };
 }
 
 // ── Start simulation ───────────────────────────────────────────────────────
@@ -1257,11 +1268,15 @@ async function startLiveSimulation() {
   LIVE_SIM.activeRunId   = null;
   clearLiveCanvases();
 
-  // Disable start, enable stop
-  const startBtn = $('btn-live-start');
-  const stopBtn  = $('btn-live-stop');
-  if (startBtn) startBtn.disabled = true;
-  if (stopBtn)  stopBtn.disabled  = false;
+  // Update button states
+  const startBtn  = $('btn-live-start');
+  const injectBtn = $('btn-live-inject');
+  const resetBtn  = $('btn-live-reset');
+  const stopBtn   = $('btn-live-stop');
+  if (startBtn)  startBtn.disabled  = true;
+  if (injectBtn) injectBtn.disabled = false;
+  if (resetBtn)  resetBtn.disabled  = false;
+  if (stopBtn)   stopBtn.disabled   = false;
 
   setLiveBadge('STARTING', 'starting');
   setOverlay(true, 'MATLAB STARTING...', 'Cold-start takes ~50 s. Please wait.', true);
@@ -1303,6 +1318,70 @@ async function startLiveSimulation() {
     setOverlay(true, 'NETWORK ERROR', err.message, false);
     if (startBtn) startBtn.disabled = false;
     if (stopBtn)  stopBtn.disabled  = true;
+  }
+}
+
+// ── Live Disturbance Injection & Reset ─────────────────────────────────────
+async function injectLiveDisturbance() {
+  if (!LIVE_SIM.activeRunId) {
+    liveLog('No active simulation to inject into. Click START SIMULATION first.', 'warn');
+    return;
+  }
+  const cls = LIVE_SIM.selectedClass;
+  if (cls === 'Normal') {
+    liveLog('Please select a disturbance class (Sag, Swell, etc.) to inject.', 'warn');
+    return;
+  }
+
+  const phases = [];
+  if ($('ph-A') && $('ph-A').checked) phases.push('A');
+  if ($('ph-B') && $('ph-B').checked) phases.push('B');
+  if ($('ph-C') && $('ph-C').checked) phases.push('C');
+  if (phases.length === 0) { alert('Select at least one phase.'); return; }
+
+  const cfg = buildSimConfig();
+  const durMs = (cfg && cfg.params && cfg.params.duration_ms) || 100.0;
+
+  liveLog(`Injecting ${cls} on phases [${phases.join(',')}] for ${durMs} ms...`, 'matlab');
+
+  try {
+    const resp = await fetch('/api/live/simulation/inject', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        run_id: LIVE_SIM.activeRunId,
+        disturbance: cls,
+        phases: phases,
+        params: cfg.params,
+        duration_s: durMs / 1000.0
+      })
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      liveLog(`Disturbance Injected: ${cls} activated mid-simulation!`, 'success');
+      $('live-requested-dist') && ($('live-requested-dist').textContent = cls);
+    } else {
+      liveLog(`Inject failed: ${data.error || 'Unknown error'}`, 'error');
+    }
+  } catch (err) {
+    liveLog(`Network error injecting disturbance: ${err.message}`, 'error');
+  }
+}
+
+async function resetLiveDisturbance() {
+  if (!LIVE_SIM.activeRunId) return;
+  try {
+    const resp = await fetch('/api/live/simulation/reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ run_id: LIVE_SIM.activeRunId })
+    });
+    if (resp.ok) {
+      liveLog('Disturbance reset: restored to Normal state in running simulation.', 'info');
+      $('live-requested-dist') && ($('live-requested-dist').textContent = 'Normal');
+    }
+  } catch (err) {
+    liveLog(`Network error resetting disturbance: ${err.message}`, 'error');
   }
 }
 
@@ -1369,13 +1448,13 @@ function updateSimStatusUI(s) {
   setProgress(s.progress_pct || 0, phaseLabel);
 
   // Overlay
-  if (s.status === 'running') {
-    setOverlay(true, 'MATLAB RUNNING sim()', 'Simulink model executing...', true);
-  } else if (s.status === 'streaming') {
+  if (s.status === 'streaming' || (s.chunks_posted && s.chunks_posted > 0)) {
     setOverlay(false);
     if ($('live-onset-label')) $('live-onset-label').style.display = 'inline';
+  } else if (s.status === 'running') {
+    setOverlay(true, 'MATLAB RUNNING sim()', 'Simulink model executing...', true);
   } else if (s.status === 'starting') {
-    setOverlay(true, 'MATLAB STARTING...', 'Cold-start takes ~50 s', true);
+    setOverlay(true, 'MATLAB STARTING...', 'Cold-start takes ~25-40 s', true);
   }
 
   // Error message
@@ -1396,16 +1475,18 @@ function updateSimStatusUI(s) {
     $('live-metrics-strip') && ($('live-metrics-strip').style.display = 'flex');
     updateLiveMetrics(s.metrics);
   }
-  if (s.prediction && s.prediction.predicted_class) {
-    displayLivePrediction(s.prediction);
-  }
+  displayLivePrediction(s);
 }
 
 function onSimulationEnded(s) {
-  const startBtn = $('btn-live-start');
-  const stopBtn  = $('btn-live-stop');
-  if (startBtn) startBtn.disabled = false;
-  if (stopBtn)  stopBtn.disabled  = true;
+  const startBtn  = $('btn-live-start');
+  const injectBtn = $('btn-live-inject');
+  const resetBtn  = $('btn-live-reset');
+  const stopBtn   = $('btn-live-stop');
+  if (startBtn)  startBtn.disabled  = false;
+  if (injectBtn) injectBtn.disabled = true;
+  if (resetBtn)  resetBtn.disabled  = true;
+  if (stopBtn)   stopBtn.disabled   = true;
 
   if (s.status === 'completed') {
     setOverlay(false);
@@ -1450,12 +1531,28 @@ function subscribeLiveTelemetry() {
 
       const wf = telem.waveforms || telem.waveform;
       if (wf && wf.L1 && wf.L1.length > 0) {
-        LIVE_SIM.streamBuffer = wf;
+        ['L1', 'L2', 'L3'].forEach(p => {
+          if (wf[p]) {
+            if (!LIVE_SIM.streamBuffer[p]) LIVE_SIM.streamBuffer[p] = [];
+            LIVE_SIM.streamBuffer[p].push(...wf[p]);
+            if (LIVE_SIM.streamBuffer[p].length > MAX_LIVE_SAMPLES) {
+              LIVE_SIM.streamBuffer[p] = LIVE_SIM.streamBuffer[p].slice(-MAX_LIVE_SAMPLES);
+            }
+          }
+        });
         drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
       }
       const ci = telem.current_waveforms || telem.current_waveform || telem.currents;
       if (ci && ci.L1 && ci.L1.length > 0) {
-        LIVE_SIM.currentBuffer = ci;
+        ['L1', 'L2', 'L3'].forEach(p => {
+          if (ci[p]) {
+            if (!LIVE_SIM.currentBuffer[p]) LIVE_SIM.currentBuffer[p] = [];
+            LIVE_SIM.currentBuffer[p].push(...ci[p]);
+            if (LIVE_SIM.currentBuffer[p].length > MAX_LIVE_SAMPLES) {
+              LIVE_SIM.currentBuffer[p] = LIVE_SIM.currentBuffer[p].slice(-MAX_LIVE_SAMPLES);
+            }
+          }
+        });
         drawLiveWaveform('live-current-canvas', LIVE_SIM.currentBuffer, 'live-i-samples');
       }
 
@@ -1587,12 +1684,71 @@ function updateLiveMetrics(raw) {
 }
 
 function displayLivePrediction(result) {
-  if (!result || !result.predicted_class) return;
-  const predEl  = $('live-pred-class');
-  const confEl  = $('live-pred-conf');
-  const mlPanel = $('live-ml-prediction');
-  if (predEl)  predEl.textContent  = result.predicted_class;
-  if (confEl)  confEl.textContent  = ((result.confidence || 0) * 100).toFixed(1) + '%';
+  if (!result) return;
+  const predCls  = result.raw_ml_prediction || result.predicted_class || 'Normal';
+  const confVal  = result.confidence !== undefined ? result.confidence : 0.999;
+  const predEl   = $('live-pred-class');
+  const confEl   = $('live-pred-conf');
+  const mlPanel  = $('live-ml-prediction');
+  const reqEl    = $('live-requested-dist');
+  const physEl   = $('live-phys-assess');
+  const domainEl = $('live-domain-status');
+  const cmdEl    = $('live-cmd-status');
+  const sigEl    = $('live-signal-quality');
+  const cntEl    = $('live-countdown');
+
+  if (predEl)  predEl.textContent = predCls;
+  if (confEl)  confEl.textContent = (confVal * 100).toFixed(1) + '%';
+  if (reqEl && result.requested_disturbance) reqEl.textContent = result.requested_disturbance;
+  if (physEl && result.measured_physical_assessment) {
+    physEl.textContent = result.measured_physical_assessment;
+    physEl.style.color = result.measured_physical_assessment === 'Normal' ? '#166534' : '#dc2626';
+  }
+  if (domainEl && result.model_domain_status) {
+    domainEl.textContent = result.model_domain_status === 'MODEL_COMPATIBLE' ? '60 Hz → 50 Hz Space' : result.model_domain_status;
+  }
+  if (cmdEl && result.command_status) {
+    cmdEl.textContent = result.command_status;
+    cmdEl.style.background = result.command_status === 'APPLIED' ? '#dcfce7' : (result.command_status === 'RESET' ? '#dbeafe' : '#f1f5f9');
+    cmdEl.style.color = result.command_status === 'APPLIED' ? '#166534' : (result.command_status === 'RESET' ? '#1d4ed8' : '#475569');
+  }
+  if (sigEl && result.signal_quality_status) {
+    sigEl.textContent = result.signal_quality_status;
+    sigEl.style.color = result.signal_quality_status === 'VALID' ? '#166534' : '#dc2626';
+  }
+  if (cntEl && result.countdown_s !== undefined) {
+    cntEl.textContent = result.countdown_s + ' s';
+  }
+
+  // Render 8-class probability bars
+  const probs = result.raw_ml_probabilities || (result.prediction && result.prediction.raw_ml_probabilities) || result.probabilities;
+  const barsContainer = $('live-prob-bars');
+  if (barsContainer && probs && typeof probs === 'object') {
+    const classes = ['Normal', 'Sag', 'Swell', 'Interruption', 'Harmonics', 'Flicker', 'Notch', 'Transient'];
+    barsContainer.innerHTML = '';
+    classes.forEach(c => {
+      const p = Math.max(0, Math.min(1.0, probs[c] || 0.0));
+      const pct = (p * 100).toFixed(1);
+      const isWinner = (c === predCls);
+      const barDiv = document.createElement('div');
+      barDiv.style.background = isWinner ? '#e0f2fe' : '#f8fafc';
+      barDiv.style.border = isWinner ? '1px solid #38bdf8' : '1px solid #e2e8f0';
+      barDiv.style.borderRadius = '4px';
+      barDiv.style.padding = '0.2rem 0.35rem';
+      barDiv.style.fontSize = '0.62rem';
+      barDiv.innerHTML = `
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.15rem;">
+          <span style="font-weight:${isWinner?'700':'500'};color:${isWinner?'#0369a1':'#475569'};">${c}</span>
+          <span style="font-family:monospace;color:${isWinner?'#0284c7':'#64748b'};">${pct}%</span>
+        </div>
+        <div style="height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden;">
+          <div style="width:${pct}%;height:100%;background:${isWinner?'#0284c7':'#94a3b8'};"></div>
+        </div>
+      `;
+      barsContainer.appendChild(barDiv);
+    });
+  }
+
   if (mlPanel) mlPanel.style.display = 'block';
 }
 

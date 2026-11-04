@@ -1,0 +1,37 @@
+[LiveSim] Starting  reading config: D:/my study/Project/power-quality-detector-and-classifier/data/live_simulation_runs/RUN_1793758589239_4F9CF4_config.json
+[LiveSim] run_id=RUN_1793758589239_4F9CF4  mode=manual  class=Normal  phase=ABC  stop=0.380s
+[LiveSim] Loading model IEEE_9bus_PQD_DISTURBANCES ...
+[LiveSim] Model loaded with solver ode23tb, MaxStep=2.5e-5.
+[LiveSim] Attaching live streamer and control interfaces...
+[LiveSim] Live streaming and injection architecture active.
+[LiveSim] Running sim (StopTime=0.380 s) with live streaming...
+[Warning: A propagation speed of 312815 km/s has been found for mode 2 in block ' Line 4 - 6'; Propagation speeds must be < 300000 km/s!] 
+[> In blmodlin
+In ThreePhasePiSectionLineBlock
+In psbsort
+In powersolve
+In powersysdomain_start
+In powersysdomain_netlist
+In powersysdomain
+In run_live_dashboard_sim (line 186)] 
+[Warning: A propagation speed of 308409 km/s has been found for mode 2 in block 'Line 4 - 5 '; Propagation speeds must be < 300000 km/s!] 
+[> In blmodlin
+In ThreePhasePiSectionLineBlock
+In psbsort
+In powersolve
+In powersysdomain_start
+In powersysdomain_netlist
+In powersysdomain
+In run_live_dashboard_sim (line 186)] 
+[Warning: A propagation speed of 335656 km/s has been found for mode 1 in block 'Line 7- 8'; Propagation speeds must be < 300000 km/s!] 
+[> In blmodlin
+In ThreePhasePiSectionLineBlock
+In psbsort
+In powersolve
+In powersysdomain_start
+In powersysdomain_netlist
+In powersysdomain
+In run_live_dashboard_sim (line 186)] 
+[LiveSim] sim() completed in 18.5 s wall-clock.
+[LiveSim] Completion notification sent.
+[LiveSim] Done  model closed (not saved).

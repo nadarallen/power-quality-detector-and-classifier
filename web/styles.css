@@ -1021,6 +1021,29 @@ body {
 .live-log-row.error   { color: #7f1d1d; }
 .live-log-row.matlab  { color: var(--accent-primary); }
 
+.mode-btn {
+  flex: 1;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1.5px solid var(--border-card);
+  background: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #475569;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+.mode-btn:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+.mode-btn.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
 /* Mode disclaimer */
 .live-mode-disclaimer {
   margin-top: 1rem;

@@ -523,6 +523,34 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
         elif parsed.path == '/api/live/simulation/stop':
             _sim_bridge.cancel_simulation()
             self._send_json({'status': 'cancelled'})
+        elif parsed.path == '/api/live/simulation/inject':
+            try:
+                active_job = _sim_bridge.get_active_job()
+                run_id = data.get('run_id') or (active_job.run_id if active_job else '')
+                dist = data.get('disturbance', 'Sag')
+                phases = data.get('phases')
+                params = data.get('params')
+                duration_s = float(data.get('duration_s', 0.10))
+                res = _sim_bridge.inject_live_disturbance(
+                    run_id=run_id,
+                    disturbance=dist,
+                    phases=phases,
+                    params=params,
+                    duration_s=duration_s
+                )
+                self._send_json(res)
+            except (ValueError, RuntimeError) as e:
+                self._send_json({'error': str(e)}, status=400)
+            except Exception as e:
+                self._send_json({'error': f'Failed to inject disturbance: {str(e)}'}, status=500)
+        elif parsed.path == '/api/live/simulation/reset':
+            try:
+                active_job = _sim_bridge.get_active_job()
+                run_id = data.get('run_id') or (active_job.run_id if active_job else '')
+                res = _sim_bridge.reset_live_disturbance(run_id=run_id)
+                self._send_json(res)
+            except Exception as e:
+                self._send_json({'error': str(e)}, status=400)
         elif parsed.path == '/api/live/simulation/complete':
             run_id  = data.get('run_id', '')
             status  = data.get('status', 'completed')

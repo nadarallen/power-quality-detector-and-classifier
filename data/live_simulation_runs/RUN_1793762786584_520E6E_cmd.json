@@ -1,0 +1,1 @@
+{"action": "inject", "disturbance": "Sag", "phases": ["A"], "params": {"fault_resistance_ohms": 2.0}, "duration_s": 0.1, "timestamp": 1793762786.5868726}
