@@ -13,7 +13,7 @@ end
 
 function setup(block)
     block.NumInputPorts  = 2;
-    block.NumOutputPorts = 3;
+    block.NumOutputPorts = 4;
 
     block.SetPreCompInpPortInfoToDynamic;
     block.SetPreCompOutPortInfoToDynamic;
@@ -30,8 +30,10 @@ function setup(block)
     block.OutputPort(1).Dimensions       = 1;
     % Output 2: Swell control trigger (1 = breaker closed / capacitor connected, 0 = open)
     block.OutputPort(2).Dimensions       = 1;
-    % Output 3: Interruption trigger (1 = breaker open / tripped, 0 = normal closed)
+    % Output 3: Interruption trigger (1 = series breaker closed/normal conduction, 0 = open/interruption)
     block.OutputPort(3).Dimensions       = 1;
+    % Output 4: Transient trigger (1 = transient breaker closed/RLC ringing, 0 = open)
+    block.OutputPort(4).Dimensions       = 1;
 
     % Discrete sample time: 5000 Hz (dt = 0.0002 s = 200 us)
     block.SampleTimes = [0.0002 0];
@@ -43,7 +45,7 @@ function setup(block)
 end
 
 function DoPostPropSetup(block)
-    block.NumDworks = 6;
+    block.NumDworks = 7;
     % 1: SampleCount
     block.Dwork(1).Name            = 'SampleCount';
     block.Dwork(1).Dimensions      = 1;
@@ -85,6 +87,13 @@ function DoPostPropSetup(block)
     block.Dwork(6).DatatypeID      = 0;
     block.Dwork(6).Complexity      = 'Real';
     block.Dwork(6).UsedAsDiscState = true;
+
+    % 7: TrnTrigger
+    block.Dwork(7).Name            = 'TrnTrigger';
+    block.Dwork(7).Dimensions      = 1;
+    block.Dwork(7).DatatypeID      = 0;
+    block.Dwork(7).Complexity      = 'Real';
+    block.Dwork(7).UsedAsDiscState = true;
 end
 
 function Start(block)
@@ -94,6 +103,7 @@ function Start(block)
     block.Dwork(4).Data = 0.0; % Swell: 0 = cap open
     block.Dwork(5).Data = 1.0; % Interruption: 1 = breaker closed (normal conduction)
     block.Dwork(6).Data = 0;
+    block.Dwork(7).Data = 0.0; % Transient: 0 = RLC open
 
     setappdata(0, 'PQD_Live_VBuf', []);
     setappdata(0, 'PQD_Live_IBuf', []);
@@ -135,41 +145,53 @@ function Outputs(block)
     % Sag (Fault): 1.0 = fault applied, 0.0 = no fault
     % Swell (Cap Breaker): 1.0 = cap connected, 0.0 = cap disconnected
     % Interruption (Series Breaker): 1.0 = CLOSED (normal conduction), 0.0 = OPEN (interruption)
+    % Transient (RLC Breaker): 1.0 = closed / oscillatory ringing, 0.0 = open
     if strcmp(active_dist, 'Sag')
         block.Dwork(3).Data = 1.0;
         block.Dwork(4).Data = 0.0;
         block.Dwork(5).Data = 1.0;
+        block.Dwork(7).Data = 0.0;
     elseif strcmp(active_dist, 'Swell')
         block.Dwork(3).Data = 0.0;
         block.Dwork(4).Data = 1.0;
         block.Dwork(5).Data = 1.0;
+        block.Dwork(7).Data = 0.0;
     elseif strcmp(active_dist, 'Interruption')
         block.Dwork(3).Data = 0.0;
         block.Dwork(4).Data = 0.0;
         block.Dwork(5).Data = 0.0;
+        block.Dwork(7).Data = 0.0;
+    elseif strcmp(active_dist, 'Transient')
+        block.Dwork(3).Data = 0.0;
+        block.Dwork(4).Data = 0.0;
+        block.Dwork(5).Data = 1.0;
+        block.Dwork(7).Data = 1.0;
     else
         block.Dwork(3).Data = 0.0;
         block.Dwork(4).Data = 0.0;
         block.Dwork(5).Data = 1.0;
+        block.Dwork(7).Data = 0.0;
         block.Dwork(6).Data = 0; % Clear any remaining disturbance duration on reset
     end
 
-    % Handle timed duration expiry
+    % Handle timed duration expiry in exact simulation step count
     if block.Dwork(6).Data > 0
         block.Dwork(6).Data = block.Dwork(6).Data - 1;
         if block.Dwork(6).Data <= 0
-            % Duration expired -> auto-revert to normal
+            % Duration expired -> auto-revert to normal baseline
             setappdata(0, 'PQD_ActiveDisturbance', 'Normal');
             block.Dwork(3).Data = 0.0;
             block.Dwork(4).Data = 0.0;
             block.Dwork(5).Data = 1.0;
+            block.Dwork(7).Data = 0.0;
         end
     end
 
     %% 2. Output triggers to model physical blocks
-    block.OutputPort(1).Data = block.Dwork(3).Data; % Sag
-    block.OutputPort(2).Data = block.Dwork(4).Data; % Swell
-    block.OutputPort(3).Data = block.Dwork(5).Data; % Interruption
+    block.OutputPort(1).Data = block.Dwork(3).Data; % Sag (Fault block)
+    block.OutputPort(2).Data = block.Dwork(4).Data; % Swell (Cap breaker)
+    block.OutputPort(3).Data = block.Dwork(5).Data; % Interruption (Series breaker)
+    block.OutputPort(4).Data = block.Dwork(7).Data; % Transient (RLC breaker)
 
     %% 3. Bounded In-Memory Queue Buffer (250 samples = 50 ms)
     % ZERO network calls are executed inside this solver callback!

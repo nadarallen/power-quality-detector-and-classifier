@@ -92,9 +92,9 @@ function run_continuous_simulation(config_json_path)
               'BreakerResistance', '0.001', 'SnubberResistance', '1e6', 'SnubberCapacitance', '0');
     set_param([mdl '/PQD_Harm_Enable'],   'Value', '0');
     set_param([mdl '/PQD_Flicker_Enable'],'Value', '0');
-    set_param(notch_blk, 'FaultA', 'off', 'FaultB', 'off', 'FaultC', 'off', 'GroundFault', 'off');
+    set_param(notch_blk, 'FaultA', 'on', 'FaultB', 'on', 'FaultC', 'on', 'GroundFault', 'off', 'FaultResistance', '150.0');
     set_param([mdl '/PQD_Notch_Enable'],  'Value', '0');
-    set_param(trn_brk, 'InitialState', 'open', 'SwitchTimes', '[999 1000]');
+    set_param(trn_brk, 'InitialState', 'open', 'SwitchA', 'on', 'SwitchB', 'on', 'SwitchC', 'on', 'SwitchTimes', '[999 1000]');
 
     %% 7. Setup Live AppData for pqd_live_streamer
     setappdata(0, 'PQD_Live_RunId',      run_id);
@@ -132,6 +132,9 @@ function run_continuous_simulation(config_json_path)
 
     set_param(int_brk, 'External', 'on');
     add_line(mdl, 'PQD_Live_Streamer/3', 'PQD_Breaker_Interruption/1');
+
+    set_param(trn_brk, 'External', 'on');
+    add_line(mdl, 'PQD_Live_Streamer/4', 'PQD_Breaker_Transient/1');
 
     fprintf('[ContinuousSim] Streamer attached successfully.\n');
 
@@ -214,7 +217,7 @@ function run_continuous_simulation(config_json_path)
 
                 if strcmp(action, 'inject')
                     dist = cmd.disturbance;
-                    dur_s = 0.10;
+                    dur_s = 0.50;
                     if isfield(cmd, 'duration_s'), dur_s = double(cmd.duration_s); end
                     dur_samples = round(dur_s * 5000);
                     phases = {'L1', 'L2', 'L3'};
@@ -223,7 +226,6 @@ function run_continuous_simulation(config_json_path)
                     end
 
                     dist_active = true;
-                    dist_start_tic = tic;
                     dist_dur_s = dur_s;
                     current_dist = dist;
 
@@ -234,42 +236,55 @@ function run_continuous_simulation(config_json_path)
                     if any(strcmp(phases, 'L3')) || any(strcmp(phases, 'C')), fC = 'on'; end
 
                     if strcmp(dist, 'Sag')
-                        % PQD_Fault_Sag pre-configured at setup with FaultResistance=2.0 ohm (0.70 pu sag)
-                        % and External='on'. OutputPort(1) of PQD_Live_Streamer triggers it directly in solver.
+                        rf = 2.0;
+                        if isfield(cmd, 'params') && isfield(cmd.params, 'fault_resistance')
+                            rf = double(cmd.params.fault_resistance);
+                        end
+                        try
+                            set_param(fault_blk, 'FaultA', fA, 'FaultB', fB, 'FaultC', fC, ...
+                                      'FaultResistance', num2str(rf));
+                        catch
+                        end
                         setappdata(0, 'PQD_DistDurationSamples', dur_samples);
                         setappdata(0, 'PQD_ActiveDisturbance', 'Sag');
-                        fprintf('[ContinuousSim] INJECT applied: Sag (phases=[%s], dur=%.3fs)\n', ...
-                                strjoin(phases, ','), dur_s);
+                        fprintf('[ContinuousSim] INJECT applied: Sag (Rf=%.2f ohm, phases=[%s], dur=%.3fs)\n', ...
+                                rf, strjoin(phases, ','), dur_s);
 
                     elseif strcmp(dist, 'Swell')
-                        % PQD_Cap_Swell pre-configured at setup with CapacitivePower=150 MVAr (1.25 pu swell)
-                        % and PQD_Breaker_Swell has External='on'. OutputPort(2) of PQD_Live_Streamer triggers it.
+                        qc_val = 150.0;
+                        if isfield(cmd, 'params') && isfield(cmd.params, 'capacitive_power_mvar')
+                            qc_val = double(cmd.params.capacitive_power_mvar);
+                        end
+                        try
+                            set_param(swl_cap, 'CapacitivePower', num2str(qc_val * 1e6));
+                            set_param(swl_brk, 'SwitchA', fA, 'SwitchB', fB, 'SwitchC', fC);
+                        catch
+                        end
                         setappdata(0, 'PQD_DistDurationSamples', dur_samples);
                         setappdata(0, 'PQD_ActiveDisturbance', 'Swell');
-                        fprintf('[ContinuousSim] INJECT applied: Swell (Qc=150 MVAr, phases=[%s], dur=%.3fs)\n', ...
-                                strjoin(phases, ','), dur_s);
+                        fprintf('[ContinuousSim] INJECT applied: Swell (Qc=%.1f MVAr, phases=[%s], dur=%.3fs)\n', ...
+                                qc_val, strjoin(phases, ','), dur_s);
 
                     elseif strcmp(dist, 'Interruption')
-                        % PQD_Breaker_Interruption has External='on'. OutputPort(3) of PQD_Live_Streamer opens it.
                         setappdata(0, 'PQD_DistDurationSamples', dur_samples);
                         setappdata(0, 'PQD_ActiveDisturbance', 'Interruption');
                         fprintf('[ContinuousSim] INJECT applied: Interruption (series breaker open, dur=%.3fs)\n', dur_s);
 
                     elseif strcmp(dist, 'Harmonics')
-                        h3 = 0.15; h5 = 0.10; h7 = 0.05;
+                        h3 = 35.0; h5 = 22.0; h7 = 14.0;
                         if isfield(cmd, 'params')
                             if isfield(cmd.params, 'h3_amplitude'), h3 = double(cmd.params.h3_amplitude); end
                             if isfield(cmd.params, 'h5_amplitude'), h5 = double(cmd.params.h5_amplitude); end
                             if isfield(cmd.params, 'h7_amplitude'), h7 = double(cmd.params.h7_amplitude); end
                         end
-                        t_vec = (0:0.0002:15.0)';
+                        t_vec = (0:0.0002:7200.0)';
                         h_val = h3*sin(2*pi*180*t_vec) + h5*sin(2*pi*300*t_vec) + h7*sin(2*pi*420*t_vec);
                         h_ts = timeseries([h_val, h_val, h_val], t_vec);
                         assignin('base', 'harm_inj_signal', h_ts);
                         try, set_param([mdl '/PQD_Harm_Enable'], 'Value', '1'); catch, end
                         setappdata(0, 'PQD_DistDurationSamples', dur_samples);
                         setappdata(0, 'PQD_ActiveDisturbance', 'Harmonics');
-                        fprintf('[ContinuousSim] INJECT applied: Harmonics (H3=%.2f, H5=%.2f, H7=%.2f, dur=%.3fs)\n', ...
+                        fprintf('[ContinuousSim] INJECT applied: Harmonics (H3=%.1fA, H5=%.1fA, H7=%.1fA, dur=%.3fs)\n', ...
                                 h3, h5, h7, dur_s);
 
                     elseif strcmp(dist, 'Flicker')
@@ -278,8 +293,8 @@ function run_continuous_simulation(config_json_path)
                             if isfield(cmd.params, 'modulation_freq_hz'), f_mod = double(cmd.params.modulation_freq_hz); end
                             if isfield(cmd.params, 'modulation_depth'), d_mod = double(cmd.params.modulation_depth); end
                         end
-                        t_vec = (0:0.0002:15.0)';
-                        flk_val = (1.0 + d_mod*sin(2*pi*f_mod*t_vec)) .* sin(2*pi*60*t_vec) - sin(2*pi*60*t_vec);
+                        t_vec = (0:0.0002:7200.0)';
+                        flk_val = 30.0 * (1.0 + d_mod*sin(2*pi*f_mod*t_vec)) .* sin(2*pi*60*t_vec) - 30.0*sin(2*pi*60*t_vec);
                         flk_ts = timeseries([flk_val, flk_val, flk_val], t_vec);
                         assignin('base', 'flicker_inj_signal', flk_ts);
                         try, set_param([mdl '/PQD_Flicker_Enable'], 'Value', '1'); catch, end
@@ -289,20 +304,25 @@ function run_continuous_simulation(config_json_path)
                                 f_mod, d_mod, dur_s);
 
                     elseif strcmp(dist, 'Notch')
-                        try, set_param([mdl '/PQD_Notch_Enable'], 'Value', '1'); catch, end
+                        t_vec = (0:0.0002:7200.0)';
+                        notch_val = double(mod(t_vec, 1/120.0) < 0.0006);
+                        notch_ts = timeseries(notch_val, t_vec);
+                        assignin('base', 'notch_ctrl_signal', notch_ts);
+                        try
+                            set_param(notch_blk, 'FaultA', fA, 'FaultB', fB, 'FaultC', fC, ...
+                                      'GroundFault', 'off', 'FaultResistance', '150.0');
+                            set_param([mdl '/PQD_Notch_Enable'], 'Value', '1');
+                        catch
+                        end
                         setappdata(0, 'PQD_DistDurationSamples', dur_samples);
                         setappdata(0, 'PQD_ActiveDisturbance', 'Notch');
-                        fprintf('[ContinuousSim] INJECT applied: Notch (dur=%.3fs)\n', dur_s);
+                        fprintf('[ContinuousSim] INJECT applied: Notch (Rc=150 ohm, phases=[%s], dur=%.3fs)\n', ...
+                                strjoin(phases, ','), dur_s);
 
                     elseif strcmp(dist, 'Transient')
-                        t_sim_now = 0.0;
-                        try, t_sim_now = get_param(mdl, 'SimulationTime'); catch, end
-                        t_sw_on = t_sim_now + 0.001;
-                        t_sw_off = t_sw_on + dur_s;
-                        try, set_param(trn_brk, 'SwitchTimes', sprintf('[%.4f %.4f]', t_sw_on, t_sw_off)); catch, end
                         setappdata(0, 'PQD_DistDurationSamples', dur_samples);
                         setappdata(0, 'PQD_ActiveDisturbance', 'Transient');
-                        fprintf('[ContinuousSim] INJECT applied: Transient (SwitchTimes=[%.4f %.4f])\n', t_sw_on, t_sw_off);
+                        fprintf('[ContinuousSim] INJECT applied: Transient (RLC ringing via Port 4, dur=%.3fs)\n', dur_s);
                     end
 
                 elseif strcmp(action, 'reset')
@@ -331,18 +351,15 @@ function run_continuous_simulation(config_json_path)
             end
         end
 
-        % 11c. Track disturbance duration expiration cleanly outside solver
-        if dist_active && (toc(dist_start_tic) >= dist_dur_s)
+        % 11c. Disturbance duration expiration tracking (handled in simulation time by pqd_live_streamer)
+        cur_active = getappdata(0, 'PQD_ActiveDisturbance');
+        if dist_active && strcmp(cur_active, 'Normal')
             dist_active = false;
-            setappdata(0, 'PQD_ActiveDisturbance', 'Normal');
-            setappdata(0, 'PQD_DistDurationSamples', 0);
-            try
-                set_param([mdl '/PQD_Harm_Enable'],   'Value', '0');
-                set_param([mdl '/PQD_Flicker_Enable'], 'Value', '0');
-                set_param([mdl '/PQD_Notch_Enable'],   'Value', '0');
-            catch
-            end
-            fprintf('[ContinuousSim] Disturbance %s auto-expired (%.3f s) -> restored to Normal.\n', current_dist, dist_dur_s);
+            try, set_param([mdl '/PQD_Harm_Enable'],   'Value', '0'); catch, end
+            try, set_param([mdl '/PQD_Flicker_Enable'], 'Value', '0'); catch, end
+            try, set_param([mdl '/PQD_Notch_Enable'],   'Value', '0'); catch, end
+            fprintf('[ContinuousSim] Disturbance %s completed in simulation time (dur=%.3fs) -> restored to Normal.\n', ...
+                    current_dist, dist_dur_s);
         end
 
         pause(0.02);

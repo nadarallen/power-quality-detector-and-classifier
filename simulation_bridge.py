@@ -644,7 +644,7 @@ def inject_live_disturbance(
     disturbance: str,
     phases: Optional[list] = None,
     params: Optional[dict] = None,
-    duration_s: float = 0.10,
+    duration_s: float = 0.50,
     command_id: Optional[str] = None,
 ) -> dict:
     """

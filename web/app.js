@@ -1298,13 +1298,13 @@ function updateSidebarFeedback(msg, type = 'info') {
 }
 
 const LIVE_DIST_DEFAULTS = {
-  Sag:          { params: { fault_resistance_ohms: 2.0, ground_resistance_ohms: 0.01, duration_ms: 3000.0 }, duration_s: 3.0 },
+  Sag:          { params: { fault_resistance: 2.0, fault_resistance_ohms: 2.0, ground_resistance_ohms: 0.01, duration_ms: 3000.0 }, duration_s: 3.0 },
   Swell:        { params: { capacitive_power_mvar: 150.0, damping_power_kw: 5.0, duration_ms: 3000.0 }, duration_s: 3.0 },
-  Harmonics:    { params: { h3_amplitude: 0.15, h5_amplitude: 0.10, h7_amplitude: 0.05, duration_ms: 3000.0 }, duration_s: 3.0 },
+  Harmonics:    { params: { h3_amplitude: 35.0, h5_amplitude: 22.0, h7_amplitude: 14.0, duration_ms: 3000.0 }, duration_s: 3.0 },
   Interruption: { params: { duration_ms: 3000.0 }, duration_s: 3.0 },
   Flicker:      { params: { modulation_freq_hz: 8.8, modulation_depth: 0.08, duration_ms: 3000.0 }, duration_s: 3.0 },
-  Notch:        { params: { commutation_resistance_ohms: 0.15, notch_width_us: 400.0, notch_depth: 0.35, duration_ms: 3000.0 }, duration_s: 3.0 },
-  Transient:    { params: { inductance_mh: 5.0, capacitance_uf: 20.0, damping_resistance_ohms: 2.0, duration_ms: 1000.0 }, duration_s: 1.0 }
+  Notch:        { params: { commutation_resistance_ohms: 150.0, notch_width_us: 600.0, duration_ms: 3000.0 }, duration_s: 3.0 },
+  Transient:    { params: { duration_ms: 1000.0 }, duration_s: 1.0 }
 };
 
 function selectLiveDist(distClass) {
@@ -1355,13 +1355,17 @@ async function startLiveSimulation() {
       LIVE_SIM.activeRunId = stData.run_id;
       const runEl = $('live-run-id');
       if (runEl) runEl.textContent = stData.run_id;
-      updateSidebarFeedback(`Connected to active simulation (${stData.run_id}). Ready for injection.`, 'success');
-      liveLog(`Connected to active continuous simulation: ${stData.run_id}`, 'success');
+      updateSidebarFeedback(`MATLAB simulation is ONLINE (${stData.run_id}). Click any disturbance to inject!`, 'success');
+      liveLog(`Simulation is ONLINE and streaming from Simulink (${stData.run_id}). Ready for live injection.`, 'success');
       startStatusPolling();
       subscribeLiveTelemetry();
       const startBtn = $('btn-live-start');
       const stopBtn  = $('btn-live-stop');
-      if (startBtn) startBtn.disabled = true;
+      if (startBtn) {
+        startBtn.disabled = false;
+        startBtn.innerHTML = '<span style="color:#4ade80;">●</span> SIMULATION ONLINE';
+        startBtn.style.background = '#15803d';
+      }
       if (stopBtn)  stopBtn.disabled  = false;
       return;
     }
@@ -1612,8 +1616,26 @@ function updateSimStatusUI(s) {
   const [label, cls] = badgeMap[s.status] || ['?', ''];
   setLiveBadge(label, cls);
 
+  const startBtn = $('btn-live-start');
+  if (startBtn) {
+    if (s.status === 'streaming' || s.status === 'running') {
+      startBtn.innerHTML = '<span style="color:#4ade80;">●</span> SIMULATION ONLINE';
+      startBtn.style.background = '#15803d';
+      startBtn.disabled = false;
+    } else if (s.status === 'idle' || s.status === 'completed' || s.status === 'stopped') {
+      startBtn.innerHTML = '<svg class="doodle-icon" width="14" height="14" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> START SIMULATION';
+      startBtn.style.background = '';
+      startBtn.disabled = false;
+    }
+  }
+
   // Elapsed
   if ($('live-elapsed')) $('live-elapsed').textContent = s.elapsed_s + ' s';
+  if (s.simulation_time !== undefined && $('scope-v-sim-time')) {
+    const tStr = `T = ${Number(s.simulation_time).toFixed(2)} s`;
+    $('scope-v-sim-time').textContent = tStr;
+    if ($('scope-i-sim-time')) $('scope-i-sim-time').textContent = tStr;
+  }
 
   // Progress
   const phaseLabel = {
