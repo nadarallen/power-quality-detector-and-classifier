@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "feature_count": 32,
+  "ordering_match": true,
+  "max_relative_errors": {
+    "normal": 0.0,
+    "sag": 0.0,
+    "swell": 0.5141159296035767,
+    "harmonics": 4.416666507720947,
+    "flicker": 8.428571701049805,
+    "notch": 0.0,
+    "transient": 0.0,
+    "interruption": 3.898163080215454
+  },
+  "class_accuracies": {
+    "normal": 1.0,
+    "sag": 1.0,
+    "swell": 1.0,
+    "harmonics": 1.0,
+    "flicker": 1.0,
+    "notch": 1.0,
+    "transient": 1.0,
+    "interruption": 1.0
+  }
+}

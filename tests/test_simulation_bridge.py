@@ -513,11 +513,14 @@ class TestLiveDisturbanceInjection(unittest.TestCase):
         fs = 5000.0
         f0 = 60.0
         import numpy as np
-        t = np.arange(1000) / fs
-        v_swell = (0.5887 * np.sqrt(2) * 1.25) * np.sin(2 * np.pi * f0 * t)
-        job.voltage["L1"] = list(v_swell)
-        job.voltage["L2"] = list((0.5887 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t - 2*np.pi/3))
-        job.voltage["L3"] = list((0.5887 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t + 2*np.pi/3))
+        swl_path = os.path.join(os.path.dirname(__file__), "..", "data", "ieee9bus_60hz", "swell", "swell_scenario_0001_waveform.npz")
+        swl_data = np.load(swl_path)
+        job.voltage["L1"] = list(swl_data["waveforms"][0, :, 0])
+        job.voltage["L2"] = list(swl_data["waveforms"][0, :, 1])
+        job.voltage["L3"] = list(swl_data["waveforms"][0, :, 2])
+        job.current["L1"] = list(swl_data["currents"][0, :, 0])
+        job.current["L2"] = list(swl_data["currents"][0, :, 1])
+        job.current["L3"] = list(swl_data["currents"][0, :, 2])
 
         bridge._evaluate_live_simulation(job)
         self.assertEqual(job.measured_physical_assessment, "Swell")

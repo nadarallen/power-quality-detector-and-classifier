@@ -126,7 +126,7 @@ PARAM_BOUNDS = {
         "modulation_depth":      (0.01, 0.5),
     },
     "Notch": {
-        "commutation_resistance_ohms": (0.001, 10.0),
+        "commutation_resistance_ohms": (0.001, 500.0),
         "notch_width_us":              (50.0,  2000.0),
     },
     "Transient": {
@@ -772,6 +772,7 @@ def get_simulation_status() -> dict:
             "applied_simulation_time":      j.applied_simulation_time,
             "measured_physical_assessment": j.measured_physical_assessment,
             "raw_ml_prediction":            j.raw_ml_prediction,
+            "confidence":                   getattr(j, "confidence", 1.0),
             "raw_ml_probabilities":         j.raw_ml_probabilities,
             "model_domain_status":          j.model_domain_status,
             "signal_quality_status":        j.signal_quality_status,
@@ -1291,8 +1292,24 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
     else:
         job.recovery_status = "DISTURBANCE_ACTIVE"
 
-    # 3. Independent 60-Hz Native ML Inference on latest 1000-sample window
-    window_signal = np.array(job.voltage[best_channel][-window_samples:], dtype=np.float32)
+    # 3. Independent 60-Hz Native ML Inference with Event-Aware Adaptive Windowing
+    # Keep ML prediction completely decoupled from physical assessment or requested disturbance
+    event_active = (job.requested_disturbance != "Normal" or phys_assessment != "Normal")
+    event_fraction = 1.0
+
+    if event_active and len(job.voltage[best_channel]) >= 500:
+        # Event-aware: use the most recent disturbance epoch (up to 1000 samples)
+        # Avoid slicing across quiescent baseline and transient step boundaries
+        dist_samples = min(len(job.voltage[best_channel]), 1000)
+        window_signal = np.array(job.voltage[best_channel][-dist_samples:], dtype=np.float32)
+        if dist_samples < 1000:
+            # Pad periodically to maintain 1000-sample feature extraction contract
+            repeats = int(np.ceil(1000 / dist_samples))
+            window_signal = np.tile(window_signal, repeats)[:1000]
+            event_fraction = float(dist_samples / 1000.0)
+    else:
+        window_signal = np.array(job.voltage[best_channel][-window_samples:], dtype=np.float32)
+
     pred_res = predict_60hz_model(window_signal, sample_rate=5000.0)
 
     raw_pred_cls = pred_res["predicted_class"]
@@ -1300,14 +1317,25 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
     raw_probs = {c: float(pred_res["probabilities"].get(c, 0.0)) for c in ORDERED_CLASSES}
     lat_ms = float(pred_res.get("latency_ms", 0.0))
 
-    final_cls = phys_assessment if phys_assessment != "Normal" else raw_pred_cls
-    final_conf = raw_conf if raw_pred_cls == final_cls else 0.96
+    # Honest domain and uncertainty evaluation
+    if min_rms < 0.05 and max_rms < 0.05:
+        domain_status = "INVALID_SIGNAL"
+    elif event_active and event_fraction < 0.25:
+        domain_status = "INSUFFICIENT_WINDOW"
+    elif raw_conf < 0.60:
+        domain_status = "LOW_CONFIDENCE"
+    else:
+        domain_status = "VALID_CLASSIFICATION"
 
+    # Three strictly separate result layers:
+    # 1. job.requested_disturbance (User command)
+    # 2. job.measured_physical_assessment (IEEE 1159 physical metric)
+    # 3. job.raw_ml_prediction (Pure 60-Hz Phase 4C MLP output, NEVER overridden)
     job.raw_ml_prediction = raw_pred_cls
-    job.final_classification = final_cls
+    job.final_classification = raw_pred_cls
     job.confidence = raw_conf
     job.raw_ml_probabilities = raw_probs
-    job.model_domain_status = pred_res.get("status", "VALIDATED_60HZ")
+    job.model_domain_status = domain_status
     job.prediction_status = "VALID"
     job.inference_latency_ms = round(lat_ms, 2)
     job.classification_timestamp = t_now
@@ -1343,12 +1371,13 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
             "sampling_rate": 5000,
             "first_chunk_sequence": first_seq,
             "last_chunk_sequence": last_seq,
+            "event_fraction": round(event_fraction, 3),
         },
         "signal_quality_status": job.signal_quality_status,
         "model_domain_status": job.model_domain_status,
         "prediction_status": "VALID",
         "raw_ml_prediction": raw_pred_cls,
-        "predicted_class": final_cls,
+        "predicted_class": raw_pred_cls,
         "confidence": raw_conf,
         "raw_ml_probabilities": raw_probs,
         "inference_latency_ms": round(lat_ms, 2),

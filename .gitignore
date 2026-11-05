@@ -20,6 +20,10 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.pytest_cache/
+tests/.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Virtual environments
 .env
@@ -32,6 +36,13 @@ ENV/
 .idea/
 *.swp
 *.swo
+*.bak
+*.asv
+
+# Operating System Metadata
+.DS_Store
+Thumbs.db
+desktop.ini
 
 # PlatformIO
 .pio/
@@ -46,6 +57,12 @@ temp_*.pkl
 !data/ieee9bus_60hz_phase5c/**/*.npz
 data/waveforms/
 data/enhanced_splits/
+
+# Ephemeral continuous simulation runs & logs (preserve historical baselines)
+data/live_simulation_runs/RUN_*
+
+# Presentation local override configuration
+presentation/local_override.json
 
 # Simulink compilation caches, autosaves & temporary models
 *.autosave

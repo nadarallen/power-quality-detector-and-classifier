@@ -1,0 +1,169 @@
+{
+  "system_info": {
+    "project_name": "IEEE 9-Bus Power Quality Detector and Classifier",
+    "target_network": "IEEE 9-Bus Standard Test System",
+    "fundamental_frequency_hz": 60.0,
+    "sampling_frequency_hz": 5000.0,
+    "monitoring_location": "Bus 5 (Three-Phase VI Measurement)",
+    "nominal_voltage_base_ll_kv": 230.0,
+    "nominal_voltage_base_lg_kv_peak": 187.794,
+    "nominal_current_base_a_rms": 251.02,
+    "nominal_current_base_a_peak": 355.0
+  },
+  "server_config": {
+    "backend_host": "127.0.0.1",
+    "backend_port": 8500,
+    "telemetry_port": 8502,
+    "browser_url": "http://127.0.0.1:8500",
+    "health_endpoints": [
+      "/api/health",
+      "/api/live/simulation/status",
+      "/api/classes"
+    ]
+  },
+  "matlab_simulink": {
+    "matlab_command": "matlab",
+    "working_model_relative": "IEEE_9bus/IEEE_9bus_PQD_DISTURBANCES.slx",
+    "protected_reference_model_relative": "IEEE_9bus/IEEE_9bus_PQD_HIL_R2025a.slx",
+    "continuous_driver_script_relative": "integration/matlab/run_continuous_simulation.m",
+    "finite_driver_script_relative": "integration/matlab/run_scenario_simulation.m",
+    "required_toolboxes": [
+      "Simulink",
+      "Simscape",
+      "Simscape Electrical"
+    ]
+  },
+  "ml_model_config": {
+    "model_type": "Multi-Layer Perceptron (32 -> 64 -> 32 -> 16 -> 8)",
+    "model_weights_relative": "experiments/phase4c/models/candidate_mlp_weights.json",
+    "scaler_params_relative": "experiments/phase4c/models/scaler_phase4c_params.json",
+    "expected_weights_sha256": "f0febd5b3829677ac0f2c13262cccb5ff8947cdcb59596f5e4a8f2b6180c27c5",
+    "expected_scaler_sha256": "76d0ad26e730d19776d20e70055cc6d490f2aad4680bfd47df0d95689888fc6d",
+    "feature_dimensions": 32,
+    "target_classes": [
+      "Flicker",
+      "Harmonics",
+      "Interruption",
+      "Normal",
+      "Notch",
+      "Sag",
+      "Swell",
+      "Transient"
+    ]
+  },
+  "presentation_modes": {
+    "mode_a_fast_scenario": {
+      "name": "Fast Scenario Demonstration",
+      "description": "Executes a finite scheduled 5-second simulation scenario with deterministic injection timing",
+      "stop_time_seconds": 5.0,
+      "default_preset": "Sag_Phase_A"
+    },
+    "mode_b_continuous_interactive": {
+      "name": "Continuous Interactive Demonstration",
+      "description": "Runs a persistent, unpaused 1:1 real-time Simulink solver streaming live 5 kHz telemetry to the dashboard with on-the-fly injection and recovery",
+      "stop_time_seconds": "Infinity",
+      "pacing_rate": 1.0,
+      "chunk_size_samples": 250,
+      "chunk_duration_seconds": 0.05
+    }
+  },
+  "approved_demonstration_presets": [
+    {
+      "sequence": 1,
+      "class": "Normal",
+      "label": "Normal Baseline Conduction",
+      "phases": ["A", "B", "C"],
+      "duration_seconds": 3.0,
+      "description": "Quiescent 60 Hz steady-state grid operation at Bus 5 without electrical disturbances"
+    },
+    {
+      "sequence": 2,
+      "class": "Sag",
+      "label": "Three-Phase Symmetrical Fault Voltage Sag",
+      "phases": ["A", "B", "C"],
+      "duration_seconds": 3.0,
+      "params": {
+        "fault_resistance_ohms": 2.0,
+        "ground_resistance_ohms": 0.01
+      },
+      "expected_residual_pu": 0.41,
+      "description": "Symmetrical shunt fault resulting in measured residual voltage of ~0.41 pu on Bus 5"
+    },
+    {
+      "sequence": 3,
+      "class": "Reset",
+      "label": "Restore Normal Baseline",
+      "duration_seconds": 2.0,
+      "description": "De-energizes fault and restores normal sinusoidal grid operating state"
+    },
+    {
+      "sequence": 4,
+      "class": "Swell",
+      "label": "Capacitor Bank Energization Voltage Swell",
+      "phases": ["A", "B", "C"],
+      "duration_seconds": 3.0,
+      "params": {
+        "capacitive_power_mvar": 150.0
+      },
+      "expected_peak_pu": 1.25,
+      "description": "Shunt capacitor energization producing overvoltage swell of ~1.25 pu on Bus 5"
+    },
+    {
+      "sequence": 5,
+      "class": "Reset",
+      "label": "Restore Normal Baseline",
+      "duration_seconds": 2.0,
+      "description": "Trips shunt capacitor breaker and recovers nominal baseline voltage"
+    },
+    {
+      "sequence": 6,
+      "class": "Harmonics",
+      "label": "Nonlinear Load Harmonic Injection",
+      "phases": ["A", "B", "C"],
+      "duration_seconds": 3.0,
+      "params": {
+        "harmonic_orders": [3, 5, 7],
+        "h3_amplitude": 0.15,
+        "h5_amplitude": 0.10,
+        "h7_amplitude": 0.05
+      },
+      "expected_thd_percent": 18.7,
+      "description": "Simulates 3rd, 5th, and 7th harmonic injection producing elevated THD on Bus 5"
+    },
+    {
+      "sequence": 7,
+      "class": "Flicker",
+      "label": "Subharmonic Voltage Flicker Modulation",
+      "phases": ["A", "B", "C"],
+      "duration_seconds": 3.0,
+      "params": {
+        "modulation_freq_hz": 8.0,
+        "modulation_depth": 0.08
+      },
+      "description": "Low-frequency (8 Hz) envelope modulation producing voltage flicker"
+    },
+    {
+      "sequence": 8,
+      "class": "Notch",
+      "label": "Converter Commutation Notch Injection",
+      "phases": ["A", "B", "C"],
+      "duration_seconds": 3.0,
+      "params": {
+        "commutation_resistance_ohms": 120.0
+      },
+      "description": "Periodic line commutation notches creating high dV/dt notches per cycle"
+    },
+    {
+      "sequence": 9,
+      "class": "Transient",
+      "label": "High-Frequency Switching Transient",
+      "phases": ["A"],
+      "duration_seconds": 1.0,
+      "params": {
+        "transient_frequency_hz": 1200.0,
+        "damping_ratio": 0.15
+      },
+      "description": "Oscillatory transient spike typical of transmission switching actions"
+    }
+  ]
+}

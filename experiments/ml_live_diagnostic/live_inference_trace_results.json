@@ -1,0 +1,29 @@
+{
+  "model_id": "phase4c_candidate_mlp",
+  "model_sha256": "f0febd5b3829677ac0f2c13262cccb5ff8947cdcb59596f5e4a8f2b6180c27c5",
+  "timestamp_utc": "2026-11-05T15:19:25Z",
+  "normal_trace": {
+    "predicted_class": "Normal",
+    "confidence": 1.0,
+    "latency_ms": 4.517399999940608,
+    "status": "VALIDATED_60HZ",
+    "key_features": {
+      "rms_voltage": 0.589389,
+      "thd": 0.0163,
+      "crest_factor": 1.418994,
+      "snr": 51.36
+    }
+  },
+  "sag_trace": {
+    "predicted_class": "Sag",
+    "confidence": 1.0,
+    "latency_ms": 4.068200000119759,
+    "status": "VALIDATED_60HZ",
+    "key_features": {
+      "rms_voltage": 0.522251,
+      "thd": 0.1674,
+      "crest_factor": 1.601364,
+      "snr": 13.31
+    }
+  }
+}

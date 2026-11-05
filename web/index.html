@@ -4,878 +4,1583 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Power Quality Disturbance Analyzer & ML Classifier</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261106_5">
 </head>
 <body>
 
-  <div class="instrument-frame">
-
-    <!-- Header & System Metadata Bar -->
-    <header class="instrument-header">
-      <div class="brand-title">
-        <div class="brand-title-wrap">
-          <svg class="doodle-icon primary" width="28" height="28" viewBox="0 0 24 24">
-            <!-- Hand-drawn electrical waveform doodle -->
-            <path d="M2 12 C 4 6, 6 6, 8 12 C 10 18, 12 18, 14 12 C 16 6, 18 6, 20 12 L 22 12" />
-            <path d="M12 2 L 15 7 L 12 8 L 14 12" stroke="#d97706" />
-          </svg>
-          <span class="brand-name">PQD ANALYZER & RESEARCH BENCH</span>
-        </div>
-        <div class="brand-sub">
-          <span>Real-Time Waveform Telemetry & Machine Learning Classification Platform</span>
-          <svg class="doodle-squiggle" viewBox="0 0 140 8">
-            <path d="M 2 5 Q 18 1, 35 5 T 70 5 T 105 5 T 138 4" />
-          </svg>
-        </div>
-      </div>
-
-      <div class="lamp-matrix">
-        <div class="lamp-unit">
-          <div class="lamp-led green" id="lamp-sys"></div>
-          <span class="lamp-text">SYS: 3-PHASE ON</span>
-        </div>
-        <div class="lamp-unit">
-          <div class="lamp-led cyan" id="lamp-adc"></div>
-          <span class="lamp-text">ADC: 5 kHz ISR</span>
-        </div>
-        <div class="lamp-unit">
-          <div class="lamp-led green" id="lamp-model"></div>
-          <span class="lamp-text">ML: 3-PHASE ENGINE</span>
-        </div>
-        <div class="lamp-unit">
-          <div class="lamp-led amber" id="lamp-mode"></div>
-          <span class="lamp-text" id="status-mode-text">MODE: SIMULATION</span>
-        </div>
-      </div>
-    </header>
-
-    <!-- 3-Phase Real-Time Grid Bus Bar -->
-    <div class="grid-bus-bar">
-      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-        <span style="color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 0.35rem;">
-          <svg class="doodle-icon" width="16" height="16" viewBox="0 0 24 24">
-            <rect x="3" y="3" width="18" height="18" rx="3" />
-            <line x1="3" y1="9" x2="21" y2="9" />
-            <line x1="9" y1="21" x2="9" y2="9" />
-          </svg>
-          BUS 5 TELEMETRY:
-        </span>
-        <span class="bus-phase-pill l1">● L1 (0°): <strong id="bus-l1-rms">1.00 pu</strong> | <span id="bus-l1-thd" style="color: #64748b;">0.8% THD</span></span>
-        <span class="bus-phase-pill l2">● L2 (-120°): <strong id="bus-l2-rms">1.00 pu</strong> | <span id="bus-l2-thd" style="color: #64748b;">0.8% THD</span></span>
-        <span class="bus-phase-pill l3">● L3 (+120°): <strong id="bus-l3-rms">1.00 pu</strong> | <span id="bus-l3-thd" style="color: #64748b;">0.8% THD</span></span>
-      </div>
-      <div style="display: flex; gap: 0.85rem; align-items: center;">
-        <span style="color: #64748b; font-weight: 600;">EVENTS LOGGED: <strong id="bus-total-events" style="color: var(--accent-primary);">0</strong></span>
-        <span class="val-value-badge" id="bus-system-status" style="background: var(--accent-primary); color: #ffffff; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.7rem;">SYSTEM NORMAL</span>
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PERSISTENT APPLICATION NAVBAR (PROMPT REQUIREMENTS)
+       ══════════════════════════════════════════════════════════════════════ -->
+  <header class="app-navbar">
+    <div class="nav-brand" onclick="switchPage('overview')">
+      <svg class="nav-brand-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 12 C 4 6, 6 6, 8 12 C 10 18, 12 18, 14 12 C 16 6, 18 6, 20 12 L 22 12" />
+        <path d="M12 2 L 15 7 L 12 8 L 14 12" stroke="#d97706" />
+      </svg>
+      <div class="brand-text">
+        <span class="brand-title">PQD ANALYZER</span>
+        <span class="brand-tag">IEEE 9-BUS BENCH</span>
       </div>
     </div>
 
-    <!-- Main 3-Column Console Grid -->
-    <main class="console-grid">
-
-      <!-- LEFT COLUMN: DISTURBANCE INJECTION CONSOLE -->
-      <section class="panel-box">
-        <div class="panel-title">
-          <div class="panel-title-text">
-            <svg class="doodle-icon warning" width="18" height="18" viewBox="0 0 24 24">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-            </svg>
-            <span>1. INJECTION CONSOLE</span>
-          </div>
-          <span class="panel-tag">[CONTROL]</span>
-        </div>
-
-        <!-- Mode Selector Switcher -->
-        <div style="font-family: var(--font-sans); font-size: 0.68rem; color: #64748b; margin-bottom: 0.35rem; font-weight: 700;">
-          PRIMARY ACQUISITION SOURCE:
-        </div>
-        <div class="mode-selector" style="margin-bottom: 0.65rem;">
-          <button class="mode-btn active" id="mode-simulink-btn" onclick="setInjectionMode('simulink')" style="flex: 1; font-weight: 700;">
-            MATLAB Simulink (IEEE 9-Bus)
-          </button>
-        </div>
-
-        <!-- Simulink Active Status Card -->
-        <div id="simulink-status-card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <span style="color: #16a34a; font-weight: 800; display: flex; align-items: center; gap: 0.3rem;">
-              <svg class="doodle-icon success" width="14" height="14" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9" />
-                <polyline points="9 12 11 14 15 10" />
-              </svg>
-              IEEE 9-BUS SIMULINK ACTIVE
-            </span>
-            <span style="background: #16a34a; color: #fff; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.6rem; font-weight: 800;">60 Hz NATIVE</span>
-          </div>
-          <div style="color: #475569; line-height: 1.6; font-size: 0.68rem;">
-            • Model: <span style="color: #0f172a; font-weight: 700;">IEEE_9bus_PQD_HIL_R2025a.slx</span><br>
-            • Node: <span style="color: var(--accent-primary); font-weight: 700;">Bus 5 (Vabc_5 & Iabc_5)</span><br>
-            • Stream: <span id="simulink-stream-status" style="color: #16a34a; font-weight: 700;">● STREAM READY</span><br>
-            • Ingested Frames: <span id="simulink-chunks-count" style="color: #0f172a; font-weight: 700;">0</span><br>
-            • Last Ingestion: <span id="simulink-last-ts" style="color: #64748b;">--</span>
-          </div>
-          <div style="margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px dashed #bbf7d0; color: #64748b; font-size: 0.65rem;">
-            MATLAB commands:<br>
-            <code style="color: var(--accent-primary); background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-weight: 600;">stream_simulink_live</code> (continuous)<br>
-            <code style="color: var(--accent-primary); background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-weight: 600;">send_pqd_now</code> (after GUI run)
-          </div>
-        </div>
-
-        <!-- Secondary Test Mode Toggles -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-          <span style="font-family: var(--font-sans); font-size: 0.65rem; color: #64748b; font-weight: 700;">STANDALONE LAB MODES:</span>
-        </div>
-        <div class="mode-selector" style="margin-bottom: 0.85rem;">
-          <button class="mode-btn" id="mode-sim-btn" onclick="setInjectionMode('simulation')">A. Math Sim (50Hz)</button>
-          <button class="mode-btn" id="mode-dataset-btn" onclick="setInjectionMode('dataset')">B. BARC Data</button>
-          <button class="mode-btn" id="mode-hw-btn" onclick="setInjectionMode('hardware')">C. ESP32 HW</button>
-        </div>
-
-        <!-- Target Channel Selector -->
-        <div style="font-family: var(--font-sans); font-size: 0.68rem; color: #64748b; margin-bottom: 0.35rem; font-weight: 700;">
-          TARGET GRID CHANNEL:
-        </div>
-        <div class="mode-selector" style="margin-bottom: 0.85rem;">
-          <button class="mode-btn active" id="phase-btn-L1" onclick="setSelectedPhase('L1')">Phase A (L1)</button>
-          <button class="mode-btn" id="phase-btn-L2" onclick="setSelectedPhase('L2')">Phase B (L2)</button>
-          <button class="mode-btn" id="phase-btn-L3" onclick="setSelectedPhase('L3')">Phase C (L3)</button>
-          <button class="mode-btn" id="phase-btn-ALL" onclick="setSelectedPhase('ALL')">All 3-Phase</button>
-        </div>
-
-        <!-- Supported Model Disturbance Classes Grid -->
-        <div style="font-family: var(--font-sans); font-size: 0.68rem; color: #64748b; margin-bottom: 0.35rem; font-weight: 700;">
-          SELECT DISTURBANCE TO INJECT:
-        </div>
-        <div class="disturbance-grid">
-          <button class="dist-btn active" id="btn-Normal" onclick="selectDisturbance('Normal')">Normal</button>
-          <button class="dist-btn" id="btn-Sag" onclick="selectDisturbance('Sag')">Voltage Sag</button>
-          <button class="dist-btn" id="btn-Swell" onclick="selectDisturbance('Swell')">Voltage Swell</button>
-          <button class="dist-btn" id="btn-Harmonics" onclick="selectDisturbance('Harmonics')">Harmonics</button>
-          <button class="dist-btn" id="btn-Interruption" onclick="selectDisturbance('Interruption')">Interruption</button>
-          <button class="dist-btn" id="btn-Transient" onclick="selectDisturbance('Transient')">Transient</button>
-          <button class="dist-btn" id="btn-Flicker" onclick="selectDisturbance('Flicker')">Flicker</button>
-          <button class="dist-btn" id="btn-Notch" onclick="selectDisturbance('Notch')">Notch</button>
-        </div>
-
-        <!-- Modifiers & Injection Controls -->
-        <div style="background: var(--bg-subtle); border: 1.5px solid var(--border-card); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.85rem;">
-          <div style="display: flex; justify-content: space-between; font-family: var(--font-sans); font-size: 0.68rem; font-weight: 600; color: #475569; margin-bottom: 0.3rem;">
-            <span>AMPLITUDE MODIFIER</span>
-            <span id="lbl-amp-val" style="font-family: var(--font-mono); font-weight: 700; color: #0f172a;">1.00x</span>
-          </div>
-          <input type="range" id="slider-amp" min="0.1" max="2.0" step="0.05" value="1.0" oninput="onModifierChange()" style="width: 100%; accent-color: var(--accent-primary); margin-bottom: 0.65rem;">
-
-          <div style="display: flex; justify-content: space-between; font-family: var(--font-sans); font-size: 0.68rem; font-weight: 600; color: #475569; margin-bottom: 0.3rem;">
-            <span>MEASUREMENT NOISE</span>
-            <span id="lbl-noise-val" style="font-family: var(--font-mono); font-weight: 700; color: #0f172a;">1.5%</span>
-          </div>
-          <input type="range" id="slider-noise" min="0.0" max="10.0" step="0.5" value="1.5" oninput="onModifierChange()" style="width: 100%; accent-color: var(--accent-cyan);">
-        </div>
-
-        <!-- Action Control Buttons -->
-        <div class="action-btn-group">
-          <button class="btn-primary" onclick="triggerDisturbanceInjection()">
-            <svg class="doodle-icon" style="stroke: #fff;" width="16" height="16" viewBox="0 0 24 24">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-            </svg>
-            INJECT & RUN ML PIPELINE
-          </button>
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn-secondary" style="flex: 1;" onclick="selectDisturbance('Normal')">RESET NORMAL</button>
-            <button class="btn-secondary" style="flex: 1;" id="btn-autodemo" onclick="toggleAutoDemoCycle()">AUTO DEMO: OFF</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- CENTER COLUMN: CRT OSCILLOSCOPE & SPECTRUM ANALYZER -->
-      <section class="panel-box" style="flex: 1;">
-        <div class="panel-title">
-          <div class="panel-title-text">
-            <svg class="doodle-icon primary" width="18" height="18" viewBox="0 0 24 24">
-              <rect x="2" y="3" width="20" height="14" rx="2" />
-              <line x1="8" y1="21" x2="16" y2="21" />
-              <line x1="12" y1="17" x2="12" y2="21" />
-              <path d="M6 10 C 8 7, 9 7, 10 10 C 11 13, 12 13, 14 10" />
-            </svg>
-            <span id="scope-title-label">2. LABORATORY OSCILLOSCOPE (60 Hz / 50 Hz SIGNAL)</span>
-          </div>
-          <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-primary); font-weight: 700;" id="scope-mode-label">TIME DOMAIN (TIMEBASE: 10 ms/div)</span>
-        </div>
-
-        <!-- Oscilloscope Viewport Canvas -->
-        <div class="crt-wrapper">
-          <canvas id="crtCanvas" class="crt-canvas"></canvas>
-          <div class="crt-scanlines" id="crtScanlineOverlay"></div>
-        </div>
-
-        <!-- Scope Controls Toolbar -->
-        <div class="scope-toolbar">
-          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-            <select class="scope-select" id="select-channel" onchange="onScopeChannelChange(this.value)">
-              <option value="ALL" selected>3-Phase Overlay (L1/L2/L3)</option>
-              <option value="L1">Phase A (L1 0°)</option>
-              <option value="L2">Phase B (L2 -120°)</option>
-              <option value="L3">Phase C (L3 +120°)</option>
-            </select>
-            <select class="scope-select" id="select-display-mode" onchange="switchScopeDisplayMode(this.value)">
-              <option value="time">Oscilloscope (Time Domain)</option>
-              <option value="fft">FFT Spectrum (Frequency Domain)</option>
-            </select>
-            <select class="scope-select" id="select-timebase" onchange="onScopeSettingChange()">
-              <option value="5">5 ms/div</option>
-              <option value="10" selected>10 ms/div</option>
-              <option value="20">20 ms/div</option>
-            </select>
-            <select class="scope-select" id="select-volts" onchange="onScopeSettingChange()">
-              <option value="0.5">0.5 V/div</option>
-              <option value="1.0" selected>1.0 V/div</option>
-              <option value="2.0">2.0 V/div</option>
-            </select>
-          </div>
-
-          <div style="display: flex; gap: 0.45rem; align-items: center;">
-            <button class="btn-secondary" style="padding: 0.35rem 0.65rem; font-size: 0.7rem;" onclick="toggleFreezeTrace()" id="btn-freeze">FREEZE</button>
-            <button class="btn-secondary" style="padding: 0.35rem 0.65rem; font-size: 0.7rem;" onclick="toggleScanlines()" id="btn-scanlines">GRID: ON</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- RIGHT COLUMN: ML CLASSIFICATION & VALIDATION UNIT -->
-      <section class="panel-box">
-        <div class="panel-title">
-          <div class="panel-title-text">
-            <svg class="doodle-icon primary" width="18" height="18" viewBox="0 0 24 24">
-              <circle cx="6" cy="6" r="3" />
-              <circle cx="6" cy="18" r="3" />
-              <circle cx="18" cy="12" r="3" />
-              <line x1="9" y1="6" x2="15" y2="12" />
-              <line x1="9" y1="18" x2="15" y2="12" />
-            </svg>
-            <span>3. ML VALIDATION UNIT</span>
-          </div>
-          <span class="panel-tag">[COMPACT MLP]</span>
-        </div>
-
-        <!-- Injected Condition Card -->
-        <div class="validation-card">
-          <div class="val-label">
-            <svg class="doodle-icon warning" width="12" height="12" viewBox="0 0 24 24">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-            </svg>
-            1. INJECTED CONDITION
-          </div>
-          <div class="val-value-badge badge-injected" id="val-injected-name">NORMAL</div>
-        </div>
-
-        <!-- Independent ML Prediction Card -->
-        <div class="validation-card">
-          <div class="val-label">
-            <svg class="doodle-icon success" width="12" height="12" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9" />
-              <polyline points="9 12 11 14 15 10" />
-            </svg>
-            2. INDEPENDENT ML PREDICTION
-          </div>
-          <div class="val-value-badge badge-predicted" id="val-predicted-name">NORMAL</div>
-        </div>
-
-        <!-- Match / Mismatch Result Banner -->
-        <div class="result-banner match" id="val-result-banner">
-          <svg class="doodle-icon success" width="16" height="16" viewBox="0 0 24 24">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-          CORRECT CLASSIFICATION
-        </div>
-
-        <!-- Confidence Gauge & Footprint -->
-        <div style="background: var(--bg-subtle); border: 1.5px solid var(--border-card); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.85rem;">
-          <div style="display: flex; justify-content: space-between; font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; color: #475569; margin-bottom: 0.35rem;">
-            <span>MODEL CONFIDENCE</span>
-            <span style="color: var(--accent-success); font-family: var(--font-mono); font-weight: 800;" id="lbl-confidence">96.3%</span>
-          </div>
-          <div style="height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; border: 1px solid var(--border-card);">
-            <div id="bar-confidence-fill" style="width: 96.3%; height: 100%; background: var(--accent-success); transition: width 0.3s ease;"></div>
-          </div>
-        </div>
-
-        <!-- Real-Time Class Probabilities Bar Chart -->
-        <div style="font-family: var(--font-sans); font-size: 0.68rem; color: #64748b; margin-bottom: 0.35rem; font-weight: 700; text-transform: uppercase;">
-          NEURAL NETWORK CLASS PROBABILITIES:
-        </div>
-        <div class="prob-list" id="prob-bar-container">
-          <!-- Populated by JS -->
-        </div>
-
-      </section>
-
-    </main>
-
-    <!-- BOTTOM SECTION 1: EXTRACTED ELECTRICAL FEATURES MATRIX -->
-    <section style="margin-bottom: 1.5rem;">
-      <div class="section-heading-wrap">
-        <svg class="doodle-icon primary" width="20" height="20" viewBox="0 0 24 24">
-          <rect x="4" y="4" width="16" height="16" rx="2" />
-          <line x1="9" y1="9" x2="15" y2="9" />
-          <line x1="12" y1="12" x2="12" y2="16" />
+    <nav class="nav-links">
+      <button class="nav-link active" data-page="overview" onclick="switchPage('overview')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
         </svg>
-        <span class="section-heading">4. EXTRACTED ELECTRICAL FEATURE VECTOR (DSP MATRIX)</span>
+        <span>Overview</span>
+      </button>
+
+      <button class="nav-link" data-page="live-simulink" onclick="switchPage('live-simulink')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <span>Live Simulink</span>
+      </button>
+
+      <button class="nav-link" data-page="disturbance-lab" onclick="switchPage('disturbance-lab')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <span>Disturbance Lab</span>
+      </button>
+
+      <button class="nav-link" data-page="disturbance-analysis" onclick="switchPage('disturbance-analysis')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+        </svg>
+        <span>Disturbance Analysis</span>
+      </button>
+
+      <button class="nav-link" data-page="datasets" onclick="switchPage('datasets')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+        </svg>
+        <span>Datasets</span>
+      </button>
+
+      <button class="nav-link" data-page="model-performance" onclick="switchPage('model-performance')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>Model Diagnostics</span>
+      </button>
+
+      <button class="nav-link" data-page="event-history" onclick="switchPage('event-history')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Simulation History</span>
+      </button>
+
+      <button class="nav-link" data-page="presentation-mode" onclick="switchPage('presentation-mode')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        <span>Presentation Mode</span>
+      </button>
+    </nav>
+
+    <div class="nav-lamps">
+      <div class="lamp-unit"><div class="lamp-led green" id="lamp-sys"></div><span>SYS: 3P ON</span></div>
+      <div class="lamp-unit"><div class="lamp-led cyan" id="lamp-adc"></div><span>ADC: 5 kHz</span></div>
+      <div class="lamp-unit"><div class="lamp-led green" id="lamp-model"></div><span>ML: 60 Hz</span></div>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE 1: OVERVIEW
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-overview" class="app-page active">
+      <div class="page-header">
+        <div class="page-title-wrap">
+          <svg class="doodle-icon primary" width="22" height="22" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <div>
+            <h1 class="page-title">SYSTEM OVERVIEW & BENCH STATUS</h1>
+            <p class="page-desc">High-level operational health, three-phase grid summary, and live classification status</p>
+          </div>
+        </div>
+        <div>
+          <button class="btn-primary" onclick="switchPage('live-simulink')" style="padding:0.45rem 1rem;font-size:0.75rem;">
+            OPEN LIVE SIMULINK
+          </button>
+        </div>
       </div>
 
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="val-label">1. RMS VOLTAGE</div>
-          <div><span class="feature-num" id="feat-rms">0.998</span><span class="feature-unit">pu</span></div>
+      <!-- System Status KPI Row -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-lbl"><span>Backend Server</span><span class="kpi-badge" style="background:#dcfce7;color:#166534;">ONLINE</span></div>
+          <div class="kpi-val" id="ov-backend-status">PORT 8500</div>
+          <div class="kpi-sub">REST API & Live SSE Pipeline</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl"><span>MATLAB Engine</span><span class="kpi-badge" id="ov-matlab-badge" style="background:#dcfce7;color:#166534;">READY</span></div>
+          <div class="kpi-val" id="ov-matlab-status" style="font-size:1.1rem;">R2025a ACTIVE</div>
+          <div class="kpi-sub">Simulink persistent session</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl"><span>Simulation State</span><span class="kpi-badge" id="ov-sim-badge" style="background:#f1f5f9;color:#475569;">IDLE</span></div>
+          <div class="kpi-val" id="ov-sim-status" style="font-size:1.15rem;">IDLE</div>
+          <div class="kpi-sub">Run ID: <code id="ov-run-id">—</code></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl"><span>Simulation Time</span></div>
+          <div class="kpi-val" id="ov-sim-time">0.00 s</div>
+          <div class="kpi-sub">Paced at ~1.0 s/s</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl"><span>Sampling Rate</span></div>
+          <div class="kpi-val">5,000 Hz</div>
+          <div class="kpi-sub">Nyquist: 2,500 Hz | Bus 5</div>
+        </div>
+      </div>
+
+      <!-- Main Overview 2-Column Grid -->
+      <div class="layout-2col">
+        <!-- Electrical Summary Card -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+              <span>3-PHASE ELECTRICAL MEASUREMENTS (BUS 5)</span>
+            </div>
+            <span style="font-size:0.65rem;color:var(--text-muted);font-weight:600;">WINDOW: 1000 SAMPLES (0.20 s)</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.25rem;">
+            <div style="background:#f8fafc;padding:0.75rem;border-radius:6px;border:1px solid #e2e8f0;">
+              <div style="font-size:0.68rem;font-weight:700;color:#64748b;margin-bottom:0.4rem;">VOLTAGE RMS PER PHASE (IEEE NOMINAL)</div>
+              <div style="display:flex;flex-direction:column;gap:0.35rem;font-family:var(--font-mono);font-size:0.8rem;">
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--phase-a);font-weight:700;">● Phase A (L1):</span><strong id="ov-va-rms">1.023 pu</strong></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--phase-b);font-weight:700;">● Phase B (L2):</span><strong id="ov-vb-rms">1.026 pu</strong></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--phase-c);font-weight:700;">● Phase C (L3):</span><strong id="ov-vc-rms">1.011 pu</strong></div>
+              </div>
+            </div>
+
+            <div style="background:#f8fafc;padding:0.75rem;border-radius:6px;border:1px solid #e2e8f0;">
+              <div style="font-size:0.68rem;font-weight:700;color:#64748b;margin-bottom:0.4rem;">CURRENT RMS PER PHASE</div>
+              <div style="display:flex;flex-direction:column;gap:0.35rem;font-family:var(--font-mono);font-size:0.8rem;">
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--phase-a);font-weight:700;">● Phase A (L1):</span><strong id="ov-ia-rms">0.985 pu</strong></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--phase-b);font-weight:700;">● Phase B (L2):</span><strong id="ov-ib-rms">0.988 pu</strong></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--phase-c);font-weight:700;">● Phase C (L3):</span><strong id="ov-ic-rms">0.973 pu</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;background:#eff6ff;padding:0.6rem 0.85rem;border-radius:6px;border:1px solid #bfdbfe;font-size:0.75rem;margin-top:0.5rem;">
+            <span>Frequency: <strong id="ov-freq">60.00 Hz</strong></span>
+            <span>Voltage THD: <strong id="ov-thd-v">0.12 %</strong></span>
+            <span>Current THD: <strong id="ov-thd-i">0.15 %</strong></span>
+            <span>Status: <strong style="color:#166534;">NOMINAL</strong></span>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <div class="val-label">2. PEAK VOLTAGE</div>
-          <div><span class="feature-num" id="feat-peak">1.412</span><span class="feature-unit">pu</span></div>
+        <!-- Decoupled Classification Summary Card -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>DECOUPLED CLASSIFICATION SUMMARY</span>
+            </div>
+            <span class="kpi-badge" style="background:#dcfce7;color:#166534;" id="ov-ml-badge">VALIDATED 60 HZ</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.25rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.75rem;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;">
+              <div>
+                <div style="font-size:0.65rem;color:#64748b;font-weight:700;">1. REQUESTED DISTURBANCE (OPERATOR)</div>
+                <strong style="font-size:0.95rem;color:#0f172a;" id="ov-req-dist">Normal</strong>
+              </div>
+              <span class="kpi-badge" style="background:#f1f5f9;color:#475569;" id="ov-req-badge">IDLE</span>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.75rem;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;">
+              <div>
+                <div style="font-size:0.65rem;color:#64748b;font-weight:700;">2. PHYSICAL ASSESSMENT (IEEE 1159 DETECTOR)</div>
+                <strong style="font-size:0.95rem;color:#166534;" id="ov-phys-dist">Normal</strong>
+              </div>
+              <span class="kpi-badge" style="background:#dbeafe;color:#1e40af;" id="ov-phys-badge">NORMAL</span>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.75rem;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe;">
+              <div>
+                <div style="font-size:0.65rem;color:#1e40af;font-weight:700;">3. INDEPENDENT ML PREDICTION (PHASE 4C MLP)</div>
+                <strong style="font-size:1.15rem;color:var(--accent-primary);" id="ov-ml-pred">NORMAL</strong>
+                <div style="font-size:0.65rem;color:#64748b;margin-top:0.15rem;">Latency: <span id="ov-ml-lat">5.15 ms</span> | Evaluated: <span id="ov-ml-ts">--</span></div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:0.62rem;color:#64748b;font-weight:700;">MODEL PROBABILITY</div>
+                <strong style="font-size:1.25rem;color:var(--accent-primary);font-family:var(--font-mono);" id="ov-ml-conf">100.0%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Events Row -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div class="chart-card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+            <span>RECENT PHYSICAL & MACHINE LEARNING EVENTS (LATEST 5)</span>
+          </div>
+          <button class="btn-secondary" onclick="switchPage('event-history')" style="padding:0.25rem 0.65rem;font-size:0.68rem;">VIEW ALL IN EVENT HISTORY</button>
         </div>
 
-        <div class="feature-card">
-          <div class="val-label">3. CREST FACTOR</div>
-          <div><span class="feature-num" id="feat-crest">1.415</span><span class="feature-unit">ratio</span></div>
-        </div>
-
-        <div class="feature-card">
-          <div class="val-label">4. TOTAL HARMONIC THD</div>
-          <div><span class="feature-num" id="feat-thd">0.82</span><span class="feature-unit">%</span></div>
-        </div>
-
-        <div class="feature-card">
-          <div class="val-label">5. EVENT DURATION</div>
-          <div><span class="feature-num" id="feat-duration">0.0</span><span class="feature-unit">ms</span></div>
-        </div>
-
-        <div class="feature-card">
-          <div class="val-label">6. DOMINANT FREQ</div>
-          <div><span class="feature-num" id="feat-domfreq">50.0</span><span class="feature-unit">Hz</span></div>
-        </div>
-
-        <div class="feature-card">
-          <div class="val-label">7. SYSTEM FREQUENCY</div>
-          <div><span class="feature-num" id="feat-sysfreq">50.00</span><span class="feature-unit">Hz</span></div>
-        </div>
-
-        <div class="feature-card">
-          <div class="val-label">8. SIGNAL NOISE SNR</div>
-          <div><span class="feature-num" id="feat-snr">44.8</span><span class="feature-unit">dB</span></div>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Event ID</th>
+                <th>Class</th>
+                <th>Event Type</th>
+                <th>Phases</th>
+                <th>Duration</th>
+                <th>Score / Conf</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="ov-recent-events-tbody">
+              <tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:1rem;">Loading recent operational events...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
 
 
-    <!-- ╔══════════════════════════════════════════════════════════════════╗
-         ║   LIVE SIMULINK SIMULATION CONTROL & DISTURBANCE INJECTION       ║
-         ╚══════════════════════════════════════════════════════════════════╝ -->
-    <section class="live-sim-section" id="live-sim-section">
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE 2: DEDICATED LIVE SIMULINK WORKSPACE
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-live-simulink" class="app-page">
+      <div class="live-sim-section" id="live-sim-section">
 
-      <!-- Section Header -->
-      <div class="section-heading-wrap" style="margin-bottom: 1.25rem;">
-        <svg class="doodle-icon primary" width="20" height="20" viewBox="0 0 24 24">
-          <polygon points="5 3 19 12 5 21 5 3" />
-          <line x1="19" y1="12" x2="24" y2="12" stroke-dasharray="2 2" />
-        </svg>
-        <span class="section-heading">5. LIVE SIMULINK SIMULATION — IEEE 9-BUS DISTURBANCE INJECTION</span>
-        <span class="live-sim-status-badge" id="live-sim-badge">READY</span>
-      </div>
-
-      <!-- Model info bar -->
-      <div class="live-sim-infobar">
-        <span>
-          <svg class="doodle-icon" width="13" height="13" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-          Model: <strong>IEEE_9bus_PQD_DISTURBANCES.slx</strong>
-        </span>
-        <span>Bus 5 · 3-Phase · 60 Hz</span>
-        <span>Run ID: <code id="live-run-id">—</code></span>
-        <span>Wall-clock: <code id="live-elapsed">0 s</code></span>
-        <button class="btn-secondary" style="padding:0.25rem 0.65rem;font-size:0.68rem;" onclick="checkMatlabStatus()">CHECK MATLAB</button>
-        <span id="live-matlab-status" style="font-size:0.7rem;color:#64748b;">—</span>
-      </div>
-
-      <!-- Main grid: controls left, charts right -->
-            <!-- ══════════════════════════════════════════════════════════════════
-           PROMINENT LIVE ML CLASSIFICATION HERO PANEL (PROMPT 7)
-           ══════════════════════════════════════════════════════════════════ -->
-      <section class="ml-hero-panel" id="ml-classification-hero">
-        <div class="ml-hero-header">
-          <div class="ml-hero-title-group">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        <!-- Simulation Control & Info Bar -->
+        <div class="section-heading-wrap" style="margin-bottom: 0.85rem;">
+          <div style="display:flex;align-items:center;gap:0.65rem;">
+            <svg class="doodle-icon primary" width="20" height="20" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
-            <span class="ml-hero-title-text">LIVE ML CLASSIFICATION</span>
-            <span class="ml-tag-source">60 Hz NATIVE PIPELINE (PHASE 4C MLP)</span>
+            <span class="section-heading">LIVE SIMULINK SIMULATION — IEEE 9-BUS DISTURBANCE INJECTION</span>
           </div>
-          <div class="ml-hero-badges">
-            <span id="ml-lifecycle-badge" class="ml-lifecycle-pill status-waiting">WAITING FOR SIMULATION</span>
-            <span id="ml-model-domain-badge" class="ml-lifecycle-pill status-domain">VALIDATED 60 HZ</span>
-            <span id="ml-signal-quality-badge" class="ml-lifecycle-pill status-valid">SIGNAL: VALID</span>
-          </div>
+          <span class="live-sim-status-badge" id="live-sim-badge">READY</span>
         </div>
 
-        <div class="ml-hero-grid">
-          <!-- CARD A: MAIN PREDICTION CARD -->
-          <div class="ml-card-primary">
-            <div class="ml-card-label">PREDICTED DISTURBANCE CLASS</div>
-            <div class="ml-class-huge-wrap">
-              <div id="ml-hero-pred-class" class="ml-class-huge">NORMAL</div>
-              <div class="ml-conf-badge-wrap">
-                <span class="ml-conf-label">Confidence</span>
-                <span id="ml-hero-pred-conf" class="ml-conf-val">0.0%</span>
-              </div>
-            </div>
-
-            <div class="ml-meta-grid">
-              <div class="ml-meta-item">
-                <span class="ml-meta-lbl">Status</span>
-                <strong id="ml-hero-status-lbl" class="ml-meta-val">IDLE</strong>
-              </div>
-              <div class="ml-meta-item">
-                <span class="ml-meta-lbl">Next Evaluation</span>
-                <strong id="ml-hero-countdown-lbl" class="ml-meta-val" style="color:var(--accent-primary);">05.0 s</strong>
-              </div>
-              <div class="ml-meta-item">
-                <span class="ml-meta-lbl">Last Inference</span>
-                <span id="ml-hero-last-eval-lbl" class="ml-meta-val">—</span>
-              </div>
-              <div class="ml-meta-item">
-                <span class="ml-meta-lbl">Latency</span>
-                <span id="ml-hero-latency-lbl" class="ml-meta-val">—</span>
-              </div>
-              <div class="ml-meta-item" style="grid-column: span 2;">
-                <span class="ml-meta-lbl">Analysis Window</span>
-                <span id="ml-hero-window-lbl" class="ml-meta-val" style="font-family:var(--font-mono);font-size:0.68rem;">1000 samples (0.20 s @ 5 kHz)</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- CARD B: EIGHT-CLASS PROBABILITY DISTRIBUTION -->
-          <div class="ml-card-probabilities">
-            <div class="ml-card-label">
-              <span>EIGHT-CLASS PROBABILITY DISTRIBUTION</span>
-              <span style="font-size:0.62rem;color:var(--text-muted);font-weight:600;">CANONICAL ORDER</span>
-            </div>
-            <div class="ml-prob-bars-list" id="ml-hero-prob-bars">
-              <!-- Dynamically populated: Flicker, Harmonics, Interruption, Normal, Notch, Sag, Swell, Transient -->
-            </div>
-          </div>
-
-          <!-- CARD C: THREE INDEPENDENT RESULTS SEPARATION -->
-          <div class="ml-card-triplet">
-            <div class="ml-card-label">
-              <span>THREE SEPARATE RESULTS</span>
-              <span style="font-size:0.62rem;color:var(--text-muted);font-weight:600;">DECOUPLED VERIFICATION</span>
-            </div>
-            
-            <div class="triplet-stack">
-              <div class="triplet-item">
-                <div class="triplet-item-top">
-                  <span class="triplet-title">1. Requested Disturbance</span>
-                  <span id="triplet-cmd-badge" class="triplet-state-pill">IDLE</span>
-                </div>
-                <div class="triplet-main-val" id="triplet-req-val">Normal</div>
-                <div class="triplet-sub-val">Operator injection control</div>
-              </div>
-
-              <div class="triplet-item">
-                <div class="triplet-item-top">
-                  <span class="triplet-title">2. Physical Assessment</span>
-                  <span id="triplet-rec-badge" class="triplet-state-pill" style="color:#1e40af;background:#dbeafe;">NORMAL</span>
-                </div>
-                <div class="triplet-main-val" id="triplet-phys-val" style="color:#166534;">Normal</div>
-                <div class="triplet-sub-val">IEEE Std 1159 electrical detector</div>
-              </div>
-
-              <div class="triplet-item highlighted">
-                <div class="triplet-item-top">
-                  <span class="triplet-title" style="color:var(--accent-primary);font-weight:700;">3. Independent ML Prediction</span>
-                  <span id="triplet-ml-badge" class="triplet-state-pill" style="color:#166534;background:#dcfce7;">60 Hz NATIVE</span>
-                </div>
-                <div class="triplet-main-val" id="triplet-ml-val" style="color:var(--accent-primary);">Normal</div>
-                <div class="triplet-sub-val" id="triplet-ml-sub">Trained neural network inference (<span id="triplet-ml-conf-sub">0.0%</span>)</div>
-              </div>
-            </div>
-          </div>
+        <div class="live-sim-infobar">
+          <span>
+            <svg class="doodle-icon" width="13" height="13" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            Model: <strong>IEEE_9bus_PQD_DISTURBANCES.slx</strong>
+          </span>
+          <span>Bus 5 · 3-Phase · 60 Hz · 5 kHz</span>
+          <span>Run ID: <code id="live-run-id">—</code></span>
+          <span>Wall-clock: <code id="live-elapsed">0 s</code></span>
+          <button class="btn-secondary" style="padding:0.25rem 0.65rem;font-size:0.68rem;" onclick="checkMatlabStatus()">CHECK MATLAB</button>
+          <span id="live-matlab-status" style="font-size:0.7rem;color:#64748b;">—</span>
         </div>
 
-        <!-- CLASSIFICATION TIMELINE TABLE (20 RECENT INFERENCES) -->
-        <div class="ml-timeline-card">
-          <div class="ml-timeline-header" onclick="toggleTimelineExpand()">
-            <div style="display:flex;align-items:center;gap:0.4rem;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        <!-- ══════════════════════════════════════════════════════════════════
+             PROMINENT LIVE ML CLASSIFICATION HERO PANEL (MANDATORY REQUIREMENT)
+             ══════════════════════════════════════════════════════════════════ -->
+        <section class="ml-hero-panel" id="ml-classification-hero">
+          <div class="ml-hero-header">
+            <div class="ml-hero-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
               </svg>
-              <strong style="font-size:0.75rem;letter-spacing:0.04em;">CLASSIFICATION TIMELINE (RECENT EVALUATIONS)</strong>
-              <span id="ml-timeline-count-badge" style="font-size:0.62rem;background:#f1f5f9;color:#475569;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700;">0 records</span>
+              <span class="ml-hero-title-text">LIVE ML CLASSIFICATION</span>
+              <span class="ml-tag-source">60 Hz NATIVE PIPELINE (PHASE 4C MLP)</span>
             </div>
-            <span style="font-size:0.65rem;color:var(--accent-primary);cursor:pointer;font-weight:600;" id="ml-timeline-toggle-lbl">SHOW TABLE</span>
+            <div class="ml-hero-badges">
+              <span id="ml-lifecycle-badge" class="ml-lifecycle-pill status-waiting">STATUS: WAITING FOR SIMULATION</span>
+              <span id="ml-model-domain-badge" class="ml-lifecycle-pill status-domain">DOMAIN: VALIDATED_60HZ</span>
+              <span id="ml-signal-quality-badge" class="ml-lifecycle-pill status-valid">SIGNAL: VALID</span>
+            </div>
           </div>
-          <div class="ml-timeline-table-wrap" id="ml-timeline-content" style="display:none;">
-            <table class="ml-table">
+
+          <div class="ml-hero-grid">
+            <!-- CARD A: MAIN PREDICTION CARD -->
+            <div class="ml-card-primary">
+              <div class="ml-card-label">PREDICTED DISTURBANCE CLASS</div>
+              <div class="ml-class-huge-wrap">
+                <div id="ml-hero-pred-class" class="ml-class-huge">NORMAL</div>
+                <div class="ml-conf-badge-wrap">
+                  <span class="ml-conf-label">Model Probability</span>
+                  <span id="ml-hero-pred-conf" class="ml-conf-val">100.0%</span>
+                </div>
+              </div>
+
+              <div class="ml-meta-grid">
+                <div class="ml-meta-item">
+                  <span class="ml-meta-lbl">Status</span>
+                  <strong id="ml-hero-status-lbl" class="ml-meta-val">VALID</strong>
+                </div>
+                <div class="ml-meta-item">
+                  <span class="ml-meta-lbl">Next Evaluation</span>
+                  <strong id="ml-hero-countdown-lbl" class="ml-meta-val" style="color:var(--accent-primary);">05.0 s</strong>
+                </div>
+                <div class="ml-meta-item">
+                  <span class="ml-meta-lbl">Last Inference</span>
+                  <span id="ml-hero-last-eval-lbl" class="ml-meta-val">—</span>
+                </div>
+                <div class="ml-meta-item">
+                  <span class="ml-meta-lbl">Latency</span>
+                  <span id="ml-hero-latency-lbl" class="ml-meta-val">—</span>
+                </div>
+                <div class="ml-meta-item" style="grid-column: span 2;">
+                  <span class="ml-meta-lbl">Analysis Window</span>
+                  <span id="ml-hero-window-lbl" class="ml-meta-val" style="font-family:var(--font-mono);font-size:0.68rem;">1000 samples (0.20 s @ 5 kHz)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD B: EIGHT-CLASS PROBABILITY DISTRIBUTION -->
+            <div class="ml-card-probabilities">
+              <div class="ml-card-label">
+                <span>EIGHT-CLASS PROBABILITY DISTRIBUTION</span>
+                <span style="font-size:0.62rem;color:var(--text-muted);font-weight:600;">CANONICAL ORDER</span>
+              </div>
+              <div class="ml-prob-bars-list" id="ml-hero-prob-bars">
+                <!-- Dynamically populated: Flicker, Harmonics, Interruption, Normal, Notch, Sag, Swell, Transient -->
+              </div>
+            </div>
+
+            <!-- CARD C: THREE INDEPENDENT RESULTS SEPARATION -->
+            <div class="ml-card-triplet">
+              <div class="ml-card-label">
+                <span>THREE SEPARATE RESULTS</span>
+                <span style="font-size:0.62rem;color:var(--text-muted);font-weight:600;">DECOUPLED VERIFICATION</span>
+              </div>
+
+              <div class="triplet-stack">
+                <div class="triplet-item">
+                  <div class="triplet-item-top">
+                    <span class="triplet-title">1. Requested Disturbance</span>
+                    <span id="triplet-cmd-badge" class="triplet-state-pill">IDLE</span>
+                  </div>
+                  <div class="triplet-main-val" id="triplet-req-val">Normal</div>
+                  <div class="triplet-sub-val">Operator injection control</div>
+                </div>
+
+                <div class="triplet-item">
+                  <div class="triplet-item-top">
+                    <span class="triplet-title">2. Physical Assessment</span>
+                    <span id="triplet-rec-badge" class="triplet-state-pill" style="color:#1e40af;background:#dbeafe;">NORMAL</span>
+                  </div>
+                  <div class="triplet-main-val" id="triplet-phys-val" style="color:#166534;">Normal</div>
+                  <div class="triplet-sub-val">IEEE Std 1159 electrical detector</div>
+                </div>
+
+                <div class="triplet-item highlighted">
+                  <div class="triplet-item-top">
+                    <span class="triplet-title" style="color:var(--accent-primary);font-weight:700;">3. Independent ML Prediction</span>
+                    <span id="triplet-ml-badge" class="triplet-state-pill" style="color:#166534;background:#dcfce7;">VALIDATED_60HZ</span>
+                  </div>
+                  <div class="triplet-main-val" id="triplet-ml-val" style="color:var(--accent-primary);">Normal</div>
+                  <div class="triplet-sub-val" id="triplet-ml-sub">Trained neural network inference (<span id="triplet-ml-conf-sub">100.0%</span>)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CLASSIFICATION TIMELINE TABLE (20 RECENT INFERENCES) -->
+          <div class="ml-timeline-card">
+            <div class="ml-timeline-header" onclick="toggleTimelineExpand()">
+              <div style="display:flex;align-items:center;gap:0.4rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <strong style="font-size:0.75rem;letter-spacing:0.04em;">CLASSIFICATION TIMELINE (RECENT EVALUATIONS)</strong>
+                <span id="ml-timeline-count-badge" style="font-size:0.62rem;background:#f1f5f9;color:#475569;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700;">0 records</span>
+              </div>
+              <span style="font-size:0.65rem;color:var(--accent-primary);cursor:pointer;font-weight:600;" id="ml-timeline-toggle-lbl">SHOW TABLE</span>
+            </div>
+            <div class="ml-timeline-table-wrap" id="ml-timeline-content" style="display:none;">
+              <table class="ml-table">
+                <thead>
+                  <tr>
+                    <th>Seq #</th>
+                    <th>Wall Clock</th>
+                    <th>Sim Window</th>
+                    <th>Raw ML Prediction</th>
+                    <th>Model Probability</th>
+                    <th>Physical State</th>
+                    <th>Signal Status</th>
+                    <th>Model Domain</th>
+                    <th>Latency</th>
+                  </tr>
+                </thead>
+                <tbody id="ml-timeline-tbody">
+                  <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:0.75rem;">Waiting for first live simulation evaluation...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Live Simulink Main Grid Layout -->
+        <div class="live-sim-grid">
+
+          <!-- ── LEFT: CONTROL PANEL ─────────────────────────────────────── -->
+          <div class="live-sim-controls">
+
+            <!-- Disturbance Class selector -->
+            <div class="ctrl-group">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+                <div class="ctrl-label" style="margin-bottom:0;">DISTURBANCE CLASS</div>
+                <span id="live-sidebar-target-dist" style="font-size:0.68rem;font-weight:700;color:var(--accent-primary);">CURRENT: NORMAL</span>
+              </div>
+              <div class="dist-btn-grid">
+                <button class="dist-btn active" id="btn-live-dist-Normal" data-class="Normal" onclick="selectLiveDist('Normal')">NORMAL</button>
+                <button class="dist-btn" id="btn-live-dist-Sag" data-class="Sag" onclick="selectLiveDist('Sag')">SAG</button>
+                <button class="dist-btn" id="btn-live-dist-Swell" data-class="Swell" onclick="selectLiveDist('Swell')">SWELL</button>
+                <button class="dist-btn" id="btn-live-dist-Interruption" data-class="Interruption" onclick="selectLiveDist('Interruption')">INTERRUPT.</button>
+                <button class="dist-btn" id="btn-live-dist-Harmonics" data-class="Harmonics" onclick="selectLiveDist('Harmonics')">HARMONICS</button>
+                <button class="dist-btn" id="btn-live-dist-Flicker" data-class="Flicker" onclick="selectLiveDist('Flicker')">FLICKER</button>
+                <button class="dist-btn" id="btn-live-dist-Notch" data-class="Notch" onclick="selectLiveDist('Notch')">NOTCH</button>
+                <button class="dist-btn" id="btn-live-dist-Transient" data-class="Transient" onclick="selectLiveDist('Transient')">TRANSIENT</button>
+              </div>
+            </div>
+
+            <!-- Phase Selection -->
+            <div class="ctrl-group">
+              <div class="ctrl-label">PHASE SELECTION</div>
+              <div class="phase-checkboxes">
+                <label class="phase-chk-lbl"><input type="checkbox" id="chk-phase-a" checked> Phase A</label>
+                <label class="phase-chk-lbl"><input type="checkbox" id="chk-phase-b" checked> Phase B</label>
+                <label class="phase-chk-lbl"><input type="checkbox" id="chk-phase-c" checked> Phase C</label>
+                <button class="btn-secondary" style="padding:0.2rem 0.5rem;font-size:0.68rem;" onclick="selectAllPhases()">ALL</button>
+              </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="btn-group-col" style="gap:0.45rem;">
+              <button class="btn-primary" id="btn-live-start" onclick="startSimulation()">
+                <svg class="doodle-icon" width="14" height="14" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                START SIMULATION
+              </button>
+
+              <button class="btn-danger" id="btn-live-inject" onclick="injectLiveDisturbance()" style="display:flex;align-items:center;justify-content:center;gap:0.35rem;font-weight:700;">
+                <svg class="doodle-icon" width="14" height="14" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                INJECT DISTURBANCE
+              </button>
+
+              <div style="display:flex;gap:0.4rem;">
+                <button class="btn-secondary" id="btn-live-reset" onclick="resetLiveDisturbance()" style="flex:1;">
+                  <svg class="doodle-icon" width="12" height="12" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                  RESET TO NORMAL
+                </button>
+                <button class="btn-secondary" id="btn-live-stop" onclick="stopLiveSimulation()" style="flex:1;">
+                  <svg class="doodle-icon" width="12" height="12" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                  STOP
+                </button>
+              </div>
+            </div>
+
+            <!-- Inline Real-Time Status / Feedback Banner -->
+            <div id="live-sidebar-feedback" style="margin-top:0.6rem;padding:0.5rem 0.65rem;border-radius:4px;font-size:0.72rem;background:#f8fafc;border:1px solid var(--border-card);color:var(--text-secondary);display:block;transition:all 0.2s ease;">
+              Ready. Click any disturbance above to inject in real-time.
+            </div>
+
+            <!-- Event log stream -->
+            <div class="event-stream-box" style="margin-top:0.85rem;">
+              <div class="ctrl-label" style="margin-bottom:0.3rem;">SIMULATION EVENT LOG</div>
+              <div class="log-stream-content" id="live-log-stream">
+                <span class="log-entry info">[—] Awaiting simulation start...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── RIGHT: CHARTS COLUMN ────────────────────────────────────── -->
+          <div class="live-sim-charts" id="live-sim-charts">
+
+            <!-- Status overlay -->
+            <div id="live-sim-overlay" class="live-sim-overlay hidden">
+              <div class="live-sim-overlay-content">
+                <svg class="doodle-icon primary" width="36" height="36" viewBox="0 0 24 24">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                <div style="font-weight:700;font-size:0.9rem;margin-top:0.5rem;" id="live-sim-overlay-title">MATLAB SIMULATION IDLE</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem;" id="live-sim-overlay-msg">Click 'START SIMULATION' to run IEEE 9-bus continuous session</div>
+                <div class="sim-spinner hidden" id="live-sim-spinner"></div>
+              </div>
+            </div>
+
+            <!-- Voltage Waveform Panel -->
+            <div class="panel-card">
+              <div class="panel-card-title" style="flex-wrap:wrap;gap:0.5rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <span style="font-weight:700;">BUS 5 VOLTAGE OSCILLOSCOPE</span>
+                  <span class="kpi-badge" style="background:#eff6ff;color:#1e40af;">BASE: 230 kV L-L / 187.8 kV PEAK</span>
+                  <span id="scope-v-live-badge" class="kpi-badge" style="background:#dcfce7;color:#166534;font-size:0.65rem;font-weight:700;">● STREAMING</span>
+                  <span id="scope-v-sim-time" style="font-family:var(--font-mono);font-size:0.68rem;font-weight:700;color:#0284c7;">T = 0.00 s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <div style="display:flex;gap:0.25rem;">
+                    <button id="v-scale-pu" class="btn-secondary" style="padding:0.2rem 0.5rem;font-size:0.65rem;background:var(--accent-primary);color:#fff;" onclick="setVoltageScaleMode('pu')">Per-Unit (pu)</button>
+                    <button id="v-scale-kv" class="btn-secondary" style="padding:0.2rem 0.5rem;font-size:0.65rem;" onclick="setVoltageScaleMode('kv')">Physical (kV)</button>
+                  </div>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button id="v-zoom-1000" class="btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.65rem;background:#0f172a;color:#fff;" onclick="setScopeZoom(1000)">12 Cycles (0.2s)</button>
+                    <button id="v-zoom-500" class="btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.65rem;" onclick="setScopeZoom(500)">6 Cycles (0.1s)</button>
+                    <button id="v-zoom-250" class="btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.65rem;" onclick="setScopeZoom(250)">3 Cycles (50ms)</button>
+                  </div>
+                  <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);" id="live-v-samples">— SAMPLES</span>
+                </div>
+              </div>
+              <div class="canvas-wrap" style="position:relative;">
+                <canvas id="live-voltage-canvas" class="live-chart-canvas"></canvas>
+              </div>
+              <div class="canvas-legend" style="justify-content:space-between;flex-wrap:wrap;">
+                <div style="display:flex;gap:0.8rem;align-items:center;">
+                  <span style="color:var(--phase-a);font-weight:600;" id="leg-v-l1">● Phase A (L1): 0.601 pu</span>
+                  <span style="color:var(--phase-b);font-weight:600;" id="leg-v-l2">● Phase B (L2): 0.603 pu</span>
+                  <span style="color:var(--phase-c);font-weight:600;" id="leg-v-l3">● Phase C (L3): 0.594 pu</span>
+                  <span style="color:var(--text-muted);" id="live-onset-label">| onset</span>
+                </div>
+                <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);">
+                  f = 60.00 Hz · V_IEEE = 1.042 pu
+                </div>
+              </div>
+            </div>
+
+            <!-- Current Waveform Panel -->
+            <div class="panel-card">
+              <div class="panel-card-title" style="flex-wrap:wrap;gap:0.5rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <span style="font-weight:700;">BUS 5 LINE CURRENT OSCILLOSCOPE</span>
+                  <span class="kpi-badge" style="background:#fef3c7;color:#92400e;">BASE: 251.0 A RMS / 355.0 A PEAK</span>
+                  <span id="scope-i-live-badge" class="kpi-badge" style="background:#dcfce7;color:#166534;font-size:0.65rem;font-weight:700;">● STREAMING</span>
+                  <span id="scope-i-sim-time" style="font-family:var(--font-mono);font-size:0.68rem;font-weight:700;color:#0284c7;">T = 0.00 s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <span class="kpi-badge" style="background:#eff6ff;color:#1e40af;font-weight:700;" id="live-vi-phase-badge">Δφ = +21.8° (V leads I) · PF = 0.93 LAG</span>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button id="i-scale-amp" class="btn-secondary" style="padding:0.2rem 0.5rem;font-size:0.65rem;background:var(--accent-primary);color:#fff;" onclick="setCurrentScaleMode('amp')">Amperes (A)</button>
+                    <button id="i-scale-pu" class="btn-secondary" style="padding:0.2rem 0.5rem;font-size:0.65rem;" onclick="setCurrentScaleMode('pu')">Per-Unit (pu)</button>
+                  </div>
+                  <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);" id="live-i-samples">— SAMPLES</span>
+                </div>
+              </div>
+              <div class="canvas-wrap" style="position:relative;">
+                <canvas id="live-current-canvas" class="live-chart-canvas"></canvas>
+              </div>
+              <div class="canvas-legend" style="justify-content:space-between;flex-wrap:wrap;">
+                <div style="display:flex;gap:0.8rem;align-items:center;">
+                  <span style="color:var(--phase-a);font-weight:600;" id="leg-i-l1">● Phase A (L1): 203.2 A</span>
+                  <span style="color:var(--phase-b);font-weight:600;" id="leg-i-l2">● Phase B (L2): 203.9 A</span>
+                  <span style="color:var(--phase-c);font-weight:600;" id="leg-i-l3">● Phase C (L3): 200.9 A</span>
+                </div>
+                <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);">
+                  f = 60.00 Hz · 125 MW + 50 MVAR Load
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Electrical Metrics Strip -->
+            <div class="live-metrics-strip" id="live-metrics-strip">
+              <div class="live-metric-cell">
+                <span class="live-m-label">RMS Voltage</span>
+                <span class="live-m-val" id="lm-rms">—</span>
+              </div>
+              <div class="live-metric-cell">
+                <span class="live-m-label">Peak Voltage</span>
+                <span class="live-m-val" id="lm-peak">—</span>
+              </div>
+              <div class="live-metric-cell">
+                <span class="live-m-label">THD</span>
+                <span class="live-m-val" id="lm-thd">—</span>
+              </div>
+              <div class="live-metric-cell">
+                <span class="live-m-label">Frequency</span>
+                <span class="live-m-val" id="lm-freq">—</span>
+              </div>
+              <div class="live-metric-cell">
+                <span class="live-m-label">SNR</span>
+                <span class="live-m-val" id="lm-snr">—</span>
+              </div>
+            </div>
+
+            <!-- Three Distinct Per-Unit Conversions Panel -->
+            <div class="panel-card" style="font-size:0.75rem;">
+              <div class="panel-card-title">
+                <span>THREE STRICT PER-UNIT VOLTAGE REPRESENTATIONS (BUS 5)</span>
+                <span style="font-size:0.62rem;color:var(--text-muted);">BASE: 230 kV L-L / 187.79 kV PEAK</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-top:0.4rem;">
+                <div style="background:#f8fafc;padding:0.5rem;border-radius:6px;border:1px solid #e2e8f0;">
+                  <div style="font-size:0.65rem;color:#64748b;font-weight:700;">1. RAW SENSOR PU</div>
+                  <strong style="font-size:1.1rem;color:#0f172a;font-family:var(--font-mono);" id="pu-raw-val">0.588 pu</strong>
+                  <div style="font-size:0.6rem;color:#64748b;margin-top:0.15rem;">Simulink RMS sensor output</div>
+                </div>
+                <div style="background:#eff6ff;padding:0.5rem;border-radius:6px;border:1px solid #bfdbfe;">
+                  <div style="font-size:0.65rem;color:#1e40af;font-weight:700;">2. CONVENTIONAL IEEE PU</div>
+                  <strong style="font-size:1.1rem;color:var(--accent-primary);font-family:var(--font-mono);" id="pu-ieee-val">1.023 pu</strong>
+                  <div style="font-size:0.6rem;color:#64748b;margin-top:0.15rem;">V_IEEE = V_raw * sqrt(3)</div>
+                </div>
+                <div style="background:#f8fafc;padding:0.5rem;border-radius:6px;border:1px solid #e2e8f0;">
+                  <div style="font-size:0.65rem;color:#64748b;font-weight:700;">3. PROJECT LOAD-FLOW NORMALIZED</div>
+                  <strong style="font-size:1.1rem;color:#166534;font-family:var(--font-mono);" id="pu-norm-val">1.000 pu</strong>
+                  <div style="font-size:0.6rem;color:#64748b;margin-top:0.15rem;">V_norm = V_raw / 0.5877</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live FFT Spectrum Analyser -->
+            <div class="panel-card">
+              <div class="panel-card-title">
+                <span>LIVE FFT SPECTRUM ANALYSER (BUS 5 TELEMETRY)</span>
+                <span class="kpi-badge" style="background:#dcfce7;color:#166534;">HANN WINDOW · COHERENT GAIN</span>
+              </div>
+
+              <!-- Controls Toolbar -->
+              <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;margin-bottom:0.5rem;">
+                <div style="display:flex;gap:0.35rem;align-items:center;">
+                  <span style="font-size:0.7rem;font-weight:700;color:#64748b;">Signal:</span>
+                  <select id="fft-signal-select" class="filter-select" onchange="updateLiveFFTSettings()">
+                    <option value="both" selected>Dual Overlay (V & I)</option>
+                    <option value="voltage">Bus 5 Voltage</option>
+                    <option value="current">Bus 5 Current</option>
+                  </select>
+                </div>
+
+                <div style="display:flex;gap:0.35rem;align-items:center;">
+                  <span style="font-size:0.7rem;font-weight:700;color:#64748b;">Phase:</span>
+                  <select id="fft-phase-select" class="filter-select" onchange="updateLiveFFTSettings()">
+                    <option value="L1" selected>Phase A (L1 0°)</option>
+                    <option value="L2">Phase B (L2 -120°)</option>
+                    <option value="L3">Phase C (L3 +120°)</option>
+                  </select>
+                </div>
+
+                <div style="display:flex;gap:0.35rem;align-items:center;">
+                  <span style="font-size:0.7rem;font-weight:700;color:#64748b;">Scale:</span>
+                  <select id="fft-scale-select" class="filter-select" onchange="updateLiveFFTSettings()">
+                    <option value="linear" selected>Linear (pu)</option>
+                    <option value="log">Logarithmic (dB)</option>
+                    <option value="stem">Harmonic Stem Plot</option>
+                  </select>
+                </div>
+
+                <div style="display:flex;gap:0.35rem;align-items:center;">
+                  <span style="font-size:0.7rem;font-weight:700;color:#64748b;">Span:</span>
+                  <select id="fft-span-select" class="filter-select" onchange="updateLiveFFTSettings()">
+                    <option value="500">0 – 500 Hz</option>
+                    <option value="1000" selected>0 – 1,000 Hz</option>
+                    <option value="2500">0 – 2,500 Hz (Nyquist limit)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Spectrum Canvas -->
+              <div class="canvas-wrap">
+                <canvas id="live-fft-canvas" class="live-chart-canvas" style="height:200px;"></canvas>
+              </div>
+
+              <!-- Interactive Harmonic Table -->
+              <div style="overflow-x:auto;margin-top:0.65rem;">
+                <table class="data-table" style="font-size:0.68rem;">
+                  <thead>
+                    <tr>
+                      <th>Harmonic</th>
+                      <th>Target Freq</th>
+                      <th>Detected Freq</th>
+                      <th>Magnitude (RMS pu)</th>
+                      <th>% of Fundamental</th>
+                      <th>Phase Angle</th>
+                    </tr>
+                  </thead>
+                  <tbody id="live-fft-harmonics-tbody">
+                    <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:0.5rem;">Streaming FFT spectrum telemetry...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE: DISTURBANCE LAB (PRESET & CUSTOM INJECTION, ML DIAGNOSTICS)
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-disturbance-lab" class="app-page">
+      <div class="page-header">
+        <div class="page-title-wrap">
+          <svg class="doodle-icon primary" width="22" height="22" viewBox="0 0 24 24">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <div>
+            <h1 class="page-title">DISTURBANCE LAB & INJECTION BENCH</h1>
+            <p class="page-desc">Configurable disturbance generator: calibrated presets, parametric custom injection, and deep ML diagnostics</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn-primary" onclick="switchPage('live-simulink')" style="padding:0.45rem 1rem;font-size:0.75rem;">
+            SWITCH TO LIVE SIMULINK
+          </button>
+        </div>
+      </div>
+
+      <!-- Injection Grid -->
+      <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));margin-bottom:1rem;">
+
+        <!-- PRESET INJECTIONS CARD -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>1. CALIBRATED DISTURBANCE PRESETS</span>
+            </div>
+            <span class="kpi-badge" style="background:#e0f2fe;color:#0369a1;">VALIDATED IEEE 9-BUS PROFILES</span>
+          </div>
+          <p style="font-size:0.75rem;color:#64748b;margin-bottom:0.75rem;">
+            Click a preset to immediately arm and inject into the running Simulink session. Minimum validated duration: 100 ms.
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:0.45rem;">
+            <button class="btn-secondary" onclick="executeLabPreset('Sag')" style="padding:0.6rem;text-align:left;">
+              <strong style="color:#b91c1c;display:block;">Voltage Sag</strong>
+              <span style="font-size:0.65rem;color:#64748b;">Rf=4.5 ohms · 3-Phase · 100ms</span>
+            </button>
+            <button class="btn-secondary" onclick="executeLabPreset('Swell')" style="padding:0.6rem;text-align:left;">
+              <strong style="color:#15803d;display:block;">Voltage Swell</strong>
+              <span style="font-size:0.65rem;color:#64748b;">Qc=150MVAR · 100ms</span>
+            </button>
+            <button class="btn-secondary" onclick="executeLabPreset('Harmonics')" style="padding:0.6rem;text-align:left;">
+              <strong style="color:#6d28d9;display:block;">Harmonics</strong>
+              <span style="font-size:0.65rem;color:#64748b;">H3+H5+H7 · THD 8.2% · 100ms</span>
+            </button>
+            <button class="btn-secondary" onclick="executeLabPreset('Flicker')" style="padding:0.6rem;text-align:left;">
+              <strong style="color:#d97706;display:block;">Voltage Flicker</strong>
+              <span style="font-size:0.65rem;color:#64748b;">fm=8.0Hz · m=0.05 · 500ms</span>
+            </button>
+            <button class="btn-secondary" onclick="executeLabPreset('Notch')" style="padding:0.6rem;text-align:left;">
+              <strong style="color:#c2410c;display:block;">Commutation Notch</strong>
+              <span style="font-size:0.65rem;color:#64748b;">Width=600us · Rf=150 ohms · 100ms</span>
+            </button>
+            <button class="btn-secondary" onclick="executeLabPreset('Transient')" style="padding:0.6rem;text-align:left;">
+              <strong style="color:#0284c7;display:block;">Transient</strong>
+              <span style="font-size:0.65rem;color:#64748b;">High freq oscillatory · 50ms</span>
+            </button>
+            <button class="btn-secondary" onclick="executeLabPreset('Interruption')" style="padding:0.6rem;text-align:left;">
+              <strong style="color:#dc2626;display:block;">Interruption</strong>
+              <span style="font-size:0.65rem;color:#64748b;">Breaker trip · 100ms</span>
+            </button>
+            <button class="btn-primary" onclick="executeLabReset()" style="padding:0.6rem;text-align:center;">
+              <strong style="display:block;">RESET NORMAL</strong>
+              <span style="font-size:0.65rem;">Restore steady state</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CUSTOM INJECTION CARD -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>2. PARAMETRIC CUSTOM INJECTION</span>
+            </div>
+            <span class="kpi-badge" style="background:#fef3c7;color:#92400e;">LIVE SIMULINK CONTROL</span>
+          </div>
+
+          <!-- Dynamic IEEE Badge -->
+          <div style="margin-bottom:0.65rem;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:0.4rem 0.6rem;border-radius:4px;border:1px solid #e2e8f0;">
+            <span id="lab-ieee-badge" style="font-size:0.7rem;font-weight:700;color:#0369a1;">IEEE Std 1159 (RMS > 1.10 pu)</span>
+            <span id="lab-duration-category" style="font-size:0.65rem;background:#dbeafe;color:#1e40af;padding:0.15rem 0.4rem;border-radius:3px;font-weight:700;">INSTANTANEOUS</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:0.65rem;">
+            <!-- Disturbance Class Selector -->
+            <div style="display:flex;gap:0.5rem;align-items:center;">
+              <label style="font-size:0.75rem;font-weight:700;width:115px;">Disturbance:</label>
+              <select id="lab-custom-class" class="filter-select" style="flex:1;font-weight:600;" onchange="onCustomClassChange()">
+                <option value="Swell" selected>Voltage Swell</option>
+                <option value="Sag">Voltage Sag</option>
+                <option value="Harmonics">Harmonics</option>
+                <option value="Flicker">Flicker</option>
+                <option value="Notch">Notch</option>
+                <option value="Transient">Transient</option>
+                <option value="Interruption">Interruption</option>
+              </select>
+            </div>
+
+            <!-- Phase Target -->
+            <div style="display:flex;gap:0.5rem;align-items:center;">
+              <label style="font-size:0.75rem;font-weight:700;width:115px;">Phase Target:</label>
+              <div style="display:flex;gap:0.75rem;align-items:center;">
+                <label style="font-size:0.75rem;cursor:pointer;"><input type="checkbox" id="lab-ph-A" checked onchange="updateCustomButtonText()"> Phase A</label>
+                <label style="font-size:0.75rem;cursor:pointer;"><input type="checkbox" id="lab-ph-B" checked onchange="updateCustomButtonText()"> Phase B</label>
+                <label style="font-size:0.75rem;cursor:pointer;"><input type="checkbox" id="lab-ph-C" checked onchange="updateCustomButtonText()"> Phase C</label>
+                <button type="button" class="btn-secondary" onclick="toggleAllPhases()" style="font-size:0.65rem;padding:0.15rem 0.4rem;margin-left:0.25rem;">Toggle All</button>
+              </div>
+            </div>
+
+            <!-- Duration Controls (Synchronized ms & cycles) -->
+            <div style="display:flex;gap:0.5rem;align-items:center;">
+              <label style="font-size:0.75rem;font-weight:700;width:115px;">Duration:</label>
+              <div style="flex:1;display:flex;gap:0.4rem;align-items:center;">
+                <input type="number" id="lab-custom-duration" class="filter-input" value="100" min="20" max="2000" step="10" style="width:85px;" oninput="onDurationInput('ms')">
+                <span style="font-size:0.7rem;font-weight:600;color:#64748b;">ms</span>
+                <span style="font-size:0.7rem;color:#cbd5e1;">|</span>
+                <input type="number" id="lab-custom-cycles" class="filter-input" value="6.0" min="1.0" max="120.0" step="0.5" style="width:75px;" oninput="onDurationInput('cycles')">
+                <span style="font-size:0.7rem;font-weight:600;color:#64748b;">cycles</span>
+              </div>
+            </div>
+
+            <!-- Dynamic Param Container: Replaced per disturbance -->
+            <div id="lab-dynamic-params-container" style="background:#f1f5f9;border-radius:4px;padding:0.6rem;border:1px solid #e2e8f0;">
+              <!-- Populated dynamically by updateCustomFormFields() -->
+              <div id="lab-param-row-main" style="display:flex;gap:0.5rem;align-items:center;">
+                <label id="lab-param-label" style="font-size:0.75rem;font-weight:700;width:110px;">Capacitor Qc:</label>
+                <div style="flex:1;display:flex;gap:0.4rem;align-items:center;">
+                  <input type="range" id="lab-param-slider" min="20" max="300" step="5" value="120" style="flex:1;" oninput="onParamSliderChange(this.value)">
+                  <input type="number" id="lab-custom-mag" class="filter-input" value="120" min="20" max="300" step="5" style="width:80px;" oninput="onParamInputChange(this.value)">
+                  <span id="lab-param-unit" style="font-size:0.7rem;font-weight:700;color:#0369a1;width:50px;">MVAr</span>
+                </div>
+              </div>
+
+              <!-- Secondary disturbance-specific controls (e.g. fault type, harmonics sliders) -->
+              <div id="lab-param-extra" style="margin-top:0.4rem;"></div>
+            </div>
+
+            <!-- Expected Physical Effect -->
+            <div style="font-size:0.7rem;color:#475569;background:#e0f2fe;padding:0.35rem 0.55rem;border-radius:4px;border-left:3px solid #0284c7;" id="lab-expected-effect">
+              Target: 1.25 – 1.35 pu LN peak (actuates PQD_Cap_Swell at Bus 5)
+            </div>
+
+            <!-- Feedback / Confirmation Banner -->
+            <div id="lab-inject-feedback" class="hidden" style="font-size:0.72rem;padding:0.4rem 0.6rem;border-radius:4px;font-weight:600;"></div>
+
+            <!-- Simulation Status Info -->
+            <div id="lab-sim-status-banner" style="font-size:0.68rem;color:#64748b;display:flex;justify-content:space-between;align-items:center;">
+              <span>Simulink Status: <strong id="lab-sim-state-text" style="color:#059669;">ONLINE (RUN_ACTIVE)</strong></span>
+              <a href="#live-simulink" onclick="switchPage('live-simulink')" style="color:#0284c7;text-decoration:none;font-weight:600;">View Scope &rarr;</a>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="margin-top:0.25rem;display:flex;gap:0.5rem;">
+              <button class="btn-primary" id="btn-lab-custom-inject" onclick="executeLabCustomInject()" style="flex:2;padding:0.6rem;font-weight:700;">
+                INJECT VOLTAGE SWELL (120 MVAR)
+              </button>
+              <button class="btn-secondary" onclick="resetLiveDisturbanceFromLab()" style="flex:1;padding:0.6rem;font-size:0.75rem;">
+                RESET NORMAL
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLLAPSIBLE ML DIAGNOSTIC MODE -->
+      <div class="chart-card">
+        <div class="chart-card-header" style="cursor:pointer;" onclick="toggleLabDiagnostics()">
+          <div class="chart-card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            <span>3. DEEP ML DIAGNOSTIC MODE & UNCERTAINTY EXPLANATION</span>
+          </div>
+          <span class="kpi-badge" id="lab-diag-badge" style="background:#dcfce7;color:#166534;">CLICK TO EXPAND / COLLAPSE</span>
+        </div>
+
+        <div id="lab-diag-content" class="hidden" style="margin-top:0.75rem;">
+          <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);margin-bottom:0.75rem;">
+            <div class="kpi-card">
+              <div class="kpi-lbl">Domain Status</div>
+              <div class="kpi-val" id="lab-diag-domain" style="font-size:0.85rem;color:#166534;">VALID_CLASSIFICATION</div>
+              <div class="kpi-sub">Mahalanobis Boundary: 12.009</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-lbl">Event Fraction</div>
+              <div class="kpi-val" id="lab-diag-event-frac" style="font-size:0.85rem;">100.0%</div>
+              <div class="kpi-sub">Window Epoch Alignment</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-lbl">ML Logit Argmax</div>
+              <div class="kpi-val" id="lab-diag-argmax" style="font-size:0.85rem;">NORMAL (100.0%)</div>
+              <div class="kpi-sub">Candidate MLP Index 3</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-lbl">Inference Latency</div>
+              <div class="kpi-val" id="lab-diag-latency" style="font-size:0.85rem;">4.25 ms</div>
+              <div class="kpi-sub">200x Faster than Window</div>
+            </div>
+          </div>
+
+          <!-- 32 Feature Table -->
+          <div style="max-height:280px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:4px;">
+            <table class="data-table" style="font-size:0.7rem;">
               <thead>
                 <tr>
-                  <th>Seq #</th>
-                  <th>Wall Clock</th>
-                  <th>Sim Window</th>
-                  <th>Raw ML Prediction</th>
-                  <th>Confidence</th>
-                  <th>Physical State</th>
-                  <th>Signal Status</th>
-                  <th>Model Domain</th>
-                  <th>Latency</th>
+                  <th>#</th>
+                  <th>Feature Name</th>
+                  <th>Extracted Physical Value</th>
+                  <th>Standardized Z-Score</th>
+                  <th>Category</th>
                 </tr>
               </thead>
-              <tbody id="ml-timeline-tbody">
-                <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:0.75rem;">Waiting for first live simulation evaluation...</td></tr>
+              <tbody id="lab-diag-features-tbody">
+                <tr><td colspan="5" style="text-align:center;padding:1rem;color:#94a3b8;">Loading 32-feature diagnostic telemetry...</td></tr>
               </tbody>
             </table>
           </div>
         </div>
-      </section>
-
-      <!-- Live Simulink Main Grid Layout -->
-      <div class="live-sim-grid">
-
-        <!-- ── LEFT: CONTROL PANEL ─────────────────────────────────────── -->
-        <div class="live-sim-controls">
-
-          <!-- Execution Mode selector -->
-          <div class="ctrl-group">
-            <div class="ctrl-label">EXECUTION MODE</div>
-            <div style="display:flex;gap:0.4rem;">
-              <button class="mode-btn active" id="btn-mode-manual" onclick="setLiveMode('manual')">Live Manual Injection</button>
-              <button class="mode-btn" id="btn-mode-scheduled" onclick="setLiveMode('scheduled')">Scheduled Scenario</button>
-            </div>
-          </div>
-
-          <!-- Disturbance class selector -->
-          <div class="ctrl-group">
-            <div class="ctrl-label">DISTURBANCE CLASS</div>
-            <div class="dist-class-btns" id="dist-class-btns">
-              <button class="dist-btn active" data-class="Normal"       onclick="selectDistClass(this)">NORMAL</button>
-              <button class="dist-btn"        data-class="Sag"          onclick="selectDistClass(this)">SAG</button>
-              <button class="dist-btn"        data-class="Swell"        onclick="selectDistClass(this)">SWELL</button>
-              <button class="dist-btn"        data-class="Interruption" onclick="selectDistClass(this)">INTERRUPT.</button>
-              <button class="dist-btn"        data-class="Harmonics"    onclick="selectDistClass(this)">HARMONICS</button>
-              <button class="dist-btn"        data-class="Flicker"      onclick="selectDistClass(this)">FLICKER</button>
-              <button class="dist-btn"        data-class="Notch"        onclick="selectDistClass(this)">NOTCH</button>
-              <button class="dist-btn"        data-class="Transient"    onclick="selectDistClass(this)">TRANSIENT</button>
-            </div>
-          </div>
-
-          <!-- Phase selector -->
-          <div class="ctrl-group">
-            <div class="ctrl-label">PHASE SELECTION</div>
-            <div style="display:flex;gap:0.45rem;flex-wrap:wrap;">
-              <label class="phase-check-label l1"><input type="checkbox" id="ph-A" checked> Phase A</label>
-              <label class="phase-check-label l2"><input type="checkbox" id="ph-B" checked> Phase B</label>
-              <label class="phase-check-label l3"><input type="checkbox" id="ph-C" checked> Phase C</label>
-              <button class="btn-secondary" style="padding:0.2rem 0.55rem;font-size:0.67rem;" onclick="selectAllPhases()">ALL</button>
-            </div>
-          </div>
-
-          <!-- Dynamic parameter panels -->
-          <div class="ctrl-group" id="params-panel">
-
-            <!-- Sag params -->
-            <div class="dist-params" id="params-Sag" style="display:none;">
-              <div class="ctrl-label">SAG PARAMETERS</div>
-              <div class="param-row">
-                <label>Fault Resistance <span class="param-unit">(Ω, 0.1–100)</span></label>
-                <input type="range" id="p-sag-fault-r" min="0.1" max="100" step="0.1" value="5" oninput="updParam(this,'p-sag-fault-r-val')">
-                <code id="p-sag-fault-r-val">5.0 Ω</code>
-              </div>
-              <div class="param-row">
-                <label>Ground Resistance <span class="param-unit">(Ω, 0.1–10)</span></label>
-                <input type="range" id="p-sag-gnd-r" min="0.1" max="10" step="0.1" value="0.1" oninput="updParam(this,'p-sag-gnd-r-val')">
-                <code id="p-sag-gnd-r-val">0.1 Ω</code>
-              </div>
-              <div class="param-row">
-                <label>Duration <span class="param-unit">(ms, 20–200)</span></label>
-                <input type="range" id="p-sag-dur" min="20" max="200" step="5" value="100" oninput="updParam(this,'p-sag-dur-val')">
-                <code id="p-sag-dur-val">100 ms</code>
-              </div>
-            </div>
-
-            <!-- Swell params -->
-            <div class="dist-params" id="params-Swell" style="display:none;">
-              <div class="ctrl-label">SWELL PARAMETERS</div>
-              <div class="param-row">
-                <label>Capacitive Power <span class="param-unit">(MVAr, 10–500)</span></label>
-                <input type="range" id="p-swl-qc" min="10" max="500" step="10" value="150" oninput="updParam(this,'p-swl-qc-val')">
-                <code id="p-swl-qc-val">150 MVAr</code>
-              </div>
-              <div class="param-row">
-                <label>Damping Power <span class="param-unit">(kW, 1–50)</span></label>
-                <input type="range" id="p-swl-damp" min="1" max="50" step="1" value="5" oninput="updParam(this,'p-swl-damp-val')">
-                <code id="p-swl-damp-val">5 kW</code>
-              </div>
-              <div class="param-row">
-                <label>Duration <span class="param-unit">(ms, 20–200)</span></label>
-                <input type="range" id="p-swl-dur" min="20" max="200" step="5" value="100" oninput="updParam(this,'p-swl-dur-val')">
-                <code id="p-swl-dur-val">100 ms</code>
-              </div>
-            </div>
-
-            <!-- Interruption params -->
-            <div class="dist-params" id="params-Interruption" style="display:none;">
-              <div class="ctrl-label">INTERRUPTION PARAMETERS</div>
-              <div class="param-row">
-                <label>Duration <span class="param-unit">(ms, 50–300)</span></label>
-                <input type="range" id="p-int-dur" min="50" max="300" step="10" value="150" oninput="updParam(this,'p-int-dur-val')">
-                <code id="p-int-dur-val">150 ms</code>
-              </div>
-            </div>
-
-            <!-- Harmonics params -->
-            <div class="dist-params" id="params-Harmonics" style="display:none;">
-              <div class="ctrl-label">HARMONIC INJECTION</div>
-              <div class="param-row">
-                <label>3rd Harmonic (h3) <span class="param-unit">(pu, 0–0.5)</span></label>
-                <input type="range" id="p-h3" min="0" max="0.5" step="0.01" value="0.15" oninput="updParamF(this,'p-h3-val',2)">
-                <code id="p-h3-val">0.15 pu</code>
-              </div>
-              <div class="param-row">
-                <label>5th Harmonic (h5) <span class="param-unit">(pu, 0–0.5)</span></label>
-                <input type="range" id="p-h5" min="0" max="0.5" step="0.01" value="0.10" oninput="updParamF(this,'p-h5-val',2)">
-                <code id="p-h5-val">0.10 pu</code>
-              </div>
-              <div class="param-row">
-                <label>7th Harmonic (h7) <span class="param-unit">(pu, 0–0.5)</span></label>
-                <input type="range" id="p-h7" min="0" max="0.5" step="0.01" value="0.05" oninput="updParamF(this,'p-h7-val',2)">
-                <code id="p-h7-val">0.05 pu</code>
-              </div>
-            </div>
-
-            <!-- Flicker params -->
-            <div class="dist-params" id="params-Flicker" style="display:none;">
-              <div class="ctrl-label">FLICKER PARAMETERS</div>
-              <div class="param-row">
-                <label>Modulation Freq <span class="param-unit">(Hz, 0.5–35)</span></label>
-                <input type="range" id="p-flk-fm" min="0.5" max="35" step="0.5" value="8.8" oninput="updParamF(this,'p-flk-fm-val',1)">
-                <code id="p-flk-fm-val">8.8 Hz</code>
-              </div>
-              <div class="param-row">
-                <label>Modulation Depth <span class="param-unit">(0.01–0.5)</span></label>
-                <input type="range" id="p-flk-depth" min="0.01" max="0.5" step="0.01" value="0.10" oninput="updParamF(this,'p-flk-depth-val',2)">
-                <code id="p-flk-depth-val">0.10</code>
-              </div>
-            </div>
-
-            <!-- Notch params -->
-            <div class="dist-params" id="params-Notch" style="display:none;">
-              <div class="ctrl-label">NOTCH PARAMETERS</div>
-              <div class="param-row">
-                <label>Commutation R <span class="param-unit">(Ω, 0.001–10)</span></label>
-                <input type="range" id="p-ntch-r" min="0.001" max="10" step="0.001" value="0.5" oninput="updParamF(this,'p-ntch-r-val',3)">
-                <code id="p-ntch-r-val">0.500 Ω</code>
-              </div>
-              <div class="param-row">
-                <label>Notch Width <span class="param-unit">(µs, 50–2000)</span></label>
-                <input type="range" id="p-ntch-w" min="50" max="2000" step="50" value="500" oninput="updParam(this,'p-ntch-w-val')">
-                <code id="p-ntch-w-val">500 µs</code>
-              </div>
-            </div>
-
-            <!-- Transient params -->
-            <div class="dist-params" id="params-Transient" style="display:none;">
-              <div class="ctrl-label">TRANSIENT PARAMETERS</div>
-              <div class="param-row">
-                <label>Inductance <span class="param-unit">(mH, 0.1–50)</span></label>
-                <input type="range" id="p-trn-L" min="0.1" max="50" step="0.1" value="5" oninput="updParamF(this,'p-trn-L-val',1)">
-                <code id="p-trn-L-val">5.0 mH</code>
-              </div>
-              <div class="param-row">
-                <label>Capacitance <span class="param-unit">(µF, 1–500)</span></label>
-                <input type="range" id="p-trn-C" min="1" max="500" step="1" value="50" oninput="updParam(this,'p-trn-C-val')">
-                <code id="p-trn-C-val">50 µF</code>
-              </div>
-              <div class="param-row">
-                <label>Damping R <span class="param-unit">(Ω, 0.1–100)</span></label>
-                <input type="range" id="p-trn-R" min="0.1" max="100" step="0.1" value="2" oninput="updParamF(this,'p-trn-R-val',1)">
-                <code id="p-trn-R-val">2.0 Ω</code>
-              </div>
-            </div>
-
-            <!-- Normal placeholder -->
-            <div class="dist-params" id="params-Normal">
-              <div style="color:#64748b;font-size:0.72rem;padding:0.5rem 0;">
-                All disturbance subsystems will be set to dormant (no fault injection).
-              </div>
-            </div>
-
-          </div><!-- /params-panel -->
-
-          <!-- Timing -->
-          <div class="ctrl-group">
-            <div class="ctrl-label">SIMULATION TIMING</div>
-            <div class="param-row">
-              <label>Stop Time <span class="param-unit">(s)</span></label>
-              <input type="range" id="p-stoptime" min="0.2" max="1.0" step="0.02" value="0.38" oninput="updParamF(this,'p-stoptime-val',2)">
-              <code id="p-stoptime-val">0.38 s</code>
-            </div>
-            <div class="param-row">
-              <label>Fault Onset <span class="param-unit">(s)</span></label>
-              <input type="range" id="p-onset" min="0.02" max="0.30" step="0.01" value="0.12" oninput="updParamF(this,'p-onset-val',2)">
-              <code id="p-onset-val">0.12 s</code>
-            </div>
-          </div>
-
-          <!-- Action buttons -->
-          <div class="ctrl-group" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
-            <button class="btn-primary live-sim-start-btn" id="btn-live-start" onclick="startLiveSimulation()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              START SIMULATION
-            </button>
-            <button class="btn-primary" id="btn-live-inject" onclick="injectLiveDisturbance()" disabled style="background:#dc2626;border-color:#b91c1c;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              INJECT DISTURBANCE
-            </button>
-            <button class="btn-secondary" id="btn-live-reset" onclick="resetLiveDisturbance()" disabled>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.51"/></svg>
-              RESET TO NORMAL
-            </button>
-            <button class="btn-secondary" id="btn-live-stop" onclick="stopLiveSimulation()" disabled>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18"/></svg>
-              STOP
-            </button>
-          </div>
-
-          <!-- Progress bar -->
-          <div class="ctrl-group" style="margin-top:0.75rem;">
-            <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:#64748b;margin-bottom:0.3rem;">
-              <span id="live-sim-phase-label">—</span>
-              <span><code id="live-progress-pct">0%</code></span>
-            </div>
-            <div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;border:1px solid var(--border-card);">
-              <div id="live-progress-bar" style="width:0%;height:100%;background:var(--accent-primary);transition:width 0.4s ease;"></div>
-            </div>
-          </div>
-
-          <!-- Live metrics strip -->
-          <div class="ctrl-group live-metrics-strip" id="live-metrics-strip" style="display:none;">
-            <div class="metric-pill">RMS: <strong id="lm-rms">—</strong></div>
-            <div class="metric-pill">Peak: <strong id="lm-peak">—</strong></div>
-            <div class="metric-pill">THD: <strong id="lm-thd">—</strong></div>
-            <div class="metric-pill">Freq: <strong id="lm-freq">—</strong></div>
-            <div class="metric-pill">SNR: <strong id="lm-snr">—</strong></div>
-          </div>
-
-          <!-- Independent Disturbance Assessment & ML Prediction Card -->
-          <div class="ctrl-group" id="live-ml-prediction" style="display:none;background:#f8fafc;border:1.5px solid var(--border-card);border-radius:8px;padding:0.75rem;">
-            <div style="font-size:0.68rem;font-weight:800;color:#475569;margin-bottom:0.5rem;letter-spacing:0.04em;text-transform:uppercase;">Demonstration Assessment & ML Status</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;font-size:0.75rem;">
-              <div>
-                <span style="color:#64748b;display:block;font-size:0.65rem;">Requested Disturbance</span>
-                <strong id="live-requested-dist" style="color:#1e293b;font-size:0.78rem;">Normal</strong>
-              </div>
-              <div>
-                <span style="color:#64748b;display:block;font-size:0.65rem;">Physical Assessment (IEEE 1159)</span>
-                <strong id="live-phys-assess" style="color:var(--accent-primary);font-size:0.78rem;">Normal</strong>
-              </div>
-              <div>
-                <span style="color:#64748b;display:block;font-size:0.65rem;">Independent ML Prediction</span>
-                <div style="display:flex;align-items:center;gap:0.35rem;margin-top:0.15rem;">
-                  <span class="val-value-badge badge-predicted" id="live-pred-class" style="font-size:0.75rem;padding:0.15rem 0.45rem;">—</span>
-                  <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-success);" id="live-pred-conf">—</span>
-                </div>
-              </div>
-              <div>
-                <span style="color:#64748b;display:block;font-size:0.65rem;">Domain Adaptation</span>
-                <span id="live-domain-status" style="font-size:0.7rem;color:#166534;font-weight:700;">60 Hz → 50 Hz Space</span>
-              </div>
-            </div>
-          </div>
-
-        </div><!-- /live-sim-controls -->
-
-        <!-- ── RIGHT: LIVE WAVEFORM CHARTS ────────────────────────────── -->
-        <div class="live-sim-charts">
-
-          <!-- Status overlay -->
-          <div id="live-sim-overlay" class="live-sim-overlay">
-            <div class="live-sim-overlay-content">
-              <svg class="doodle-icon primary" width="36" height="36" viewBox="0 0 24 24">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-              <div style="font-weight:700;font-size:0.9rem;margin-top:0.5rem;" id="live-overlay-title">READY TO SIMULATE</div>
-              <div style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;" id="live-overlay-sub">Configure disturbance and click START</div>
-              <div class="live-spinner" id="live-spinner" style="display:none;"></div>
-            </div>
-          </div>
-
-          <!-- Voltage chart -->
-          <div class="live-chart-wrap">
-            <div class="live-chart-header">
-              <span>Bus 5 Voltage (per-unit)</span>
-              <span style="font-family:var(--font-mono);font-size:0.65rem;color:#94a3b8;" id="live-v-samples">— samples</span>
-            </div>
-            <canvas id="live-voltage-canvas" class="live-canvas"></canvas>
-            <div class="chart-legend">
-              <span class="legend-l1">● L1 (Phase A)</span>
-              <span class="legend-l2">● L2 (Phase B)</span>
-              <span class="legend-l3">● L3 (Phase C)</span>
-              <span class="legend-onset" id="live-onset-label" style="display:none;">┊ onset</span>
-            </div>
-          </div>
-
-          <!-- Current chart -->
-          <div class="live-chart-wrap">
-            <div class="live-chart-header">
-              <span>Bus 5 Current (per-unit)</span>
-              <span style="font-family:var(--font-mono);font-size:0.65rem;color:#94a3b8;" id="live-i-samples">— samples</span>
-            </div>
-            <canvas id="live-current-canvas" class="live-canvas"></canvas>
-            <div class="chart-legend">
-              <span class="legend-l1">● L1</span>
-              <span class="legend-l2">● L2</span>
-              <span class="legend-l3">● L3</span>
-            </div>
-          </div>
-
-          <!-- Event log -->
-          <div class="live-log-box" id="live-log-box">
-            <div class="live-log-header">SIMULATION EVENT LOG</div>
-            <div class="live-log-scroll" id="live-log-scroll">
-              <div class="live-log-row info">[—] Awaiting simulation start...</div>
-            </div>
-          </div>
-
-        </div><!-- /live-sim-charts -->
-
-      </div><!-- /live-sim-grid -->
-
-      <!-- Mode disclaimer -->
-      <div class="live-mode-disclaimer">
-        <svg width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Progressive post-simulation streaming: MATLAB runs the full 0.38&nbsp;s Simulink model, then streams Bus&nbsp;5 results in 1&nbsp;000-sample chunks.
-        MATLAB cold-start takes ~50&nbsp;s. Data is tagged with a unique <code>run_id</code> and is not mixed with the recorded dataset.
       </div>
 
     </section>
-    <!-- /LIVE SIMULINK SIMULATION SECTION -->
-    <!-- BOTTOM SECTION 2: CHRONOLOGICAL EXPERIMENT TERMINAL LOG -->
-    <section class="terminal-card">
-      <div class="terminal-header">
-        <span class="terminal-title">
-          <svg class="doodle-icon" width="18" height="18" viewBox="0 0 24 24">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="16" y1="13" x2="8" y2="13" />
-            <line x1="16" y1="17" x2="8" y2="17" />
+
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE 3: DISTURBANCE ANALYSIS (4 DEDICATED TABS)
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-disturbance-analysis" class="app-page">
+      <div class="page-header">
+        <div class="page-title-wrap">
+          <svg class="doodle-icon primary" width="22" height="22" viewBox="0 0 24 24">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
           </svg>
-          5. EXPERIMENT & VALIDATION LOG STREAM (CHRONOLOGICAL)
-        </span>
-        <button class="btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.7rem;" onclick="exportLogCSV()">EXPORT LOG (CSV)</button>
+          <div>
+            <h1 class="page-title">DISTURBANCE CHARACTERIZATION & SPECTRAL LAB</h1>
+            <p class="page-desc">Dedicated engineering workspaces for Harmonics, Flicker modulation, Commutation Notch, and Transient spikes</p>
+          </div>
+        </div>
       </div>
 
-      <div class="terminal-log-stream" id="terminal-log-container">
-        <!-- Log rows populated dynamically -->
+      <!-- Subtab Navigation Bar -->
+      <div class="subtab-bar">
+        <button class="subtab-btn active" data-subtab="harmonics" onclick="switchDisturbanceTab('harmonics')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          <span>1. HARMONICS ANALYSIS</span>
+        </button>
+        <button class="subtab-btn" data-subtab="flicker" onclick="switchDisturbanceTab('flicker')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>2. FLICKER MODULATION</span>
+        </button>
+        <button class="subtab-btn" data-subtab="notch" onclick="switchDisturbanceTab('notch')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>3. NOTCH CHARACTERIZATION</span>
+        </button>
+        <button class="subtab-btn" data-subtab="transient" onclick="switchDisturbanceTab('transient')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>4. TRANSIENT ANALYSIS</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: HARMONICS -->
+      <div id="subtab-harmonics" class="subtab-pane active">
+        <div class="layout-2col">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">VOLTAGE & CURRENT HARMONIC SPECTRUM</div>
+              <span class="kpi-badge" style="background:#eff6ff;color:#1e40af;">IEEE 519 COHERENT FFT</span>
+            </div>
+            <canvas id="harmonics-spectrum-canvas" class="canvas-responsive"></canvas>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#64748b;">
+              <span>Fundamental: <strong id="harm-fund-freq">60.0 Hz</strong></span>
+              <span>Total Voltage THD: <strong id="harm-v-thd">0.12 %</strong></span>
+              <span>Total Current THD: <strong id="harm-i-thd">0.15 %</strong></span>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">HARMONIC MAGNITUDES (H1 THROUGH H15)</div>
+              <span style="font-size:0.65rem;color:var(--text-muted);">% OF FUNDAMENTAL</span>
+            </div>
+            <canvas id="harmonics-bar-canvas" class="canvas-responsive"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">PER-PHASE HARMONIC DISTORTION & IEEE 519 PCC COMPLIANCE TABLE</div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Harmonic Order</th>
+                  <th>Frequency (Hz)</th>
+                  <th>Phase A (% H1)</th>
+                  <th>Phase B (% H1)</th>
+                  <th>Phase C (% H1)</th>
+                  <th>IEEE 519 PCC Limit</th>
+                  <th>Compliance Status</th>
+                </tr>
+              </thead>
+              <tbody id="harmonics-tbody">
+                <tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:0.75rem;">Computing discrete harmonics...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: FLICKER -->
+      <div id="subtab-flicker" class="subtab-pane">
+        <div class="layout-2col">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">3-PHASE VOLTAGE WITH HALF-CYCLE SLIDING RMS ENVELOPE</div>
+              <span class="kpi-badge" style="background:#fef3c7;color:#92400e;">0.5 – 35 Hz MODULATION</span>
+            </div>
+            <canvas id="flicker-waveform-canvas" class="canvas-responsive"></canvas>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#64748b;">
+              <span>RMS Mean: <strong id="flk-rms-mean">1.02 pu</strong></span>
+              <span>RMS Min: <strong id="flk-rms-min">0.96 pu</strong></span>
+              <span>RMS Max: <strong id="flk-rms-max">1.08 pu</strong></span>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">LOW-FREQUENCY MODULATION SPECTRUM</div>
+              <span style="font-size:0.65rem;color:var(--text-muted);">ENVELOPE FFT (0 – 40 Hz)</span>
+            </div>
+            <canvas id="flicker-mod-canvas" class="canvas-responsive"></canvas>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#64748b;">
+              <span>Detected Mod Freq: <strong id="flk-mod-freq">8.8 Hz</strong></span>
+              <span>Modulation Depth (&Delta;V/V): <strong id="flk-mod-depth">7.84 %</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div style="font-size:0.75rem;color:#475569;line-height:1.6;">
+            <strong style="color:#0f172a;">IEEE 1453 Standards Note:</strong> True statistical short-term flicker severity (<em>P</em><sub>st</sub>) requires continuous 10-minute cumulative probability evaluation through a standardized flickermeter filter chain. The display above extracts the instantaneous sliding half-cycle RMS voltage modulation envelope and low-frequency spectral components within the multi-second telemetry buffer.
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: NOTCH -->
+      <div id="subtab-notch" class="subtab-pane">
+        <div class="layout-2col">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">HIGH-ZOOM VOLTAGE WITH COMMUTATION NOTCH MARKERS</div>
+              <span class="kpi-badge" style="background:#fee2e2;color:#991b1b;">SHARP COMMUTATION EDGES</span>
+            </div>
+            <canvas id="notch-waveform-canvas" class="canvas-responsive"></canvas>
+            <div style="font-size:0.68rem;color:#64748b;margin-top:0.25rem;">
+              Preserves sharp transitions without smoothing or filtering notch characteristics.
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">DETECTED NOTCH PARAMETERS (IEEE 1159)</div>
+            </div>
+            <div class="kpi-grid" style="grid-template-columns:1fr 1fr;margin-bottom:0.75rem;">
+              <div class="kpi-card">
+                <div class="kpi-lbl">Notch Depth</div>
+                <div class="kpi-val" id="notch-depth">0.34 pu</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-lbl">Notch Width</div>
+                <div class="kpi-val" id="notch-width">400 &micro;s</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-lbl">Notch Area</div>
+                <div class="kpi-val" id="notch-area">136 V&middot;&micro;s</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-lbl">Per Cycle Repetition</div>
+                <div class="kpi-val" id="notch-per-cycle">2 / cycle</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">DETECTED COMMUTATION NOTCH EVENTS LOG</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Event #</th>
+                <th>Time (ms)</th>
+                <th>Width (&micro;s)</th>
+                <th>Width (samples)</th>
+                <th>Depth (pu)</th>
+                <th>Area (V&middot;&micro;s)</th>
+              </tr>
+            </thead>
+            <tbody id="notch-events-tbody">
+              <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:0.75rem;">No commutation notches detected in active window.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 4: TRANSIENT -->
+      <div id="subtab-transient" class="subtab-pane">
+        <div class="layout-2col">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">TRANSIENT WAVEFORM (PRE / EVENT / POST CONTEXT)</div>
+              <span class="kpi-badge" style="background:#fee2e2;color:#991b1b;">2.5 kHz NYQUIST LIMIT</span>
+            </div>
+            <canvas id="transient-waveform-canvas" class="canvas-responsive"></canvas>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#64748b;">
+              <span>Peak Voltage: <strong id="trn-peak">1.58 pu</strong></span>
+              <span>Overshoot: <strong id="trn-overshoot">54.2 %</strong></span>
+              <span>Duration: <strong id="trn-dur">4.2 ms</strong></span>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">TRANSIENT SPECTRAL FREQUENCY CONTENT</div>
+              <span style="font-size:0.65rem;color:var(--text-muted);">EVENT WINDOW FFT</span>
+            </div>
+            <canvas id="transient-spec-canvas" class="canvas-responsive"></canvas>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#64748b;">
+              <span>Rise Time: <strong id="trn-rise">200 &micro;s</strong></span>
+              <span>Decay Time: <strong id="trn-decay">3.8 ms</strong></span>
+              <span>Oscillation Freq: <strong id="trn-osc-freq">420 Hz</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div style="font-size:0.75rem;color:#475569;line-height:1.6;">
+            <strong style="color:#0f172a;">Acquisition Bandwidth Limitation:</strong> At 5 kHz sampling frequency, the maximum un-aliased Nyquist frequency is 2,500 Hz. Fast sub-microsecond impulsive transients are band-limited; oscillatory transients up to 2.5 kHz are captured with true spectral accuracy.
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE 4: DATASETS
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-datasets" class="app-page">
+      <div class="page-header">
+        <div class="page-title-wrap">
+          <svg class="doodle-icon primary" width="22" height="22" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+          <div>
+            <h1 class="page-title">DATASET PROVENANCE & WAVEFORM EXPLORER</h1>
+            <p class="page-desc">Audited IEEE 9-bus benchmark dataset: 10,000 multi-cycle frames across 8 power quality classes</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dataset Overview KPI Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-lbl">Total Samples</div>
+          <div class="kpi-val" id="ds-total-samples">10,000</div>
+          <div class="kpi-sub">8 power quality disturbance classes</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Train / Val / Test</div>
+          <div class="kpi-val" style="font-size:1.15rem;">80% / 10% / 10%</div>
+          <div class="kpi-sub">8,000 / 1,000 / 1,000 clean split</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Sampling Frequency</div>
+          <div class="kpi-val">5,000 Hz</div>
+          <div class="kpi-sub">System Frequency: 60 Hz</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Data Quality</div>
+          <div class="kpi-val" style="color:#166534;font-size:1.15rem;">0 NULL / CLEAN</div>
+          <div class="kpi-sub">Zero train/test leakage</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Feature Dimension</div>
+          <div class="kpi-val">32 Features</div>
+          <div class="kpi-sub">Canonical IEEE 1159 DSP vector</div>
+        </div>
+      </div>
+
+      <!-- Class Distribution & Waveform Explorer -->
+      <div class="layout-2col">
+        <!-- Class Distribution Table -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">8-CLASS DISTRIBUTION (AUDITED IEEE 9-BUS REPOSITORY)</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Disturbance Class</th>
+                <th>Sample Count</th>
+                <th>Percentage</th>
+                <th>Train (80%)</th>
+                <th>Test (10%)</th>
+              </tr>
+            </thead>
+            <tbody id="dataset-dist-tbody">
+              <tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:0.75rem;">Loading class distribution...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Interactive Waveform Explorer -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">INTERACTIVE WAVEFORM EXPLORER</div>
+            <span style="font-size:0.65rem;color:var(--text-muted);">1,000 SAMPLES (0.20 s @ 5 kHz)</span>
+          </div>
+
+          <!-- Class selector buttons -->
+          <div style="display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:0.65rem;">
+            <button class="subtab-btn active" onclick="selectExplorerClass('Normal')">Normal</button>
+            <button class="subtab-btn" onclick="selectExplorerClass('Sag')">Sag</button>
+            <button class="subtab-btn" onclick="selectExplorerClass('Swell')">Swell</button>
+            <button class="subtab-btn" onclick="selectExplorerClass('Harmonics')">Harmonics</button>
+            <button class="subtab-btn" onclick="selectExplorerClass('Interruption')">Interruption</button>
+            <button class="subtab-btn" onclick="selectExplorerClass('Flicker')">Flicker</button>
+            <button class="subtab-btn" onclick="selectExplorerClass('Notch')">Notch</button>
+            <button class="subtab-btn" onclick="selectExplorerClass('Transient')">Transient</button>
+          </div>
+
+          <!-- Waveform Canvas -->
+          <canvas id="explorer-waveform-canvas" class="canvas-responsive" style="height:180px;"></canvas>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.5rem;font-size:0.72rem;background:#f8fafc;padding:0.4rem 0.65rem;border-radius:4px;border:1px solid #e2e8f0;">
+            <span>Inspected Class: <strong id="explorer-class-lbl">Sag</strong> (<span id="explorer-frame-id">sag_01_01</span>)</span>
+            <span>ML Prediction: <strong style="color:var(--accent-primary);" id="explorer-ml-pred">Sag (100.0%)</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canonical 32-Feature Extraction Schema -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div class="chart-card-title">CANONICAL 32-FEATURE EXTRACTION SCHEMA</div>
+          <span class="kpi-badge" style="background:#eff6ff;color:#1e40af;">PHASE 4C COMPLIANT</span>
+        </div>
+        <div style="overflow-x:auto;max-height:280px;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Feature Name</th>
+                <th>Unit</th>
+                <th>Signal Processing Description</th>
+              </tr>
+            </thead>
+            <tbody id="schema-table-tbody">
+              <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:0.75rem;">Loading feature dictionary...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE 5: MODEL PERFORMANCE
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-model-performance" class="app-page">
+      <div class="page-header">
+        <div class="page-title-wrap">
+          <svg class="doodle-icon primary" width="22" height="22" viewBox="0 0 24 24">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <div>
+            <h1 class="page-title">MODEL PERFORMANCE & BENCHMARK VALIDATION</h1>
+            <p class="page-desc">Independent Phase 4D test evaluation results for the native 60 Hz Multi-Layer Perceptron</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Metrics KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-lbl">Overall Accuracy</div>
+          <div class="kpi-val" style="color:#166534;" id="mp-acc">99.92%</div>
+          <div class="kpi-sub">1,294 / 1,295 correct test frames</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Macro F1-Score</div>
+          <div class="kpi-val" style="color:#166534;" id="mp-f1">0.9993</div>
+          <div class="kpi-sub">Target &gt; 0.99 achieved</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Macro Precision</div>
+          <div class="kpi-val" id="mp-prec">0.9992</div>
+          <div class="kpi-sub">Across all 8 disturbance classes</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Macro Recall</div>
+          <div class="kpi-val" id="mp-rec">0.9993</div>
+          <div class="kpi-sub">Balanced evaluation metric</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Inference Latency</div>
+          <div class="kpi-val" style="color:var(--accent-primary);" id="mp-lat">5.15 ms</div>
+          <div class="kpi-sub">Lightweight CPU execution</div>
+        </div>
+      </div>
+
+      <!-- Confusion Matrix & Class-wise Metrics -->
+      <div class="layout-2col">
+        <!-- Confusion Matrix -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">INDEPENDENT TEST CONFUSION MATRIX (1,295 FRAMES)</div>
+            <span class="kpi-badge" style="background:#dcfce7;color:#166534;">1 ERROR / 1,295</span>
+          </div>
+          <div class="cm-wrap">
+            <table class="cm-table">
+              <thead>
+                <tr>
+                  <th>True \ Pred</th>
+                  <th>Flk</th>
+                  <th>Harm</th>
+                  <th>Int</th>
+                  <th>Norm</th>
+                  <th>Notch</th>
+                  <th>Sag</th>
+                  <th>Swl</th>
+                  <th>Trn</th>
+                </tr>
+              </thead>
+              <tbody id="cm-table-tbody">
+                <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:0.75rem;">Loading confusion matrix...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:0.68rem;color:#64748b;margin-top:0.4rem;">
+            Only 1 misclassification out of 1,295 unseen test frames (1 Normal frame predicted as Sag due to edge threshold boundary).
+          </div>
+        </div>
+
+        <!-- Class-wise Metrics Table -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">CLASS-WISE TEST PERFORMANCE METRICS</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1-Score</th>
+                <th>Support</th>
+              </tr>
+            </thead>
+            <tbody id="class-metrics-tbody">
+              <tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:0.75rem;">Loading class-wise metrics...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Architecture Specs & Benchmark Comparison -->
+      <div class="layout-2col">
+        <!-- Model Architecture & Provenance -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">MODEL SPECIFICATION & ARTIFACT PROVENANCE</div>
+          </div>
+          <div style="font-size:0.72rem;line-height:1.7;color:#334155;">
+            <div>• <strong>Architecture:</strong> Input(32) &rarr; Dense(64, ReLU) &rarr; Dense(32, ReLU) &rarr; Dense(16, ReLU) &rarr; Softmax(8)</div>
+            <div>• <strong>Parameter Count:</strong> 4,856 parameters</div>
+            <div>• <strong>Memory Footprint (FP32):</strong> 18.97 KB</div>
+            <div>• <strong>Training Environment:</strong> Python 3.14 / Scikit-Learn L-BFGS solver (&alpha; = 1e-4)</div>
+            <div>• <strong>System Operating Frequency:</strong> 60 Hz Native</div>
+            <div>• <strong>Candidate Pipeline SHA-256:</strong> <code style="font-size:0.62rem;background:#f1f5f9;padding:1px 3px;">11CDD7F82B5349C1...</code></div>
+            <div>• <strong>Reference Model SHA-256:</strong> <code style="font-size:0.62rem;background:#f1f5f9;padding:1px 3px;">5D833D8FDC5086B7...</code></div>
+          </div>
+        </div>
+
+        <!-- Benchmark Comparison Table -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">BENCHMARK MODEL COMPARISON (PHASE 4B/4D)</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Model Architecture</th>
+                <th>Accuracy</th>
+                <th>Macro F1</th>
+                <th>Latency</th>
+                <th>Model Size</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="benchmarks-tbody">
+              <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:0.75rem;">Loading comparative benchmarks...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE 6: EVENT HISTORY
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-event-history" class="app-page">
+      <div class="page-header">
+        <div class="page-title-wrap">
+          <svg class="doodle-icon primary" width="22" height="22" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <div>
+            <h1 class="page-title">OPERATIONAL EVENT LOG & CLASSIFICATION AUDIT</h1>
+            <p class="page-desc">Comprehensive history of physical detections, ML predictions, injection commands, and recovery events</p>
+          </div>
+        </div>
+        <div>
+          <button class="btn-secondary" onclick="exportEventsCSV()" style="padding:0.45rem 1rem;font-size:0.75rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            EXPORT LOG (CSV)
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div style="display:flex;gap:0.35rem;align-items:center;">
+          <span style="font-size:0.7rem;font-weight:700;color:#64748b;">Event Type:</span>
+          <select id="filter-event-type" class="filter-select" onchange="filterEvents()">
+            <option value="all" selected>All Event Types</option>
+            <option value="physical_detection">Physical Detections</option>
+            <option value="ml_inference">ML Inferences</option>
+            <option value="injection_command">Injection Commands</option>
+            <option value="recovery">Recovery Events</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:0.35rem;align-items:center;">
+          <span style="font-size:0.7rem;font-weight:700;color:#64748b;">Disturbance Class:</span>
+          <select id="filter-event-class" class="filter-select" onchange="filterEvents()">
+            <option value="all" selected>All Classes</option>
+            <option value="Normal">Normal</option>
+            <option value="Sag">Sag</option>
+            <option value="Swell">Swell</option>
+            <option value="Harmonics">Harmonics</option>
+            <option value="Interruption">Interruption</option>
+            <option value="Flicker">Flicker</option>
+            <option value="Notch">Notch</option>
+            <option value="Transient">Transient</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:0.35rem;align-items:center;">
+          <span style="font-size:0.7rem;font-weight:700;color:#64748b;">Phase:</span>
+          <select id="filter-event-phase" class="filter-select" onchange="filterEvents()">
+            <option value="all" selected>All Phases</option>
+            <option value="L1">Phase A (L1)</option>
+            <option value="L2">Phase B (L2)</option>
+            <option value="L3">Phase C (L3)</option>
+            <option value="multi">Multi-Phase</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:0.35rem;align-items:center;margin-left:auto;">
+          <input type="text" id="filter-event-search" class="filter-input" placeholder="Search Run ID / Event ID..." oninput="filterEvents()">
+          <span style="font-size:0.68rem;color:#64748b;font-weight:700;" id="event-history-count">0 events</span>
+        </div>
+      </div>
+
+      <!-- Event Table -->
+      <div class="chart-card">
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Event ID</th>
+                <th>Run / Device ID</th>
+                <th>Event Type</th>
+                <th>Disturbance Class</th>
+                <th>Phases</th>
+                <th>Duration (ms)</th>
+                <th>Score / Conf</th>
+                <th>Physical State</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="event-history-tbody">
+              <tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:1rem;">Loading event repository...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         PAGE: ACADEMIC PRESENTATION MODE & GUIDED LIVE DEMO
+         ══════════════════════════════════════════════════════════════════════ -->
+    <section id="page-presentation-mode" class="app-page">
+      <div class="page-header">
+        <div class="page-title-wrap">
+          <svg class="doodle-icon primary" width="22" height="22" viewBox="0 0 24 24">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <div>
+            <h1 class="page-title">ACADEMIC PRESENTATION & GUIDED DEMONSTRATION</h1>
+            <p class="page-desc">Comprehensive slide deck, system architecture, mathematical derivations, and live interactive sequence</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <button class="btn-secondary" onclick="prevSlide()" style="padding:0.45rem 0.85rem;font-size:0.75rem;">PREV SLIDE</button>
+          <span style="font-size:0.75rem;font-weight:700;font-family:var(--font-mono);background:#f1f5f9;padding:0.35rem 0.75rem;border-radius:4px;" id="pres-slide-indicator">SLIDE 1 / 13</span>
+          <button class="btn-primary" onclick="nextSlide()" style="padding:0.45rem 0.85rem;font-size:0.75rem;">NEXT SLIDE</button>
+        </div>
+      </div>
+
+      <!-- Slide Container -->
+      <div class="chart-card" id="pres-slide-card" style="min-height:520px;padding:2rem;">
+        <div id="pres-slide-content">
+          <!-- Populated dynamically by app.js from /api/presentation/manifest -->
+        </div>
       </div>
     </section>
 
   </div>
 
-  <script src="app.js?v=hil_5"></script>
+  <script src="app.js?v=20261106_5"></script>
 </body>
 </html>

@@ -1,0 +1,91 @@
+[
+  {
+    "config": {
+      "disturbance": "Sag",
+      "phase": "A",
+      "duration_ms": 100.0,
+      "params": {
+        "fault_resistance_ohms": 4.5
+      }
+    },
+    "valid": true,
+    "message": "Valid parameter bounds"
+  },
+  {
+    "config": {
+      "disturbance": "Sag",
+      "phase": "AB",
+      "duration_ms": 150.0,
+      "params": {
+        "fault_resistance_ohms": 2.0
+      }
+    },
+    "valid": true,
+    "message": "Valid parameter bounds"
+  },
+  {
+    "config": {
+      "disturbance": "Swell",
+      "phase": "A",
+      "duration_ms": 200.0,
+      "params": {
+        "capacitive_power_mvar": 120.0
+      }
+    },
+    "valid": true,
+    "message": "Valid parameter bounds"
+  },
+  {
+    "config": {
+      "disturbance": "Harmonics",
+      "phase": "ABC",
+      "duration_ms": 100.0,
+      "params": {
+        "harmonic_orders": [
+          3,
+          5,
+          7
+        ]
+      }
+    },
+    "valid": true,
+    "message": "Valid parameter bounds"
+  },
+  {
+    "config": {
+      "disturbance": "Notch",
+      "phase": "AB",
+      "duration_ms": 100.0,
+      "params": {
+        "commutation_resistance_ohms": 150.0
+      }
+    },
+    "valid": false,
+    "message": "Parameter 'commutation_resistance_ohms' = 150.0 is out of range [0.001, 10.0]"
+  },
+  {
+    "config": {
+      "disturbance": "Transient",
+      "phase": "A",
+      "duration_ms": 50.0,
+      "params": {
+        "impulse_peak_pu": 1.6
+      }
+    },
+    "valid": true,
+    "message": "Valid parameter bounds"
+  },
+  {
+    "config": {
+      "disturbance": "Flicker",
+      "phase": "A",
+      "duration_ms": 500.0,
+      "params": {
+        "modulation_freq_hz": 8.0,
+        "modulation_depth": 0.05
+      }
+    },
+    "valid": true,
+    "message": "Valid parameter bounds"
+  }
+]

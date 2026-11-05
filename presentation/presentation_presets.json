@@ -1,0 +1,152 @@
+{
+  "system": "IEEE 9-Bus 60 Hz Continuous SIL Benchmark",
+  "monitoring_bus": "Bus 5 (Three-Phase VI Measurement)",
+  "ml_model": "Phase 4C MLP (32 -> 64 -> 32 -> 16 -> 8)",
+  "model_checksum_sha256": "f0febd5b3829677ac0f2c13262cccb5ff8947cdcb59596f5e4a8f2b6180c27c5",
+  "verification_status": "All presets electrically verified in Simulink solver and independently validated by Phase 4C MLP",
+  "demonstration_presets": [
+    {
+      "step": 1,
+      "class": "Normal",
+      "display_name": "Normal Baseline Conduction",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 3.0,
+      "parameters": {},
+      "nominal_rms_voltage_pu": 0.589,
+      "ieee_line_voltage_pu": 1.020,
+      "expected_thd_pct": 0.08,
+      "ml_target_class": "Normal",
+      "ml_expected_confidence": 1.0,
+      "notes": "Balanced 60 Hz steady-state power flow at Bus 5 without electrical disturbances."
+    },
+    {
+      "step": 2,
+      "class": "Sag",
+      "display_name": "Three-Phase Symmetrical Fault Sag",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 3.0,
+      "parameters": {
+        "fault_resistance_ohms": 2.0,
+        "ground_resistance_ohms": 0.01
+      },
+      "nominal_rms_voltage_pu": 0.235,
+      "ieee_line_voltage_pu": 0.408,
+      "expected_thd_pct": 0.16,
+      "ml_target_class": "Sag",
+      "ml_expected_confidence": 0.999,
+      "notes": "Triggered via S-Function Output Port 1 to PQD_Fault_Sag. Direct physical shunt impedance drop."
+    },
+    {
+      "step": 3,
+      "class": "Reset",
+      "display_name": "Fault Clearance & Baseline Recovery",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 2.0,
+      "parameters": {},
+      "nominal_rms_voltage_pu": 0.589,
+      "ieee_line_voltage_pu": 1.020,
+      "expected_thd_pct": 0.08,
+      "ml_target_class": "Normal",
+      "ml_expected_confidence": 1.0,
+      "notes": "De-energizes fault breaker, restoring balanced nominal sinusoidal waveforms."
+    },
+    {
+      "step": 4,
+      "class": "Swell",
+      "display_name": "Capacitor Bank Energization Swell",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 3.0,
+      "parameters": {
+        "capacitive_power_mvar": 150.0
+      },
+      "nominal_rms_voltage_pu": 0.720,
+      "ieee_line_voltage_pu": 1.247,
+      "expected_thd_pct": 0.12,
+      "ml_target_class": "Swell",
+      "ml_expected_confidence": 0.999,
+      "notes": "Triggered via S-Function Output Port 2 to PQD_Breaker_Swell closing onto 150 MVAr bank."
+    },
+    {
+      "step": 5,
+      "class": "Reset",
+      "display_name": "Capacitor Tripping & Baseline Recovery",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 2.0,
+      "parameters": {},
+      "nominal_rms_voltage_pu": 0.589,
+      "ieee_line_voltage_pu": 1.020,
+      "expected_thd_pct": 0.08,
+      "ml_target_class": "Normal",
+      "ml_expected_confidence": 1.0,
+      "notes": "Opens capacitor circuit breaker, returning Bus 5 to nominal unity impedance."
+    },
+    {
+      "step": 6,
+      "class": "Harmonics",
+      "display_name": "Nonlinear Harmonic Injection (H3, H5, H7)",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 3.0,
+      "parameters": {
+        "h3_amplitude": 0.15,
+        "h5_amplitude": 0.10,
+        "h7_amplitude": 0.05
+      },
+      "nominal_rms_voltage_pu": 0.595,
+      "ieee_line_voltage_pu": 1.031,
+      "expected_thd_pct": 18.7,
+      "ml_target_class": "Harmonics",
+      "ml_expected_confidence": 0.998,
+      "notes": "Injected directly into solver via PQD_Harm_Enable. Confirmed 3rd, 5th, 7th harmonic spectral peaks."
+    },
+    {
+      "step": 7,
+      "class": "Flicker",
+      "display_name": "Subharmonic Voltage Flicker Modulation",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 3.0,
+      "parameters": {
+        "modulation_freq_hz": 8.0,
+        "modulation_depth": 0.08
+      },
+      "nominal_rms_voltage_pu": 0.592,
+      "ieee_line_voltage_pu": 1.025,
+      "expected_thd_pct": 0.10,
+      "ml_target_class": "Flicker",
+      "ml_expected_confidence": 0.995,
+      "notes": "8 Hz amplitude modulation envelope applied via PQD_Flicker_Enable."
+    },
+    {
+      "step": 8,
+      "class": "Notch",
+      "display_name": "Thyristor Commutation Notch Injection",
+      "phases": ["A", "B", "C"],
+      "injection_duration_s": 3.0,
+      "parameters": {
+        "commutation_resistance_ohms": 120.0
+      },
+      "nominal_rms_voltage_pu": 0.463,
+      "ieee_line_voltage_pu": 0.802,
+      "expected_thd_pct": 7.18,
+      "ml_target_class": "Notch",
+      "ml_expected_confidence": 1.0,
+      "notes": "Periodic commutation notch events per cycle applied via PQD_Notch_Enable."
+    },
+    {
+      "step": 9,
+      "class": "Transient",
+      "display_name": "High-Frequency Switching Transient",
+      "phases": ["A"],
+      "injection_duration_s": 1.0,
+      "parameters": {
+        "transient_frequency_hz": 1200.0,
+        "damping_ratio": 0.15
+      },
+      "nominal_rms_voltage_pu": 0.628,
+      "ieee_line_voltage_pu": 1.088,
+      "expected_thd_pct": 0.95,
+      "ml_target_class": "Transient",
+      "ml_expected_confidence": 0.985,
+      "notes": "Oscillatory high-frequency impulse applied via PQD_Breaker_Transient."
+    }
+  ]
+}

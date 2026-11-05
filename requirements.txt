@@ -1,16 +1,24 @@
-# Power Quality Detector and Classifier Dependencies
-# Core scientific stack
+# ==============================================================================
+# IEEE 9-Bus Power Quality Detector and Classifier Dependencies
+# Verified on Windows 11 with Python 3.14 / Python 3.11 / Python 3.12
+# ==============================================================================
+
+# Core scientific computation & signal processing
 numpy>=2.0.0
 scipy>=1.14.0
 pandas>=2.2.0
 scikit-learn>=1.5.0
 matplotlib>=3.8.0
 
-# Validation, testing and schema verification
+# Testing, validation, and property-based verification
 pytest>=8.0.0
+hypothesis>=6.100.0
 jsonschema>=4.20.0
 requests>=2.31.0
 
-# Interactive Research Dashboard
-streamlit>=1.35.0
+# Research analytics and dashboard visualization
 plotly>=5.20.0
+streamlit>=1.35.0
+
+# Utility & documentation tools
+pypdf>=4.0.0

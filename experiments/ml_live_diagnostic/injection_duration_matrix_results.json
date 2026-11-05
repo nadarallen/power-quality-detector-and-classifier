@@ -1,0 +1,503 @@
+{
+  "results": [
+    {
+      "class": "Sag",
+      "duration_s": 0.05,
+      "sample_count": 250,
+      "predicted_class": "Sag",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Sag",
+      "duration_s": 0.1,
+      "sample_count": 500,
+      "predicted_class": "Sag",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Sag",
+      "duration_s": 0.2,
+      "sample_count": 1000,
+      "predicted_class": "Sag",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Sag",
+      "duration_s": 0.4,
+      "sample_count": 2000,
+      "predicted_class": "Sag",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Sag",
+      "duration_s": 0.8,
+      "sample_count": 4000,
+      "predicted_class": "Sag",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Sag",
+      "duration_s": 1.0,
+      "sample_count": 5000,
+      "predicted_class": "Sag",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Sag",
+      "duration_s": 2.0,
+      "sample_count": 10000,
+      "predicted_class": "Sag",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Swell",
+      "duration_s": 0.05,
+      "sample_count": 250,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": false,
+      "class_probability": 0.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Swell",
+      "duration_s": 0.1,
+      "sample_count": 500,
+      "predicted_class": "Swell",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Swell",
+      "duration_s": 0.2,
+      "sample_count": 1000,
+      "predicted_class": "Swell",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Swell",
+      "duration_s": 0.4,
+      "sample_count": 2000,
+      "predicted_class": "Swell",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Swell",
+      "duration_s": 0.8,
+      "sample_count": 4000,
+      "predicted_class": "Swell",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Swell",
+      "duration_s": 1.0,
+      "sample_count": 5000,
+      "predicted_class": "Swell",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Swell",
+      "duration_s": 2.0,
+      "sample_count": 10000,
+      "predicted_class": "Swell",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Harmonics",
+      "duration_s": 0.05,
+      "sample_count": 250,
+      "predicted_class": "Harmonics",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Harmonics",
+      "duration_s": 0.1,
+      "sample_count": 500,
+      "predicted_class": "Harmonics",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Harmonics",
+      "duration_s": 0.2,
+      "sample_count": 1000,
+      "predicted_class": "Harmonics",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Harmonics",
+      "duration_s": 0.4,
+      "sample_count": 2000,
+      "predicted_class": "Harmonics",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Harmonics",
+      "duration_s": 0.8,
+      "sample_count": 4000,
+      "predicted_class": "Harmonics",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Harmonics",
+      "duration_s": 1.0,
+      "sample_count": 5000,
+      "predicted_class": "Harmonics",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Harmonics",
+      "duration_s": 2.0,
+      "sample_count": 10000,
+      "predicted_class": "Harmonics",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Flicker",
+      "duration_s": 0.05,
+      "sample_count": 250,
+      "predicted_class": "Swell",
+      "confidence": 1.0,
+      "is_correct": false,
+      "class_probability": 0.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Flicker",
+      "duration_s": 0.1,
+      "sample_count": 500,
+      "predicted_class": "Flicker",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Flicker",
+      "duration_s": 0.2,
+      "sample_count": 1000,
+      "predicted_class": "Flicker",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Flicker",
+      "duration_s": 0.4,
+      "sample_count": 2000,
+      "predicted_class": "Flicker",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Flicker",
+      "duration_s": 0.8,
+      "sample_count": 4000,
+      "predicted_class": "Flicker",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Flicker",
+      "duration_s": 1.0,
+      "sample_count": 5000,
+      "predicted_class": "Flicker",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Flicker",
+      "duration_s": 2.0,
+      "sample_count": 10000,
+      "predicted_class": "Flicker",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Notch",
+      "duration_s": 0.05,
+      "sample_count": 250,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Notch",
+      "duration_s": 0.1,
+      "sample_count": 500,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Notch",
+      "duration_s": 0.2,
+      "sample_count": 1000,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Notch",
+      "duration_s": 0.4,
+      "sample_count": 2000,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Notch",
+      "duration_s": 0.8,
+      "sample_count": 4000,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Notch",
+      "duration_s": 1.0,
+      "sample_count": 5000,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Notch",
+      "duration_s": 2.0,
+      "sample_count": 10000,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Transient",
+      "duration_s": 0.05,
+      "sample_count": 250,
+      "predicted_class": "Notch",
+      "confidence": 1.0,
+      "is_correct": false,
+      "class_probability": 0.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Transient",
+      "duration_s": 0.1,
+      "sample_count": 500,
+      "predicted_class": "Transient",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Transient",
+      "duration_s": 0.2,
+      "sample_count": 1000,
+      "predicted_class": "Transient",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Transient",
+      "duration_s": 0.4,
+      "sample_count": 2000,
+      "predicted_class": "Transient",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Transient",
+      "duration_s": 0.8,
+      "sample_count": 4000,
+      "predicted_class": "Transient",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Transient",
+      "duration_s": 1.0,
+      "sample_count": 5000,
+      "predicted_class": "Transient",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Transient",
+      "duration_s": 2.0,
+      "sample_count": 10000,
+      "predicted_class": "Transient",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Interruption",
+      "duration_s": 0.05,
+      "sample_count": 250,
+      "predicted_class": "Interruption",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Interruption",
+      "duration_s": 0.1,
+      "sample_count": 500,
+      "predicted_class": "Interruption",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Interruption",
+      "duration_s": 0.2,
+      "sample_count": 1000,
+      "predicted_class": "Interruption",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Interruption",
+      "duration_s": 0.4,
+      "sample_count": 2000,
+      "predicted_class": "Interruption",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Interruption",
+      "duration_s": 0.8,
+      "sample_count": 4000,
+      "predicted_class": "Interruption",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Interruption",
+      "duration_s": 1.0,
+      "sample_count": 5000,
+      "predicted_class": "Interruption",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    },
+    {
+      "class": "Interruption",
+      "duration_s": 2.0,
+      "sample_count": 10000,
+      "predicted_class": "Interruption",
+      "confidence": 1.0,
+      "is_correct": true,
+      "class_probability": 1.0,
+      "windowing_strategy": "event_aware"
+    }
+  ],
+  "min_reliable_durations": {
+    "Sag": 0.05,
+    "Swell": 0.1,
+    "Harmonics": 0.05,
+    "Flicker": 0.1,
+    "Notch": 0.05,
+    "Transient": 0.1,
+    "Interruption": 0.05
+  }
+}

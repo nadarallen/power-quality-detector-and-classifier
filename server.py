@@ -20,6 +20,7 @@ from urllib.parse import parse_qs, urlparse
 
 # Live Simulink simulation bridge
 import simulation_bridge as _sim_bridge
+import dashboard_backend as _db_backend
 
 from dsp.fft_analyzer import (
     compute_spectrum,
@@ -91,13 +92,13 @@ def run_python_ml_inference(feature_vector):
     """
     if len(feature_vector) != 8:
         raise ValueError("Expected 8 features")
-    
+
     # 1. Adapt 60 Hz domain to 50 Hz model space if needed
     adapted = adapt_features_60hz_to_50hz(feature_vector)
-    
+
     # 2. Feature Standardization
     z = (np.array(adapted, dtype=np.float32) - np.array(SCALER_MEAN, dtype=np.float32)) / np.array(SCALER_SCALE, dtype=np.float32)
-    
+
     if WEIGHTS_DATA and 'weights' in WEIGHTS_DATA:
         w = WEIGHTS_DATA['weights']
         # Layer 1
@@ -113,7 +114,7 @@ def run_python_ml_inference(feature_vector):
     else:
         # Simple fallback probabilities if weights file missing
         probs = np.ones(8) / 8.0
-    
+
     pred_idx = int(np.argmax(probs))
     pred_class = CLASSES[pred_idx]
     confidence = float(probs[pred_idx])
@@ -195,9 +196,171 @@ def set_active_source(source_name: str) -> None:
     SHARED_PIPELINE.last_frame_telemetry["spectrum"]["freqs"] = [h * f0 for h in range(1, 12)]
 
 
+def get_simulation_history() -> dict:
+    import glob
+    run_configs = glob.glob(os.path.join(BASE_DIR, "data", "live_simulation_runs", "*_config.json"))
+    runs = []
+    for cfg_path in sorted(run_configs, key=os.path.getmtime, reverse=True)[:50]:
+        try:
+            with open(cfg_path, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+            rid = cfg.get("run_id", os.path.basename(cfg_path).replace("_config.json", ""))
+            log_path = cfg_path.replace("_config.json", ".log")
+            mtime = os.path.getmtime(cfg_path)
+            dt_str = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime(mtime))
+
+            status = "completed"
+            tail = ""
+            if os.path.exists(log_path):
+                try:
+                    with open(log_path, "r", errors="replace") as lf:
+                        lines = lf.readlines()
+                        tail = "".join(lines[-15:])
+                        if any("error" in l.lower() for l in lines[-10:]):
+                            status = "error"
+                except Exception:
+                    pass
+
+            runs.append({
+                "run_id": rid,
+                "timestamp": dt_str,
+                "epoch_time": mtime,
+                "mode": cfg.get("mode", "continuous"),
+                "class": cfg.get("class", "Normal"),
+                "phase": cfg.get("phase", "ABC"),
+                "stop_time": cfg.get("stop_time", 0.38),
+                "status": status,
+                "log_available": os.path.exists(log_path),
+                "log_tail": tail
+            })
+        except Exception:
+            continue
+    return {
+        "status": "success",
+        "total_runs": len(runs),
+        "runs": runs
+    }
+
+
+def get_presentation_manifest() -> dict:
+    return {
+        "title": "IEEE 9-Bus Power Quality Disturbance Classifier",
+        "author": "Advanced Power Quality Research Group",
+        "model_version": "Phase 4C 60-Hz Native MLP",
+        "electrical_network": "WSCC 3-Machine 9-Bus System (60 Hz)",
+        "observation_bus": "Bus 5 (230 kV nominal)",
+        "acquisition": "Continuous SIL Level-2 S-Function (5 kHz)",
+        "sections": [
+            {
+                "id": "intro",
+                "title": "1. Project Overview & Objectives",
+                "bullets": [
+                    "Real-time power quality disturbance detection and classification for transmission grids.",
+                    "Continuous MATLAB/Simulink Software-in-the-Loop (SIL) integration with the IEEE 9-bus benchmark.",
+                    "Strictly decoupled inference: Physical assessment (IEEE 1159) and ML prediction (60 Hz MLP) operate as independent layers."
+                ]
+            },
+            {
+                "id": "architecture",
+                "title": "2. System Architecture",
+                "bullets": [
+                    "MATLAB/Simulink R2025a solver executing continuous power flow and disturbance models.",
+                    "Level-2 S-Function live streamer streaming 250-sample chunks (50 ms) via TCP socket.",
+                    "Python high-concurrency async backend receiving telemetry and computing real-time DSP features.",
+                    "Interactive engineering web dashboard with live oscilloscope, FFT spectrum, and diagnostic lab."
+                ]
+            },
+            {
+                "id": "taxonomy",
+                "title": "3. Disturbance Taxonomy (IEEE Std 1159-2019)",
+                "bullets": [
+                    "Normal: Steady-state 60 Hz sinusoidal voltage (~0.588 pu raw / 1.02 pu IEEE line-to-neutral).",
+                    "Voltage Sag: RMS drop to 0.10 - 0.90 pu caused by transmission line symmetrical/asymmetrical faults.",
+                    "Voltage Swell: RMS rise to 1.10 - 1.80 pu caused by capacitive bank switching or sudden load rejection.",
+                    "Harmonics: Steady-state waveform distortion with THD > 5.0% (3rd, 5th, 7th harmonic injection).",
+                    "Flicker: Low-frequency amplitude modulation (0.5 - 35 Hz) caused by arc furnaces and fluctuating loads.",
+                    "Notch: Periodic commutation notches caused by three-phase converter thyristor firing.",
+                    "Transient: High-frequency sub-cycle oscillatory spikes caused by lightning or capacitor energization.",
+                    "Interruption: Severe RMS collapse < 0.10 pu resulting from breaker tripping."
+                ]
+            },
+            {
+                "id": "classifier",
+                "title": "4. Machine Learning Inference Pipeline",
+                "bullets": [
+                    "Model: 32-input, 4-layer fully connected Multi-Layer Perceptron (4,856 parameters).",
+                    "Features: 32 enhanced features (RMS, Peak, Crest, THD, SNR, H1..H11, Spectral Centroid, Bandwidth, Entropy, Flatness).",
+                    "Feature Standardization: StandardScaler strictly fitted on training set partitions.",
+                    "Event-Aware Windowing: Analysis centered on active disturbance epoch, eliminating boundary dilation errors.",
+                    "Inference Latency: 4.0 - 4.5 ms per evaluation window (200x faster than real-time 200 ms epoch)."
+                ]
+            },
+            {
+                "id": "ood",
+                "title": "5. Honest Uncertainty & Domain Verification",
+                "bullets": [
+                    "Mahalanobis distance domain boundary: Threshold calibrated at 12.0 (99.5th percentile).",
+                    "Uncertainty states: VALID_CLASSIFICATION, LOW_CONFIDENCE, OUT_OF_DISTRIBUTION, INSUFFICIENT_WINDOW, INVALID_SIGNAL.",
+                    "Zero synthetic hallucination: Signals outside the 60 Hz IEEE 9-bus domain are explicitly flagged."
+                ]
+            },
+            {
+                "id": "limitations",
+                "title": "6. Known Limitations & Future Scope",
+                "bullets": [
+                    "Current model is trained on single-disturbance classes; multi-label simultaneous disturbances require dedicated multi-label heads.",
+                    "5 kHz sampling rate establishes a 2.5 kHz Nyquist frequency limit; ultrafast transients (> 2.5 kHz) require 20 kHz+ acquisition.",
+                    "Future work: Hardware-in-the-Loop (HIL) deployment to ESP32 / FPGA real-time edge microcontrollers."
+                ]
+            }
+        ],
+        "demo_stepper": [
+            {"step": 1, "title": "Start MATLAB Simulation", "action": "Connects to MATLAB R2025a, compiles Level-2 S-Function, starts continuous execution at 5 kHz."},
+            {"step": 2, "title": "Inspect Normal Baseline", "action": "Verify balanced 3-phase waveforms, 60.0 Hz fundamental, THD < 0.1%, Normal physical assessment, 100% Normal ML prediction."},
+            {"step": 3, "title": "Live FFT Spectrum", "action": "Verify dominant 60 Hz fundamental peak, zero harmonic pollution, linear and logarithmic spectrum scaling."},
+            {"step": 4, "title": "Inject Voltage Sag", "action": "Trigger symmetrical 3-phase fault at Bus 5 for 0.10 s. Observe instantaneous voltage dip to ~0.45 pu."},
+            {"step": 5, "title": "Verify Decoupled Results", "action": "Check independent Physical Assessment ('Sag') and pure ML Classifier prediction ('Sag', conf > 99%)."},
+            {"step": 6, "title": "Fault Recovery", "action": "Simulink clears fault; observe transient damping and automatic return to Normal steady state."},
+            {"step": 7, "title": "Inject Voltage Swell", "action": "Switch 150 MVAR capacitor bank; observe voltage rise to ~1.25 pu and ML Swell prediction."},
+            {"step": 8, "title": "Event History Audit", "action": "Inspect chronological log with timestamp, Run ID, injected disturbance, physical state, and ML probabilities."},
+            {"step": 9, "title": "Graceful Termination", "action": "Safely stop simulation; memory restored without altering protected reference models."}
+        ]
+    }
+
+
+def get_live_diagnostics_trace() -> dict:
+    job = _sim_bridge.get_active_job()
+    if job and job.prediction:
+        return {
+            "status": "success",
+            "active": True,
+            "prediction": job.prediction,
+            "metrics": getattr(job, "metrics", {})
+        }
+    trace_path = os.path.join(BASE_DIR, "experiments", "ml_live_diagnostic", "live_inference_trace_results.json")
+    if os.path.exists(trace_path):
+        with open(trace_path, "r", encoding="utf-8") as f:
+            return {"status": "success", "active": False, "trace": json.load(f)}
+    return {"status": "idle", "active": False, "message": "No active simulation inference trace available"}
+
+
+def get_ood_status() -> dict:
+    ood_path = os.path.join(BASE_DIR, "experiments", "ml_live_diagnostic", "model_domain_audit_results.json")
+    if os.path.exists(ood_path):
+        with open(ood_path, "r", encoding="utf-8") as f:
+            return {"status": "success", "calibration": json.load(f)}
+    return {"status": "error", "message": "Domain calibration artifact not found"}
+
+
 class PQDServerRequestHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=os.path.join(BASE_DIR, 'web'), **kwargs)
+
+    def end_headers(self):
+        self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        self.send_header('Pragma', 'no-cache')
+        self.send_header('Expires', '0')
+        super().end_headers()
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -254,6 +417,14 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
         elif parsed.path == '/api/events/stats':
             stats = SHARED_EVENT_STORE.get_event_stats()
             self._send_json(stats)
+        elif parsed.path == '/api/events/history':
+            evt_type = query.get('type', [None])[0]
+            cls_name = query.get('class', [None])[0]
+            ph = query.get('phase', [None])[0]
+            rid = query.get('run_id', [None])[0]
+            limit = int(query.get('limit', [50])[0])
+            offset = int(query.get('offset', [0])[0])
+            self._send_json(_db_backend.get_unified_event_history(evt_type, cls_name, ph, rid, limit, offset))
         elif parsed.path == '/api/telemetry':
             telem = SHARED_PIPELINE.get_latest_telemetry()
             self._send_json(telem)
@@ -413,6 +584,22 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             else:
                 res = compute_spectrum(signal, sample_rate=5000.0)
             self._send_json(res)
+        elif parsed.path == '/api/dataset/summary':
+            self._send_json(_db_backend.get_dataset_summary())
+        elif parsed.path == '/api/dataset/sample':
+            cls_name = query.get('class', ['Sag'])[0]
+            idx = int(query.get('index', [0])[0])
+            self._send_json(_db_backend.get_waveform_sample_payload(cls_name, idx))
+        elif parsed.path == '/api/model/performance':
+            self._send_json(_db_backend.get_model_performance())
+        elif parsed.path == '/api/simulation/history':
+            self._send_json(get_simulation_history())
+        elif parsed.path == '/api/presentation/manifest':
+            self._send_json(get_presentation_manifest())
+        elif parsed.path == '/api/diagnostics/live-trace':
+            self._send_json(get_live_diagnostics_trace())
+        elif parsed.path == '/api/diagnostics/ood-status':
+            self._send_json(get_ood_status())
         else:
             super().do_GET()
 
@@ -420,7 +607,7 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         content_length = int(self.headers.get('Content-Length', 0))
         body = self.rfile.read(content_length)
-        
+
         try:
             data = json.loads(body.decode('utf-8'))
         except Exception:

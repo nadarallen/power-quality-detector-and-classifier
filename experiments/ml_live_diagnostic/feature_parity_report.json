@@ -1,0 +1,404 @@
+{
+  "model_integrity": {
+    "model_architecture": "MLP (32 -> 64 -> 32 -> 16 -> 8)",
+    "total_parameters": 4848,
+    "weights_sha256": "f0febd5b3829677ac0f2c13262cccb5ff8947cdcb59596f5e4a8f2b6180c27c5",
+    "scaler_sha256": "76d0ad26e730d19776d20e70055cc6d490f2aad4680bfd47df0d95689888fc6d",
+    "dataset_manifest_sha256": "b4c7cca746b69ee895bc6e7c68f2be2f56700f3b9c1976bf0b674c4d292548f5",
+    "hash_verification": "PASS_FROZEN_UNCHANGED",
+    "weight_mutation_check": "PASS_ZERO_RUNTIME_MUTATIONS"
+  },
+  "label_mapping_audit": {
+    "classes": [
+      "Flicker",
+      "Harmonics",
+      "Interruption",
+      "Normal",
+      "Notch",
+      "Sag",
+      "Swell",
+      "Transient"
+    ],
+    "num_classes": 8,
+    "index_mapping": {
+      "Flicker": 0,
+      "Harmonics": 1,
+      "Interruption": 2,
+      "Normal": 3,
+      "Notch": 4,
+      "Sag": 5,
+      "Swell": 6,
+      "Transient": 7
+    },
+    "argmax_decoder_verified": true
+  },
+  "feature_parity_summary": {
+    "total_features": 32,
+    "canonical_order_match": true,
+    "class_evaluations": {
+      "normal": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 0.0
+      },
+      "sag": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 0.0
+      },
+      "swell": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 4.8000030517578125
+      },
+      "harmonics": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 1.5
+      },
+      "flicker": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 0.15999984741210938
+      },
+      "notch": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 0.0
+      },
+      "transient": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 0.0
+      },
+      "interruption": {
+        "evaluated_frames": 20,
+        "accuracy": 1.0,
+        "max_feature_diff": 5.1999969482421875
+      }
+    },
+    "element_by_element_parity": [
+      {
+        "index": 1,
+        "feature_name": "rms_voltage",
+        "ground_truth": 0.5893890261650085,
+        "live_extracted": 0.5893890261650085,
+        "abs_difference": 0.0,
+        "z_score": 0.33400958776474,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 2,
+        "feature_name": "peak_voltage",
+        "ground_truth": 0.8363400101661682,
+        "live_extracted": 0.8363400101661682,
+        "abs_difference": 0.0,
+        "z_score": -0.5655920505523682,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 3,
+        "feature_name": "crest_factor",
+        "ground_truth": 1.4189939498901367,
+        "live_extracted": 1.4189939498901367,
+        "abs_difference": 0.0,
+        "z_score": -1.014128565788269,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 4,
+        "feature_name": "thd",
+        "ground_truth": 0.016300000250339508,
+        "live_extracted": 0.016300000250339508,
+        "abs_difference": 0.0,
+        "z_score": -0.7194498181343079,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 5,
+        "feature_name": "duration",
+        "ground_truth": 0.0,
+        "live_extracted": 0.0,
+        "abs_difference": 0.0,
+        "z_score": -0.9237633347511292,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 6,
+        "feature_name": "dominant_freq",
+        "ground_truth": 60.0,
+        "live_extracted": 60.0,
+        "abs_difference": 0.0,
+        "z_score": 0.0,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 7,
+        "feature_name": "system_freq",
+        "ground_truth": 59.99760055541992,
+        "live_extracted": 59.99760055541992,
+        "abs_difference": 0.0,
+        "z_score": 0.01851522922515869,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 8,
+        "feature_name": "snr",
+        "ground_truth": 51.36000061035156,
+        "live_extracted": 51.36000061035156,
+        "abs_difference": 0.0,
+        "z_score": 2.139129877090454,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 9,
+        "feature_name": "h1",
+        "ground_truth": 0.8335189819335938,
+        "live_extracted": 0.8335189819335938,
+        "abs_difference": 0.0,
+        "z_score": 0.4466310739517212,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 10,
+        "feature_name": "h2",
+        "ground_truth": 0.00010099999781232327,
+        "live_extracted": 0.00010099999781232327,
+        "abs_difference": 0.0,
+        "z_score": -0.5103334188461304,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 11,
+        "feature_name": "h3",
+        "ground_truth": 0.00010199999815085903,
+        "live_extracted": 0.00010199999815085903,
+        "abs_difference": 0.0,
+        "z_score": -0.6502766013145447,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 12,
+        "feature_name": "h4",
+        "ground_truth": 1.8000000636675395e-05,
+        "live_extracted": 1.8000000636675395e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.5735724568367004,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 13,
+        "feature_name": "h5",
+        "ground_truth": 6.199999916134402e-05,
+        "live_extracted": 6.199999916134402e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.6905970573425293,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 14,
+        "feature_name": "h6",
+        "ground_truth": 7.300000288523734e-05,
+        "live_extracted": 7.300000288523734e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.47798585891723633,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 15,
+        "feature_name": "h7",
+        "ground_truth": 6.500000017695129e-05,
+        "live_extracted": 6.500000017695129e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.6142174601554871,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 16,
+        "feature_name": "h8",
+        "ground_truth": 0.00011700000322889537,
+        "live_extracted": 0.00011700000322889537,
+        "abs_difference": 0.0,
+        "z_score": -0.5332329869270325,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 17,
+        "feature_name": "h9",
+        "ground_truth": 0.00015199999324977398,
+        "live_extracted": 0.00015199999324977398,
+        "abs_difference": 0.0,
+        "z_score": -0.5894052982330322,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 18,
+        "feature_name": "h10",
+        "ground_truth": 5.900000178371556e-05,
+        "live_extracted": 5.900000178371556e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.5015852451324463,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 19,
+        "feature_name": "h11",
+        "ground_truth": 0.0001500000071246177,
+        "live_extracted": 0.0001500000071246177,
+        "abs_difference": 0.0,
+        "z_score": -0.5600472092628479,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 20,
+        "feature_name": "h2_ratio",
+        "ground_truth": 0.00012099999730708078,
+        "live_extracted": 0.00012099999730708078,
+        "abs_difference": 0.0,
+        "z_score": -0.49113792181015015,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 21,
+        "feature_name": "h3_ratio",
+        "ground_truth": 0.00012199999764561653,
+        "live_extracted": 0.00012199999764561653,
+        "abs_difference": 0.0,
+        "z_score": -0.674067497253418,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 22,
+        "feature_name": "h4_ratio",
+        "ground_truth": 2.2000000171829015e-05,
+        "live_extracted": 2.2000000171829015e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.5520361661911011,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 23,
+        "feature_name": "h5_ratio",
+        "ground_truth": 7.400000322377309e-05,
+        "live_extracted": 7.400000322377309e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.701171338558197,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 24,
+        "feature_name": "h7_ratio",
+        "ground_truth": 7.79999973019585e-05,
+        "live_extracted": 7.79999973019585e-05,
+        "abs_difference": 0.0,
+        "z_score": -0.6223160624504089,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 25,
+        "feature_name": "h9_ratio",
+        "ground_truth": 0.00018200000340584666,
+        "live_extracted": 0.00018200000340584666,
+        "abs_difference": 0.0,
+        "z_score": -0.5858899354934692,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 26,
+        "feature_name": "h11_ratio",
+        "ground_truth": 0.00018000000272877514,
+        "live_extracted": 0.00018000000272877514,
+        "abs_difference": 0.0,
+        "z_score": -0.552518367767334,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 27,
+        "feature_name": "harmonic_energy",
+        "ground_truth": 0.0,
+        "live_extracted": 0.0,
+        "abs_difference": 0.0,
+        "z_score": -0.4533403515815735,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 28,
+        "feature_name": "spectral_centroid",
+        "ground_truth": 60.0099983215332,
+        "live_extracted": 60.0099983215332,
+        "abs_difference": 0.0,
+        "z_score": -0.5981485843658447,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 29,
+        "feature_name": "spectral_bandwidth",
+        "ground_truth": 3.759999990463257,
+        "live_extracted": 3.759999990463257,
+        "abs_difference": 0.0,
+        "z_score": -0.8892444372177124,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 30,
+        "feature_name": "spectral_entropy",
+        "ground_truth": 0.0,
+        "live_extracted": 0.0,
+        "abs_difference": 0.0,
+        "z_score": -0.7439209818840027,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 31,
+        "feature_name": "spectral_flatness",
+        "ground_truth": 3.999999989900971e-06,
+        "live_extracted": 3.999999989900971e-06,
+        "abs_difference": 0.0,
+        "z_score": -0.44506484270095825,
+        "parity_status": "EXACT"
+      },
+      {
+        "index": 32,
+        "feature_name": "true_dominant_freq",
+        "ground_truth": 60.0,
+        "live_extracted": 60.0,
+        "abs_difference": 0.0,
+        "z_score": 0.0,
+        "parity_status": "EXACT"
+      }
+    ]
+  },
+  "voltage_representation_audit": {
+    "base_nominal_rms_voltage_pu": 0.5877,
+    "base_nominal_peak_voltage_pu": 0.8312,
+    "ieee_multiplier": 1.7320508,
+    "v_raw_bus5_nominal_rms": 0.5894,
+    "v_ieee_bus5_nominal_rms": 1.0208,
+    "finding": "Dataset and Phase 4C MLP were trained directly on raw phase-to-ground sensor pu (nominal ~0.5877 pu). Feeding V_ieee (~1.02 pu) causes severe z-score dilation (+4.0 sigma). Feature extractor correctly operates on V_raw sensor domain."
+  },
+  "analysis_window_audit": {
+    "sample_rate_hz": 5000.0,
+    "window_samples": 1000,
+    "window_duration_seconds": 0.2,
+    "cycles_at_60hz": 12.0,
+    "event_aware_adaptive_windowing": "ACTIVE - slices strictly across active disturbance epoch, avoiding dilution from pre-event quiescent baseline."
+  },
+  "minimum_reliable_durations": {
+    "Sag": "0.05 s (3 cycles)",
+    "Swell": "0.10 s (6 cycles)",
+    "Harmonics": "0.05 s (3 cycles)",
+    "Flicker": "0.10 s (6 cycles)",
+    "Notch": "0.05 s (3 cycles)",
+    "Transient": "0.10 s (6 cycles)",
+    "Interruption": "0.05 s (3 cycles)"
+  },
+  "domain_validation_statuses": [
+    "VALID_CLASSIFICATION",
+    "LOW_CONFIDENCE",
+    "OUT_OF_DISTRIBUTION",
+    "MULTI_DISTURBANCE",
+    "MODEL_DOMAIN_MISMATCH",
+    "INSUFFICIENT_WINDOW",
+    "INVALID_SIGNAL"
+  ]
+}
