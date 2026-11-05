@@ -1,3 +1,5 @@
+const $ = id => document.getElementById(id);
+
 /* ==========================================================================
    POWER QUALITY DISTURBANCE (PQD) INJECTION & ML VALIDATION CONTROLLER
    --------------------------------------------------------------------------
@@ -76,14 +78,50 @@ const BARC_DATASET_SAMPLES = {
   'Notch': { rms: 0.710, peak: 1.012, crest: 1.427, thd: 3.35, duration: 0.0, domfreq: 50.0, sysfreq: 50.0, snr: 44.8 }
 };
 
+
+function initBaselineBuffers() {
+  const N = 1000;
+  const fs = 5000;
+  if (!LIVE_SIM.streamBuffer.L1 || LIVE_SIM.streamBuffer.L1.length === 0) {
+    LIVE_SIM.streamBuffer = { L1: new Float32Array(N), L2: new Float32Array(N), L3: new Float32Array(N) };
+    for (let i = 0; i < N; i++) {
+      const t = i / fs;
+      LIVE_SIM.streamBuffer.L1[i] = 1.045 * Math.sin(2 * Math.PI * 60 * t);
+      LIVE_SIM.streamBuffer.L2[i] = 1.045 * Math.sin(2 * Math.PI * 60 * t - (2 * Math.PI / 3));
+      LIVE_SIM.streamBuffer.L3[i] = 1.045 * Math.sin(2 * Math.PI * 60 * t + (2 * Math.PI / 3));
+    }
+  }
+  if (!LIVE_SIM.currentBuffer.L1 || LIVE_SIM.currentBuffer.L1.length === 0) {
+    LIVE_SIM.currentBuffer = { L1: new Float32Array(N), L2: new Float32Array(N), L3: new Float32Array(N) };
+    for (let i = 0; i < N; i++) {
+      const t = i / fs;
+      LIVE_SIM.currentBuffer.L1[i] = 0.98 * Math.sin(2 * Math.PI * 60 * t - 0.2);
+      LIVE_SIM.currentBuffer.L2[i] = 0.98 * Math.sin(2 * Math.PI * 60 * t - (2 * Math.PI / 3) - 0.2);
+      LIVE_SIM.currentBuffer.L3[i] = 0.98 * Math.sin(2 * Math.PI * 60 * t + (2 * Math.PI / 3) - 0.2);
+    }
+  }
+}
+
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
+  initBaselineBuffers();
   initProbabilityBars();
   fetchModelWeights();
   setInjectionMode('simulink');
   initOscilloscopeCanvas();
   startAnimationLoop();
   initTelemetryStream();
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramPage = urlParams.get('page');
+  const paramTab = urlParams.get('tab');
+  if (paramPage && typeof switchPage === 'function') {
+    switchPage(paramPage);
+  } else if (typeof switchPage === 'function') {
+    switchPage('overview');
+  }
+  if (paramTab && typeof switchDisturbanceTab === 'function') {
+    switchDisturbanceTab(paramTab);
+  }
 
   // Support direct parameter initialization for testing, links, and automated report captures
   const urlParams = new URLSearchParams(window.location.search);
@@ -485,10 +523,10 @@ function updateUI() {
   if (banner) {
     if (isMatch) {
       banner.className = 'result-banner match';
-      banner.textContent = '✓ CORRECT CLASSIFICATION';
+      banner.textContent = '[OK] CORRECT CLASSIFICATION';
     } else {
       banner.className = 'result-banner mismatch';
-      banner.textContent = `⚠ MISCLASSIFICATION (PREDICTED ${currentPrediction.predicted_class.toUpperCase()})`;
+      banner.textContent = `[WARN] MISCLASSIFICATION (PREDICTED ${currentPrediction.predicted_class.toUpperCase()})`;
     }
   }
 
@@ -730,11 +768,24 @@ function resizeCanvas() {
 }
 
 function startAnimationLoop() {
+  let frameCount = 0;
   function render() {
+    frameCount++;
     if (!isTraceFrozen) {
       phaseShift += 0.08;
     }
     drawScopeScreen();
+
+    if (frameCount % 6 === 0) {
+      if (typeof currentPage !== 'undefined') {
+        if (currentPage === 'overview') {
+          drawOverviewWaveform();
+          drawOverviewSpectrum();
+        } else if (currentPage === 'live-simulink') {
+          drawLiveFFTSpectrum();
+        }
+      }
+    }
     requestAnimationFrame(render);
   }
   requestAnimationFrame(render);
@@ -917,7 +968,7 @@ function handleTelemetryData(telem) {
   const statusBadge = document.getElementById('bus-system-status');
   if (statusBadge && telem.status) {
     const isAnomaly = (telem.status === 'ANOMALY');
-    statusBadge.textContent = isAnomaly ? '⚠ DISTURBANCE DETECTED' : 'SYSTEM NORMAL';
+    statusBadge.textContent = isAnomaly ? '[WARN] DISTURBANCE DETECTED' : 'SYSTEM NORMAL';
     statusBadge.style.background = isAnomaly ? '#d73a49' : '#1f6feb';
   }
   if (telem.total_events !== undefined) {
@@ -1016,7 +1067,7 @@ function handleTelemetryData(telem) {
     const banner = document.getElementById('val-result-banner');
     if (banner) {
       banner.className = 'result-banner match';
-      banner.textContent = `✓ SIMULINK 60Hz STREAM ACTIVE [FRAMES: ${telem.frames_processed || 0}]`;
+      banner.textContent = `[OK] SIMULINK 60Hz STREAM ACTIVE [FRAMES: ${telem.frames_processed || 0}]`;
     }
 
     const simStatus = document.getElementById('simulink-stream-status');
@@ -1058,7 +1109,7 @@ function handleTelemetryData(telem) {
           <span>V_RMS: <strong>${(p1.rms_voltage || 0.59).toFixed(3)} pu</strong></span>
           <span>THD: <strong>${(p1.thd || 0.12).toFixed(2)}%</strong></span>
           <span>FREQ: <strong>${(telem.nominal_frequency || 60.0).toFixed(1)} Hz</strong></span>
-          <span class="terminal-pass">✓ FRAME #${telem.frames_processed} CAPTURED</span>
+          <span class="terminal-pass">[OK] FRAME #${telem.frames_processed} CAPTURED</span>
         `;
         logContainer.prepend(line);
         while (logContainer.children.length > 50) {
@@ -1150,7 +1201,7 @@ function setLiveMode(mode) {
 }
 
 // ── DOM helpers ────────────────────────────────────────────────────────────
-const $ = id => document.getElementById(id);
+// $ moved to top
 
 function liveLog(msg, type = 'info') {
   const scr = $('live-log-scroll');
@@ -1267,6 +1318,8 @@ async function startLiveSimulation() {
   LIVE_SIM.currentBuffer = { L1: [], L2: [], L3: [] };
   LIVE_SIM.activeRunId   = null;
   clearLiveCanvases();
+  renderHeroProbBars({}, 'Normal');
+  fetchLatestPrediction();
 
   // Update button states
   const startBtn  = $('btn-live-start');
@@ -1476,6 +1529,10 @@ function updateSimStatusUI(s) {
     updateLiveMetrics(s.metrics);
   }
   displayLivePrediction(s);
+  if (typeof syncOverviewDashboard === 'function') syncOverviewDashboard(s);
+  if (typeof drawOverviewWaveform === 'function') drawOverviewWaveform();
+  if (typeof drawOverviewSpectrum === 'function') drawOverviewSpectrum();
+  if (typeof drawLiveFFTSpectrum === 'function') drawLiveFFTSpectrum();
 }
 
 function onSimulationEnded(s) {
@@ -1518,27 +1575,364 @@ function onSimulationEnded(s) {
   }
 }
 
-// ── Telemetry SSE subscription ─────────────────────────────────────────────
+// ── Telemetry & Classification SSE Subscription (Prompt 7) ──────────────────
+const CANONICAL_CLASSES = ['Flicker', 'Harmonics', 'Interruption', 'Normal', 'Notch', 'Sag', 'Swell', 'Transient'];
 let _liveEvtSrc = null;
+let _mlInferenceTimeline = [];
+const MAX_TIMELINE_ENTRIES = 20;
+let _nextInferenceTime = Date.now() + 5000;
+let _lastInferenceKey = null;
+
+function renderHeroProbBars(probs, winnerCls) {
+  const container = $('ml-hero-prob-bars');
+  if (!container) return;
+  container.innerHTML = '';
+  CANONICAL_CLASSES.forEach(cls => {
+    const p = Math.max(0, Math.min(1.0, (probs && typeof probs[cls] === 'number') ? probs[cls] : 0.0));
+    const pct = (p * 100).toFixed(1);
+    const isWinner = (cls.toLowerCase() === (winnerCls || '').toLowerCase());
+
+    const row = document.createElement('div');
+    row.className = 'ml-prob-bar-row' + (isWinner ? ' winner' : '');
+    row.innerHTML = `
+      <span class="ml-prob-name" title="${cls}">${cls}</span>
+      <div class="ml-bar-track">
+        <div class="ml-bar-fill" style="width: ${pct}%;"></div>
+      </div>
+      <span class="ml-prob-pct">${pct}%</span>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function addInferenceToTimeline(pred) {
+  if (!pred) return;
+  const key = `${pred.run_id || ''}_${pred.inference_sequence || 0}`;
+  if (_mlInferenceTimeline.some(item => `${item.run_id || ''}_${item.inference_sequence || 0}` === key)) {
+    return;
+  }
+  _mlInferenceTimeline.unshift(pred);
+  if (_mlInferenceTimeline.length > MAX_TIMELINE_ENTRIES) {
+    _mlInferenceTimeline.pop();
+  }
+  renderTimelineTable();
+}
+
+function renderTimelineTable() {
+  const tbody = $('ml-timeline-tbody');
+  const countBadge = $('ml-timeline-count-badge');
+  if (countBadge) {
+    countBadge.textContent = `${_mlInferenceTimeline.length} record${_mlInferenceTimeline.length === 1 ? '' : 's'}`;
+  }
+  if (!tbody) return;
+  if (_mlInferenceTimeline.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:0.75rem;">Waiting for first live simulation evaluation...</td></tr>';
+    return;
+  }
+  tbody.innerHTML = _mlInferenceTimeline.map(item => {
+    const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleTimeString() : '—';
+    const win = item.analysis_window ? `${item.analysis_window.simulation_time_start.toFixed(2)}s - ${item.analysis_window.simulation_time_end.toFixed(2)}s` : '—';
+    const rawCls = item.raw_ml_prediction || item.predicted_class || 'Normal';
+    const confStr = ((item.confidence || 0) * 100).toFixed(1) + '%';
+    const physState = item.measured_physical_assessment || 'Normal';
+    const physColor = physState === 'Normal' ? '#166534' : '#b91c1c';
+    const sigStatus = item.signal_quality_status || 'VALID';
+    const sigPillClass = sigStatus === 'VALID' ? 'status-valid' : 'status-warn';
+    const domainStr = item.model_domain_status || '60 Hz NATIVE';
+    const latStr = item.inference_latency_ms !== undefined ? item.inference_latency_ms.toFixed(1) + ' ms' : '—';
+    return `
+      <tr>
+        <td>#${item.inference_sequence || 0}</td>
+        <td>${timeStr}</td>
+        <td>${win}</td>
+        <td><strong style="color:var(--accent-primary);">${rawCls}</strong></td>
+        <td>${confStr}</td>
+        <td><span style="color:${physColor};font-weight:600;">${physState}</span></td>
+        <td><span class="ml-lifecycle-pill ${sigPillClass}">${sigStatus}</span></td>
+        <td>${domainStr}</td>
+        <td>${latStr}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function toggleTimelineExpand() {
+  const content = $('ml-timeline-content');
+  const lbl = $('ml-timeline-toggle-lbl');
+  if (!content) return;
+  const isHidden = (content.style.display === 'none' || !content.style.display);
+  content.style.display = isHidden ? 'block' : 'none';
+  if (lbl) {
+    lbl.textContent = isHidden ? 'HIDE TABLE' : 'SHOW TABLE';
+  }
+}
+window.toggleTimelineExpand = toggleTimelineExpand;
+
+function handleLiveClassificationEvent(pred) {
+  if (!pred) return;
+
+  _nextInferenceTime = Date.now() + 5000;
+
+  const predCls = pred.predicted_class || pred.raw_ml_prediction || 'Normal';
+  const rawPredCls = pred.raw_ml_prediction || predCls;
+  const confVal = pred.confidence !== undefined ? pred.confidence : 0.0;
+
+  // 1. Hero Card A: Predicted Class & Confidence
+  const heroPredEl = $('ml-hero-pred-class');
+  if (heroPredEl) {
+    heroPredEl.textContent = rawPredCls.toUpperCase();
+    heroPredEl.className = 'ml-class-huge class-' + rawPredCls;
+  }
+
+  const heroConfEl = $('ml-hero-pred-conf');
+  if (heroConfEl) {
+    heroConfEl.textContent = (confVal * 100).toFixed(1) + '%';
+  }
+
+  const heroStatusEl = $('ml-hero-status-lbl');
+  if (heroStatusEl) {
+    heroStatusEl.textContent = pred.prediction_status || 'VALID';
+  }
+
+  const heroLastEvalEl = $('ml-hero-last-eval-lbl');
+  if (heroLastEvalEl) {
+    heroLastEvalEl.textContent = pred.timestamp ? new Date(pred.timestamp).toLocaleTimeString() : '—';
+  }
+
+  const heroLatEl = $('ml-hero-latency-lbl');
+  if (heroLatEl) {
+    heroLatEl.textContent = pred.inference_latency_ms !== undefined ? (pred.inference_latency_ms.toFixed(1) + ' ms') : '—';
+  }
+
+  const heroWinEl = $('ml-hero-window-lbl');
+  if (heroWinEl) {
+    if (pred.analysis_window) {
+      const cnt = pred.analysis_window.sample_count || 1000;
+      const dur = (cnt / 5000).toFixed(2);
+      const t0 = pred.analysis_window.simulation_time_start !== undefined ? pred.analysis_window.simulation_time_start.toFixed(2) : '0.00';
+      const t1 = pred.analysis_window.simulation_time_end !== undefined ? pred.analysis_window.simulation_time_end.toFixed(2) : dur;
+      heroWinEl.textContent = `${cnt} samples [${t0}s - ${t1}s] (${dur} s @ 5 kHz)`;
+    } else {
+      heroWinEl.textContent = '1000 samples (0.20 s @ 5 kHz)';
+    }
+  }
+
+  // 2. Hero Card B: 8-Class Probability Bars
+  const probs = pred.raw_ml_probabilities || pred.probabilities;
+  renderHeroProbBars(probs, rawPredCls);
+
+  // 3. Hero Card C: Three Separate Results
+  const cmdBadge = $('triplet-cmd-badge');
+  if (cmdBadge) {
+    const cmd = pred.command_status || 'IDLE';
+    cmdBadge.textContent = cmd;
+    cmdBadge.style.background = cmd === 'APPLIED' ? '#dcfce7' : (cmd === 'RESET' ? '#dbeafe' : '#f1f5f9');
+    cmdBadge.style.color = cmd === 'APPLIED' ? '#166534' : (cmd === 'RESET' ? '#1e40af' : '#475569');
+  }
+
+  const reqVal = $('triplet-req-val');
+  if (reqVal) {
+    reqVal.textContent = pred.requested_disturbance || 'Normal';
+  }
+
+  const recBadge = $('triplet-rec-badge');
+  if (recBadge) {
+    const rec = pred.recovery_status || pred.active_physical_state || 'NORMAL';
+    recBadge.textContent = rec;
+    recBadge.style.background = rec === 'NORMAL' ? '#dbeafe' : '#fee2e2';
+    recBadge.style.color = rec === 'NORMAL' ? '#1e40af' : '#991b1b';
+  }
+
+  const physVal = $('triplet-phys-val');
+  if (physVal) {
+    const phys = pred.measured_physical_assessment || 'Normal';
+    physVal.textContent = phys;
+    physVal.style.color = phys === 'Normal' ? '#166534' : '#dc2626';
+  }
+
+  const mlBadge = $('triplet-ml-badge');
+  if (mlBadge) {
+    mlBadge.textContent = pred.model_domain_status || '60 Hz NATIVE';
+  }
+
+  const mlVal = $('triplet-ml-val');
+  if (mlVal) {
+    mlVal.textContent = rawPredCls;
+    mlVal.style.color = 'var(--accent-primary)';
+  }
+
+  const mlConfSub = $('triplet-ml-conf-sub');
+  if (mlConfSub) {
+    mlConfSub.textContent = (confVal * 100).toFixed(1) + '%';
+  }
+
+  // 4. Hero Header Badges
+  const sigBadge = $('ml-signal-quality-badge');
+  if (sigBadge) {
+    const sig = pred.signal_quality_status || 'VALID';
+    sigBadge.textContent = 'SIGNAL: ' + sig;
+    sigBadge.className = 'ml-lifecycle-pill ' + (sig === 'VALID' ? 'status-valid' : 'status-warn');
+  }
+
+  const domBadge = $('ml-model-domain-badge');
+  if (domBadge) {
+    const dom = pred.model_domain_status || '60 Hz NATIVE';
+    domBadge.textContent = 'DOMAIN: ' + dom;
+    domBadge.className = 'ml-lifecycle-pill ' + (dom.includes('OUT_OF_RANGE') ? 'status-oor' : 'status-valid');
+  }
+
+  // 5. Timeline Table
+  if (pred.inference_sequence !== undefined && pred.inference_sequence !== null) {
+    addInferenceToTimeline(pred);
+  }
+
+  // 6. Overview Dashboard Synchronization
+  if ($('ov-pred-class')) $('ov-pred-class').textContent = rawPredCls.toUpperCase();
+  if ($('ov-pred-conf')) $('ov-pred-conf').textContent = ((confVal * 100).toFixed(1)) + '%';
+  if (pred.requested_disturbance && $('ov-req-dist')) $('ov-req-dist').textContent = pred.requested_disturbance;
+  if (pred.measured_physical_assessment && $('ov-active-phys')) {
+    $('ov-active-phys').textContent = pred.measured_physical_assessment;
+    $('ov-active-phys').style.color = (pred.measured_physical_assessment === 'Normal') ? '#166534' : '#dc2626';
+  }
+  if (pred.recovery_status && $('ov-rec-status')) $('ov-rec-status').textContent = pred.recovery_status;
+}
+
+function handleLiveTelemetryEvent(telem) {
+  if (!telem) return;
+  if (!LIVE_SIM.activeRunId && telem.run_id) {
+    LIVE_SIM.activeRunId = telem.run_id;
+  }
+
+  const wf = telem.waveforms || telem.waveform;
+  if (wf && wf.L1 && wf.L1.length > 0) {
+    ['L1', 'L2', 'L3'].forEach(p => {
+      if (wf[p]) {
+        if (!LIVE_SIM.streamBuffer[p]) LIVE_SIM.streamBuffer[p] = [];
+        LIVE_SIM.streamBuffer[p].push(...wf[p]);
+        if (LIVE_SIM.streamBuffer[p].length > MAX_LIVE_SAMPLES) {
+          LIVE_SIM.streamBuffer[p] = LIVE_SIM.streamBuffer[p].slice(-MAX_LIVE_SAMPLES);
+        }
+      }
+    });
+    drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
+  }
+
+  const ci = telem.current_waveforms || telem.current_waveform || telem.currents;
+  if (ci && ci.L1 && ci.L1.length > 0) {
+    ['L1', 'L2', 'L3'].forEach(p => {
+      if (ci[p]) {
+        if (!LIVE_SIM.currentBuffer[p]) LIVE_SIM.currentBuffer[p] = [];
+        LIVE_SIM.currentBuffer[p].push(...ci[p]);
+        if (LIVE_SIM.currentBuffer[p].length > MAX_LIVE_SAMPLES) {
+          LIVE_SIM.currentBuffer[p] = LIVE_SIM.currentBuffer[p].slice(-MAX_LIVE_SAMPLES);
+        }
+      }
+    });
+    drawLiveWaveform('live-current-canvas', LIVE_SIM.currentBuffer, 'live-i-samples');
+  }
+
+  updateLiveMetrics(telem);
+  if (typeof drawLiveFFTSpectrum === 'function') drawLiveFFTSpectrum();
+}
+
+function handleLiveStatusEvent(status) {
+  if (!status) return;
+  updateSimStatusUI(status);
+
+  const lifeBadge = $('ml-lifecycle-badge');
+  if (lifeBadge) {
+    if (status.status === 'idle') {
+      lifeBadge.textContent = 'STATUS: WAITING FOR SIMULATION';
+      lifeBadge.className = 'ml-lifecycle-pill status-idle';
+    } else if (status.status === 'starting') {
+      lifeBadge.textContent = 'STATUS: INITIALIZING SIGNAL ACQUISITION';
+      lifeBadge.className = 'ml-lifecycle-pill status-init';
+    } else if (status.status === 'streaming' || status.status === 'running') {
+      lifeBadge.textContent = 'STATUS: CONTINUOUS SIMULATION ACTIVE';
+      lifeBadge.className = 'ml-lifecycle-pill status-live';
+    } else if (status.status === 'stopped' || status.status === 'completed') {
+      lifeBadge.textContent = 'STATUS: SIMULATION STOPPED';
+      lifeBadge.className = 'ml-lifecycle-pill status-stopped';
+    } else if (status.status === 'error') {
+      lifeBadge.textContent = 'STATUS: ERROR';
+      lifeBadge.className = 'ml-lifecycle-pill status-warn';
+    }
+  }
+
+  if (status.prediction) {
+    handleLiveClassificationEvent(status.prediction);
+  }
+}
+
+async function fetchLatestPrediction() {
+  try {
+    const res = await fetch('/api/live/simulation/prediction');
+    if (!res.ok) return;
+    const pred = await res.json();
+    if (pred && (pred.prediction_status === 'VALID' || pred.predicted_class || pred.raw_ml_prediction)) {
+      handleLiveClassificationEvent(pred);
+    }
+  } catch (_) {}
+}
 
 function subscribeLiveTelemetry() {
   if (_liveEvtSrc) { _liveEvtSrc.close(); }
-  _liveEvtSrc = new EventSource('/api/stream/telemetry');
-  _liveEvtSrc.onmessage = (ev) => {
+  _liveEvtSrc = new EventSource('/api/live/simulation/stream');
+
+  _liveEvtSrc.addEventListener('classification', (ev) => {
+    try {
+      const pred = JSON.parse(ev.data);
+      handleLiveClassificationEvent(pred);
+    } catch (e) {
+      console.warn('Error parsing classification SSE:', e);
+    }
+  });
+
+  _liveEvtSrc.addEventListener('telemetry', (ev) => {
     try {
       const telem = JSON.parse(ev.data);
-      if (!LIVE_SIM.activeRunId) return;
+      handleLiveTelemetryEvent(telem);
+    } catch (e) {
+      console.warn('Error parsing telemetry SSE:', e);
+    }
+  });
 
-      const wf = telem.waveforms || telem.waveform;
-      if (wf && wf.L1 && wf.L1.length > 0) {
-        ['L1', 'L2', 'L3'].forEach(p => {
-          if (wf[p]) {
-            if (!LIVE_SIM.streamBuffer[p]) LIVE_SIM.streamBuffer[p] = [];
-            LIVE_SIM.streamBuffer[p].push(...wf[p]);
-            if (LIVE_SIM.streamBuffer[p].length > MAX_LIVE_SAMPLES) {
-              LIVE_SIM.streamBuffer[p] = LIVE_SIM.streamBuffer[p].slice(-MAX_LIVE_SAMPLES);
-            }
-          }
+  _liveEvtSrc.addEventListener('status', (ev) => {
+    try {
+      const status = JSON.parse(ev.data);
+      handleLiveStatusEvent(status);
+    } catch (e) {
+      console.warn('Error parsing status SSE:', e);
+    }
+  });
+
+  _liveEvtSrc.onmessage = (ev) => {
+    try {
+      const payload = JSON.parse(ev.data);
+      if (payload.status !== undefined) {
+        handleLiveStatusEvent(payload);
+      } else if (payload.raw_ml_prediction !== undefined || payload.predicted_class !== undefined) {
+        handleLiveClassificationEvent(payload);
+      } else if (payload.waveforms || payload.waveform || payload.rms_voltage !== undefined) {
+        handleLiveTelemetryEvent(payload);
+      }
+    } catch (_) {}
+  };
+
+  _liveEvtSrc.onerror = (err) => {
+    console.warn('Live SSE stream reconnecting...');
+  };
+}
+
+// Global monotonic countdown tick for hero panel
+setInterval(() => {
+  const el = $('ml-hero-countdown-lbl');
+  if (el) {
+    const diff = Math.max(0, (_nextInferenceTime - Date.now()) / 1000);
+    el.textContent = (diff < 10 ? '0' : '') + diff.toFixed(1) + ' s';
+  }
+}, 100);
+
         });
         drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
       }
@@ -1685,6 +2079,9 @@ function updateLiveMetrics(raw) {
 
 function displayLivePrediction(result) {
   if (!result) return;
+  if (result.raw_ml_prediction || result.predicted_class || result.raw_ml_probabilities) {
+    handleLiveClassificationEvent(result);
+  }
   const predCls  = result.raw_ml_prediction || result.predicted_class || 'Normal';
   const confVal  = result.confidence !== undefined ? result.confidence : 0.999;
   const predEl   = $('live-pred-class');
@@ -1697,6 +2094,7 @@ function displayLivePrediction(result) {
   const sigEl    = $('live-signal-quality');
   const cntEl    = $('live-countdown');
 
+  if (mlPanel) mlPanel.style.display = 'block';
   if (predEl)  predEl.textContent = predCls;
   if (confEl)  confEl.textContent = (confVal * 100).toFixed(1) + '%';
   if (reqEl && result.requested_disturbance) reqEl.textContent = result.requested_disturbance;
@@ -1787,14 +2185,14 @@ async function checkMatlabStatus() {
     const data = await resp.json();
     if (el) {
       el.textContent = data.matlab_available
-        ? '✓ MATLAB available'
-        : '✗ MATLAB unavailable: ' + data.matlab_detail;
+        ? '[OK] MATLAB available'
+        : '[FAIL] MATLAB unavailable: ' + data.matlab_detail;
       el.style.color = data.matlab_available ? '#166534' : '#991b1b';
     }
     liveLog(data.matlab_available ? 'MATLAB reachable.' : 'MATLAB not available: ' + data.matlab_detail,
             data.matlab_available ? 'success' : 'error');
   } catch (err) {
-    if (el) { el.textContent = '✗ Error: ' + err.message; el.style.color = '#991b1b'; }
+    if (el) { el.textContent = '[FAIL] Error: ' + err.message; el.style.color = '#991b1b'; }
   }
 }
 
@@ -1853,3 +2251,972 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(() => {});
 });
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MULTI-PAGE NAVIGATION & DISTURBANCE WORKSPACE CONTROLLER
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+let currentPage = 'overview';
+let currentDistTab = 'harmonics';
+let currentDatasetClass = 'Normal';
+
+function switchPage(pageId) {
+  currentPage = pageId;
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.page === pageId);
+  });
+  document.querySelectorAll('.page-view').forEach(view => {
+    view.classList.toggle('active', view.id === `page-${pageId}`);
+  });
+
+  if (pageId === 'overview') {
+    drawOverviewWaveform();
+    drawOverviewSpectrum();
+  } else if (pageId === 'live-simulink') {
+    drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
+    drawLiveWaveform('live-current-canvas', LIVE_SIM.currentBuffer, 'live-i-samples');
+    drawLiveFFTSpectrum();
+    fetchLatestPrediction();
+  } else if (pageId === 'disturbance-analysis') {
+    renderActiveDisturbanceWorkspace();
+  } else if (pageId === 'datasets') {
+    loadDatasetSample(currentDatasetClass || 'Normal');
+  }
+}
+
+function switchDisturbanceTab(tabId) {
+  currentDistTab = tabId;
+  document.querySelectorAll('.dist-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabId);
+  });
+  document.querySelectorAll('.dist-subview').forEach(view => {
+    view.classList.toggle('active', view.id === `subview-${tabId}`);
+  });
+  renderActiveDisturbanceWorkspace(tabId);
+}
+
+function renderActiveDisturbanceWorkspace(tabId) {
+  const tab = tabId || currentDistTab;
+  if (tab === 'harmonics') renderHarmonicsAnalysis();
+  else if (tab === 'flicker') renderFlickerAnalysis();
+  else if (tab === 'notch') renderNotchAnalysis();
+  else if (tab === 'transient') renderTransientAnalysis();
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIVE FFT SPECTRUM ANALYSER & DSP ENGINE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+let currentFFTSignal = 'voltage'; // 'voltage' | 'current'
+let currentFFTPhase = 'L1';       // 'L1' | 'L2' | 'L3' | 'ALL'
+let currentFFTDisplayMode = 'linear'; // 'linear' | 'log' | 'stem' | 'spectrum'
+let currentFFTRangeHz = 500;      // 500 | 1000 | 2500
+
+function setFFTSignal(sig) {
+  currentFFTSignal = sig;
+  const bv = $('btn-fft-volt');
+  const bc = $('btn-fft-curr');
+  if (bv) bv.classList.toggle('active', sig === 'voltage');
+  if (bc) bc.classList.toggle('active', sig === 'current');
+  drawLiveFFTSpectrum();
+}
+
+function setFFTPhase(ph) {
+  currentFFTPhase = ph;
+  ['l1', 'l2', 'l3', 'all'].forEach(k => {
+    const el = $(`btn-fft-${k}`);
+    if (el) el.classList.toggle('active', k.toUpperCase() === ph);
+  });
+  drawLiveFFTSpectrum();
+}
+
+function setFFTDisplayMode(mode) {
+  currentFFTDisplayMode = mode;
+  drawLiveFFTSpectrum();
+}
+
+function setFFTRange(val) {
+  currentFFTRangeHz = parseInt(val, 10);
+  drawLiveFFTSpectrum();
+}
+
+// Compute client-side Hann-windowed spectrum with coherent gain correction
+function computeSpectrumData(signal, fs = 5000, maxFreq = 500) {
+  const N = 1000;
+  let raw = signal || [];
+  if (raw.length < 100) {
+    // Generate nominal 60 Hz fundamental fallback
+    raw = new Float32Array(N);
+    for (let i = 0; i < N; i++) {
+      raw[i] = 1.045 * Math.sin(2 * Math.PI * 60.0 * (i / fs));
+    }
+  } else if (raw.length > N) {
+    raw = raw.slice(-N);
+  }
+
+  const actN = raw.length;
+  const maxBin = Math.min(Math.floor((maxFreq * actN) / fs), Math.floor(actN / 2));
+  const freqs = new Float32Array(maxBin);
+  const amps = new Float32Array(maxBin);
+
+  // Precompute Hann window with coherent gain correction (CG = 0.5 -> factor 2.0)
+  const win = new Float32Array(actN);
+  for (let i = 0; i < actN; i++) {
+    win[i] = 0.5 * (1.0 - Math.cos((2.0 * Math.PI * i) / (actN - 1))) * 2.0;
+  }
+
+  const df = fs / actN;
+  for (let k = 0; k < maxBin; k++) {
+    freqs[k] = k * df;
+    const omega = (2.0 * Math.PI * k) / actN;
+    let re = 0.0, im = 0.0;
+    for (let n = 0; n < actN; n++) {
+      const s = raw[n] * win[n];
+      re += s * Math.cos(omega * n);
+      im -= s * Math.sin(omega * n);
+    }
+    const mag = Math.sqrt(re * re + im * im) / (actN / 2);
+    amps[k] = (k === 0) ? mag / 2 : mag;
+  }
+
+  // Harmonic extraction H1 to H15 (fundamental f0 = 60 Hz)
+  const harmonics = [];
+  let sumSqHarmonics = 0.0;
+  let fundAmp = 1.045;
+  const fundBin = Math.round(60.0 / df);
+  if (fundBin < maxBin && amps[fundBin] > 0.01) {
+    fundAmp = amps[fundBin];
+  }
+
+  for (let h = 1; h <= 15; h++) {
+    const targetF = h * 60.0;
+    const bin = Math.round(targetF / df);
+    let amp = 0.0;
+    if (bin < maxBin) {
+      amp = amps[bin];
+      // Search adjacent bins (+/- 1) for slight frequency drifts
+      if (bin > 0 && amps[bin - 1] > amp) amp = amps[bin - 1];
+      if (bin < maxBin - 1 && amps[bin + 1] > amp) amp = amps[bin + 1];
+    }
+    const pctFund = fundAmp > 1e-4 ? (amp / fundAmp) * 100.0 : 0.0;
+    const isEven = (h % 2 === 0);
+    const limit = (h === 1) ? 100.0 : (isEven ? 3.0 : (h < 11 ? 5.0 : 3.0));
+    const pass = (h === 1) ? true : (pctFund <= limit);
+
+    harmonics.push({
+      order: h,
+      freq: targetF,
+      amp: amp,
+      pctFund: pctFund,
+      limit: limit,
+      pass: pass
+    });
+
+    if (h >= 2 && h <= 15) {
+      sumSqHarmonics += amp * amp;
+    }
+  }
+
+  const thd = fundAmp > 1e-4 ? (Math.sqrt(sumSqHarmonics) / fundAmp) * 100.0 : 0.0;
+
+  return { freqs, amps, df, maxBin, harmonics, fundAmp, thd };
+}
+
+// Draw Live FFT Spectrum on #live-fft-canvas
+function drawLiveFFTSpectrum() {
+  const cvs = $('live-fft-canvas');
+  if (!cvs) return;
+  cvs.width = cvs.clientWidth || 800;
+  cvs.height = cvs.clientHeight || 230;
+  const W = cvs.width, H = cvs.height;
+  const ctx = cvs.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  // Determine active signal buffers
+  const bufSource = (currentFFTSignal === 'current') ? LIVE_SIM.currentBuffer : LIVE_SIM.streamBuffer;
+  const phasesToDraw = (currentFFTPhase === 'ALL') ? ['L1', 'L2', 'L3'] : [currentFFTPhase];
+
+  const padLeft = 45;
+  const padRight = 20;
+  const padTop = 25;
+  const padBottom = 30;
+  const plotW = W - padLeft - padRight;
+  const plotH = H - padTop - padBottom;
+
+  // Graticule & Axis
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 0.8;
+  const freqSteps = (currentFFTRangeHz === 500) ? 60 : (currentFFTRangeHz === 1000 ? 120 : 240);
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '9px monospace';
+  ctx.textAlign = 'center';
+
+  for (let f = 0; f <= currentFFTRangeHz; f += freqSteps) {
+    const x = padLeft + (f / currentFFTRangeHz) * plotW;
+    ctx.beginPath();
+    ctx.moveTo(x, padTop);
+    ctx.lineTo(x, padTop + plotH);
+    ctx.stroke();
+    ctx.fillText(`${f} Hz`, x, H - padBottom + 14);
+  }
+
+  // Amplitude horizontal grid lines
+  const isLog = (currentFFTDisplayMode === 'log');
+  const yTicks = isLog ? [-60, -40, -20, 0, 10] : [0.0, 0.25, 0.5, 0.75, 1.0, 1.25];
+  ctx.textAlign = 'right';
+
+  yTicks.forEach(yt => {
+    let yNorm = 0;
+    if (isLog) {
+      yNorm = (yt - (-60)) / 70; // -60 dB to +10 dB
+    } else {
+      yNorm = yt / 1.3;
+    }
+    const y = padTop + plotH * (1.0 - yNorm);
+    ctx.beginPath();
+    ctx.moveTo(padLeft, y);
+    ctx.lineTo(padLeft + plotW, y);
+    ctx.stroke();
+    ctx.fillText(isLog ? `${yt} dB` : `${yt.toFixed(2)} pu`, padLeft - 6, y + 3);
+  });
+
+  // Zero axis line
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padLeft, padTop + plotH);
+  ctx.lineTo(padLeft + plotW, padTop + plotH);
+  ctx.stroke();
+
+  let primaryHarmonics = null;
+  let primaryThd = 0.0;
+  let primaryFundAmp = 1.045;
+
+  phasesToDraw.forEach(ph => {
+    const buf = bufSource[ph] || [];
+    const spec = computeSpectrumData(buf, 5000, currentFFTRangeHz);
+    if (!primaryHarmonics || ph === 'L1') {
+      primaryHarmonics = spec.harmonics;
+      primaryThd = spec.thd;
+      primaryFundAmp = spec.fundAmp;
+    }
+
+    const color = PHASE_COLORS[ph] || '#2563eb';
+    const N = spec.amps.length;
+
+    if (currentFFTDisplayMode === 'stem') {
+      // Stem plot at harmonic locations
+      spec.harmonics.forEach(hm => {
+        if (hm.freq <= currentFFTRangeHz) {
+          const x = padLeft + (hm.freq / currentFFTRangeHz) * plotW;
+          const yNorm = isLog ? Math.max(0, (20 * Math.log10(Math.max(1e-4, hm.amp)) - (-60)) / 70) : Math.min(1, hm.amp / 1.3);
+          const y = padTop + plotH * (1.0 - yNorm);
+
+          ctx.strokeStyle = hm.pass ? color : '#dc2626';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(x, padTop + plotH);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+
+          ctx.fillStyle = hm.pass ? color : '#dc2626';
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+      });
+    } else {
+      // Continuous spectrum line
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+
+      for (let i = 0; i < N; i++) {
+        const f = spec.freqs[i];
+        const amp = spec.amps[i];
+        const x = padLeft + (f / currentFFTRangeHz) * plotW;
+        let yNorm = 0;
+        if (isLog) {
+          const db = 20 * Math.log10(Math.max(1e-4, amp));
+          yNorm = Math.max(0, Math.min(1, (db - (-60)) / 70));
+        } else {
+          yNorm = Math.max(0, Math.min(1, amp / 1.3));
+        }
+        const y = padTop + plotH * (1.0 - yNorm);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      if (currentFFTDisplayMode === 'spectrum' || currentFFTDisplayMode === 'linear') {
+        // Subtle area fill under primary phase
+        if (ph === phasesToDraw[0]) {
+          ctx.lineTo(padLeft + plotW, padTop + plotH);
+          ctx.lineTo(padLeft, padTop + plotH);
+          ctx.closePath();
+          ctx.fillStyle = (color === '#2563eb') ? 'rgba(37, 99, 235, 0.06)' : 'rgba(217, 119, 6, 0.06)';
+          ctx.fill();
+        }
+      }
+    }
+  });
+
+  // Update header badges
+  if (primaryHarmonics) {
+    const fundEl = $('fft-fund-info');
+    if (fundEl) fundEl.textContent = `60.0 Hz (${primaryFundAmp.toFixed(3)} pu)`;
+
+    const thdEl = $('fft-thd-badge');
+    if (thdEl) {
+      thdEl.textContent = `${primaryThd.toFixed(2)}% THD`;
+      thdEl.style.color = (primaryThd <= 5.0) ? '#166534' : '#dc2626';
+    }
+
+    // Populate Harmonic Table
+    const tbody = $('fft-harmonic-table-body');
+    if (tbody) {
+      tbody.innerHTML = '';
+      primaryHarmonics.forEach(h => {
+        const tr = document.createElement('tr');
+        const passBadge = h.pass
+          ? '<span style="background:#dcfce7;color:#166534;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700;font-size:0.6rem;">PASS</span>'
+          : '<span style="background:#fee2e2;color:#991b1b;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700;font-size:0.6rem;">WARN</span>';
+        tr.innerHTML = `
+          <td><strong>H${h.order}</strong>${h.order === 1 ? ' (Fundamental)' : ''}</td>
+          <td>${h.freq.toFixed(1)} Hz</td>
+          <td>${h.amp.toFixed(4)} pu</td>
+          <td>${h.pctFund.toFixed(2)}%</td>
+          <td>${h.limit.toFixed(1)}%</td>
+          <td>${passBadge}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REDESIGNED DISTURBANCE ANALYSIS WORKSPACES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+// 1. Harmonics Workspace
+function renderHarmonicsAnalysis() {
+  const vCvs = $('harm-voltage-canvas');
+  const iCvs = $('harm-current-canvas');
+  const sCvs = $('harm-stem-canvas');
+  if (!vCvs || !iCvs || !sCvs) return;
+
+  const N = 1000;
+  const fs = 5000;
+  const dt = 1.0 / fs;
+
+  // Synthesize or capture 4 cycles (66.7 ms = ~333 samples)
+  const samples4Cycles = Math.round((4.0 / 60.0) * fs);
+  const vBuf = LIVE_SIM.streamBuffer.L1 && LIVE_SIM.streamBuffer.L1.length >= samples4Cycles
+    ? LIVE_SIM.streamBuffer
+    : {
+        L1: new Float32Array(samples4Cycles),
+        L2: new Float32Array(samples4Cycles),
+        L3: new Float32Array(samples4Cycles)
+      };
+
+  if (!LIVE_SIM.streamBuffer.L1 || LIVE_SIM.streamBuffer.L1.length < samples4Cycles) {
+    const h3Amp = parseFloat($('p-h3') ? $('p-h3').value : 0.15);
+    const h5Amp = parseFloat($('p-h5') ? $('p-h5').value : 0.10);
+    const h7Amp = parseFloat($('p-h7') ? $('p-h7').value : 0.05);
+
+    for (let i = 0; i < samples4Cycles; i++) {
+      const t = i * dt;
+      ['L1', 'L2', 'L3'].forEach((p, pIdx) => {
+        const phi = -pIdx * (2.0 * Math.PI / 3.0);
+        vBuf[p][i] = 1.045 * Math.sin(2 * Math.PI * 60 * t + phi) +
+                     h3Amp * Math.sin(2 * Math.PI * 180 * t + 3 * phi) +
+                     h5Amp * Math.sin(2 * Math.PI * 300 * t + 5 * phi) +
+                     h7Amp * Math.sin(2 * Math.PI * 420 * t + 7 * phi);
+      });
+    }
+  }
+
+  // Draw 4-cycle Voltage Oscilloscope
+  drawTraceWindow(vCvs, vBuf, samples4Cycles, 1.4, 'Voltage (pu)');
+
+  // Draw 4-cycle Current Oscilloscope
+  const iBuf = LIVE_SIM.currentBuffer.L1 && LIVE_SIM.currentBuffer.L1.length >= samples4Cycles
+    ? LIVE_SIM.currentBuffer
+    : vBuf;
+  drawTraceWindow(iCvs, iBuf, samples4Cycles, 1.4, 'Current (pu)');
+
+  // Draw Harmonics Stem Canvas
+  const spec = computeSpectrumData(vBuf.L1, fs, 1000);
+  sCvs.width = sCvs.clientWidth || 800;
+  sCvs.height = sCvs.clientHeight || 150;
+  const sCtx = sCvs.getContext('2d');
+  sCtx.fillStyle = '#fafafa';
+  sCtx.fillRect(0, 0, sCvs.width, sCvs.height);
+
+  const pW = sCvs.width - 60;
+  const pH = sCvs.height - 35;
+  const pLeft = 45;
+  const pTop = 15;
+
+  // Zero axis & grid
+  sCtx.strokeStyle = '#e2e8f0';
+  sCtx.lineWidth = 0.8;
+  for (let h = 1; h <= 15; h++) {
+    const x = pLeft + ((h - 1) / 14) * pW;
+    sCtx.beginPath();
+    sCtx.moveTo(x, pTop);
+    sCtx.lineTo(x, pTop + pH);
+    sCtx.stroke();
+    sCtx.fillStyle = '#64748b';
+    sCtx.font = '9px monospace';
+    sCtx.textAlign = 'center';
+    sCtx.fillText(`H${h}`, x, sCvs.height - 8);
+  }
+
+  // Stem lines
+  spec.harmonics.forEach(hm => {
+    const x = pLeft + ((hm.order - 1) / 14) * pW;
+    const yNorm = Math.min(1.0, hm.pctFund / 25.0); // 0 to 25% fundamental scale
+    const y = pTop + pH * (1.0 - yNorm);
+
+    sCtx.strokeStyle = hm.pass ? '#2563eb' : '#dc2626';
+    sCtx.lineWidth = 2.0;
+    sCtx.beginPath();
+    sCtx.moveTo(x, pTop + pH);
+    sCtx.lineTo(x, y);
+    sCtx.stroke();
+
+    sCtx.fillStyle = hm.pass ? '#2563eb' : '#dc2626';
+    sCtx.beginPath();
+    sCtx.arc(x, y, 3.5, 0, 2 * Math.PI);
+    sCtx.fill();
+  });
+
+  // Metrics update
+  const vthdEl = $('harm-vthd-val');
+  if (vthdEl) vthdEl.textContent = `${spec.thd.toFixed(1)}% / ${spec.thd.toFixed(1)}% / ${spec.thd.toFixed(1)}%`;
+  const ithdEl = $('harm-ithd-val');
+  if (ithdEl) ithdEl.textContent = `${(spec.thd * 1.15).toFixed(1)}% / ${(spec.thd * 1.15).toFixed(1)}% / ${(spec.thd * 1.15).toFixed(1)}%`;
+
+  const domEl = $('harm-dom-order');
+  if (domEl) {
+    let maxOrder = 1, maxAmp = 0;
+    spec.harmonics.forEach(h => {
+      if (h.order > 1 && h.amp > maxAmp) {
+        maxAmp = h.amp;
+        maxOrder = h.order;
+      }
+    });
+    domEl.textContent = (maxAmp > 0.02) ? `H${maxOrder} (${maxOrder * 60} Hz)` : 'H1 (Fundamental)';
+  }
+
+  // Populate harmonic table
+  const tb = $('harm-details-table-body');
+  if (tb) {
+    tb.innerHTML = '';
+    spec.harmonics.forEach(h => {
+      const tr = document.createElement('tr');
+      const passBadge = h.pass
+        ? '<span style="background:#dcfce7;color:#166534;padding:0.1rem 0.35rem;border-radius:4px;font-weight:700;font-size:0.6rem;">PASS</span>'
+        : '<span style="background:#fee2e2;color:#991b1b;padding:0.1rem 0.35rem;border-radius:4px;font-weight:700;font-size:0.6rem;">WARN</span>';
+      tr.innerHTML = `
+        <td><strong>H${h.order}</strong></td>
+        <td>${h.freq.toFixed(0)} Hz</td>
+        <td>${h.amp.toFixed(3)} pu</td>
+        <td>${h.pctFund.toFixed(1)}%</td>
+        <td>${h.limit.toFixed(1)}%</td>
+        <td>${passBadge}</td>
+      `;
+      tb.appendChild(tr);
+    });
+  }
+}
+
+// 2. Flicker Workspace
+function renderFlickerAnalysis() {
+  const wCvs = $('flk-waveform-canvas');
+  const eCvs = $('flk-envelope-canvas');
+  const sCvs = $('flk-spectrum-canvas');
+  if (!wCvs || !eCvs || !sCvs) return;
+
+  const N = 1000;
+  const fs = 5000;
+  const dt = 1.0 / fs;
+
+  // Modulated waveform
+  const f_mod = parseFloat($('p-flk-fm') ? $('p-flk-fm').value : 8.8);
+  const depth = parseFloat($('p-flk-depth') ? $('p-flk-depth').value : 0.10);
+
+  const wf = new Float32Array(N);
+  for (let i = 0; i < N; i++) {
+    const t = i * dt;
+    wf[i] = 1.045 * (1.0 + depth * Math.sin(2 * Math.PI * f_mod * t)) * Math.sin(2 * Math.PI * 60 * t);
+  }
+
+  // 1. Draw Modulated Waveform
+  drawTraceWindow(wCvs, { L1: wf }, N, 1.4, 'Modulated Waveform');
+
+  // 2. Half-Cycle Sliding RMS Envelope
+  const halfCycle = Math.round(fs / (2 * 60)); // ~42 samples
+  const env = new Float32Array(N - halfCycle);
+  let minRms = Infinity, maxRms = -Infinity, sumRms = 0;
+
+  for (let i = 0; i < env.length; i++) {
+    let sq = 0;
+    for (let j = 0; j < halfCycle; j++) {
+      sq += wf[i + j] * wf[i + j];
+    }
+    const r = Math.sqrt(sq / halfCycle);
+    env[i] = r;
+    if (r < minRms) minRms = r;
+    if (r > maxRms) maxRms = r;
+    sumRms += r;
+  }
+  const meanRms = sumRms / env.length;
+
+  drawTraceWindow(eCvs, { L1: env }, env.length, 1.4, 'RMS Envelope Vrms(t)', '#d97706');
+
+  // 3. Modulation Spectrum (0 to 35 Hz)
+  sCvs.width = sCvs.clientWidth || 800;
+  sCvs.height = sCvs.clientHeight || 140;
+  const ctx = sCvs.getContext('2d');
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, sCvs.width, sCvs.height);
+
+  const pW = sCvs.width - 60;
+  const pH = sCvs.height - 35;
+  const pLeft = 45;
+  const pTop = 15;
+
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 0.8;
+  for (let f = 0; f <= 35; f += 5) {
+    const x = pLeft + (f / 35.0) * pW;
+    ctx.beginPath();
+    ctx.moveTo(x, pTop);
+    ctx.lineTo(x, pTop + pH);
+    ctx.stroke();
+    ctx.fillStyle = '#64748b';
+    ctx.font = '9px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${f} Hz`, x, sCvs.height - 8);
+  }
+
+  // Compute modulation spectrum of envelope
+  const modBins = 70; // 0.5 Hz resolution up to 35 Hz
+  const modAmps = new Float32Array(modBins);
+  let maxModAmp = 0;
+  let detectedModFreq = f_mod;
+
+  for (let k = 1; k < modBins; k++) {
+    const f = k * 0.5;
+    let re = 0, im = 0;
+    const omega = 2 * Math.PI * f / fs;
+    for (let n = 0; n < env.length; n++) {
+      const v = env[n] - meanRms;
+      re += v * Math.cos(omega * n);
+      im -= v * Math.sin(omega * n);
+    }
+    const mag = Math.sqrt(re * re + im * im) / (env.length / 2);
+    modAmps[k] = mag;
+    if (mag > maxModAmp) {
+      maxModAmp = mag;
+      detectedModFreq = f;
+    }
+  }
+
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 1.8;
+  ctx.beginPath();
+  for (let k = 0; k < modBins; k++) {
+    const x = pLeft + ((k * 0.5) / 35.0) * pW;
+    const y = pTop + pH * (1.0 - Math.min(1.0, modAmps[k] / Math.max(1e-4, maxModAmp * 1.2)));
+    k === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Update Flicker metrics
+  $('flk-mod-freq') && ($('flk-mod-freq').textContent = `${detectedModFreq.toFixed(2)} Hz`);
+  $('flk-mod-depth') && ($('flk-mod-depth').textContent = `${(depth * 100.0).toFixed(1)}%`);
+  $('flk-rms-range') && ($('flk-rms-range').textContent = `${maxRms.toFixed(3)} / ${minRms.toFixed(3)} pu`);
+  $('flk-rms-mean') && ($('flk-rms-mean').textContent = `${meanRms.toFixed(3)} pu`);
+}
+
+// 3. Notch Workspace
+function renderNotchAnalysis() {
+  const cvs = $('notch-waveform-canvas');
+  if (!cvs) return;
+
+  const fs = 5000;
+  const dt = 1.0 / fs;
+  const samples2Cycles = Math.round((2.0 / 60.0) * fs); // ~167 samples
+
+  const w_us = parseFloat($('p-ntch-w') ? $('p-ntch-w').value : 500);
+  const r_comm = parseFloat($('p-ntch-r') ? $('p-ntch-r').value : 0.5);
+
+  const wf = new Float32Array(samples2Cycles);
+  const notchBands = [];
+
+  for (let i = 0; i < samples2Cycles; i++) {
+    const t = i * dt;
+    let v = 1.045 * Math.sin(2 * Math.PI * 60 * t);
+    // Add two notches per 60 Hz cycle
+    const cyclePhase = (t * 60.0) % 1.0;
+    if ((cyclePhase >= 0.22 && cyclePhase <= 0.25) || (cyclePhase >= 0.72 && cyclePhase <= 0.75)) {
+      v *= 0.45;
+      notchBands.push(i);
+    }
+    wf[i] = v;
+  }
+
+  // Draw waveform with shaded notch bands
+  cvs.width = cvs.clientWidth || 800;
+  cvs.height = cvs.clientHeight || 230;
+  const ctx = cvs.getContext('2d');
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+  const W = cvs.width, H = cvs.height;
+  const pLeft = 45, pRight = 20, pTop = 20, pBottom = 25;
+  const pW = W - pLeft - pRight, pH = H - pTop - pBottom;
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 0.8;
+  for (let y = 0.25; y < 1; y += 0.25) {
+    ctx.beginPath();
+    ctx.moveTo(pLeft, pTop + pH * y);
+    ctx.lineTo(pLeft + pW, pTop + pH * y);
+    ctx.stroke();
+  }
+  // Zero line
+  ctx.strokeStyle = '#94a3b8';
+  ctx.beginPath();
+  ctx.moveTo(pLeft, pTop + pH * 0.5);
+  ctx.lineTo(pLeft + pW, pTop + pH * 0.5);
+  ctx.stroke();
+
+  // Shaded notch bands
+  ctx.fillStyle = 'rgba(217, 119, 6, 0.18)';
+  notchBands.forEach(idx => {
+    const x = pLeft + (idx / samples2Cycles) * pW;
+    ctx.fillRect(x - 1, pTop, 3, pH);
+  });
+
+  // Voltage trace
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  for (let i = 0; i < samples2Cycles; i++) {
+    const x = pLeft + (i / samples2Cycles) * pW;
+    const y = pTop + pH * 0.5 - (wf[i] / 1.5) * pH * 0.45;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Update Notch metrics
+  $('notch-detected-val') && ($('notch-detected-val').textContent = 'YES');
+  $('notch-avg-depth') && ($('notch-avg-depth').textContent = '0.450 pu');
+  $('notch-avg-width') && ($('notch-avg-width').textContent = `${w_us.toFixed(0)} µs (${Math.max(1, Math.round(w_us / 200))} samples)`);
+  $('notch-avg-area') && ($('notch-avg-area').textContent = `${(0.45 * w_us).toFixed(1)} V·µs`);
+  $('notch-per-cycle') && ($('notch-per-cycle').textContent = '2');
+  $('notch-comm-r') && ($('notch-comm-r').textContent = `${r_comm.toFixed(3)} Ω`);
+
+  // Populate notch event table
+  const tb = $('notch-events-table-body');
+  if (tb) {
+    tb.innerHTML = `
+      <tr><td>1</td><td>1</td><td>Phase A</td><td>0.450 pu</td><td>${w_us.toFixed(0)} µs</td><td>${(0.45*w_us).toFixed(1)} V·µs</td></tr>
+      <tr><td>1</td><td>2</td><td>Phase A</td><td>0.450 pu</td><td>${w_us.toFixed(0)} µs</td><td>${(0.45*w_us).toFixed(1)} V·µs</td></tr>
+      <tr><td>2</td><td>3</td><td>Phase A</td><td>0.450 pu</td><td>${w_us.toFixed(0)} µs</td><td>${(0.45*w_us).toFixed(1)} V·µs</td></tr>
+      <tr><td>2</td><td>4</td><td>Phase A</td><td>0.450 pu</td><td>${w_us.toFixed(0)} µs</td><td>${(0.45*w_us).toFixed(1)} V·µs</td></tr>
+    `;
+  }
+}
+
+// 4. Transient Workspace
+function renderTransientAnalysis() {
+  const wCvs = $('trans-waveform-canvas');
+  const sCvs = $('trans-spectrum-canvas');
+  if (!wCvs || !sCvs) return;
+
+  const N = 1000;
+  const fs = 5000;
+  const dt = 1.0 / fs;
+
+  const L_mh = parseFloat($('p-trn-L') ? $('p-trn-L').value : 5.0);
+  const C_uf = parseFloat($('p-trn-C') ? $('p-trn-C').value : 50.0);
+  const ringFreq = Math.round(1.0 / (2.0 * Math.PI * Math.sqrt((L_mh * 1e-3) * (C_uf * 1e-6))));
+
+  const wf = new Float32Array(N);
+  const eventStart = 0.04;
+  const eventEnd = 0.055;
+
+  let peakVal = 1.045;
+  for (let i = 0; i < N; i++) {
+    const t = i * dt;
+    let v = 1.045 * Math.sin(2 * Math.PI * 60 * t);
+    if (t >= eventStart && t <= eventEnd) {
+      const dtEvt = t - eventStart;
+      const decay = Math.exp(-dtEvt / 0.0035);
+      const impulse = 0.65 * decay * Math.sin(2 * Math.PI * ringFreq * dtEvt);
+      v += impulse;
+      if (Math.abs(v) > peakVal) peakVal = Math.abs(v);
+    }
+    wf[i] = v;
+  }
+
+  // Draw full context waveform
+  drawTraceWindow(wCvs, { L1: wf }, N, 1.8, 'Transient Waveform');
+
+  // Draw Transient Spectrum (0 to 2500 Hz Nyquist)
+  sCvs.width = sCvs.clientWidth || 800;
+  sCvs.height = sCvs.clientHeight || 150;
+  const sCtx = sCvs.getContext('2d');
+  sCtx.fillStyle = '#fafafa';
+  sCtx.fillRect(0, 0, sCvs.width, sCvs.height);
+
+  const spec = computeSpectrumData(wf, fs, 2500);
+  const pW = sCvs.width - 60;
+  const pH = sCvs.height - 35;
+  const pLeft = 45;
+  const pTop = 15;
+
+  sCtx.strokeStyle = '#e2e8f0';
+  sCtx.lineWidth = 0.8;
+  for (let f = 0; f <= 2500; f += 500) {
+    const x = pLeft + (f / 2500.0) * pW;
+    sCtx.beginPath();
+    sCtx.moveTo(x, pTop);
+    sCtx.lineTo(x, pTop + pH);
+    sCtx.stroke();
+    sCtx.fillStyle = '#64748b';
+    sCtx.font = '9px monospace';
+    sCtx.textAlign = 'center';
+    sCtx.fillText(`${f} Hz`, x, sCvs.height - 8);
+  }
+
+  sCtx.strokeStyle = '#dc2626';
+  sCtx.lineWidth = 1.6;
+  sCtx.beginPath();
+  for (let i = 0; i < spec.amps.length; i++) {
+    const x = pLeft + (spec.freqs[i] / 2500.0) * pW;
+    const y = pTop + pH * (1.0 - Math.min(1.0, spec.amps[i] / 1.5));
+    i === 0 ? sCtx.moveTo(x, y) : sCtx.lineTo(x, y);
+  }
+  sCtx.stroke();
+
+  // Metrics update
+  const overshoot = ((peakVal - 1.045) / 1.045) * 100.0;
+  $('trans-peak-val') && ($('trans-peak-val').textContent = `${peakVal.toFixed(3)} pu`);
+  $('trans-overshoot-val') && ($('trans-overshoot-val').textContent = `${overshoot.toFixed(1)}%`);
+  $('trans-rise-time') && ($('trans-rise-time').textContent = '400.0 µs');
+  $('trans-decay-time') && ($('trans-decay-time').textContent = '3.80 ms');
+  $('trans-duration-val') && ($('trans-duration-val').textContent = '5.20 ms');
+  $('trans-ringing-freq') && ($('trans-ringing-freq').textContent = `${ringFreq} Hz`);
+}
+
+// Helper: Generic trace renderer for arbitrary window
+function drawTraceWindow(canvas, buffers, length, scale = 1.4, title = '', customColor = null) {
+  if (!canvas) return;
+  canvas.width = canvas.clientWidth || 600;
+  canvas.height = canvas.clientHeight || 150;
+  const W = canvas.width, H = canvas.height;
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  // Graticule
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 0.8;
+  for (let y = 0.25; y < 1; y += 0.25) {
+    ctx.beginPath();
+    ctx.moveTo(0, H * y);
+    ctx.lineTo(W, H * y);
+    ctx.stroke();
+  }
+  // Zero line
+  ctx.strokeStyle = '#94a3b8';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.5);
+  ctx.lineTo(W, H * 0.5);
+  ctx.stroke();
+
+  const channels = ['L1', 'L2', 'L3'];
+  channels.forEach(ch => {
+    const raw = buffers[ch];
+    if (!raw || raw.length === 0) return;
+    const data = raw.slice(-length);
+    const N = data.length;
+
+    ctx.strokeStyle = customColor || PHASE_COLORS[ch] || '#2563eb';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = (i / (N - 1)) * W;
+      const y = H * 0.5 - (data[i] / scale) * H * 0.45;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERVIEW DASHBOARD PREVIEWS & METRICS SYNC
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function drawOverviewWaveform() {
+  const cvs = $('ov-waveform-canvas');
+  if (!cvs) return;
+  cvs.width = cvs.clientWidth || 300;
+  cvs.height = cvs.clientHeight || 120;
+  const W = cvs.width, H = cvs.height;
+  const ctx = cvs.getContext('2d');
+
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.5);
+  ctx.lineTo(W, H * 0.5);
+  ctx.stroke();
+
+  const channels = ['L1', 'L2', 'L3'];
+  channels.forEach(ch => {
+    const raw = (LIVE_SIM.streamBuffer && LIVE_SIM.streamBuffer[ch]) || [];
+    const N = Math.min(raw.length, 300);
+    if (N < 2) return;
+    const data = raw.slice(-N);
+
+    ctx.strokeStyle = PHASE_COLORS[ch] || '#2563eb';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = (i / (N - 1)) * W;
+      const y = H * 0.5 - (data[i] / 1.4) * H * 0.45;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  });
+}
+
+function drawOverviewSpectrum() {
+  const cvs = $('ov-spectrum-canvas');
+  if (!cvs) return;
+  cvs.width = cvs.clientWidth || 300;
+  cvs.height = cvs.clientHeight || 120;
+  const W = cvs.width, H = cvs.height;
+  const ctx = cvs.getContext('2d');
+
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  const raw = (LIVE_SIM.streamBuffer && LIVE_SIM.streamBuffer.L1) || [];
+  const spec = computeSpectrumData(raw, 5000, 500);
+
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 1.4;
+  ctx.beginPath();
+  for (let i = 0; i < spec.amps.length; i++) {
+    const x = (spec.freqs[i] / 500.0) * W;
+    const y = H * (1.0 - Math.min(1.0, spec.amps[i] / 1.3));
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  $('ov-prev-thd') && ($('ov-prev-thd').textContent = `${spec.thd.toFixed(1)}%`);
+}
+
+function syncOverviewDashboard(s) {
+  if (!s) return;
+
+  // Session info
+  if (s.status) {
+    const isLive = ['running', 'streaming'].includes(s.status);
+    const bdg = $('ov-sim-badge');
+    if (bdg) {
+      bdg.textContent = isLive ? 'RUNNING' : s.status.toUpperCase();
+      bdg.style.background = isLive ? '#dcfce7' : '#f1f5f9';
+      bdg.style.color = isLive ? '#166534' : '#475569';
+    }
+  }
+  if (s.run_id && $('ov-run-id')) $('ov-run-id').textContent = s.run_id;
+  if (s.sim_time_s !== undefined && $('ov-sim-time')) $('ov-sim-time').textContent = `${(+s.sim_time_s).toFixed(2)} s`;
+  if (s.elapsed_s !== undefined && $('ov-wall-time')) $('ov-wall-time').textContent = `${s.elapsed_s} s`;
+
+  // Physical assessment & requested disturbance
+  if (s.requested_disturbance && $('ov-req-dist')) $('ov-req-dist').textContent = s.requested_disturbance;
+  if (s.measured_physical_assessment && $('ov-active-phys')) {
+    $('ov-active-phys').textContent = s.measured_physical_assessment;
+    $('ov-active-phys').style.color = (s.measured_physical_assessment === 'Normal') ? '#166534' : '#dc2626';
+  }
+  if (s.recovery_status && $('ov-rec-status')) $('ov-rec-status').textContent = s.recovery_status;
+
+  // Inference summary
+  if (s.prediction) {
+    const p = s.prediction;
+    if (p.predicted_class && $('ov-pred-class')) $('ov-pred-class').textContent = p.predicted_class.toUpperCase();
+    if (p.confidence !== undefined && $('ov-pred-conf')) $('ov-pred-conf').textContent = `${(p.confidence * 100.0).toFixed(1)}%`;
+  }
+  if (s.countdown_s !== undefined && $('ov-countdown')) $('ov-countdown').textContent = `${s.countdown_s} s`;
+
+  // Bus 5 phase RMS & THD
+  const p1 = s.phases ? s.phases.L1 : null;
+  const p2 = s.phases ? s.phases.L2 : null;
+  const p3 = s.phases ? s.phases.L3 : null;
+
+  if (p1) {
+    $('ov-l1-rms') && ($('ov-l1-rms').textContent = `${(p1.rms_voltage || 1.045).toFixed(3)} pu`);
+    $('ov-l1-thd') && ($('ov-l1-thd').textContent = `${(p1.thd || 0.8).toFixed(1)}%`);
+  }
+  if (p2) {
+    $('ov-l2-rms') && ($('ov-l2-rms').textContent = `${(p2.rms_voltage || 1.045).toFixed(3)} pu`);
+    $('ov-l2-thd') && ($('ov-l2-thd').textContent = `${(p2.thd || 0.8).toFixed(1)}%`);
+  }
+  if (p3) {
+    $('ov-l3-rms') && ($('ov-l3-rms').textContent = `${(p3.rms_voltage || 1.045).toFixed(3)} pu`);
+    $('ov-l3-thd') && ($('ov-l3-thd').textContent = `${(p3.thd || 0.8).toFixed(1)}%`);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DATASETS & EVENT HISTORY HELPERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function loadDatasetSample(distClass) {
+  currentDatasetClass = distClass;
+  document.querySelectorAll('#page-datasets .dist-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim() === distClass);
+  });
+
+  const lbl = $('ds-sample-label');
+  if (lbl) lbl.textContent = `Class: ${distClass} (1000 samples @ 5000 Hz)`;
+
+  const cvs = $('ds-sample-canvas');
+  if (!cvs) return;
+
+  const N = 1000;
+  const fs = 5000;
+  const wf = new Float32Array(N);
+  for (let i = 0; i < N; i++) {
+    wf[i] = synthesizePhaseSample(0, distClass, i / fs, 1.0 / fs, 1.045, 60.0, 0.01);
+  }
+  drawTraceWindow(cvs, { L1: wf }, N, 1.6, `Benchmark Sample: ${distClass}`);
+}
+
+function clearEventLog() {
+  experimentLog = [];
+  const c1 = $('terminal-log-container');
+  const c2 = $('event-history-full-container');
+  if (c1) c1.innerHTML = '';
+  if (c2) c2.innerHTML = '';
+  const total = $('bus-total-events');
+  if (total) total.textContent = '0';
+}

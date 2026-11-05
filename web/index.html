@@ -91,7 +91,7 @@
         </div>
         <div class="mode-selector" style="margin-bottom: 0.65rem;">
           <button class="mode-btn active" id="mode-simulink-btn" onclick="setInjectionMode('simulink')" style="flex: 1; font-weight: 700;">
-            ⚡ MATLAB Simulink (IEEE 9-Bus)
+            MATLAB Simulink (IEEE 9-Bus)
           </button>
         </div>
 
@@ -394,6 +394,146 @@
       </div>
 
       <!-- Main grid: controls left, charts right -->
+            <!-- ══════════════════════════════════════════════════════════════════
+           PROMINENT LIVE ML CLASSIFICATION HERO PANEL (PROMPT 7)
+           ══════════════════════════════════════════════════════════════════ -->
+      <section class="ml-hero-panel" id="ml-classification-hero">
+        <div class="ml-hero-header">
+          <div class="ml-hero-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            <span class="ml-hero-title-text">LIVE ML CLASSIFICATION</span>
+            <span class="ml-tag-source">60 Hz NATIVE PIPELINE (PHASE 4C MLP)</span>
+          </div>
+          <div class="ml-hero-badges">
+            <span id="ml-lifecycle-badge" class="ml-lifecycle-pill status-waiting">WAITING FOR SIMULATION</span>
+            <span id="ml-model-domain-badge" class="ml-lifecycle-pill status-domain">VALIDATED 60 HZ</span>
+            <span id="ml-signal-quality-badge" class="ml-lifecycle-pill status-valid">SIGNAL: VALID</span>
+          </div>
+        </div>
+
+        <div class="ml-hero-grid">
+          <!-- CARD A: MAIN PREDICTION CARD -->
+          <div class="ml-card-primary">
+            <div class="ml-card-label">PREDICTED DISTURBANCE CLASS</div>
+            <div class="ml-class-huge-wrap">
+              <div id="ml-hero-pred-class" class="ml-class-huge">NORMAL</div>
+              <div class="ml-conf-badge-wrap">
+                <span class="ml-conf-label">Confidence</span>
+                <span id="ml-hero-pred-conf" class="ml-conf-val">0.0%</span>
+              </div>
+            </div>
+
+            <div class="ml-meta-grid">
+              <div class="ml-meta-item">
+                <span class="ml-meta-lbl">Status</span>
+                <strong id="ml-hero-status-lbl" class="ml-meta-val">IDLE</strong>
+              </div>
+              <div class="ml-meta-item">
+                <span class="ml-meta-lbl">Next Evaluation</span>
+                <strong id="ml-hero-countdown-lbl" class="ml-meta-val" style="color:var(--accent-primary);">05.0 s</strong>
+              </div>
+              <div class="ml-meta-item">
+                <span class="ml-meta-lbl">Last Inference</span>
+                <span id="ml-hero-last-eval-lbl" class="ml-meta-val">—</span>
+              </div>
+              <div class="ml-meta-item">
+                <span class="ml-meta-lbl">Latency</span>
+                <span id="ml-hero-latency-lbl" class="ml-meta-val">—</span>
+              </div>
+              <div class="ml-meta-item" style="grid-column: span 2;">
+                <span class="ml-meta-lbl">Analysis Window</span>
+                <span id="ml-hero-window-lbl" class="ml-meta-val" style="font-family:var(--font-mono);font-size:0.68rem;">1000 samples (0.20 s @ 5 kHz)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD B: EIGHT-CLASS PROBABILITY DISTRIBUTION -->
+          <div class="ml-card-probabilities">
+            <div class="ml-card-label">
+              <span>EIGHT-CLASS PROBABILITY DISTRIBUTION</span>
+              <span style="font-size:0.62rem;color:var(--text-muted);font-weight:600;">CANONICAL ORDER</span>
+            </div>
+            <div class="ml-prob-bars-list" id="ml-hero-prob-bars">
+              <!-- Dynamically populated: Flicker, Harmonics, Interruption, Normal, Notch, Sag, Swell, Transient -->
+            </div>
+          </div>
+
+          <!-- CARD C: THREE INDEPENDENT RESULTS SEPARATION -->
+          <div class="ml-card-triplet">
+            <div class="ml-card-label">
+              <span>THREE SEPARATE RESULTS</span>
+              <span style="font-size:0.62rem;color:var(--text-muted);font-weight:600;">DECOUPLED VERIFICATION</span>
+            </div>
+            
+            <div class="triplet-stack">
+              <div class="triplet-item">
+                <div class="triplet-item-top">
+                  <span class="triplet-title">1. Requested Disturbance</span>
+                  <span id="triplet-cmd-badge" class="triplet-state-pill">IDLE</span>
+                </div>
+                <div class="triplet-main-val" id="triplet-req-val">Normal</div>
+                <div class="triplet-sub-val">Operator injection control</div>
+              </div>
+
+              <div class="triplet-item">
+                <div class="triplet-item-top">
+                  <span class="triplet-title">2. Physical Assessment</span>
+                  <span id="triplet-rec-badge" class="triplet-state-pill" style="color:#1e40af;background:#dbeafe;">NORMAL</span>
+                </div>
+                <div class="triplet-main-val" id="triplet-phys-val" style="color:#166534;">Normal</div>
+                <div class="triplet-sub-val">IEEE Std 1159 electrical detector</div>
+              </div>
+
+              <div class="triplet-item highlighted">
+                <div class="triplet-item-top">
+                  <span class="triplet-title" style="color:var(--accent-primary);font-weight:700;">3. Independent ML Prediction</span>
+                  <span id="triplet-ml-badge" class="triplet-state-pill" style="color:#166534;background:#dcfce7;">60 Hz NATIVE</span>
+                </div>
+                <div class="triplet-main-val" id="triplet-ml-val" style="color:var(--accent-primary);">Normal</div>
+                <div class="triplet-sub-val" id="triplet-ml-sub">Trained neural network inference (<span id="triplet-ml-conf-sub">0.0%</span>)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLASSIFICATION TIMELINE TABLE (20 RECENT INFERENCES) -->
+        <div class="ml-timeline-card">
+          <div class="ml-timeline-header" onclick="toggleTimelineExpand()">
+            <div style="display:flex;align-items:center;gap:0.4rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <strong style="font-size:0.75rem;letter-spacing:0.04em;">CLASSIFICATION TIMELINE (RECENT EVALUATIONS)</strong>
+              <span id="ml-timeline-count-badge" style="font-size:0.62rem;background:#f1f5f9;color:#475569;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700;">0 records</span>
+            </div>
+            <span style="font-size:0.65rem;color:var(--accent-primary);cursor:pointer;font-weight:600;" id="ml-timeline-toggle-lbl">SHOW TABLE</span>
+          </div>
+          <div class="ml-timeline-table-wrap" id="ml-timeline-content" style="display:none;">
+            <table class="ml-table">
+              <thead>
+                <tr>
+                  <th>Seq #</th>
+                  <th>Wall Clock</th>
+                  <th>Sim Window</th>
+                  <th>Raw ML Prediction</th>
+                  <th>Confidence</th>
+                  <th>Physical State</th>
+                  <th>Signal Status</th>
+                  <th>Model Domain</th>
+                  <th>Latency</th>
+                </tr>
+              </thead>
+              <tbody id="ml-timeline-tbody">
+                <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:0.75rem;">Waiting for first live simulation evaluation...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Simulink Main Grid Layout -->
       <div class="live-sim-grid">
 
         <!-- ── LEFT: CONTROL PANEL ─────────────────────────────────────── -->

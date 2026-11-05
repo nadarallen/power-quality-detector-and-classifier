@@ -11,6 +11,8 @@ import json
 import math
 import time
 import socket
+import queue
+import queue
 import pickle
 import numpy as np
 from http.server import HTTPServer, ThreadingHTTPServer, SimpleHTTPRequestHandler
@@ -18,6 +20,13 @@ from urllib.parse import parse_qs, urlparse
 
 # Live Simulink simulation bridge
 import simulation_bridge as _sim_bridge
+
+from dsp.fft_analyzer import (
+    compute_spectrum,
+    compute_flicker_analysis,
+    compute_notch_analysis,
+    compute_transient_analysis,
+)
 
 # Standard feature order
 STANDARD_FEATURES = [
@@ -306,31 +315,48 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 return
             else:
                 self._send_json({'error': 'Weights not found'}, status=404)
+        elif parsed.path == '/api/live/simulation/prediction':
+            pred = _sim_bridge.get_latest_prediction()
+            self._send_json(pred)
         elif parsed.path == '/api/live/simulation/status':
             self._send_json(_sim_bridge.get_simulation_status())
         elif parsed.path == '/api/live/simulation/stream':
-            # SSE stream emitting simulation status every second
+            # SSE stream emitting dedicated classification, telemetry, and status events
             self.send_response(200)
             self.send_header('Content-Type', 'text/event-stream')
             self.send_header('Cache-Control', 'no-cache')
             self.send_header('Connection', 'keep-alive')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
+
+            # Immediate status & prediction snapshot on initial connect
+            try:
+                cur_status = _sim_bridge.get_simulation_status()
+                self.wfile.write(f"event: status\ndata: {json.dumps(cur_status)}\n\n".encode('utf-8'))
+                latest_pred = _sim_bridge.get_latest_prediction()
+                if latest_pred and latest_pred.get("prediction_status") == "VALID":
+                    self.wfile.write(f"event: classification\ndata: {json.dumps(latest_pred)}\n\n".encode('utf-8'))
+                self.wfile.flush()
+            except (BrokenPipeError, ConnectionResetError, socket.error):
+                return
+
+            q = _sim_bridge.subscribe_sse()
             try:
                 while True:
-                    status = _sim_bridge.get_simulation_status()
-                    msg = 'data: ' + json.dumps(status) + '\n\n'
-                    self.wfile.write(msg.encode('utf-8'))
-                    self.wfile.flush()
-                    if status['status'] in ('completed', 'error', 'cancelled', 'idle'):
-                        time.sleep(1.5)
-                        final = _sim_bridge.get_simulation_status()
-                        self.wfile.write(('data: ' + json.dumps(final) + '\n\n').encode('utf-8'))
+                    try:
+                        item = q.get(timeout=1.0)
+                        evt_type = item.get("event", "message")
+                        data_str = json.dumps(item.get("data", {}))
+                        msg = f"event: {evt_type}\ndata: {data_str}\n\n"
+                        self.wfile.write(msg.encode('utf-8'))
                         self.wfile.flush()
-                        break
-                    time.sleep(1.0)
+                    except queue.Empty:
+                        self.wfile.write(b": keep-alive\n\n")
+                        self.wfile.flush()
             except (BrokenPipeError, ConnectionResetError, socket.error):
                 pass
+            finally:
+                _sim_bridge.unsubscribe_sse(q)
             return
         elif parsed.path == '/api/live/matlab/check':
             avail, detail = _sim_bridge.check_matlab_available()
@@ -341,6 +367,52 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                 'hil_model_sha256_ok': hil_ok,
                 'hil_model_sha256': hil_sha,
             })
+        elif parsed.path == '/api/analysis/fft':
+            qs = parse_qs(parsed.query)
+            ch = qs.get('channel', ['L1'])[0]
+            sig_type = qs.get('type', ['voltage'])[0]
+            win_type = qs.get('window', ['hann'])[0]
+            active_job = _sim_bridge.get_active_job()
+            signal = None
+            if active_job:
+                buf_dict = active_job.voltage if sig_type == 'voltage' else active_job.current
+                if ch in buf_dict and len(buf_dict[ch]) >= 80:
+                    signal = np.array(buf_dict[ch][-1000:], dtype=np.float64)
+            if signal is None:
+                telem = SHARED_PIPELINE.get_latest_telemetry()
+                wfs = telem.get('waveforms', {}) if sig_type == 'voltage' else telem.get('current_waveforms', {})
+                if ch in wfs and len(wfs[ch]) >= 80:
+                    signal = np.array(wfs[ch][-1000:], dtype=np.float64)
+            if signal is None:
+                t_arr = np.arange(1000) / 5000.0
+                signal = 0.5877 * math.sqrt(2) * np.sin(2.0 * np.pi * 60.0 * t_arr)
+            res = compute_spectrum(signal, sample_rate=5000.0, window_type=win_type)
+            self._send_json(res)
+        elif parsed.path == '/api/analysis/disturbance':
+            qs = parse_qs(parsed.query)
+            dist_kind = qs.get('kind', ['flicker'])[0].lower()
+            ch = qs.get('channel', ['L1'])[0]
+            active_job = _sim_bridge.get_active_job()
+            signal = None
+            if active_job and ch in active_job.voltage and len(active_job.voltage[ch]) >= 80:
+                signal = np.array(active_job.voltage[ch][-1000:], dtype=np.float64)
+            if signal is None:
+                telem = SHARED_PIPELINE.get_latest_telemetry()
+                wfs = telem.get('waveforms', {})
+                if ch in wfs and len(wfs[ch]) >= 80:
+                    signal = np.array(wfs[ch][-1000:], dtype=np.float64)
+            if signal is None:
+                t_arr = np.arange(1000) / 5000.0
+                signal = 0.5877 * math.sqrt(2) * np.sin(2.0 * np.pi * 60.0 * t_arr)
+            if dist_kind == 'flicker':
+                res = compute_flicker_analysis(signal, sample_rate=5000.0)
+            elif dist_kind == 'notch':
+                res = compute_notch_analysis(signal, sample_rate=5000.0)
+            elif dist_kind == 'transient':
+                res = compute_transient_analysis(signal, sample_rate=5000.0)
+            else:
+                res = compute_spectrum(signal, sample_rate=5000.0)
+            self._send_json(res)
         else:
             super().do_GET()
 
@@ -429,7 +501,9 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
                         _sim_bridge.record_chunk_posted(
                             ingest_run_id,
                             channels=channels_raw,
-                            current_channels=current_channels_raw if isinstance(current_channels_raw, dict) else None
+                            current_channels=current_channels_raw if isinstance(current_channels_raw, dict) else None,
+                            chunk_index=seq_num or 0,
+                            simulation_time=data.get('simulation_time_end')
                         )
                     self._send_json({
                         'status': 'success',
@@ -521,22 +595,26 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             except Exception as e:
                 self._send_json({'error': f'Internal error: {str(e)}'}, status=500)
         elif parsed.path == '/api/live/simulation/stop':
-            _sim_bridge.cancel_simulation()
-            self._send_json({'status': 'cancelled'})
+            _sim_bridge.stop_simulation()
+            active_job = _sim_bridge.get_active_job()
+            st = active_job.status if active_job else "stopped"
+            self._send_json({'status': st, 'command_status': 'STOPPED'})
         elif parsed.path == '/api/live/simulation/inject':
             try:
                 active_job = _sim_bridge.get_active_job()
                 run_id = data.get('run_id') or (active_job.run_id if active_job else '')
                 dist = data.get('disturbance', 'Sag')
                 phases = data.get('phases')
-                params = data.get('params')
+                params = data.get('params') or data.get('parameters')
                 duration_s = float(data.get('duration_s', 0.10))
+                cid = data.get('command_id')
                 res = _sim_bridge.inject_live_disturbance(
                     run_id=run_id,
                     disturbance=dist,
                     phases=phases,
                     params=params,
-                    duration_s=duration_s
+                    duration_s=duration_s,
+                    command_id=cid,
                 )
                 self._send_json(res)
             except (ValueError, RuntimeError) as e:
@@ -547,7 +625,8 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             try:
                 active_job = _sim_bridge.get_active_job()
                 run_id = data.get('run_id') or (active_job.run_id if active_job else '')
-                res = _sim_bridge.reset_live_disturbance(run_id=run_id)
+                cid = data.get('command_id')
+                res = _sim_bridge.reset_live_disturbance(run_id=run_id, command_id=cid)
                 self._send_json(res)
             except Exception as e:
                 self._send_json({'error': str(e)}, status=400)
@@ -556,9 +635,38 @@ class PQDServerRequestHandler(SimpleHTTPRequestHandler):
             status  = data.get('status', 'completed')
             if status == 'completed':
                 _sim_bridge.mark_simulation_complete(run_id)
+            elif status == 'stopped':
+                _sim_bridge.mark_simulation_stopped(run_id)
             else:
                 _sim_bridge.mark_simulation_error(run_id, data.get('error', 'Unknown'))
-            self._send_json({'received': True})
+            self._send_json({'received': True, 'status': status})
+        elif parsed.path == '/api/analysis/fft':
+            sig = data.get('signal')
+            if not sig or len(sig) < 80:
+                self._send_json({'error': 'Signal must contain at least 80 samples'}, status=400)
+                return
+            fs = float(data.get('sample_rate', 5000.0))
+            win = data.get('window', 'hann')
+            scale = bool(data.get('scale_to_ieee_pu', True))
+            res = compute_spectrum(np.array(sig, dtype=np.float64), sample_rate=fs, window_type=win, scale_to_ieee_pu=scale)
+            self._send_json(res)
+        elif parsed.path == '/api/analysis/disturbance':
+            sig = data.get('signal')
+            if not sig or len(sig) < 80:
+                self._send_json({'error': 'Signal must contain at least 80 samples'}, status=400)
+                return
+            kind = data.get('kind', 'flicker').lower()
+            fs = float(data.get('sample_rate', 5000.0))
+            arr = np.array(sig, dtype=np.float64)
+            if kind == 'flicker':
+                res = compute_flicker_analysis(arr, sample_rate=fs)
+            elif kind == 'notch':
+                res = compute_notch_analysis(arr, sample_rate=fs)
+            elif kind == 'transient':
+                res = compute_transient_analysis(arr, sample_rate=fs)
+            else:
+                res = compute_spectrum(arr, sample_rate=fs)
+            self._send_json(res)
         else:
             self._send_json({'error': 'Endpoint not found'}, status=404)
 

@@ -496,16 +496,16 @@ where:
 
 | Class | Min Required Fs | Project Fs | Adequacy |
 |:---|:---:|:---:|:---|
-| Normal | 1 kHz | 5 kHz | ✅ Full |
-| Sag | 1 kHz | 5 kHz | ✅ Full |
-| Swell | 1 kHz | 5 kHz | ✅ Full |
-| Interruption | 1 kHz | 5 kHz | ✅ Full |
-| Harmonics (H11 = 660 Hz) | 1.5 kHz | 5 kHz | ✅ OSR = 7.6× |
-| Flicker ($f_m$ ≤ 15 Hz envelope) | 100 Hz | 5 kHz | ✅ Full |
-| Notch (width ≥ 400 μs) | 5 kHz | 5 kHz | ⚠️ Marginal (3–6 samples) |
-| Transient (300–1200 Hz) | 2.5 kHz | 5 kHz | ✅ OSR = 2.1–8× |
-| Transient (1200–2500 Hz) | 5 kHz | 5 kHz | ⚠️ Near-Nyquist |
-| Transient (> 2500 Hz) | > 5 kHz | 5 kHz | ❌ Not representable |
+| Normal | 1 kHz | 5 kHz | [OK] Full |
+| Sag | 1 kHz | 5 kHz | [OK] Full |
+| Swell | 1 kHz | 5 kHz | [OK] Full |
+| Interruption | 1 kHz | 5 kHz | [OK] Full |
+| Harmonics (H11 = 660 Hz) | 1.5 kHz | 5 kHz | [OK] OSR = 7.6× |
+| Flicker ($f_m$ ≤ 15 Hz envelope) | 100 Hz | 5 kHz | [OK] Full |
+| Notch (width ≥ 400 μs) | 5 kHz | 5 kHz | [WARN] Marginal (3–6 samples) |
+| Transient (300–1200 Hz) | 2.5 kHz | 5 kHz | [OK] OSR = 2.1–8× |
+| Transient (1200–2500 Hz) | 5 kHz | 5 kHz | [WARN] Near-Nyquist |
+| Transient (> 2500 Hz) | > 5 kHz | 5 kHz | [FAIL] Not representable |
 
 > [!IMPORTANT]
 > **Notch and high-frequency transients are the only classes where 5 kHz is marginal or insufficient.** For the current project scope (300–1200 Hz transients, ≥ 400 μs notches), 5 kHz is acceptable with documented limitations.
@@ -618,16 +618,16 @@ IEEE_9bus_PQD_DISTURBANCES.slx (not yet created)
 
 | Criterion | Status |
 |:---|:---:|
-| 1. Every class has explicit physical definition | ✅ |
-| 2. Every class has proposed physical injection mechanism | ✅ |
-| 3. Every parameter has provenance | ✅ |
-| 4. Standards claims are traceable | ✅ |
-| 5. Ground-truth labeling independent of ML | ✅ |
-| 6. Scenario selection is modular | ✅ |
-| 7. Pristine IEEE 9-bus model remains untouched | ✅ |
-| 8. Validation method defined for each class | ✅ |
-| 9. Sampling requirements understood | ✅ |
-| 10. Dataset leakage strategy defined | ✅ |
+| 1. Every class has explicit physical definition | [OK] |
+| 2. Every class has proposed physical injection mechanism | [OK] |
+| 3. Every parameter has provenance | [OK] |
+| 4. Standards claims are traceable | [OK] |
+| 5. Ground-truth labeling independent of ML | [OK] |
+| 6. Scenario selection is modular | [OK] |
+| 7. Pristine IEEE 9-bus model remains untouched | [OK] |
+| 8. Validation method defined for each class | [OK] |
+| 9. Sampling requirements understood | [OK] |
+| 10. Dataset leakage strategy defined | [OK] |
 
 ```
 GATE3C = PASS

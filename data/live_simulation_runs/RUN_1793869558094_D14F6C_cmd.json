@@ -1,0 +1,1 @@
+{"action": "inject", "command_id": "CMD_TEST_SAG", "disturbance": "Sag", "phases": ["A"], "params": {"fault_resistance_ohms": 2.0}, "duration_s": 0.1, "timestamp": 1793869558.0962632}

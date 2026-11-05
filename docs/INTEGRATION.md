@@ -24,11 +24,11 @@ WaveformFrame (dsp/waveform_frame.py)
     │
     ▼
 WaveformFrame.validate()
-    ✓ sampling_rate_hz > 0
-    ✓ L1, L2, L3 present
-    ✓ All channels equal length
-    ✓ No NaN / Infinite values
-    ✓ No unphysical amplitude (|V| > 10 pu)
+    [OK] sampling_rate_hz > 0
+    [OK] L1, L2, L3 present
+    [OK] All channels equal length
+    [OK] No NaN / Infinite values
+    [OK] No unphysical amplitude (|V| > 10 pu)
     │
     ├── INVALID → ValueError raised, frame discarded
     │
@@ -339,7 +339,7 @@ WaveformFrame (this layer — hardware independent)
 process_waveform_frame() → ThreePhaseEventEngine → EventStore
 ```
 
-> ⚠️ **Do NOT connect an ESP32 ADC directly to mains voltage.**  
+> [WARN] **Do NOT connect an ESP32 ADC directly to mains voltage.**  
 > The final acquisition front-end requires galvanic isolation, appropriate  
 > voltage transformation, surge protection, and regulatory compliance.  
 > No mains wiring instructions are provided in this repository.

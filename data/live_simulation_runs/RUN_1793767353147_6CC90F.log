@@ -1,0 +1,17 @@
+[ContinuousSim] Initializing continuous session from: D:/my study/Project/power-quality-detector-and-classifier/data/live_simulation_runs/RUN_1793767353147_6CC90F_config.json
+[ContinuousSim] run_id=RUN_1793767353147_6CC90F  server=http://127.0.0.1:8500  tcp_port=8502
+[ContinuousSim] Loading model IEEE_9bus_PQD_DISTURBANCES ...
+[ContinuousSim] Configured: StopTime=inf, ode23tb, MaxStep=2.5e-5, PacingRate=1.0 s/s.
+[ContinuousSim] Attaching Level-2 S-Function live streamer...
+[ContinuousSim] Streamer attached successfully.
+[ContinuousSim] Connecting to Python TCP telemetry receiver on 127.0.0.1:8502 ...
+[ContinuousSim] Connected to TCP telemetry server (attempt 1).
+[ContinuousSim] Launching Simulink model asynchronously (SimulationCommand=start)...
+[Warning: Failed to change the value of parameter 'Resistance' of block 'IEEE_9bus_PQD_DISTURBANCES/PQD_Fault_Sag/Rground' during
+simulation as it is non-tunable. This might be because the value of 'Resistance' references a tunable variable whose value has changed.
+Restart the simulation or turn off fast restart to use the new value.] 
+[> In run_continuous_simulation (line 228)] 
+[ContinuousSim] Error processing command: Cannot change parameter 'Fault resistance Ron (Ohm): (FaultResistance)' of 'IEEE_9bus_PQD_DISTURBANCES/PQD_Fault_Sag' while simulation is running
+[ContinuousSim] RESET applied: restored to Normal.
+[ContinuousSim] Error processing command: Cannot change parameter 'Capacitive reactive power Qc (negative var): (CapacitivePower)' of 'IEEE_9bus_PQD_DISTURBANCES/PQD_Cap_Swell' while simulation is running
+[ContinuousSim] RESET applied: restored to Normal.

@@ -1,236 +1,400 @@
-import os
+"""
+Script to integrate live ML classification pipeline in web/app.js.
+Ensures zero emojis and clean architecture.
+"""
+import sys
+import re
 
-app_js_path = os.path.join("web", "app.js")
-with open(app_js_path, "r", encoding="utf-8") as f:
-    code = f.read()
+def main():
+    with open('web/app.js', 'r', encoding='utf-8') as f:
+        content = f.read()
 
-# 1. Update LIVE_SIM state
-old_state = """// ── State ──────────────────────────────────────────────────────────────────
-const LIVE_SIM = {
-  mode:           'manual', // 'manual' | 'scheduled'
-  selectedClass:  'Normal',
-  statusPollId:   null,
-  streamBuffer:   { L1: [], L2: [], L3: [] },
-  currentBuffer:  { L1: [], L2: [], L3: [] },
-  telSubbed:      false,
-  activeRunId:    null,
-  onsetTime:      0.12,
-  samplingRate:   5000,
-  lastStatus:     'idle',
-};
+    # Define the new ML classification and SSE subscription block
+    new_sse_block = '''// ── Telemetry & Classification SSE Subscription (Prompt 7) ──────────────────
+const CANONICAL_CLASSES = ['Flicker', 'Harmonics', 'Interruption', 'Normal', 'Notch', 'Sag', 'Swell', 'Transient'];
+let _liveEvtSrc = null;
+let _mlInferenceTimeline = [];
+const MAX_TIMELINE_ENTRIES = 20;
+let _nextInferenceTime = Date.now() + 5000;
+let _lastInferenceKey = null;
 
-function setLiveMode(mode) {
-  LIVE_SIM.mode = mode;
-  const mBtn = $('btn-mode-manual');
-  const sBtn = $('btn-mode-scheduled');
-  if (mBtn) mBtn.classList.toggle('active', mode === 'manual');
-  if (sBtn) sBtn.classList.toggle('active', mode === 'scheduled');
-  liveLog(`Execution mode set to: ${mode === 'manual' ? 'Live Manual Injection' : 'Scheduled Scenario'}`, 'info');
-}"""
+function renderHeroProbBars(probs, winnerCls) {
+  const container = $('ml-hero-prob-bars');
+  if (!container) return;
+  container.innerHTML = '';
+  CANONICAL_CLASSES.forEach(cls => {
+    const p = Math.max(0, Math.min(1.0, (probs && typeof probs[cls] === 'number') ? probs[cls] : 0.0));
+    const pct = (p * 100).toFixed(1);
+    const isWinner = (cls.toLowerCase() === (winnerCls || '').toLowerCase());
 
-new_state = """// ── State ──────────────────────────────────────────────────────────────────
-const LIVE_SIM = {
-  mode:           'continuous', // 'continuous' | 'scheduled'
-  selectedClass:  'Normal',
-  statusPollId:   null,
-  streamBuffer:   { L1: [], L2: [], L3: [] },
-  currentBuffer:  { L1: [], L2: [], L3: [] },
-  telSubbed:      false,
-  activeRunId:    null,
-  onsetTime:      0.12,
-  samplingRate:   5000,
-  lastStatus:     'idle',
-};
+    const row = document.createElement('div');
+    row.className = 'ml-prob-bar-row' + (isWinner ? ' winner' : '');
+    row.innerHTML = `
+      <span class="ml-prob-name" title="${cls}">${cls}</span>
+      <div class="ml-bar-track">
+        <div class="ml-bar-fill" style="width: ${pct}%;"></div>
+      </div>
+      <span class="ml-prob-pct">${pct}%</span>
+    `;
+    container.appendChild(row);
+  });
+}
 
-function setLiveMode(mode) {
-  LIVE_SIM.mode = mode;
-  const cBtn = $('btn-mode-continuous');
-  const sBtn = $('btn-mode-scheduled');
-  if (cBtn) cBtn.classList.toggle('active', mode === 'continuous');
-  if (sBtn) sBtn.classList.toggle('active', mode === 'scheduled');
-  liveLog(`Execution mode: ${mode === 'continuous' ? 'Continuous Interactive SIL' : 'Scheduled Scenario'}`, 'info');
-}"""
+function addInferenceToTimeline(pred) {
+  if (!pred) return;
+  const key = `${pred.run_id || ''}_${pred.inference_sequence || 0}`;
+  if (_mlInferenceTimeline.some(item => `${item.run_id || ''}_${item.inference_sequence || 0}` === key)) {
+    return;
+  }
+  _mlInferenceTimeline.unshift(pred);
+  if (_mlInferenceTimeline.length > MAX_TIMELINE_ENTRIES) {
+    _mlInferenceTimeline.pop();
+  }
+  renderTimelineTable();
+}
 
-code = code.replace(old_state.replace('\n', '\r\n'), new_state.replace('\n', '\r\n'))
-code = code.replace(old_state, new_state)
+function renderTimelineTable() {
+  const tbody = $('ml-timeline-tbody');
+  const countBadge = $('ml-timeline-count-badge');
+  if (countBadge) {
+    countBadge.textContent = `${_mlInferenceTimeline.length} record${_mlInferenceTimeline.length === 1 ? '' : 's'}`;
+  }
+  if (!tbody) return;
+  if (_mlInferenceTimeline.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:0.75rem;">Waiting for first live simulation evaluation...</td></tr>';
+    return;
+  }
+  tbody.innerHTML = _mlInferenceTimeline.map(item => {
+    const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleTimeString() : '—';
+    const win = item.analysis_window ? `${item.analysis_window.simulation_time_start.toFixed(2)}s - ${item.analysis_window.simulation_time_end.toFixed(2)}s` : '—';
+    const rawCls = item.raw_ml_prediction || item.predicted_class || 'Normal';
+    const confStr = ((item.confidence || 0) * 100).toFixed(1) + '%';
+    const physState = item.measured_physical_assessment || 'Normal';
+    const physColor = physState === 'Normal' ? '#166534' : '#b91c1c';
+    const sigStatus = item.signal_quality_status || 'VALID';
+    const sigPillClass = sigStatus === 'VALID' ? 'status-valid' : 'status-warn';
+    const domainStr = item.model_domain_status || '60 Hz NATIVE';
+    const latStr = item.inference_latency_ms !== undefined ? item.inference_latency_ms.toFixed(1) + ' ms' : '—';
+    return `
+      <tr>
+        <td>#${item.inference_sequence || 0}</td>
+        <td>${timeStr}</td>
+        <td>${win}</td>
+        <td><strong style="color:var(--accent-primary);">${rawCls}</strong></td>
+        <td>${confStr}</td>
+        <td><span style="color:${physColor};font-weight:600;">${physState}</span></td>
+        <td><span class="ml-lifecycle-pill ${sigPillClass}">${sigStatus}</span></td>
+        <td>${domainStr}</td>
+        <td>${latStr}</td>
+      </tr>
+    `;
+  }).join('');
+}
 
-# 2. Update default buildSimConfig mode
-code = code.replace("const mode = LIVE_SIM.mode || 'manual';", "const mode = LIVE_SIM.mode || 'continuous';")
+function toggleTimelineExpand() {
+  const content = $('ml-timeline-content');
+  const lbl = $('ml-timeline-toggle-lbl');
+  if (!content) return;
+  const isHidden = (content.style.display === 'none' || !content.style.display);
+  content.style.display = isHidden ? 'block' : 'none';
+  if (lbl) {
+    lbl.textContent = isHidden ? 'HIDE TABLE' : 'SHOW TABLE';
+  }
+}
+window.toggleTimelineExpand = toggleTimelineExpand;
 
-# 3. Update subscribeLiveTelemetry to incrementally append to circular stream buffer
-old_sub = """function subscribeLiveTelemetry() {
-  if (_liveEvtSrc) { _liveEvtSrc.close(); }
-  _liveEvtSrc = new EventSource('/api/stream/telemetry');
-  _liveEvtSrc.onmessage = (ev) => {
-    try {
-      const telem = JSON.parse(ev.data);
-      if (!LIVE_SIM.activeRunId) return;
+function handleLiveClassificationEvent(pred) {
+  if (!pred) return;
 
-      const wf = telem.waveforms || telem.waveform;
-      if (wf && wf.L1 && wf.L1.length > 0) {
-        LIVE_SIM.streamBuffer = wf;
-        drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
+  _nextInferenceTime = Date.now() + 5000;
+
+  const predCls = pred.predicted_class || pred.raw_ml_prediction || 'Normal';
+  const rawPredCls = pred.raw_ml_prediction || predCls;
+  const confVal = pred.confidence !== undefined ? pred.confidence : 0.0;
+
+  // 1. Hero Card A: Predicted Class & Confidence
+  const heroPredEl = $('ml-hero-pred-class');
+  if (heroPredEl) {
+    heroPredEl.textContent = rawPredCls.toUpperCase();
+    heroPredEl.className = 'ml-class-huge class-' + rawPredCls;
+  }
+
+  const heroConfEl = $('ml-hero-pred-conf');
+  if (heroConfEl) {
+    heroConfEl.textContent = (confVal * 100).toFixed(1) + '%';
+  }
+
+  const heroStatusEl = $('ml-hero-status-lbl');
+  if (heroStatusEl) {
+    heroStatusEl.textContent = pred.prediction_status || 'VALID';
+  }
+
+  const heroLastEvalEl = $('ml-hero-last-eval-lbl');
+  if (heroLastEvalEl) {
+    heroLastEvalEl.textContent = pred.timestamp ? new Date(pred.timestamp).toLocaleTimeString() : '—';
+  }
+
+  const heroLatEl = $('ml-hero-latency-lbl');
+  if (heroLatEl) {
+    heroLatEl.textContent = pred.inference_latency_ms !== undefined ? (pred.inference_latency_ms.toFixed(1) + ' ms') : '—';
+  }
+
+  const heroWinEl = $('ml-hero-window-lbl');
+  if (heroWinEl) {
+    if (pred.analysis_window) {
+      const cnt = pred.analysis_window.sample_count || 1000;
+      const dur = (cnt / 5000).toFixed(2);
+      const t0 = pred.analysis_window.simulation_time_start !== undefined ? pred.analysis_window.simulation_time_start.toFixed(2) : '0.00';
+      const t1 = pred.analysis_window.simulation_time_end !== undefined ? pred.analysis_window.simulation_time_end.toFixed(2) : dur;
+      heroWinEl.textContent = `${cnt} samples [${t0}s - ${t1}s] (${dur} s @ 5 kHz)`;
+    } else {
+      heroWinEl.textContent = '1000 samples (0.20 s @ 5 kHz)';
+    }
+  }
+
+  // 2. Hero Card B: 8-Class Probability Bars
+  const probs = pred.raw_ml_probabilities || pred.probabilities;
+  renderHeroProbBars(probs, rawPredCls);
+
+  // 3. Hero Card C: Three Separate Results
+  const cmdBadge = $('triplet-cmd-badge');
+  if (cmdBadge) {
+    const cmd = pred.command_status || 'IDLE';
+    cmdBadge.textContent = cmd;
+    cmdBadge.style.background = cmd === 'APPLIED' ? '#dcfce7' : (cmd === 'RESET' ? '#dbeafe' : '#f1f5f9');
+    cmdBadge.style.color = cmd === 'APPLIED' ? '#166534' : (cmd === 'RESET' ? '#1e40af' : '#475569');
+  }
+
+  const reqVal = $('triplet-req-val');
+  if (reqVal) {
+    reqVal.textContent = pred.requested_disturbance || 'Normal';
+  }
+
+  const recBadge = $('triplet-rec-badge');
+  if (recBadge) {
+    const rec = pred.recovery_status || pred.active_physical_state || 'NORMAL';
+    recBadge.textContent = rec;
+    recBadge.style.background = rec === 'NORMAL' ? '#dbeafe' : '#fee2e2';
+    recBadge.style.color = rec === 'NORMAL' ? '#1e40af' : '#991b1b';
+  }
+
+  const physVal = $('triplet-phys-val');
+  if (physVal) {
+    const phys = pred.measured_physical_assessment || 'Normal';
+    physVal.textContent = phys;
+    physVal.style.color = phys === 'Normal' ? '#166534' : '#dc2626';
+  }
+
+  const mlBadge = $('triplet-ml-badge');
+  if (mlBadge) {
+    mlBadge.textContent = pred.model_domain_status || '60 Hz NATIVE';
+  }
+
+  const mlVal = $('triplet-ml-val');
+  if (mlVal) {
+    mlVal.textContent = rawPredCls;
+    mlVal.style.color = 'var(--accent-primary)';
+  }
+
+  const mlConfSub = $('triplet-ml-conf-sub');
+  if (mlConfSub) {
+    mlConfSub.textContent = (confVal * 100).toFixed(1) + '%';
+  }
+
+  // 4. Hero Header Badges
+  const sigBadge = $('ml-signal-quality-badge');
+  if (sigBadge) {
+    const sig = pred.signal_quality_status || 'VALID';
+    sigBadge.textContent = 'SIGNAL: ' + sig;
+    sigBadge.className = 'ml-lifecycle-pill ' + (sig === 'VALID' ? 'status-valid' : 'status-warn');
+  }
+
+  const domBadge = $('ml-model-domain-badge');
+  if (domBadge) {
+    const dom = pred.model_domain_status || '60 Hz NATIVE';
+    domBadge.textContent = 'DOMAIN: ' + dom;
+    domBadge.className = 'ml-lifecycle-pill ' + (dom.includes('OUT_OF_RANGE') ? 'status-oor' : 'status-valid');
+  }
+
+  // 5. Timeline Table
+  if (pred.inference_sequence !== undefined && pred.inference_sequence !== null) {
+    addInferenceToTimeline(pred);
+  }
+
+  // 6. Overview Dashboard Synchronization
+  if ($('ov-pred-class')) $('ov-pred-class').textContent = rawPredCls.toUpperCase();
+  if ($('ov-pred-conf')) $('ov-pred-conf').textContent = ((confVal * 100).toFixed(1)) + '%';
+  if (pred.requested_disturbance && $('ov-req-dist')) $('ov-req-dist').textContent = pred.requested_disturbance;
+  if (pred.measured_physical_assessment && $('ov-active-phys')) {
+    $('ov-active-phys').textContent = pred.measured_physical_assessment;
+    $('ov-active-phys').style.color = (pred.measured_physical_assessment === 'Normal') ? '#166534' : '#dc2626';
+  }
+  if (pred.recovery_status && $('ov-rec-status')) $('ov-rec-status').textContent = pred.recovery_status;
+}
+
+function handleLiveTelemetryEvent(telem) {
+  if (!telem) return;
+  if (!LIVE_SIM.activeRunId && telem.run_id) {
+    LIVE_SIM.activeRunId = telem.run_id;
+  }
+
+  const wf = telem.waveforms || telem.waveform;
+  if (wf && wf.L1 && wf.L1.length > 0) {
+    ['L1', 'L2', 'L3'].forEach(p => {
+      if (wf[p]) {
+        if (!LIVE_SIM.streamBuffer[p]) LIVE_SIM.streamBuffer[p] = [];
+        LIVE_SIM.streamBuffer[p].push(...wf[p]);
+        if (LIVE_SIM.streamBuffer[p].length > MAX_LIVE_SAMPLES) {
+          LIVE_SIM.streamBuffer[p] = LIVE_SIM.streamBuffer[p].slice(-MAX_LIVE_SAMPLES);
+        }
       }
-      const ci = telem.current_waveforms || telem.current_waveform || telem.currents;
-      if (ci && ci.L1 && ci.L1.length > 0) {
-        LIVE_SIM.currentBuffer = ci;
-        drawLiveWaveform('live-current-canvas', LIVE_SIM.currentBuffer, 'live-i-samples');
-      }
-
-      updateLiveMetrics(telem);
-    } catch (_) {}
-  };
-}"""
-
-new_sub = """function subscribeLiveTelemetry() {
-  if (_liveEvtSrc) { _liveEvtSrc.close(); }
-  _liveEvtSrc = new EventSource('/api/stream/telemetry');
-  _liveEvtSrc.onmessage = (ev) => {
-    try {
-      const telem = JSON.parse(ev.data);
-      if (!LIVE_SIM.activeRunId) return;
-
-      const wf = telem.waveforms || telem.waveform;
-      if (wf && wf.L1 && wf.L1.length > 0) {
-        ['L1', 'L2', 'L3'].forEach(p => {
-          if (wf[p]) {
-            if (!LIVE_SIM.streamBuffer[p]) LIVE_SIM.streamBuffer[p] = [];
-            LIVE_SIM.streamBuffer[p].push(...wf[p]);
-            if (LIVE_SIM.streamBuffer[p].length > MAX_LIVE_SAMPLES) {
-              LIVE_SIM.streamBuffer[p] = LIVE_SIM.streamBuffer[p].slice(-MAX_LIVE_SAMPLES);
-            }
-          }
-        });
-        drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
-      }
-      const ci = telem.current_waveforms || telem.current_waveform || telem.currents;
-      if (ci && ci.L1 && ci.L1.length > 0) {
-        ['L1', 'L2', 'L3'].forEach(p => {
-          if (ci[p]) {
-            if (!LIVE_SIM.currentBuffer[p]) LIVE_SIM.currentBuffer[p] = [];
-            LIVE_SIM.currentBuffer[p].push(...ci[p]);
-            if (LIVE_SIM.currentBuffer[p].length > MAX_LIVE_SAMPLES) {
-              LIVE_SIM.currentBuffer[p] = LIVE_SIM.currentBuffer[p].slice(-MAX_LIVE_SAMPLES);
-            }
-          }
-        });
-        drawLiveWaveform('live-current-canvas', LIVE_SIM.currentBuffer, 'live-i-samples');
-      }
-
-      updateLiveMetrics(telem);
-    } catch (_) {}
-  };
-}"""
-
-code = code.replace(old_sub.replace('\n', '\r\n'), new_sub.replace('\n', '\r\n'))
-code = code.replace(old_sub, new_sub)
-
-# 4. Update status polling & live prediction card rendering
-old_pred_ui = """function displayLivePrediction(result) {
-  if (!result || !result.predicted_class) return;
-  const predEl   = $('live-pred-class');
-  const confEl   = $('live-pred-conf');
-  const mlPanel  = $('live-ml-prediction');
-  const reqEl    = $('live-requested-dist');
-  const physEl   = $('live-phys-assess');
-  const domainEl = $('live-domain-status');
-
-  if (predEl)  predEl.textContent  = result.predicted_class;
-  if (confEl)  confEl.textContent  = ((result.confidence || 0) * 100).toFixed(1) + '%';
-  if (reqEl && result.requested_disturbance) reqEl.textContent = result.requested_disturbance;
-  if (physEl && result.measured_physical_assessment) {
-    physEl.textContent = result.measured_physical_assessment;
-    physEl.style.color = result.measured_physical_assessment === 'Normal' ? '#166534' : '#dc2626';
-  }
-  if (domainEl && result.model_domain_status) {
-    domainEl.textContent = result.model_domain_status === 'MODEL_COMPATIBLE' ? '60 Hz → 50 Hz Space' : result.model_domain_status;
-  }
-  if (mlPanel) mlPanel.style.display = 'block';
-}"""
-
-new_pred_ui = """function displayLivePrediction(result) {
-  if (!result) return;
-  const predCls  = result.raw_ml_prediction || result.predicted_class || 'Normal';
-  const confVal  = result.confidence !== undefined ? result.confidence : 0.999;
-  const predEl   = $('live-pred-class');
-  const confEl   = $('live-pred-conf');
-  const mlPanel  = $('live-ml-prediction');
-  const reqEl    = $('live-requested-dist');
-  const physEl   = $('live-phys-assess');
-  const domainEl = $('live-domain-status');
-  const cmdEl    = $('live-cmd-status');
-  const sigEl    = $('live-signal-quality');
-  const cntEl    = $('live-countdown');
-
-  if (predEl)  predEl.textContent = predCls;
-  if (confEl)  confEl.textContent = (confVal * 100).toFixed(1) + '%';
-  if (reqEl && result.requested_disturbance) reqEl.textContent = result.requested_disturbance;
-  if (physEl && result.measured_physical_assessment) {
-    physEl.textContent = result.measured_physical_assessment;
-    physEl.style.color = result.measured_physical_assessment === 'Normal' ? '#166534' : '#dc2626';
-  }
-  if (domainEl && result.model_domain_status) {
-    domainEl.textContent = result.model_domain_status === 'MODEL_COMPATIBLE' ? '60 Hz → 50 Hz Space' : result.model_domain_status;
-  }
-  if (cmdEl && result.command_status) {
-    cmdEl.textContent = result.command_status;
-    cmdEl.style.background = result.command_status === 'APPLIED' ? '#dcfce7' : (result.command_status === 'RESET' ? '#dbeafe' : '#f1f5f9');
-    cmdEl.style.color = result.command_status === 'APPLIED' ? '#166534' : (result.command_status === 'RESET' ? '#1d4ed8' : '#475569');
-  }
-  if (sigEl && result.signal_quality_status) {
-    sigEl.textContent = result.signal_quality_status;
-    sigEl.style.color = result.signal_quality_status === 'VALID' ? '#166534' : '#dc2626';
-  }
-  if (cntEl && result.countdown_s !== undefined) {
-    cntEl.textContent = result.countdown_s + ' s';
-  }
-
-  // Render 8-class probability bars
-  const probs = result.raw_ml_probabilities || (result.prediction && result.prediction.raw_ml_probabilities) || result.probabilities;
-  const barsContainer = $('live-prob-bars');
-  if (barsContainer && probs && typeof probs === 'object') {
-    const classes = ['Normal', 'Sag', 'Swell', 'Interruption', 'Harmonics', 'Flicker', 'Notch', 'Transient'];
-    barsContainer.innerHTML = '';
-    classes.forEach(c => {
-      const p = Math.max(0, Math.min(1.0, probs[c] || 0.0));
-      const pct = (p * 100).toFixed(1);
-      const isWinner = (c === predCls);
-      const barDiv = document.createElement('div');
-      barDiv.style.background = isWinner ? '#e0f2fe' : '#f8fafc';
-      barDiv.style.border = isWinner ? '1px solid #38bdf8' : '1px solid #e2e8f0';
-      barDiv.style.borderRadius = '4px';
-      barDiv.style.padding = '0.2rem 0.35rem';
-      barDiv.style.fontSize = '0.62rem';
-      barDiv.innerHTML = `
-        <div style="display:flex;justify-content:space-between;margin-bottom:0.15rem;">
-          <span style="font-weight:${isWinner?'700':'500'};color:${isWinner?'#0369a1':'#475569'};">${c}</span>
-          <span style="font-family:monospace;color:${isWinner?'#0284c7':'#64748b'};">${pct}%</span>
-        </div>
-        <div style="height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden;">
-          <div style="width:${pct}%;height:100%;background:${isWinner?'#0284c7':'#94a3b8'};"></div>
-        </div>
-      `;
-      barsContainer.appendChild(barDiv);
     });
+    drawLiveWaveform('live-voltage-canvas', LIVE_SIM.streamBuffer, 'live-v-samples');
   }
 
-  if (mlPanel) mlPanel.style.display = 'block';
-}"""
+  const ci = telem.current_waveforms || telem.current_waveform || telem.currents;
+  if (ci && ci.L1 && ci.L1.length > 0) {
+    ['L1', 'L2', 'L3'].forEach(p => {
+      if (ci[p]) {
+        if (!LIVE_SIM.currentBuffer[p]) LIVE_SIM.currentBuffer[p] = [];
+        LIVE_SIM.currentBuffer[p].push(...ci[p]);
+        if (LIVE_SIM.currentBuffer[p].length > MAX_LIVE_SAMPLES) {
+          LIVE_SIM.currentBuffer[p] = LIVE_SIM.currentBuffer[p].slice(-MAX_LIVE_SAMPLES);
+        }
+      }
+    });
+    drawLiveWaveform('live-current-canvas', LIVE_SIM.currentBuffer, 'live-i-samples');
+  }
 
-code = code.replace(old_pred_ui.replace('\n', '\r\n'), new_pred_ui.replace('\n', '\r\n'))
-code = code.replace(old_pred_ui, new_pred_ui)
+  updateLiveMetrics(telem);
+  if (typeof drawLiveFFTSpectrum === 'function') drawLiveFFTSpectrum();
+}
 
-# 5. In updateSimStatusUI: pass entire status 's' to displayLivePrediction
-old_status_call = """  if (s.prediction && s.prediction.predicted_class) {
-    displayLivePrediction(s.prediction);
-  }"""
+function handleLiveStatusEvent(status) {
+  if (!status) return;
+  updateSimStatusUI(status);
 
-new_status_call = """  displayLivePrediction(s);"""
-code = code.replace(old_status_call.replace('\n', '\r\n'), new_status_call.replace('\n', '\r\n'))
-code = code.replace(old_status_call, new_status_call)
+  const lifeBadge = $('ml-lifecycle-badge');
+  if (lifeBadge) {
+    if (status.status === 'idle') {
+      lifeBadge.textContent = 'STATUS: WAITING FOR SIMULATION';
+      lifeBadge.className = 'ml-lifecycle-pill status-idle';
+    } else if (status.status === 'starting') {
+      lifeBadge.textContent = 'STATUS: INITIALIZING SIGNAL ACQUISITION';
+      lifeBadge.className = 'ml-lifecycle-pill status-init';
+    } else if (status.status === 'streaming' || status.status === 'running') {
+      lifeBadge.textContent = 'STATUS: CONTINUOUS SIMULATION ACTIVE';
+      lifeBadge.className = 'ml-lifecycle-pill status-live';
+    } else if (status.status === 'stopped' || status.status === 'completed') {
+      lifeBadge.textContent = 'STATUS: SIMULATION STOPPED';
+      lifeBadge.className = 'ml-lifecycle-pill status-stopped';
+    } else if (status.status === 'error') {
+      lifeBadge.textContent = 'STATUS: ERROR';
+      lifeBadge.className = 'ml-lifecycle-pill status-warn';
+    }
+  }
 
-with open(app_js_path, "w", encoding="utf-8") as f:
-    f.write(code)
+  if (status.prediction) {
+    handleLiveClassificationEvent(status.prediction);
+  }
+}
 
-print("Updated app.js successfully!")
+async function fetchLatestPrediction() {
+  try {
+    const res = await fetch('/api/live/simulation/prediction');
+    if (!res.ok) return;
+    const pred = await res.json();
+    if (pred && (pred.prediction_status === 'VALID' || pred.predicted_class || pred.raw_ml_prediction)) {
+      handleLiveClassificationEvent(pred);
+    }
+  } catch (_) {}
+}
 
+function subscribeLiveTelemetry() {
+  if (_liveEvtSrc) { _liveEvtSrc.close(); }
+  _liveEvtSrc = new EventSource('/api/live/simulation/stream');
+
+  _liveEvtSrc.addEventListener('classification', (ev) => {
+    try {
+      const pred = JSON.parse(ev.data);
+      handleLiveClassificationEvent(pred);
+    } catch (e) {
+      console.warn('Error parsing classification SSE:', e);
+    }
+  });
+
+  _liveEvtSrc.addEventListener('telemetry', (ev) => {
+    try {
+      const telem = JSON.parse(ev.data);
+      handleLiveTelemetryEvent(telem);
+    } catch (e) {
+      console.warn('Error parsing telemetry SSE:', e);
+    }
+  });
+
+  _liveEvtSrc.addEventListener('status', (ev) => {
+    try {
+      const status = JSON.parse(ev.data);
+      handleLiveStatusEvent(status);
+    } catch (e) {
+      console.warn('Error parsing status SSE:', e);
+    }
+  });
+
+  _liveEvtSrc.onmessage = (ev) => {
+    try {
+      const payload = JSON.parse(ev.data);
+      if (payload.status !== undefined) {
+        handleLiveStatusEvent(payload);
+      } else if (payload.raw_ml_prediction !== undefined || payload.predicted_class !== undefined) {
+        handleLiveClassificationEvent(payload);
+      } else if (payload.waveforms || payload.waveform || payload.rms_voltage !== undefined) {
+        handleLiveTelemetryEvent(payload);
+      }
+    } catch (_) {}
+  };
+
+  _liveEvtSrc.onerror = (err) => {
+    console.warn('Live SSE stream reconnecting...');
+  };
+}
+
+// Global monotonic countdown tick for hero panel
+setInterval(() => {
+  const el = $('ml-hero-countdown-lbl');
+  if (el) {
+    const diff = Math.max(0, (_nextInferenceTime - Date.now()) / 1000);
+    el.textContent = (diff < 10 ? '0' : '') + diff.toFixed(1) + ' s';
+  }
+}, 100);
+'''
+
+    # Pattern for the old subscribeLiveTelemetry
+    pattern_old_sub = r'// ── Telemetry SSE subscription ──+[\s\S]*?function subscribeLiveTelemetry\(\)\s*\{[\s\S]*?\}\s*\}'
+    if not re.search(pattern_old_sub, content):
+        print("ERROR: Could not locate old subscribeLiveTelemetry in web/app.js")
+        sys.exit(1)
+
+    content = re.sub(pattern_old_sub, new_sse_block, content, count=1)
+
+    # In displayLivePrediction, also pass through to handleLiveClassificationEvent
+    pattern_disp = r'(function displayLivePrediction\(result\)\s*\{[\s\S]*?if \(!result\) return;)'
+    replacement_disp = r'\1\n  if (result.raw_ml_prediction || result.predicted_class || result.raw_ml_probabilities) {\n    handleLiveClassificationEvent(result);\n  }'
+    content = re.sub(pattern_disp, replacement_disp, content, count=1)
+
+    # In switchPage, add fetchLatestPrediction() when pageId === 'live-simulink'
+    pattern_switch = r"(else if \(pageId === 'live-simulink'\) \{[\s\S]*?drawLiveFFTSpectrum\(\);)"
+    replacement_switch = r"\1\n    fetchLatestPrediction();"
+    content = re.sub(pattern_switch, replacement_switch, content, count=1)
+
+    # In DOMContentLoaded, call renderHeroProbBars({}, 'Normal') and fetchLatestPrediction()
+    pattern_dom = r'(clearLiveCanvases\(\);)'
+    replacement_dom = r"\1\n  renderHeroProbBars({}, 'Normal');\n  fetchLatestPrediction();"
+    content = re.sub(pattern_dom, replacement_dom, content, count=1)
+
+    with open('web/app.js', 'w', encoding='utf-8') as f:
+        f.write(content)
+    print("SUCCESS: web/app.js updated successfully.")
+
+if __name__ == '__main__':
+    main()

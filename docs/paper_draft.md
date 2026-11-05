@@ -117,7 +117,7 @@ To evaluate whether modern deep representation learning eliminates the need for 
 ### Table III: Raw Waveform 1D CNN vs. Physics-Informed DSP (EXP-007)
 | Model Representation | Input Dimension | Parameters | Memory Footprint | Test Acc | Macro $F_1$ | Interruption Recall | Safety Status |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Compact 1D CNN** | Raw Waveform ($1 \times 1000$) | 4,232 | 16.53 KB | 87.87% | 0.8082 | 75.61% | ⚠️ **FAIL (<90%)** |
+| **Compact 1D CNN** | Raw Waveform ($1 \times 1000$) | 4,232 | 16.53 KB | 87.87% | 0.8082 | 75.61% | [WARN] **FAIL (<90%)** |
 | **Compact MLP (Baseline)** | 8 DSP Features | 2,888 | 11.28 KB | 96.87% | 0.9624 | 90.24% | **PASS** |
 | **Compact MLP (Proposed)** | **32 DSP Features (EXP-003)** | **4,424** | **17.28 KB** | **99.40%** | **0.9927** | **100.00%** | **PASS** |
 

@@ -463,11 +463,6 @@ class TestRunIdIsolation(unittest.TestCase):
         self.assertEqual(status["chunks_posted"], 0)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
-
 # ---------------------------------------------------------------------------
 # Category 12 — Live Disturbance Injection & Decoupled Prediction Integrity
 # ---------------------------------------------------------------------------
@@ -484,16 +479,19 @@ class TestLiveDisturbanceInjection(unittest.TestCase):
             disturbance="Sag",
             phases=["A"],
             params={"fault_resistance_ohms": 2.0},
-            duration_s=0.10
+            duration_s=0.10,
+            command_id="CMD_TEST_SAG"
         )
-        self.assertEqual(res["status"], "injected")
+        self.assertEqual(res["status"], "RECEIVED")
         self.assertEqual(res["disturbance"], "Sag")
+        self.assertEqual(res["command_id"], "CMD_TEST_SAG")
         self.assertEqual(job.requested_disturbance, "Sag")
         self.assertTrue(os.path.exists(job.cmd_file_path))
         with open(job.cmd_file_path, "r") as f:
             cmd = json.load(f)
         self.assertEqual(cmd["action"], "inject")
         self.assertEqual(cmd["disturbance"], "Sag")
+        self.assertEqual(cmd["command_id"], "CMD_TEST_SAG")
 
     def test_reset_live_disturbance_writes_reset_action(self):
         job, _ = _launch_with_mock_proc(_good_normal_cfg())
@@ -502,7 +500,7 @@ class TestLiveDisturbanceInjection(unittest.TestCase):
         self.assertEqual(job.requested_disturbance, "Swell")
 
         res = bridge.reset_live_disturbance(job.run_id)
-        self.assertEqual(res["status"], "reset")
+        self.assertEqual(res["status"], "RESET")
         self.assertEqual(job.requested_disturbance, "Normal")
         with open(job.cmd_file_path, "r") as f:
             cmd = json.load(f)
@@ -525,3 +523,142 @@ class TestLiveDisturbanceInjection(unittest.TestCase):
         self.assertEqual(job.measured_physical_assessment, "Swell")
         self.assertEqual(job.prediction["predicted_class"], "Swell")
         self.assertGreater(job.prediction["max_rms_pu"], 1.10)
+
+    def test_requested_disturbance_independence(self):
+        """
+        Verify that requested_disturbance CANNOT influence raw ML predictions or probabilities.
+        When given identical waveforms, Request A ('Sag') and Request B ('Swell') must
+        yield identical raw_ml_prediction and identical raw_ml_probabilities.
+        """
+        import numpy as np
+        fs = 5000.0
+        f0 = 60.0
+        t = np.arange(1000) / fs
+        # Synthetic Normal sine wave
+        v1 = (0.5877 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t)
+        v2 = (0.5877 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t - 2*np.pi/3)
+        v3 = (0.5877 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t + 2*np.pi/3)
+
+        # Job A: requested Sag
+        job_a, _ = _launch_with_mock_proc(_good_normal_cfg())
+        job_a.requested_disturbance = "Sag"
+        job_a.voltage["L1"] = list(v1)
+        job_a.voltage["L2"] = list(v2)
+        job_a.voltage["L3"] = list(v3)
+        bridge._evaluate_live_simulation(job_a)
+
+        # Job B: requested Swell
+        _reset_bridge()
+        job_b, _ = _launch_with_mock_proc(_good_normal_cfg())
+        job_b.requested_disturbance = "Swell"
+        job_b.voltage["L1"] = list(v1)
+        job_b.voltage["L2"] = list(v2)
+        job_b.voltage["L3"] = list(v3)
+        bridge._evaluate_live_simulation(job_b)
+
+        # Assert exact match of raw ML prediction and probabilities
+        pred_a = job_a.prediction
+        pred_b = job_b.prediction
+
+        self.assertEqual(pred_a["raw_ml_prediction"], pred_b["raw_ml_prediction"])
+        self.assertEqual(pred_a["predicted_class"], pred_b["predicted_class"])
+        for cls, prob in pred_a["raw_ml_probabilities"].items():
+            self.assertAlmostEqual(prob, pred_b["raw_ml_probabilities"][cls], places=6)
+
+
+# ---------------------------------------------------------------------------
+# Category 13 — Monotonic Global Timing, Physical Recovery & Shutdown Lifecycle
+# ---------------------------------------------------------------------------
+class TestTimingAndRecovery(unittest.TestCase):
+
+    def setUp(self):
+        _reset_bridge()
+
+    def test_simulation_time_monotonicity(self):
+        """Assert simulation_time[n+1] >= simulation_time[n] strictly for single Run ID."""
+        job, _ = _launch_with_mock_proc(_good_normal_cfg())
+        job.status = "running"
+
+        t_sims = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30]
+        for t in t_sims:
+            bridge.record_chunk_posted(job.run_id, channels={"L1": [0.5877]*250}, simulation_time=t)
+            self.assertEqual(job.simulation_time, t)
+            self.assertGreaterEqual(job.simulation_time, job.last_simulation_time)
+
+        # Non-monotonic or regressive timestamp must be rejected
+        bridge.record_chunk_posted(job.run_id, channels={"L1": [0.5877]*250}, simulation_time=0.10)
+        self.assertEqual(job.simulation_time, 0.30)  # Preserved highest monotonic clock
+
+    def test_physical_recovery_state_separation(self):
+        """Verify active_physical_state, recovery_status, and latched_event_history decouple."""
+        import numpy as np
+        fs = 5000.0
+        f0 = 60.0
+        t = np.arange(1000) / fs
+        job, _ = _launch_with_mock_proc(_good_normal_cfg())
+        job.status = "running"
+        job.simulation_time = 1.0
+
+        # 1. Disturbance: Sag
+        v_sag = (0.5877 * np.sqrt(2) * 0.30) * np.sin(2 * np.pi * f0 * t)
+        job.voltage["L1"] = list(v_sag)
+        job.voltage["L2"] = list((0.5877 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t - 2*np.pi/3))
+        job.voltage["L3"] = list((0.5877 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t + 2*np.pi/3))
+        job.requested_disturbance = "Sag"
+        job.recovery_status = "DISTURBANCE_ACTIVE"
+        job.latched_event = {"type": "Sag", "sim_time": 1.0, "min_pu": 0.30, "max_pu": 0.30, "archived": False}
+
+        bridge._evaluate_live_simulation(job)
+        self.assertEqual(job.active_physical_state, "Sag")
+        self.assertEqual(job.recovery_status, "DISTURBANCE_ACTIVE")
+
+        # 2. Reset commanded -> Signal recovers to Normal
+        job.requested_disturbance = "Normal"
+        job.simulation_time = 1.5
+        v_norm = (0.5877 * np.sqrt(2)) * np.sin(2 * np.pi * f0 * t)
+        job.voltage["L1"] = list(v_norm)
+
+        bridge._evaluate_live_simulation(job)
+        self.assertEqual(job.active_physical_state, "Normal")
+        self.assertEqual(job.recovery_status, "RECOVERED")
+        self.assertEqual(job.last_event_end_time, 1.5)
+        self.assertEqual(len(job.latched_event_history), 1)
+        self.assertEqual(job.latched_event_history[0]["type"], "Sag")
+
+    def test_graceful_shutdown_transitions(self):
+        """Verify normal stop request and mark_simulation_stopped yield clean STOPPED state."""
+        job, fake_proc = _launch_with_mock_proc(_good_normal_cfg())
+        job.status = "streaming"
+        bridge.mark_simulation_stopped(job.run_id)
+
+        st = bridge.get_simulation_status()
+        self.assertEqual(st["status"], "stopped")
+        self.assertEqual(st["command_status"], "STOPPED")
+
+    def test_shutdown_during_active_injection(self):
+        """Verify stop requested while disturbance injection is active transitions cleanly to STOPPED."""
+        job, fake_proc = _launch_with_mock_proc(_good_normal_cfg())
+        job.status = "streaming"
+        job.command_status = "APPLIED"
+        job.recovery_status = "DISTURBANCE_ACTIVE"
+        job.requested_disturbance = "Sag"
+
+        bridge.stop_simulation()
+        st = bridge.get_simulation_status()
+        self.assertEqual(st["status"], "stopped")
+        self.assertEqual(st["command_status"], "STOPPED")
+
+    def test_shutdown_during_streaming(self):
+        """Verify stop requested while active chunk streaming is in progress yields STOPPED state."""
+        job, fake_proc = _launch_with_mock_proc(_good_normal_cfg())
+        job.status = "streaming"
+        job.chunks_posted = 42
+
+        bridge.stop_simulation()
+        st = bridge.get_simulation_status()
+        self.assertEqual(st["status"], "stopped")
+        self.assertEqual(st["command_status"], "STOPPED")
+
+
+if __name__ == "__main__":
+    unittest.main()

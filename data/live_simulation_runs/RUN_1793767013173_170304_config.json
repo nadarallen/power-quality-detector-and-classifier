@@ -1,0 +1,13 @@
+{
+  "run_id": "RUN_1793767013173_170304",
+  "mode": "continuous",
+  "class": "Normal",
+  "phase": "ABC",
+  "stop_time": 0.38,
+  "onset_time": 0.12,
+  "server_url": "http://127.0.0.1:8500",
+  "model_dir": "D:/my study/Project/power-quality-detector-and-classifier/IEEE_9bus",
+  "cmd_file": "D:/my study/Project/power-quality-detector-and-classifier/data/live_simulation_runs/RUN_1793767013173_170304_cmd.json",
+  "tcp_port": 8502,
+  "class_params": {}
+}

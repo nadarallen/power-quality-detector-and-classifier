@@ -4,7 +4,7 @@ This directory contains the production-grade **React Native / Expo** cross-platf
 
 ---
 
-## 📱 Mobile Architecture & Component Tree
+## [Mobile] Mobile Architecture & Component Tree
 
 ```
 mobile_app/
@@ -26,7 +26,7 @@ mobile_app/
 
 ---
 
-## 🎨 Minimalism UI Design Tokens (`src/theme/minimalismTheme.js`)
+## [Theme] Minimalism UI Design Tokens (`src/theme/minimalismTheme.js`)
 
 - **Canvas**: `#080B11` (Deep Space Carbon)
 - **Container Surfaces**: `#121826` (Solid Obsidian) with `1px` subtle border `rgba(255, 255, 255, 0.08)`
@@ -40,7 +40,7 @@ mobile_app/
 
 ---
 
-## 🚀 How to Run the Mobile App
+## [Launch] How to Run the Mobile App
 
 ### Prerequisites
 Install Expo CLI globally or via npx:

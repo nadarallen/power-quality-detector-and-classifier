@@ -27,14 +27,14 @@ The following matrix shows which standards are applicable to each phenomenon. An
 
 | Phenomenon | IEEE 1159-2019 | IEEE 519-2022 | IEEE 1453-2022 | IEC 61000-4-30 | ANSI C84.1 |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| Normal | ✅ Clause 4.4.2 | ✅ Table 1 limits | — | ✅ §5 | ✅ Range A |
-| Sag | ✅ Clause 3.1.58, Table 2 | — | — | ✅ §5.2 | — |
-| Swell | ✅ Clause 3.1.65, Table 2 | — | — | ✅ §5.2 | — |
-| Interruption | ✅ Clause 3.1.34, Table 2 | — | — | ✅ §5.4 | — |
-| Harmonics | ✅ Clause 4.4.4.1 | ✅ Clause 3.1.25, Table 1 | — | ✅ §5.8 | — |
-| Flicker | ✅ Clause 4.4.3 | — | ✅ Clause 4, 5 | ✅ §5.7 | — |
-| Notch | ✅ Clause 4.4.4.2, Table 2 | ✅ Clause 5.3 | — | — | — |
-| Transient | ✅ Clause 4.4.1.2, Table 2 | — | — | ✅ §5.6 | — |
+| Normal | [OK] Clause 4.4.2 | [OK] Table 1 limits | — | [OK] §5 | [OK] Range A |
+| Sag | [OK] Clause 3.1.58, Table 2 | — | — | [OK] §5.2 | — |
+| Swell | [OK] Clause 3.1.65, Table 2 | — | — | [OK] §5.2 | — |
+| Interruption | [OK] Clause 3.1.34, Table 2 | — | — | [OK] §5.4 | — |
+| Harmonics | [OK] Clause 4.4.4.1 | [OK] Clause 3.1.25, Table 1 | — | [OK] §5.8 | — |
+| Flicker | [OK] Clause 4.4.3 | — | [OK] Clause 4, 5 | [OK] §5.7 | — |
+| Notch | [OK] Clause 4.4.4.2, Table 2 | [OK] Clause 5.3 | — | — | — |
+| Transient | [OK] Clause 4.4.1.2, Table 2 | — | — | [OK] §5.6 | — |
 
 ---
 

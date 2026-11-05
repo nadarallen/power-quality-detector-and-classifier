@@ -149,7 +149,7 @@ It is critical to distinguish between the core simulation matrix, the extended m
 
 For a beginner-friendly, copy-paste MATLAB tutorial for visualizing existing Sag and Swell simulation recordings without running Simulink or creating separate `.m` scripts, consult:
 
-👉 **[MATLAB Voltage Sag & Swell Waveform Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md)**
+ **[MATLAB Voltage Sag & Swell Waveform Visualization Guide](docs/guides/MATLAB_SAG_SWELL_VISUALIZATION_GUIDE.md)**
 
 The guide provides five self-contained MATLAB command blocks (`Block A` through `Block E`) designed to be copied and pasted directly into the MATLAB Command Window in order:
 - **Block A:** Configures repository paths and verifies that pre-recorded MAT files exist.

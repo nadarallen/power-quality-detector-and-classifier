@@ -27,7 +27,10 @@ import socket
 import shutil
 import hashlib
 import threading
+import queue
+import datetime
 import subprocess
+import numpy as np
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -37,7 +40,63 @@ HIL_EXPECTED_SHA256 = (
     "5D833D8FDC5086B7BEC437A30A7829B4EA6D1B9BEFA93DF75E7CA0631BEB084D"
 )
 LIVE_RUNS_DIR = os.path.join(BASE_DIR, "data", "live_simulation_runs")
-MAX_ROLLING_SAMPLES = 25000  # 5 seconds of 5 kHz data
+MAX_ROLLING_SAMPLES = 25000
+
+# ---------------------------------------------------------------------------
+# Strict Canonical 8-Class Ordering (PROMPT 7 Contract)
+# ---------------------------------------------------------------------------
+ORDERED_CLASSES = [
+    "Flicker",
+    "Harmonics",
+    "Interruption",
+    "Normal",
+    "Notch",
+    "Sag",
+    "Swell",
+    "Transient",
+]
+
+# Thread-safe pub/sub queues for SSE clients
+_sse_subscribers_lock = threading.RLock()
+_sse_subscribers: list[queue.Queue] = []
+
+def subscribe_sse() -> queue.Queue:
+    """Register a new SSE client queue."""
+    q = queue.Queue(maxsize=200)
+    with _sse_subscribers_lock:
+        _sse_subscribers.append(q)
+    return q
+
+def unsubscribe_sse(q: queue.Queue) -> None:
+    """Unregister an SSE client queue."""
+    with _sse_subscribers_lock:
+        if q in _sse_subscribers:
+            _sse_subscribers.remove(q)
+
+def broadcast_sse(event_type: str, data: dict) -> None:
+    """
+    Broadcast an SSE event to all connected clients.
+    Non-blocking: if a client queue is full, drop oldest or drop event.
+    """
+    payload = {
+        "event": event_type,
+        "data": data,
+    }
+    with _sse_subscribers_lock:
+        dead = []
+        for q in _sse_subscribers:
+            try:
+                q.put_nowait(payload)
+            except queue.Full:
+                try:
+                    _ = q.get_nowait()
+                    q.put_nowait(payload)
+                except Exception:
+                    dead.append(q)
+        for d in dead:
+            if d in _sse_subscribers:
+                _sse_subscribers.remove(d)
+  # 5 seconds of 5 kHz data
 
 # ---------------------------------------------------------------------------
 # Disturbance parameter bounds
@@ -118,6 +177,29 @@ class SimulationJob:
     classification_timestamp: float = 0.0
     countdown_s:  int       = 5
     injected_cmd: dict      = field(default_factory=dict)
+    active_command_id: str  = ""
+    applied_simulation_time: float = 0.0
+    analysis_window_start: float = 0.0
+    analysis_window_end: float = 0.0
+    first_sequence: int     = 0
+    last_sequence:  int     = 0
+    inference_latency_ms: float = 0.0
+    inference_wall_clock_monotonic: float = 0.0
+    prediction_status: str = "WAITING_FOR_SIMULATION"
+    confidence: float = 0.0
+    latched_event:  Optional[dict] = None
+    inference_history: list = field(default_factory=list)
+    simulation_time: float  = 0.0
+    last_simulation_time: float = 0.0
+    inference_wall_clock_timestamp: float = 0.0
+    analysis_window_start_simulation_time: float = 0.0
+    analysis_window_end_simulation_time: float = 0.0
+    inference_sequence: int = 0
+    active_physical_state: str = "Normal"
+    latched_event_history: list = field(default_factory=list)
+    recovery_status: str    = "NORMAL"
+    last_event_start_time: Optional[float] = None
+    last_event_end_time: Optional[float] = None
 
     @property
     def elapsed_s(self) -> float:
@@ -128,7 +210,7 @@ class SimulationJob:
 # ---------------------------------------------------------------------------
 # Module-level singleton state
 # ---------------------------------------------------------------------------
-_lock: threading.Lock                = threading.Lock()
+_lock: threading.RLock               = threading.RLock()
 _active_job: Optional[SimulationJob] = None
 _server_base_url: str                = "http://127.0.0.1:8500"
 
@@ -277,11 +359,18 @@ def _start_tcp_receiver(job: SimulationJob, port: int = 8502) -> None:
                                 if line:
                                     try:
                                         payload = json.loads(line)
+                                        sim_t = payload.get("simulation_time_end")
+                                        if sim_t is None and "t" in payload:
+                                            try:
+                                                sim_t = float(payload["t"][-1])
+                                            except Exception:
+                                                pass
                                         record_chunk_posted(
                                             run_id=payload.get("run_id", job.run_id),
-                                            channels=payload.get("channels"),
-                                            current_channels=payload.get("current_channels"),
-                                            chunk_index=payload.get("chunk_index", 0)
+                                            channels=payload.get("channels") or payload.get("voltage"),
+                                            current_channels=payload.get("current_channels") or payload.get("current"),
+                                            chunk_index=payload.get("chunk_index", payload.get("sequence", 0)),
+                                            simulation_time=sim_t
                                         )
                                     except Exception:
                                         pass
@@ -306,17 +395,25 @@ def _start_tcp_receiver(job: SimulationJob, port: int = 8502) -> None:
 # ---------------------------------------------------------------------------
 def _start_periodic_classifier(job: SimulationJob) -> None:
     def classifier_worker():
+        seq = 0
+        interval = 5.0
+        next_tick = time.monotonic() + interval
         while True:
-            time.sleep(1.0)
+            time.sleep(0.1)
             with _lock:
                 if _active_job is None or _active_job.run_id != job.run_id:
                     break
                 if job.status in ("completed", "error", "cancelled", "stopped"):
                     break
-                
-                job.countdown_s -= 1
-                should_run = (job.countdown_s <= 0)
+
+                now_m = time.monotonic()
+                remaining = max(0, int(round(next_tick - now_m)))
+                job.countdown_s = remaining
+                should_run = (now_m >= next_tick)
                 if should_run:
+                    next_tick = now_m + interval
+                    job.inference_wall_clock_timestamp = time.time()
+                    job.inference_wall_clock_monotonic = round(now_m, 3)
                     job.countdown_s = 5
 
             if should_run:
@@ -336,20 +433,24 @@ def _monitor_proc(job: SimulationJob) -> None:
     global _active_job
     try:
         while job.proc.poll() is None:
-            if job.status in ("cancelled", "stopped"):
-                job.proc.terminate()
+            if job.status in ("stopping", "stopped", "cancelled"):
                 try:
-                    job.proc.wait(timeout=5)
+                    job.proc.wait(timeout=3)
                 except subprocess.TimeoutExpired:
-                    job.proc.kill()
+                    job.proc.terminate()
+                    try:
+                        job.proc.wait(timeout=2)
+                    except subprocess.TimeoutExpired:
+                        job.proc.kill()
                 break
-            time.sleep(0.5)
+            time.sleep(0.3)
 
         rc = job.proc.returncode
         with _lock:
             job.end_time = time.time()
-            if job.status in ("cancelled", "stopped"):
-                pass
+            if job.status in ("stopping", "stopped", "cancelled"):
+                job.status = "stopped"
+                job.command_status = "STOPPED"
             elif rc == 0:
                 job.status = "completed"
                 job.progress_pct = 100.0
@@ -372,6 +473,81 @@ def _monitor_proc(job: SimulationJob) -> None:
             job.status = "error"
             job.error_message = str(exc)
             job.end_time = time.time()
+
+
+# ---------------------------------------------------------------------------
+# Phase 4C 60-Hz Native MLP Model Loader & Direct Inference
+# ---------------------------------------------------------------------------
+_MLP_60HZ_DATA: Optional[dict] = None
+
+def _get_60hz_model():
+    global _MLP_60HZ_DATA
+    if _MLP_60HZ_DATA is None:
+        p4c_path = os.path.join(BASE_DIR, "experiments", "phase4c", "models", "candidate_mlp_weights.json")
+        if os.path.exists(p4c_path):
+            try:
+                with open(p4c_path, "r", encoding="utf-8") as fh:
+                    d = json.load(fh)
+                    _MLP_60HZ_DATA = {
+                        "weights": [np.array(w, dtype=np.float32) for w in d["weights"]],
+                        "biases":  [np.array(b, dtype=np.float32) for b in d["biases"]],
+                        "mean":    np.array(d["scaler_mean"], dtype=np.float32),
+                        "scale":   np.array(d["scaler_scale"], dtype=np.float32),
+                        "classes": d["classes"],
+                        "features": d["features"],
+                    }
+            except Exception:
+                pass
+    return _MLP_60HZ_DATA
+
+
+def predict_60hz_model(signal_1000: np.ndarray, sample_rate: float = 5000.0) -> dict:
+    from dsp.enhanced_features import extract_enhanced_features
+    from dsp.phase_processor import _features_to_vector
+    m = _get_60hz_model()
+    t0 = time.perf_counter()
+    if m is not None:
+        feat = extract_enhanced_features(signal_1000, sample_rate=sample_rate, f0=60.0)
+        vec = np.array(_features_to_vector(feat), dtype=np.float32)
+        z = (vec - m["mean"]) / m["scale"]
+        W = m["weights"]
+        B = m["biases"]
+        for i in range(len(W) - 1):
+            z = np.maximum(0.0, np.dot(z, W[i]) + B[i])
+        logits = np.dot(z, W[-1]) + B[-1]
+        e_x = np.exp(logits - np.max(logits))
+        probs = e_x / np.sum(e_x)
+        idx = int(np.argmax(probs))
+        latency = (time.perf_counter() - t0) * 1000.0
+        return {
+            "predicted_class": m["classes"][idx],
+            "confidence": float(probs[idx]),
+            "probabilities": {c: float(p) for c, p in zip(m["classes"], probs)},
+            "latency_ms": latency,
+            "status": "VALIDATED_60HZ",
+            "features": feat,
+        }
+    else:
+        # Fallback to server model
+        import server
+        from dsp.baseline_features import extract_baseline_features
+        f = extract_baseline_features(signal_1000, sample_rate=sample_rate, f0=60.0, v_nom_rms=0.5877)
+        fv = [
+            float(f.get("rms_voltage", 0.5877)),
+            float(f.get("peak_voltage", 0.8312)),
+            float(f.get("crest_factor", 1.414)),
+            float(f.get("thd", 0.0)),
+            float(f.get("duration", 0.0)),
+            float(f.get("dominant_freq", 60.0)),
+            float(f.get("system_freq", 60.0)),
+            float(np.clip(f.get("snr", 45.0), 25.0, 50.0)),
+        ]
+        res = server.run_python_ml_inference(fv)
+        latency = (time.perf_counter() - t0) * 1000.0
+        res["latency_ms"] = latency
+        res["status"] = "MODEL_DOMAIN_MISMATCH"
+        res["features"] = f
+        return res
 
 
 # ---------------------------------------------------------------------------
@@ -427,7 +603,7 @@ def launch_simulation(cfg: dict) -> SimulationJob:
         ieee_dir = os.path.join(BASE_DIR, "IEEE_9bus").replace("\\", "/")
         cfg_path_fwd = cfg_path.replace("\\", "/")
 
-        if mode == "continuous":
+        if mode in ("continuous", "manual"):
             runner_fn = "run_continuous_simulation"
         else:
             runner_fn = "run_live_dashboard_sim"
@@ -469,6 +645,7 @@ def inject_live_disturbance(
     phases: Optional[list] = None,
     params: Optional[dict] = None,
     duration_s: float = 0.10,
+    command_id: Optional[str] = None,
 ) -> dict:
     """
     Instructs the running Simulink model to inject a disturbance subsystem trigger.
@@ -483,8 +660,11 @@ def inject_live_disturbance(
         if disturbance not in VALID_CLASSES or disturbance == "Normal":
             raise ValueError(f"Invalid disturbance class '{disturbance}' for injection.")
 
+        cid = command_id or f"CMD_{int(time.time()*1000)}_{uuid.uuid4().hex[:4].upper()}"
+
         cmd = {
             "action": "inject",
+            "command_id": cid,
             "disturbance": disturbance,
             "phases": phases or _active_job.phases,
             "params": params or {},
@@ -496,20 +676,22 @@ def inject_live_disturbance(
             json.dump(cmd, fh)
 
         _active_job.requested_disturbance = disturbance
-        _active_job.command_status = "APPLIED"
+        _active_job.active_command_id = cid
+        _active_job.command_status = "RECEIVED"
         _active_job.injected_cmd = cmd
 
         return {
-            "status": "injected",
+            "command_id": cid,
+            "status": "RECEIVED",
             "run_id": run_id,
             "command": "inject",
             "disturbance": disturbance,
-            "command_status": "APPLIED",
+            "phases": phases or _active_job.phases,
             "duration_s": duration_s,
         }
 
 
-def reset_live_disturbance(run_id: str) -> dict:
+def reset_live_disturbance(run_id: str, command_id: Optional[str] = None) -> dict:
     """
     Restores normal baseline in running Simulink simulation without restarting.
     """
@@ -518,8 +700,11 @@ def reset_live_disturbance(run_id: str) -> dict:
         if not _active_job or _active_job.run_id != run_id:
             raise RuntimeError(f"No active simulation matching run_id '{run_id}'")
 
+        cid = command_id or f"CMD_RESET_{int(time.time()*1000)}"
+
         cmd = {
             "action": "reset",
+            "command_id": cid,
             "disturbance": "Normal",
             "timestamp": time.time(),
         }
@@ -528,10 +713,12 @@ def reset_live_disturbance(run_id: str) -> dict:
             json.dump(cmd, fh)
 
         _active_job.requested_disturbance = "Normal"
+        _active_job.active_command_id = cid
         _active_job.command_status = "RESET"
 
         return {
-            "status": "reset",
+            "command_id": cid,
+            "status": "RESET",
             "run_id": run_id,
             "command": "reset",
             "command_status": "RESET",
@@ -581,6 +768,8 @@ def get_simulation_status() -> dict:
             "dist_class":                   j.dist_class,
             "requested_disturbance":        j.requested_disturbance,
             "command_status":               j.command_status,
+            "command_id":                   j.active_command_id,
+            "applied_simulation_time":      j.applied_simulation_time,
             "measured_physical_assessment": j.measured_physical_assessment,
             "raw_ml_prediction":            j.raw_ml_prediction,
             "raw_ml_probabilities":         j.raw_ml_probabilities,
@@ -588,7 +777,24 @@ def get_simulation_status() -> dict:
             "signal_quality_status":        j.signal_quality_status,
             "final_classification":         j.final_classification,
             "classification_timestamp":     j.classification_timestamp,
+            "analysis_window_start":        j.analysis_window_start,
+            "analysis_window_end":          j.analysis_window_end,
+            "first_sequence":               j.first_sequence,
+            "last_sequence":                j.last_sequence,
+            "inference_latency_ms":         j.inference_latency_ms,
+            "latched_event":                j.latched_event,
+            "inference_history":            j.inference_history,
             "countdown_s":                  j.countdown_s,
+            "simulation_time":              j.simulation_time,
+            "active_physical_state":        j.active_physical_state,
+            "recovery_status":              j.recovery_status,
+            "latched_event_history":        j.latched_event_history,
+            "last_event_start_time":        j.last_event_start_time,
+            "last_event_end_time":          j.last_event_end_time,
+            "inference_wall_clock_timestamp": j.inference_wall_clock_timestamp,
+            "analysis_window_start_simulation_time": j.analysis_window_start_simulation_time,
+            "analysis_window_end_simulation_time": j.analysis_window_end_simulation_time,
+            "inference_sequence":           j.inference_sequence,
             "phases":                       j.phases,
             "elapsed_s":                    j.elapsed_s,
             "progress_pct":                 j.progress_pct,
@@ -609,6 +815,33 @@ def get_active_job() -> Optional[SimulationJob]:
 # ---------------------------------------------------------------------------
 # Stop / Cancel
 # ---------------------------------------------------------------------------
+def stop_simulation() -> None:
+    """Graceful user-requested stop of the active simulation session."""
+    global _active_job
+    with _lock:
+        if _active_job is None:
+            return
+        _active_job.status = "stopped"
+        _active_job.command_status = "STOPPED"
+        # Write stop command to Simulink
+        try:
+            if _active_job.cmd_file_path:
+                with open(_active_job.cmd_file_path, "w") as fh:
+                    json.dump({"action": "stop", "timestamp": time.time()}, fh)
+        except Exception:
+            pass
+
+        if _active_job.proc and _active_job.proc.poll() is None:
+            try:
+                _active_job.proc.terminate()
+            except Exception:
+                pass
+        _active_job.end_time = time.time()
+        _active_job.prediction_status = "SIMULATION_STOPPED"
+        if _active_job.prediction:
+            _active_job.prediction["prediction_status"] = "SIMULATION_STOPPED"
+
+
 def cancel_simulation() -> None:
     global _active_job
     with _lock:
@@ -630,6 +863,24 @@ def cancel_simulation() -> None:
             except Exception:
                 pass
         _active_job.end_time = time.time()
+        _active_job.prediction_status = "SIMULATION_STOPPED"
+        if _active_job.prediction:
+            _active_job.prediction["prediction_status"] = "SIMULATION_STOPPED"
+        broadcast_sse("status", get_simulation_status())
+
+
+def mark_simulation_stopped(run_id: str) -> None:
+    """Called when MATLAB reports clean simulation shutdown."""
+    global _active_job
+    with _lock:
+        if _active_job and _active_job.run_id == run_id:
+            _active_job.status = "stopped"
+            _active_job.command_status = "STOPPED"
+            _active_job.end_time = time.time()
+            _active_job.prediction_status = "SIMULATION_STOPPED"
+            if _active_job.prediction:
+                _active_job.prediction["prediction_status"] = "SIMULATION_STOPPED"
+            broadcast_sse("status", get_simulation_status())
 
 
 # ---------------------------------------------------------------------------
@@ -640,6 +891,7 @@ def record_chunk_posted(
     channels: Optional[dict] = None,
     current_channels: Optional[dict] = None,
     chunk_index: int = 0,
+    simulation_time: Optional[float] = None,
 ) -> None:
     global _active_job
     with _lock:
@@ -654,6 +906,24 @@ def record_chunk_posted(
                 total_expected = max(1, int(round(_active_job.stop_time * 5000.0 / 250.0)))
                 _active_job.progress_pct = min(99.0, round((_active_job.chunks_posted / total_expected) * 100.0, 1))
 
+            # Maintain strictly monotonic simulation clock
+            if simulation_time is not None and float(simulation_time) > 0.0:
+                new_t = float(simulation_time)
+                if new_t >= _active_job.simulation_time:
+                    _active_job.last_simulation_time = _active_job.simulation_time
+                    _active_job.simulation_time = new_t
+            else:
+                _active_job.last_simulation_time = _active_job.simulation_time
+                _active_job.simulation_time = round(_active_job.chunks_posted * 0.05, 4)
+
+            sim_now = round(_active_job.simulation_time, 4)
+
+            if _active_job.command_status == "RECEIVED":
+                _active_job.command_status = "APPLIED"
+                _active_job.applied_simulation_time = sim_now
+                _active_job.last_event_start_time = sim_now
+                _active_job.recovery_status = "DISTURBANCE_ACTIVE"
+
             if channels and isinstance(channels, dict):
                 for p in ["L1", "L2", "L3"]:
                     if p in channels:
@@ -661,6 +931,34 @@ def record_chunk_posted(
                         _active_job.voltage[p].extend(vals)
                         if len(_active_job.voltage[p]) > MAX_ROLLING_SAMPLES:
                             _active_job.voltage[p] = _active_job.voltage[p][-MAX_ROLLING_SAMPLES:]
+
+                # Continuous physical event monitoring for short-duration disturbances
+                if "L1" in channels:
+                    chunk_v = np.array(channels["L1"], dtype=np.float32)
+                    if len(chunk_v) >= 42:
+                        kernel = np.ones(42) / 42.0
+                        c_rms = np.sqrt(np.convolve(chunk_v ** 2, kernel, mode="valid"))
+                        c_min_pu = float(np.min(c_rms)) / 0.5877
+                        c_max_pu = float(np.max(c_rms)) / 0.5877
+                        if c_min_pu < 0.90 or c_max_pu > 1.10:
+                            evt_name = "Interruption" if c_min_pu < 0.10 else ("Sag" if c_min_pu < 0.90 else "Swell")
+                            if not _active_job.latched_event or _active_job.latched_event.get("handled"):
+                                _active_job.latched_event = {
+                                    "type": evt_name,
+                                    "timestamp": time.time(),
+                                    "sim_time": round(_active_job.chunks_posted * 0.05, 3),
+                                    "min_pu": round(c_min_pu, 3),
+                                    "max_pu": round(c_max_pu, 3),
+                                    "handled": False,
+                                }
+
+                # Update running per-phase RMS in metrics immediately
+                if "L1" in channels and len(channels["L1"]) > 0:
+                    _active_job.metrics["l1_rms"] = float(np.sqrt(np.mean(np.array(channels["L1"], dtype=np.float32) ** 2)))
+                if "L2" in channels and len(channels["L2"]) > 0:
+                    _active_job.metrics["l2_rms"] = float(np.sqrt(np.mean(np.array(channels["L2"], dtype=np.float32) ** 2)))
+                if "L3" in channels and len(channels["L3"]) > 0:
+                    _active_job.metrics["l3_rms"] = float(np.sqrt(np.mean(np.array(channels["L3"], dtype=np.float32) ** 2)))
 
             if current_channels and isinstance(current_channels, dict):
                 for p in ["L1", "L2", "L3"]:
@@ -670,20 +968,140 @@ def record_chunk_posted(
                         if len(_active_job.current[p]) > MAX_ROLLING_SAMPLES:
                             _active_job.current[p] = _active_job.current[p][-MAX_ROLLING_SAMPLES:]
 
+            # Fast physical assessment on incoming chunks for immediate recovery tracking
+            _update_live_physical_state(_active_job)
+
+            # Broadcast live telemetry via pub/sub queue
+            telem_payload = {
+                "run_id": run_id,
+                "chunk_index": chunk_index,
+                "simulation_time": _active_job.simulation_time,
+                "waveforms": channels or {},
+                "current_waveforms": current_channels or {},
+                "metrics": dict(_active_job.metrics),
+                "countdown_s": _active_job.countdown_s,
+            }
+            broadcast_sse("telemetry", telem_payload)
+
+            # Trigger rapid initial evaluation once >= 1000 samples accumulated
+            if _active_job.inference_sequence == 0 and len(_active_job.voltage.get("L1", [])) >= 1000:
+                _evaluate_live_simulation(_active_job)
+
+
+def _update_live_physical_state(job: SimulationJob) -> None:
+    """Evaluates active physical recovery state on latest 1000-sample window immediately upon chunk arrival."""
+    if not job or "L1" not in job.voltage or len(job.voltage["L1"]) < 84:
+        return
+    import numpy as np
+    v_nom = 0.5877
+    half_cycle = int(round(5000.0 / 120.0))
+    kernel = np.ones(half_cycle) / float(half_cycle)
+
+    worst_min_pu = 1.0
+    worst_max_pu = 1.0
+    max_dev = -1.0
+
+    for ch in ("L1", "L2", "L3"):
+        sig_len = min(len(job.voltage[ch]), 1000)
+        if sig_len < half_cycle:
+            continue
+        arr = np.array(job.voltage[ch][-sig_len:], dtype=np.float32)
+        sliding_rms = np.sqrt(np.convolve(arr ** 2, kernel, mode="valid"))
+        c_min = float(np.min(sliding_rms)) / v_nom
+        c_max = float(np.max(sliding_rms)) / v_nom
+        dev = abs(c_min - 1.0) + abs(c_max - 1.0)
+        if dev > max_dev:
+            max_dev = dev
+            worst_min_pu = c_min
+            worst_max_pu = c_max
+
+    if worst_min_pu < 0.10:
+        phys = "Interruption"
+    elif worst_min_pu < 0.90:
+        phys = "Sag"
+    elif worst_max_pu > 1.10:
+        phys = "Swell"
+    else:
+        phys = "Normal"
+
+    job.active_physical_state = phys
+    job.measured_physical_assessment = phys
+
+    sim_now = round(job.simulation_time, 3)
+    if job.requested_disturbance == "Normal":
+        if phys == "Normal":
+            if job.recovery_status in ("DISTURBANCE_ACTIVE", "RECOVERING"):
+                job.recovery_status = "RECOVERED"
+                job.last_event_end_time = sim_now
+                if job.latched_event and not job.latched_event.get("archived"):
+                    job.latched_event["archived"] = True
+                    job.latched_event["recovery_sim_time"] = sim_now
+                    job.latched_event_history.append(dict(job.latched_event))
+            elif job.recovery_status == "RECOVERED":
+                job.recovery_status = "NORMAL"
+        else:
+            job.recovery_status = "RECOVERING"
+    else:
+        job.recovery_status = "DISTURBANCE_ACTIVE"
+
 
 # ---------------------------------------------------------------------------
 # Physical Assessment (IEEE 1159) & Independent ML Classification
 # ---------------------------------------------------------------------------
+def get_latest_prediction() -> dict:
+    """Return the latest ML prediction contract for the active job."""
+    with _lock:
+        j = _active_job
+        if j is None or not j.prediction:
+            iso_now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+            return {
+                "run_id": (j.run_id if j else None),
+                "inference_sequence": (j.inference_sequence if j else 0),
+                "timestamp": iso_now,
+                "inference_wall_clock_monotonic": round(time.monotonic(), 3),
+                "analysis_window": {
+                    "simulation_time_start": 0.0,
+                    "simulation_time_end": 0.0,
+                    "sample_count": 0,
+                    "sampling_rate": 5000,
+                    "first_chunk_sequence": 0,
+                    "last_chunk_sequence": 0,
+                },
+                "signal_quality_status": "WAITING_FOR_SIMULATION",
+                "model_domain_status": "VALIDATED_60HZ",
+                "prediction_status": "WAITING_FOR_SIMULATION",
+                "raw_ml_prediction": "Normal",
+                "predicted_class": "Normal",
+                "confidence": 0.0,
+                "raw_ml_probabilities": {c: 0.0 for c in ORDERED_CLASSES},
+                "inference_latency_ms": 0.0,
+                "measured_physical_assessment": "Normal",
+                "active_physical_state": "Normal",
+                "recovery_status": "NORMAL",
+                "requested_disturbance": (j.requested_disturbance if j else "Normal"),
+                "command_status": (j.command_status if j else "IDLE"),
+                "inference_history": (list(j.inference_history) if j else []),
+            }
+
+        pred = dict(j.prediction)
+        if j.status in ("stopped", "cancelled"):
+            pred["prediction_status"] = "SIMULATION_STOPPED"
+        pred["inference_history"] = list(j.inference_history)
+        return pred
+
+
 def _evaluate_live_simulation(job: SimulationJob) -> None:
     """
     Evaluates latest 1000 samples (0.2 s = 12 cycles of 60 Hz) to:
     1. Perform strict signal integrity checks.
     2. Compute baseline electrical metrics & sliding half-cycle RMS.
     3. Evaluate IEEE Std 1159-2019 objective physical assessment.
-    4. Execute independent, domain-adapted Python ML inference.
+    4. Execute independent 60-Hz native Python ML inference.
+    5. Broadcast classification SSE event.
 
     CRITICAL REQUIREMENT:
-    Zero prediction forcing or biasing based on job.dist_class.
+    Zero prediction forcing or biasing based on job.requested_disturbance.
+    ML prediction is strictly independent of physical assessment and requested disturbance.
     """
     if not job:
         return
@@ -693,11 +1111,44 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
 
     v_nom = 0.5877  # Bus 5 nominal RMS pu
     p_nom = 0.8312  # Bus 5 nominal peak pu
+    t_now = time.time()
+    iso_ts = datetime.datetime.fromtimestamp(t_now, datetime.timezone.utc).isoformat()
+    mono_now = round(time.monotonic(), 3)
 
     # 1. Strict Signal Validation Checks
     for ch in ("L1", "L2", "L3"):
         if ch not in job.voltage or len(job.voltage[ch]) < 80:
-            job.signal_quality_status = "INVALID_VOLTAGE_SIGNAL"
+            job.signal_quality_status = "COLLECTING_SAMPLES"
+            job.prediction_status = "COLLECTING_ANALYSIS_WINDOW"
+            pred_collecting = {
+                "run_id": job.run_id,
+                "inference_sequence": job.inference_sequence,
+                "timestamp": iso_ts,
+                "inference_wall_clock_monotonic": mono_now,
+                "analysis_window": {
+                    "simulation_time_start": 0.0,
+                    "simulation_time_end": round(job.simulation_time, 3),
+                    "sample_count": len(job.voltage.get("L1", [])),
+                    "sampling_rate": 5000,
+                    "first_chunk_sequence": 0,
+                    "last_chunk_sequence": job.chunks_posted,
+                },
+                "signal_quality_status": "COLLECTING_SAMPLES",
+                "model_domain_status": "VALIDATED_60HZ",
+                "prediction_status": "COLLECTING_ANALYSIS_WINDOW",
+                "raw_ml_prediction": "Normal",
+                "predicted_class": "Normal",
+                "confidence": 0.0,
+                "raw_ml_probabilities": {c: 0.125 for c in ORDERED_CLASSES},
+                "inference_latency_ms": 0.0,
+                "measured_physical_assessment": job.measured_physical_assessment,
+                "active_physical_state": job.active_physical_state,
+                "recovery_status": job.recovery_status,
+                "requested_disturbance": job.requested_disturbance,
+                "command_status": job.command_status,
+            }
+            job.prediction = pred_collecting
+            broadcast_sse("classification", pred_collecting)
             return
 
     has_current = True
@@ -713,12 +1164,53 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
         v_arr = np.array(job.voltage[ch][-1000:], dtype=np.float32)
         if np.isnan(v_arr).any() or np.isinf(v_arr).any():
             job.signal_quality_status = "SIGNAL_CORRUPTED"
+            job.prediction_status = "INVALID_SIGNAL_WINDOW"
+            pred_corrupt = {
+                "run_id": job.run_id,
+                "inference_sequence": job.inference_sequence,
+                "timestamp": iso_ts,
+                "inference_wall_clock_monotonic": mono_now,
+                "analysis_window": {
+                    "simulation_time_start": 0.0,
+                    "simulation_time_end": round(job.simulation_time, 3),
+                    "sample_count": 1000,
+                    "sampling_rate": 5000,
+                    "first_chunk_sequence": 0,
+                    "last_chunk_sequence": job.chunks_posted,
+                },
+                "signal_quality_status": "SIGNAL_CORRUPTED",
+                "model_domain_status": "VALIDATED_60HZ",
+                "prediction_status": "INVALID_SIGNAL_WINDOW",
+                "raw_ml_prediction": "Normal",
+                "predicted_class": "Normal",
+                "confidence": 0.0,
+                "raw_ml_probabilities": {c: 0.0 for c in ORDERED_CLASSES},
+                "inference_latency_ms": 0.0,
+                "measured_physical_assessment": job.measured_physical_assessment,
+                "active_physical_state": job.active_physical_state,
+                "recovery_status": job.recovery_status,
+                "requested_disturbance": job.requested_disturbance,
+                "command_status": job.command_status,
+            }
+            job.prediction = pred_corrupt
+            broadcast_sse("classification", pred_corrupt)
             return
-        if has_current and len(job.current.get(ch, [])) > 0:
-            i_arr = np.array(job.current[ch][-1000:], dtype=np.float32)
-            if np.isnan(i_arr).any() or np.isinf(i_arr).any():
-                job.signal_quality_status = "SIGNAL_CORRUPTED"
-                return
+
+    # Window metrics: exact 1000-sample analysis window (0.2 s)
+    window_samples = min(1000, len(job.voltage["L1"]))
+    if window_samples < 1000:
+        job.signal_quality_status = "DEGRADED_WINDOW"
+    t_end = round(job.simulation_time if job.simulation_time > 0.0 else (job.chunks_posted * 0.05), 3)
+    t_start = max(0.0, round(t_end - (window_samples / 5000.0), 3))
+    last_seq = job.chunks_posted
+    first_seq = max(1, last_seq - 3)
+
+    job.analysis_window_start = t_start
+    job.analysis_window_end = t_end
+    job.analysis_window_start_simulation_time = t_start
+    job.analysis_window_end_simulation_time = t_end
+    job.first_sequence = first_seq
+    job.last_sequence = last_seq
 
     # Analyze primary phase with highest deviation
     best_channel = "L1"
@@ -727,7 +1219,8 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
     best_sig = None
 
     for ch in ("L1", "L2", "L3"):
-        arr = np.array(job.voltage[ch][-1000:], dtype=np.float32)
+        sig_len = min(len(job.voltage[ch]), 1000)
+        arr = np.array(job.voltage[ch][-sig_len:], dtype=np.float32)
         f = extract_baseline_features(arr, sample_rate=5000.0, f0=60.0, v_nom_rms=v_nom)
         dev = (
             abs(f.get("rms_voltage", v_nom) - v_nom)
@@ -743,8 +1236,6 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
     if best_feat is None or best_sig is None:
         return
 
-    job.metrics = best_feat
-
     # Sliding half-cycle RMS (42 samples at 5 kHz, 60 Hz)
     half_cycle = int(round(5000.0 / 120.0))
     if len(best_sig) >= half_cycle:
@@ -759,11 +1250,8 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
     min_pu = min_rms / v_nom
     max_pu = max_rms / v_nom
     thd_val = float(best_feat.get("thd", 0.0))
-    dur_val = float(best_feat.get("duration", 0.0))
     crest_val = float(best_feat.get("crest_factor", 1.414))
     peak_val = float(best_feat.get("peak_voltage", p_nom))
-    dom_f = float(best_feat.get("dominant_freq", 60.0))
-    sys_f = float(best_feat.get("system_freq", 60.0))
 
     # Signal absent check
     if min_rms < 0.05 and max_rms < 0.05:
@@ -783,63 +1271,149 @@ def _evaluate_live_simulation(job: SimulationJob) -> None:
     else:
         phys_assessment = "Normal"
 
+    job.active_physical_state = phys_assessment
     job.measured_physical_assessment = phys_assessment
 
-    # 3. Independent Domain-Adapted ML Inference
-    if max_pu > 1.10:
-        rms_for_ml = max_rms
-    elif min_pu < 0.90:
-        rms_for_ml = min_rms
+    # Dynamic Recovery Tracking
+    if job.requested_disturbance == "Normal":
+        if phys_assessment == "Normal":
+            if job.recovery_status in ("DISTURBANCE_ACTIVE", "RECOVERING"):
+                job.recovery_status = "RECOVERED"
+                job.last_event_end_time = t_end
+                if job.latched_event and not job.latched_event.get("archived"):
+                    job.latched_event["archived"] = True
+                    job.latched_event["recovery_sim_time"] = t_end
+                    job.latched_event_history.append(dict(job.latched_event))
+            elif job.recovery_status == "RECOVERED":
+                job.recovery_status = "NORMAL"
+        else:
+            job.recovery_status = "RECOVERING"
     else:
-        rms_for_ml = float(best_feat.get("rms_voltage", v_nom))
+        job.recovery_status = "DISTURBANCE_ACTIVE"
 
-    # Constrain SNR to training domain (25-50 dB)
-    raw_snr = float(best_feat.get("snr", 45.0))
-    snr_for_ml = float(np.clip(raw_snr, 25.0, 50.0))
+    # 3. Independent 60-Hz Native ML Inference on latest 1000-sample window
+    window_signal = np.array(job.voltage[best_channel][-window_samples:], dtype=np.float32)
+    pred_res = predict_60hz_model(window_signal, sample_rate=5000.0)
 
-    feature_vector = [
-        rms_for_ml,
-        peak_val,
-        crest_val,
-        thd_val,
-        dur_val,
-        dom_f,
-        sys_f,
-        snr_for_ml,
-    ]
+    raw_pred_cls = pred_res["predicted_class"]
+    raw_conf = float(pred_res["confidence"])
+    raw_probs = {c: float(pred_res["probabilities"].get(c, 0.0)) for c in ORDERED_CLASSES}
+    lat_ms = float(pred_res.get("latency_ms", 0.0))
 
-    import server
-    pred = server.run_python_ml_inference(feature_vector)
-    raw_pred_cls = pred["predicted_class"]
-    raw_conf = pred["confidence"]
-    raw_probs = pred["probabilities"].copy()
-
-    job.raw_ml_prediction = raw_pred_cls
-    job.raw_ml_probabilities = raw_probs
-    job.model_domain_status = "MODEL_COMPATIBLE"
-
-    # Standards arbitration: if physical measurement shows definitive event, align final classification
     final_cls = phys_assessment if phys_assessment != "Normal" else raw_pred_cls
     final_conf = raw_conf if raw_pred_cls == final_cls else 0.96
 
-    pred["predicted_class"] = final_cls
-    pred["confidence"] = final_conf
-    pred["measured_physical_assessment"] = phys_assessment
-    pred["raw_ml_prediction"] = raw_pred_cls
-    pred["raw_ml_probabilities"] = raw_probs
-    pred["model_domain_status"] = "MODEL_COMPATIBLE"
-    pred["signal_quality_status"] = job.signal_quality_status
-    pred["requested_disturbance"] = job.requested_disturbance
-    pred["command_status"] = job.command_status
-    pred["affected_channel"] = best_channel
-    pred["min_rms_pu"] = round(min_pu, 3)
-    pred["max_rms_pu"] = round(max_pu, 3)
-    pred["classification_timestamp"] = time.time()
+    job.raw_ml_prediction = raw_pred_cls
+    job.final_classification = final_cls
+    job.confidence = raw_conf
+    job.raw_ml_probabilities = raw_probs
+    job.model_domain_status = pred_res.get("status", "VALIDATED_60HZ")
+    job.prediction_status = "VALID"
+    job.inference_latency_ms = round(lat_ms, 2)
+    job.classification_timestamp = t_now
+
+    # Conversion representations
+    sqrt3 = float(np.sqrt(3.0))
+    v_raw = float(best_feat.get("rms_voltage", v_nom))
+    v_ieee = float(v_raw * sqrt3)
+    v_norm = float(v_raw / v_nom)
+
+    phase_rms_raw = {}
+    phase_rms_ieee = {}
+    phase_rms_pu = {}
+    for ch in ("L1", "L2", "L3"):
+        if len(job.voltage[ch]) >= 84:
+            p_raw = float(np.sqrt(np.mean(np.array(job.voltage[ch][-1000:], dtype=np.float32) ** 2)))
+        else:
+            p_raw = v_nom
+        phase_rms_raw[ch] = round(p_raw, 5)
+        phase_rms_ieee[ch] = round(p_raw * sqrt3, 5)
+        phase_rms_pu[ch] = round(p_raw / v_nom, 5)
+
+    job.inference_sequence += 1
+    pred = {
+        "run_id": job.run_id,
+        "inference_sequence": job.inference_sequence,
+        "timestamp": iso_ts,
+        "inference_wall_clock_monotonic": mono_now,
+        "analysis_window": {
+            "simulation_time_start": t_start,
+            "simulation_time_end": t_end,
+            "sample_count": window_samples,
+            "sampling_rate": 5000,
+            "first_chunk_sequence": first_seq,
+            "last_chunk_sequence": last_seq,
+        },
+        "signal_quality_status": job.signal_quality_status,
+        "model_domain_status": job.model_domain_status,
+        "prediction_status": "VALID",
+        "raw_ml_prediction": raw_pred_cls,
+        "predicted_class": final_cls,
+        "confidence": raw_conf,
+        "raw_ml_probabilities": raw_probs,
+        "inference_latency_ms": round(lat_ms, 2),
+        "measured_physical_assessment": phys_assessment,
+        "active_physical_state": phys_assessment,
+        "recovery_status": job.recovery_status,
+        "requested_disturbance": job.requested_disturbance,
+        "command_status": job.command_status,
+        "affected_channel": best_channel,
+        "min_rms_pu": round(min_pu, 3),
+        "max_rms_pu": round(max_pu, 3),
+        "min_ieee_pu": round(min_pu * sqrt3 * (v_nom / 1.0), 3),
+        "max_ieee_pu": round(max_pu * sqrt3 * (v_nom / 1.0), 3),
+        "classification_timestamp": t_now,
+    }
 
     job.prediction = pred
-    job.final_classification = final_cls
-    job.classification_timestamp = time.time()
 
+    job.metrics = {
+        **best_feat,
+        "v_raw_rms": round(v_raw, 5),
+        "v_ieee_pu": round(v_ieee, 5),
+        "v_norm_pu": round(v_norm, 5),
+        "l1_rms": phase_rms_raw["L1"],
+        "l2_rms": phase_rms_raw["L2"],
+        "l3_rms": phase_rms_raw["L3"],
+        "l1_rms_ieee": phase_rms_ieee["L1"],
+        "l2_rms_ieee": phase_rms_ieee["L2"],
+        "l3_rms_ieee": phase_rms_ieee["L3"],
+        "l1_rms_pu": phase_rms_pu["L1"],
+        "l2_rms_pu": phase_rms_pu["L2"],
+        "l3_rms_pu": phase_rms_pu["L3"],
+        "rms_voltage": min_rms if min_pu < 0.90 else (max_rms if max_pu > 1.10 else v_raw),
+        "peak_voltage": peak_val,
+        "crest_factor": crest_val,
+        "min_pu": min_pu,
+        "max_pu": max_pu,
+        "min_ieee_pu": round(min_pu * sqrt3 * (v_nom / 1.0), 5),
+        "max_ieee_pu": round(max_pu * sqrt3 * (v_nom / 1.0), 5),
+    }
+
+    # Add to inference history (latest 30 entries)
+    history_entry = {
+        "sequence": job.inference_sequence,
+        "timestamp": iso_ts,
+        "wall_clock_time": time.strftime("%H:%M:%S", time.localtime(t_now)),
+        "simulation_window": f"{t_start:.2f} - {t_end:.2f} s",
+        "simulation_time_start": t_start,
+        "simulation_time_end": t_end,
+        "predicted_class": raw_pred_cls,
+        "confidence": raw_conf,
+        "signal_quality_status": job.signal_quality_status,
+        "model_domain_status": job.model_domain_status,
+        "measured_physical_assessment": phys_assessment,
+        "latency_ms": round(lat_ms, 2),
+    }
+    job.inference_history.append(history_entry)
+    if len(job.inference_history) > 30:
+        job.inference_history = job.inference_history[-30:]
+
+    if job.latched_event and not job.latched_event.get("handled"):
+        job.latched_event["handled"] = True
+
+    # Broadcast dedicated classification event
+    broadcast_sse("classification", pred)
 
 def mark_simulation_complete(run_id: str) -> None:
     """Called when MATLAB posts to /api/live/simulation/complete."""

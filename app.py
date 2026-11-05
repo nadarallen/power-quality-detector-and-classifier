@@ -36,7 +36,7 @@ from dashboard_backend import (
 # Page configuration
 st.set_page_config(
     page_title="IEEE 9-Bus Power Quality Research Dashboard",
-    page_icon="⚡",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -83,7 +83,7 @@ st.markdown("""
 
 
 def main():
-    st.markdown('<div class="main-header">⚡ IEEE 9-Bus Power Quality Disturbance Classifier</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header">IEEE 9-Bus Power Quality Disturbance Classifier</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Research Verification & Interactive Disturbance Analysis Platform (60 Hz / 5,000 Hz Sampling)</div>', unsafe_allow_html=True)
 
     # Sidebar controls
@@ -121,18 +121,18 @@ def main():
 
 
 def render_phase5_research():
-    st.subheader("🔬 Phase 5: Multi-Model Power Quality Comparative Research Lab")
+    st.subheader("[Phase 5] Multi-Model Power Quality Comparative Research Lab")
     st.caption("Investigates representation learning across Classical ML, Raw-Waveform Deep Learning (1D CNN, TCN), and Hybrid Fusion on the IEEE 9-bus WSCC system.")
 
     res = load_phase5c_research_results()
     manifest = load_phase5c_manifest()
 
     tabs = st.tabs([
-        "📊 Dataset Explorer & Dual-Rate (5k vs 20k)",
-        "⚔️ Model Comparison: Classical vs DL vs Hybrid",
-        "🔍 Feature Analysis & Explainability",
-        "🧠 Waveform Model Interpretation",
-        "🛡️ Quarantined Challenge Evaluation & Provenance"
+        "[Datasets] Explorer & Dual-Rate (5k vs 20k)",
+        "[Models] Comparison: Classical vs DL vs Hybrid",
+        "[Features] Analysis & Explainability",
+        "[Interpretation] Waveform Model Interpretation",
+        "[Provenance] Quarantined Challenge Evaluation & Provenance"
     ])
 
     # --------------------------------------------------------------------------
@@ -213,9 +213,9 @@ def render_phase5_research():
         """)
 
         comp_rows = [
-            {"Architecture": "HybridPQNet (Fusion)", "Representation": "Hybrid: Waveform (20k) + 32 Feats", "Validation Acc (%)": 100.00, "Validation Macro F1 (%)": 100.00, "Challenge Macro F1 (%)": 100.00, "Status": "🏆 Best Overall"},
-            {"Architecture": "Temporal ConvNet (TCN)", "Representation": "Raw 3-Phase Waveform (20k)", "Validation Acc (%)": 93.75, "Validation Macro F1 (%)": 93.70, "Challenge Macro F1 (%)": 90.83, "Status": "🥈 Best Waveform"},
-            {"Architecture": "Multilayer Perceptron (MLP)", "Representation": "32 Canonical Features", "Validation Acc (%)": 93.26, "Validation Macro F1 (%)": 92.60, "Challenge Macro F1 (%)": 90.92, "Status": "🥉 Best Classical"},
+            {"Architecture": "HybridPQNet (Fusion)", "Representation": "Hybrid: Waveform (20k) + 32 Feats", "Validation Acc (%)": 100.00, "Validation Macro F1 (%)": 100.00, "Challenge Macro F1 (%)": 100.00, "Status": "[Rank 1] Best Overall"},
+            {"Architecture": "Temporal ConvNet (TCN)", "Representation": "Raw 3-Phase Waveform (20k)", "Validation Acc (%)": 93.75, "Validation Macro F1 (%)": 93.70, "Challenge Macro F1 (%)": 90.83, "Status": "[Rank 2] Best Waveform"},
+            {"Architecture": "Multilayer Perceptron (MLP)", "Representation": "32 Canonical Features", "Validation Acc (%)": 93.26, "Validation Macro F1 (%)": 92.60, "Challenge Macro F1 (%)": 90.92, "Status": "[Rank 3] Best Classical"},
             {"Architecture": "RBF Support Vector Machine", "Representation": "32 Canonical Features", "Validation Acc (%)": 91.80, "Validation Macro F1 (%)": 91.45, "Challenge Macro F1 (%)": 89.15, "Status": "Classical Runner-up"},
             {"Architecture": "Compact 1D CNN (20k)", "Representation": "Raw 3-Phase Waveform (20k)", "Validation Acc (%)": 90.62, "Validation Macro F1 (%)": 90.16, "Challenge Macro F1 (%)": 85.78, "Status": "Waveform Baseline"},
             {"Architecture": "Random Forest", "Representation": "32 Canonical Features", "Validation Acc (%)": 90.62, "Validation Macro F1 (%)": 90.13, "Challenge Macro F1 (%)": 88.42, "Status": "Tree Baseline"},
@@ -262,11 +262,11 @@ def render_phase5_research():
         with col_f2:
             st.markdown("#### Controlled Feature Group Ablation")
             abl_rows = [
-                {"Group Ablated": "Amplitude & Shape", "Features Removed": "rms_voltage, peak_voltage, crest_factor, duration", "Ablated Val F1 (%)": 86.95, "F1 Drop (%)": -5.65, "Impact": "🔴 Critical (Severe confusion between Sag/Swell/Normal)"},
-                {"Group Ablated": "Signal Quality", "Features Removed": "snr, thd", "Ablated Val F1 (%)": 87.20, "F1 Drop (%)": -5.40, "Impact": "🔴 Critical (Loss of noise vs transient separation)"},
-                {"Group Ablated": "Spectral Moments", "Features Removed": "centroid, bandwidth, entropy, flatness", "Ablated Val F1 (%)": 91.06, "F1 Drop (%)": -1.54, "Impact": "🟡 Moderate (Reduces transient frequency resolution)"},
-                {"Group Ablated": "Frequency Tracking", "Features Removed": "dominant_freq, system_freq, true_dominant_freq", "Ablated Val F1 (%)": 91.52, "F1 Drop (%)": -1.08, "Impact": "🟡 Moderate (Slight drop during frequency excursions)"},
-                {"Group Ablated": "Harmonics & Ratios", "Features Removed": "h1..h11, h2_ratio..h11_ratio, harmonic_energy", "Ablated Val F1 (%)": 93.06, "F1 Drop (%)": +0.45, "Impact": "🟢 Redundant (Pruning collinear harmonics improves tree generalization)"}
+                {"Group Ablated": "Amplitude & Shape", "Features Removed": "rms_voltage, peak_voltage, crest_factor, duration", "Ablated Val F1 (%)": 86.95, "F1 Drop (%)": -5.65, "Impact": "[Critical] (Severe confusion between Sag/Swell/Normal)"},
+                {"Group Ablated": "Signal Quality", "Features Removed": "snr, thd", "Ablated Val F1 (%)": 87.20, "F1 Drop (%)": -5.40, "Impact": "[Critical] (Loss of noise vs transient separation)"},
+                {"Group Ablated": "Spectral Moments", "Features Removed": "centroid, bandwidth, entropy, flatness", "Ablated Val F1 (%)": 91.06, "F1 Drop (%)": -1.54, "Impact": "[Moderate] (Reduces transient frequency resolution)"},
+                {"Group Ablated": "Frequency Tracking", "Features Removed": "dominant_freq, system_freq, true_dominant_freq", "Ablated Val F1 (%)": 91.52, "F1 Drop (%)": -1.08, "Impact": "[Moderate] (Slight drop during frequency excursions)"},
+                {"Group Ablated": "Harmonics & Ratios", "Features Removed": "h1..h11, h2_ratio..h11_ratio, harmonic_energy", "Ablated Val F1 (%)": 93.06, "F1 Drop (%)": +0.45, "Impact": "[Redundant] (Pruning collinear harmonics improves tree generalization)"}
             ]
             st.dataframe(pd.DataFrame(abl_rows), use_container_width=True, hide_index=True)
 

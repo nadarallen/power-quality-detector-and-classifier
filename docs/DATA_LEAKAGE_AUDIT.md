@@ -31,9 +31,9 @@ X_test_scaled = scaler.transform(X_test)
 ```
 
 ### Audit Findings:
-- ✅ **Properly Isolated:** `scaler.fit_transform()` is invoked **strictly on `X_train`**. `X_test` is transformed using `scaler.transform()` without recomputing $\mu$ or $\sigma$.
-- ✅ **No Global Scaling:** `data/pqd_features.csv` stores unscaled raw physical units (pu, %, ms, Hz, dB). Preprocessing parameters were not leaked prior to splitting.
-- ✅ **Label Encoder:** `LabelEncoder` maps string class names to integer indices $(0..7)$ deterministically without target value leakage.
+- [OK] **Properly Isolated:** `scaler.fit_transform()` is invoked **strictly on `X_train`**. `X_test` is transformed using `scaler.transform()` without recomputing $\mu$ or $\sigma$.
+- [OK] **No Global Scaling:** `data/pqd_features.csv` stores unscaled raw physical units (pu, %, ms, Hz, dB). Preprocessing parameters were not leaked prior to splitting.
+- [OK] **Label Encoder:** `LabelEncoder` maps string class names to integer indices $(0..7)$ deterministically without target value leakage.
 
 ---
 

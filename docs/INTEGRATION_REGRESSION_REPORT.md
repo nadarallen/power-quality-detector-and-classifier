@@ -157,9 +157,9 @@ Inspection via browser subagent confirmed that the web interface at `http://loca
 - **Source Mode:** `MODE: SIMULINK`
 - **Oscilloscope Header:** `2. LABORATORY OSCILLOSCOPE (60 Hz AC SIGNAL [SIMULINK_IEEE9BUS_BUS5])`
 - **Waveform Traces:** Phase A (yellow, $0.59\text{ pu}$), Phase B (blue, $0.59\text{ pu}$), Phase C (magenta, $0.58\text{ pu}$)
-- **Ingestion Status Banner:** `✓ SIMULINK 60Hz STREAM ACTIVE [FRAMES: 2]`
+- **Ingestion Status Banner:** `[OK] SIMULINK 60Hz STREAM ACTIVE [FRAMES: 2]`
 - **ML Validation Status:** `NORMAL (GRID 60Hz)` (Confidence: $100.0\%$)
-- **Terminal Log:** Live entry recorded: `[SIMULINK] NODE: BUS 5 | V_RMS: 0.589 pu | THD: 0.12% | FREQ: 60.0 Hz | ✓ FRAME #2 CAPTURED`
+- **Terminal Log:** Live entry recorded: `[SIMULINK] NODE: BUS 5 | V_RMS: 0.589 pu | THD: 0.12% | FREQ: 60.0 Hz | [OK] FRAME #2 CAPTURED`
 
 ---
 

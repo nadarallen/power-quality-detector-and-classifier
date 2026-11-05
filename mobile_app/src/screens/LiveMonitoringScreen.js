@@ -50,7 +50,7 @@ export const LiveMonitoringScreen = () => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <Text style={styles.brandTitle}>⚡ PQD Mobile</Text>
+        <Text style={styles.brandTitle}> PQD Mobile</Text>
         <View style={styles.liveIndicator}>
           <View style={styles.dot} />
           <Text style={styles.liveText}>ESP32 Connected</Text>

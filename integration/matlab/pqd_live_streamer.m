@@ -1,18 +1,12 @@
 function pqd_live_streamer(block)
-% pqd_live_streamer  —  Level-2 MATLAB S-Function for Continuous SIL Simulation
+% pqd_live_streamer  —  Level-2 MATLAB S-Function for High-Performance SIL Acquisition
 %
-% Performs non-blocking 5 kHz incremental acquisition and streaming during active
-% Simulink solver execution, and provides real-time disturbance control triggers
-% to IEEE 9-bus disturbance subsystems (PQD_Fault_Sag, PQD_Breaker_Swell, etc.).
-%
-% Inputs:
-%   Port 1: Vabc (3 channels, Bus 5 three-phase voltage in pu)
-%   Port 2: Iabc (3 channels, Bus 5 three-phase line current in pu)
-%
-% Outputs:
-%   Port 1: Sag_Trigger (0 = normal, 1 = fault active)
-%   Port 2: Swell_Trigger (0 = open, 1 = closed / capacitor connected)
-%   Port 3: Int_Trigger (0 = normal / closed, 1 = tripped / open)
+% Strictly decoupled producer for continuous IEEE 9-bus live demonstration:
+% - Discrete 5000 Hz acquisition of Bus 5 Three-Phase Voltage (Vabc) and Line Current (Iabc)
+% - Bounded in-memory FIFO queue buffer (250-sample chunks = 50 ms simulated time)
+% - ZERO network calls inside the solver callback (prevents solver stutter and divergence)
+% - Sets physical disturbance triggers from memory-managed active disturbance states
+% - Handles queue backpressure and tracks dropped chunks
 
     setup(block);
 end
@@ -24,19 +18,19 @@ function setup(block)
     block.SetPreCompInpPortInfoToDynamic;
     block.SetPreCompOutPortInfoToDynamic;
 
-    % Input 1: Vabc (3 channels)
+    % Input 1: Vabc (3 channels, per-unit phase-to-ground)
     block.InputPort(1).Dimensions        = 3;
     block.InputPort(1).DirectFeedthrough = true;
 
-    % Input 2: Iabc (3 channels)
+    % Input 2: Iabc (3 channels, per-unit line current)
     block.InputPort(2).Dimensions        = 3;
     block.InputPort(2).DirectFeedthrough = true;
 
-    % Output 1: Sag control (1)
+    % Output 1: Sag control trigger (1 = fault active, 0 = normal)
     block.OutputPort(1).Dimensions       = 1;
-    % Output 2: Swell control (1)
+    % Output 2: Swell control trigger (1 = breaker closed / capacitor connected, 0 = open)
     block.OutputPort(2).Dimensions       = 1;
-    % Output 3: Interruption control (1)
+    % Output 3: Interruption trigger (1 = breaker open / tripped, 0 = normal closed)
     block.OutputPort(3).Dimensions       = 1;
 
     % Discrete sample time: 5000 Hz (dt = 0.0002 s = 200 us)
@@ -49,7 +43,7 @@ function setup(block)
 end
 
 function DoPostPropSetup(block)
-    block.NumDworks = 8;
+    block.NumDworks = 6;
     % 1: SampleCount
     block.Dwork(1).Name            = 'SampleCount';
     block.Dwork(1).Dimensions      = 1;
@@ -85,54 +79,29 @@ function DoPostPropSetup(block)
     block.Dwork(5).Complexity      = 'Real';
     block.Dwork(5).UsedAsDiscState = true;
 
-    % 6: InjectionOnsetSimTime
-    block.Dwork(6).Name            = 'InjectionOnsetSimTime';
+    % 6: DurationRemaining (samples)
+    block.Dwork(6).Name            = 'DurationRemaining';
     block.Dwork(6).Dimensions      = 1;
     block.Dwork(6).DatatypeID      = 0;
     block.Dwork(6).Complexity      = 'Real';
     block.Dwork(6).UsedAsDiscState = true;
-
-    % 7: InjectionDurationRemaining (samples)
-    block.Dwork(7).Name            = 'InjectionDurationRemaining';
-    block.Dwork(7).Dimensions      = 1;
-    block.Dwork(7).DatatypeID      = 0;
-    block.Dwork(7).Complexity      = 'Real';
-    block.Dwork(7).UsedAsDiscState = true;
-
-    % 8: ActiveDisturbanceId (0=Normal, 1=Sag, 2=Swell, 3=Interruption)
-    block.Dwork(8).Name            = 'ActiveDisturbanceId';
-    block.Dwork(8).Dimensions      = 1;
-    block.Dwork(8).DatatypeID      = 0;
-    block.Dwork(8).Complexity      = 'Real';
-    block.Dwork(8).UsedAsDiscState = true;
 end
 
 function Start(block)
     block.Dwork(1).Data = 0;
     block.Dwork(2).Data = 0;
-    block.Dwork(3).Data = 0;
-    block.Dwork(4).Data = 0;
-    block.Dwork(5).Data = 0;
-    block.Dwork(6).Data = -1.0;
-    block.Dwork(7).Data = 0;
-    block.Dwork(8).Data = 0;
+    block.Dwork(3).Data = 0.0; % Sag: 0 = fault open
+    block.Dwork(4).Data = 0.0; % Swell: 0 = cap open
+    block.Dwork(5).Data = 1.0; % Interruption: 1 = breaker closed (normal conduction)
+    block.Dwork(6).Data = 0;
 
     setappdata(0, 'PQD_Live_VBuf', []);
     setappdata(0, 'PQD_Live_IBuf', []);
     setappdata(0, 'PQD_Live_TBuf', []);
-    setappdata(0, 'PQD_Live_LastCmdTime', 0);
-
-    % Connect persistent TCP socket client if port configured
-    tcp_port = getappdata(0, 'PQD_Live_TcpPort');
-    if isempty(tcp_port), tcp_port = 8502; end
-    try
-        t_client = tcpclient('127.0.0.1', tcp_port, 'Timeout', 1);
-        setappdata(0, 'PQD_Live_TcpClient', t_client);
-        fprintf('[LiveStream] Fast local TCP transport connected on port %d.\n', tcp_port);
-    catch
-        setappdata(0, 'PQD_Live_TcpClient', []);
-        fprintf('[LiveStream] TCP connect skipped (will use HTTP POST fallback).\n');
-    end
+    setappdata(0, 'PQD_Live_ChunkQueue', {});
+    setappdata(0, 'PQD_Live_DroppedCount', 0);
+    setappdata(0, 'PQD_ActiveDisturbance', 'Normal');
+    setappdata(0, 'PQD_DistDurationSamples', 0);
 end
 
 function Outputs(block)
@@ -151,88 +120,59 @@ function Outputs(block)
     i_buf(end+1, 1:3) = i_sample(1:3);
     t_buf(end+1, 1)   = t_sim;
 
-    %% 1. Poll command file for real-time injection / reset / stop (every 25 steps = 5 ms)
-    cmd_file = getappdata(0, 'PQD_Live_CmdFile');
-    if ~isempty(cmd_file) && mod(count, 25) == 0 && exist(cmd_file, 'file')
-        f_info = dir(cmd_file);
-        last_cmd_t = getappdata(0, 'PQD_Live_LastCmdTime');
-        if ~isempty(f_info) && f_info.datenum > last_cmd_t
-            setappdata(0, 'PQD_Live_LastCmdTime', f_info.datenum);
-            try
-                cmd_text = fileread(cmd_file);
-                cmd = jsondecode(cmd_text);
-                if isfield(cmd, 'action')
-                    if strcmp(cmd.action, 'inject')
-                        dist = cmd.disturbance;
-                        dur_s = 0.10;
-                        if isfield(cmd, 'duration_s')
-                            dur_s = double(cmd.duration_s);
-                        elseif isfield(cmd, 'params') && isfield(cmd.params, 'duration_ms')
-                            dur_s = double(cmd.params.duration_ms) / 1000.0;
-                        end
+    %% 1. Update disturbance triggers from controller appdata
+    active_dist = getappdata(0, 'PQD_ActiveDisturbance');
+    if isempty(active_dist), active_dist = 'Normal'; end
 
-                        % Reset all triggers first
-                        block.Dwork(3).Data = 0;
-                        block.Dwork(4).Data = 0;
-                        block.Dwork(5).Data = 0;
-
-                        if strcmp(dist, 'Sag')
-                            block.Dwork(3).Data = 1.0;
-                            block.Dwork(8).Data = 1.0;
-                        elseif strcmp(dist, 'Swell')
-                            block.Dwork(4).Data = 1.0;
-                            block.Dwork(8).Data = 2.0;
-                        elseif strcmp(dist, 'Interruption')
-                            block.Dwork(5).Data = 1.0;
-                            block.Dwork(8).Data = 3.0;
-                        end
-
-                        block.Dwork(6).Data = t_sim;
-                        if dur_s > 0
-                            block.Dwork(7).Data = round(dur_s * 5000); % remaining samples
-                        else
-                            block.Dwork(7).Data = -1; % continuous until reset
-                        end
-                        fprintf('[LiveStream] INJECTED %s at t=%.3f s (dur=%.0f ms)\n', ...
-                                dist, t_sim, dur_s * 1000);
-
-                    elseif strcmp(cmd.action, 'reset')
-                        block.Dwork(3).Data = 0.0;
-                        block.Dwork(4).Data = 0.0;
-                        block.Dwork(5).Data = 0.0;
-                        block.Dwork(7).Data = 0;
-                        block.Dwork(8).Data = 0.0;
-                        fprintf('[LiveStream] RESET TO NORMAL at t=%.3f s\n', t_sim);
-
-                    elseif strcmp(cmd.action, 'stop')
-                        fprintf('[LiveStream] STOP COMMAND received at t=%.3f s -> Stopping Simulink...\n', t_sim);
-                        set_param(bdroot, 'SimulationCommand', 'stop');
-                    end
-                end
-            catch
-            end
-        end
+    % Check if a new disturbance injection was commanded
+    dist_dur_samps = getappdata(0, 'PQD_DistDurationSamples');
+    if ~isempty(dist_dur_samps) && dist_dur_samps > 0
+        block.Dwork(6).Data = dist_dur_samps;
+        setappdata(0, 'PQD_DistDurationSamples', 0);
     end
 
-    % Check if timed disturbance duration expired
-    if block.Dwork(7).Data > 0
-        block.Dwork(7).Data = block.Dwork(7).Data - 1;
-        if block.Dwork(7).Data <= 0
-            % Duration expired -> auto-recover to normal baseline
+    % Apply trigger state:
+    % Sag (Fault): 1.0 = fault applied, 0.0 = no fault
+    % Swell (Cap Breaker): 1.0 = cap connected, 0.0 = cap disconnected
+    % Interruption (Series Breaker): 1.0 = CLOSED (normal conduction), 0.0 = OPEN (interruption)
+    if strcmp(active_dist, 'Sag')
+        block.Dwork(3).Data = 1.0;
+        block.Dwork(4).Data = 0.0;
+        block.Dwork(5).Data = 1.0;
+    elseif strcmp(active_dist, 'Swell')
+        block.Dwork(3).Data = 0.0;
+        block.Dwork(4).Data = 1.0;
+        block.Dwork(5).Data = 1.0;
+    elseif strcmp(active_dist, 'Interruption')
+        block.Dwork(3).Data = 0.0;
+        block.Dwork(4).Data = 0.0;
+        block.Dwork(5).Data = 0.0;
+    else
+        block.Dwork(3).Data = 0.0;
+        block.Dwork(4).Data = 0.0;
+        block.Dwork(5).Data = 1.0;
+        block.Dwork(6).Data = 0; % Clear any remaining disturbance duration on reset
+    end
+
+    % Handle timed duration expiry
+    if block.Dwork(6).Data > 0
+        block.Dwork(6).Data = block.Dwork(6).Data - 1;
+        if block.Dwork(6).Data <= 0
+            % Duration expired -> auto-revert to normal
+            setappdata(0, 'PQD_ActiveDisturbance', 'Normal');
             block.Dwork(3).Data = 0.0;
             block.Dwork(4).Data = 0.0;
-            block.Dwork(5).Data = 0.0;
-            block.Dwork(8).Data = 0.0;
-            fprintf('[LiveStream] Injected disturbance finished -> restored Normal at t=%.3f s\n', t_sim);
+            block.Dwork(5).Data = 1.0;
         end
     end
 
-    %% 2. Output triggers to model blocks
-    block.OutputPort(1).Data = block.Dwork(3).Data; % Sag trigger
-    block.OutputPort(2).Data = block.Dwork(4).Data; % Swell trigger
-    block.OutputPort(3).Data = block.Dwork(5).Data; % Interruption trigger
+    %% 2. Output triggers to model physical blocks
+    block.OutputPort(1).Data = block.Dwork(3).Data; % Sag
+    block.OutputPort(2).Data = block.Dwork(4).Data; % Swell
+    block.OutputPort(3).Data = block.Dwork(5).Data; % Interruption
 
-    %% 3. Incremental Chunk Streaming (Every 250 samples = 50 ms of 5 kHz data)
+    %% 3. Bounded In-Memory Queue Buffer (250 samples = 50 ms)
+    % ZERO network calls are executed inside this solver callback!
     chunk_size = 250;
     if size(v_buf, 1) >= chunk_size
         chunk_seq = block.Dwork(2).Data + 1;
@@ -241,65 +181,54 @@ function Outputs(block)
         run_id = getappdata(0, 'PQD_Live_RunId');
         if isempty(run_id), run_id = 'LIVE_RUN_DEFAULT'; end
 
-        server_url = getappdata(0, 'PQD_Live_ServerUrl');
-        if isempty(server_url), server_url = 'http://127.0.0.1:8500'; end
+        % Format chunk adhering to strict API specification
+        chunk = struct();
+        chunk.run_id                = run_id;
+        chunk.sequence              = chunk_seq;
+        chunk.sequence_number       = chunk_seq;
+        chunk.chunk_index           = chunk_seq;
+        chunk.simulation_time_start = t_buf(1);
+        chunk.simulation_time_end   = t_buf(end);
+        chunk.sampling_rate         = 5000;
+        chunk.sampling_rate_hz      = 5000;
+        chunk.nominal_frequency_hz  = 60;
+        chunk.timestamp_utc         = posixtime(datetime('now', 'TimeZone', 'UTC'));
 
-        % Strict validation against NaNs or Infs
-        if any(isnan(v_buf(:))) || any(isinf(v_buf(:)))
-            fprintf('[LiveStream] FATAL: NaN or Inf in simulated voltage!\n');
-            error('pqd_live_streamer:InvalidSignal', 'NaN or Inf in simulated voltage waveform.');
-        end
-
-        payload = struct();
-        payload.source               = 'simulink';
-        payload.run_id               = run_id;
-        payload.device_id            = 'SIMULINK_IEEE9BUS_BUS5';
-        payload.sampling_rate_hz     = 5000;
-        payload.nominal_frequency_hz = 60;
-        payload.chunk_index          = chunk_seq;
-        payload.sequence_number      = chunk_seq;
-        payload.sim_time_start       = t_buf(1);
-        payload.sim_time_end         = t_buf(end);
-        payload.timestamp_utc        = posixtime(datetime('now', 'TimeZone', 'UTC'));
-
-        payload.channels = struct( ...
+        % Phase channels (both A, B, C and L1, L2, L3 aliases for full compatibility)
+        chunk.voltage = struct( ...
+            'A', v_buf(:, 1).', ...
+            'B', v_buf(:, 2).', ...
+            'C', v_buf(:, 3).', ...
             'L1', v_buf(:, 1).', ...
             'L2', v_buf(:, 2).', ...
             'L3', v_buf(:, 3).' );
 
-        if ~isempty(i_buf) && ~any(isnan(i_buf(:))) && ~any(isinf(i_buf(:)))
-            payload.current_channels = struct( ...
-                'L1', i_buf(:, 1).', ...
-                'L2', i_buf(:, 2).', ...
-                'L3', i_buf(:, 3).' );
+        chunk.current = struct( ...
+            'A', i_buf(:, 1).', ...
+            'B', i_buf(:, 2).', ...
+            'C', i_buf(:, 3).', ...
+            'L1', i_buf(:, 1).', ...
+            'L2', i_buf(:, 2).', ...
+            'L3', i_buf(:, 3).' );
+
+        chunk.channels = chunk.voltage;
+        chunk.current_channels = chunk.current;
+
+        % Enqueue into bounded in-memory FIFO queue (max 20 chunks = 1 second)
+        MAX_QUEUE_LEN = 20;
+        queue = getappdata(0, 'PQD_Live_ChunkQueue');
+        if isempty(queue), queue = {}; end
+
+        if length(queue) >= MAX_QUEUE_LEN
+            % Backpressure: drop oldest chunk to prevent unbounded memory growth
+            queue(1) = [];
+            dropped = getappdata(0, 'PQD_Live_DroppedCount') + 1;
+            setappdata(0, 'PQD_Live_DroppedCount', dropped);
         end
 
-        json_bytes = uint8([jsonencode(payload) newline]);
-
-        % Send via fast non-blocking TCP socket if connected
-        t_client = getappdata(0, 'PQD_Live_TcpClient');
-        tcp_sent = false;
-        if ~isempty(t_client)
-            try
-                write(t_client, json_bytes);
-                tcp_sent = true;
-            catch
-                % TCP dropped -> fallback to HTTP
-                t_client = [];
-                setappdata(0, 'PQD_Live_TcpClient', []);
-            end
-        end
-
-        if ~tcp_sent
-            try
-                opts = weboptions('MediaType', 'application/json', 'Timeout', 5);
-                webwrite([server_url '/api/ingest/simulink'], jsonencode(payload), opts);
-            catch ME
-                if mod(chunk_seq, 20) == 0
-                    fprintf('[LiveStream] HTTP Chunk %d warning: %s\n', chunk_seq, ME.message);
-                end
-            end
-        end
+        chunk.dropped_chunks = getappdata(0, 'PQD_Live_DroppedCount');
+        queue{end+1} = chunk;
+        setappdata(0, 'PQD_Live_ChunkQueue', queue);
 
         v_buf = [];
         i_buf = [];
@@ -312,18 +241,9 @@ function Outputs(block)
 end
 
 function Terminate(block)
-    % Clean up TCP client
-    t_client = getappdata(0, 'PQD_Live_TcpClient');
-    if ~isempty(t_client)
-        try
-            delete(t_client);
-        catch
-        end
-    end
-
-    if isappdata(0, 'PQD_Live_VBuf'),        rmappdata(0, 'PQD_Live_VBuf'); end
-    if isappdata(0, 'PQD_Live_IBuf'),        rmappdata(0, 'PQD_Live_IBuf'); end
-    if isappdata(0, 'PQD_Live_TBuf'),        rmappdata(0, 'PQD_Live_TBuf'); end
-    if isappdata(0, 'PQD_Live_TcpClient'),   rmappdata(0, 'PQD_Live_TcpClient'); end
-    if isappdata(0, 'PQD_Live_LastCmdTime'), rmappdata(0, 'PQD_Live_LastCmdTime'); end
+    if isappdata(0, 'PQD_Live_VBuf'),           rmappdata(0, 'PQD_Live_VBuf'); end
+    if isappdata(0, 'PQD_Live_IBuf'),           rmappdata(0, 'PQD_Live_IBuf'); end
+    if isappdata(0, 'PQD_Live_TBuf'),           rmappdata(0, 'PQD_Live_TBuf'); end
+    if isappdata(0, 'PQD_ActiveDisturbance'),    rmappdata(0, 'PQD_ActiveDisturbance'); end
+    if isappdata(0, 'PQD_DistDurationSamples'), rmappdata(0, 'PQD_DistDurationSamples'); end
 end
